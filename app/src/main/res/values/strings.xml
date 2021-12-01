@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">Exercise_5</string>
+    <string name="login_en">LOG IN</string>
+    <string name="signup_en">SIGN UP</string>
+    <string name="guest_en">GUEST</string>
+    <string name="user_name_en">User Name</string>
+    <string name="password_en">Password</string>
+    <string name="scan_qr_en">SCAN QR CODE</string>
+    <string name="choose_from_list_en">CHOOSE FROM LIST</string>
+</resources>
