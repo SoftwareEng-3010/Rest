@@ -8,7 +8,7 @@
 
 
     <Button
-        android:id="@+id/log_in_button"
+        android:id="@+id/signin_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/login_en"
@@ -43,11 +43,11 @@
         app:layout_constraintVertical_bias="0.833" />
 
     <EditText
-        android:id="@+id/user_name"
+        android:id="@+id/email"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:hint="User Name"
+        android:hint="Email"
         android:inputType="text"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

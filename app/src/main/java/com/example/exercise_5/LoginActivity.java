@@ -1,13 +1,11 @@
 package com.example.exercise_5;
 
 import android.os.Bundle;
-import android.util.Log;
-import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -20,29 +18,86 @@ import com.google.firebase.auth.FirebaseUser;
 
 public class LoginActivity extends AppCompatActivity {
 
+    private static final String TAG = "EmailPassword";
+
     private FirebaseAuth mAuth;
-    private EditText usrNameBox;
+    private EditText emailBox;
     private EditText passwordBox;
-    private Button loginBtn;
+    private Button signinBtn;
+    private Button signupBtn;
+    private Button guestBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.login_activity);
+
+        Toast.makeText(this, "Login: onCreate", Toast.LENGTH_SHORT).show();
+        
+        super.onCreate(savedInstanceState);                         // Required
+        setContentView(R.layout.login_activity);                    // Connecting to login layout
+        Toast.makeText(this, "Before getInstance", Toast.LENGTH_SHORT).show();
 
         mAuth = FirebaseAuth.getInstance();
 
-        this.usrNameBox = (EditText)findViewById(R.id.user_name);
-        this.passwordBox = (EditText)findViewById(R.id.password);
+        Toast.makeText(LoginActivity.this, "Got firebase instance", Toast.LENGTH_SHORT).show();
 
-        loginBtn = (Button)findViewById(R.id.log_in_button);
-        Button signupBtn = (Button)findViewById(R.id.sign_up_button);
-        Button guestBtn = (Button)findViewById(R.id.guest_button);
+        this.emailBox = (EditText)findViewById(R.id.email);         // Reference to textbox
+        this.passwordBox = (EditText)findViewById(R.id.password);   // Reference to textbox
 
+        // References to buttons
+        signinBtn = (Button)findViewById(R.id.signin_button);
+        signupBtn = (Button)findViewById(R.id.sign_up_button);
+        guestBtn = (Button)findViewById(R.id.guest_button);
 
-//        // click listener for login button
+        //initListeners();
+    }
 
-        // click listener for  signup button
+    private void signIn(String email, String password){
+        mAuth.signInWithEmailAndPassword(email, password)
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            FirebaseUser user = mAuth.getCurrentUser();
+                            Toast.makeText(LoginActivity.this, "Email: "+ user.getEmail(), Toast.LENGTH_SHORT).show();
+                        } else {
+                            // If sign in fails, display a message to the user.
+                            Log.w(TAG, "signInWithEmail:failure", task.getException());
+                            Toast.makeText(LoginActivity.this, "Authentication failed.",
+                                    Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+    }
+
+    private void initListeners(){
+
+        signinBtn.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            /**
+             * get signin credentials and authenticate
+             */
+            public void onClick(View v) {
+
+                Toast.makeText(LoginActivity.this, "Started login.onClick", Toast.LENGTH_LONG).show();
+                String email = emailBox.getText().toString();
+                String password = passwordBox.getText().toString();
+
+                signIn(email, password);
+//
+//                mAuth.signInWithEmailAndPassword(username, password);
+//
+//                if (mAuth.getCurrentUser() != null) {
+//                    Toast.makeText(LoginActivity.this, "User email: " +
+//                            mAuth.getCurrentUser().getEmail(), Toast.LENGTH_LONG).show();
+//                } else {
+//                    Toast.makeText(LoginActivity.this, "Incorrect Credentials!!!"
+//                            , Toast.LENGTH_LONG).show();
+//                }
+
+            }
+        });
+
         signupBtn.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -54,7 +109,6 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-        // click listener for guest button
         guestBtn.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -70,32 +124,7 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-
-        loginBtn.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            /**
-             * get login credentials and authenticate
-             */
-            public void onClick(View v) {
-
-                String username = usrNameBox.getText().toString();
-                String password = passwordBox.getText().toString();
-
-//                FirebaseUser currentUser = mAuth.;
-
-                mAuth.signInWithEmailAndPassword(username, password);
-
-                if (mAuth.getCurrentUser() != null) {
-                    Toast.makeText(LoginActivity.this, "User email: " +
-                            mAuth.getCurrentUser().getEmail(), Toast.LENGTH_LONG).show();
-                } else {
-                    Toast.makeText(LoginActivity.this, "Incorrect Credentials!!!"
-                            , Toast.LENGTH_LONG).show();
-                }
-
-                mAuth.signOut();
-            }
-        });
+        Toast.makeText(this, "Login: onStart", Toast.LENGTH_SHORT).show();
+        initListeners();
     }
 }
