@@ -69,6 +69,25 @@ public class LoginActivity extends AppCompatActivity {
                 });
     }
 
+    private void createAccount(String email, String password){
+        mAuth.createUserWithEmailAndPassword(email, password)
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            FirebaseUser user = mAuth.getCurrentUser();
+                            Toast.makeText(LoginActivity.this, "Email: "+ user.getEmail(), Toast.LENGTH_SHORT).show();
+                        }
+                        else {
+                            // If sign in fails, display a message to the user.
+                            Log.w(TAG, "createUserWithEmail:failure", task.getException());
+                            Toast.makeText(LoginActivity.this, "Authentication failed: " + task.getException().toString(),
+                                    Toast.LENGTH_LONG).show();
+                        }
+                    }
+                });
+    }
+
     private void initListeners(){
 
         signinBtn.setOnClickListener(new View.OnClickListener() {
@@ -79,22 +98,10 @@ public class LoginActivity extends AppCompatActivity {
              */
             public void onClick(View v) {
 
-                Toast.makeText(LoginActivity.this, "Started login.onClick", Toast.LENGTH_LONG).show();
+                Toast.makeText(LoginActivity.this, "Started login.onClick", Toast.LENGTH_SHORT).show();
                 String email = emailBox.getText().toString();
                 String password = passwordBox.getText().toString();
-
                 signIn(email, password);
-//
-//                mAuth.signInWithEmailAndPassword(username, password);
-//
-//                if (mAuth.getCurrentUser() != null) {
-//                    Toast.makeText(LoginActivity.this, "User email: " +
-//                            mAuth.getCurrentUser().getEmail(), Toast.LENGTH_LONG).show();
-//                } else {
-//                    Toast.makeText(LoginActivity.this, "Incorrect Credentials!!!"
-//                            , Toast.LENGTH_LONG).show();
-//                }
-
             }
         });
 
@@ -105,7 +112,10 @@ public class LoginActivity extends AppCompatActivity {
              * get values from text bars and validate. Then, update db with new user doc
              */
             public void onClick(View v) {
-
+                Toast.makeText(LoginActivity.this, "Started createAccount.onClick", Toast.LENGTH_SHORT).show();
+                String email = emailBox.getText().toString();
+                String password = passwordBox.getText().toString();
+                createAccount(email, password);
             }
         });
 
