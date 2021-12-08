@@ -1,12 +1,35 @@
 package BusinessLogic;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class RestBranch {
 
     private HashMap<String, String> address;
-
     private int id;
-
     private boolean isKosher;
+    private ArrayList<Item> menu;
+
+    public RestBranch(HashMap<String, String> address, int id, boolean isKosher, ArrayList<Item> menu) {
+        this.address = address;
+        this.id = id;
+        this.isKosher = isKosher;
+        this.menu = menu;
+    }
+
+    public HashMap<String, String> getAddress() {
+        return address;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public boolean isKosher() {
+        return isKosher;
+    }
+
+    public ArrayList<Item> getMenu() {
+        return menu;
+    }
 }
