@@ -27,6 +27,8 @@ public class LoginActivity extends AppCompatActivity {
     private Button signupBtn;
     private Button guestBtn;
 
+    // private Authentication authenticator;
+
     @Override
     protected void onCreate(Bundle savedInstanceState){
 
@@ -37,18 +39,19 @@ public class LoginActivity extends AppCompatActivity {
         Toast.makeText(this, "Before getInstance", Toast.LENGTH_SHORT).show();
 
         mAuth = FirebaseAuth.getInstance();
+        //authenticator = new Authentication();
 
         Toast.makeText(LoginActivity.this, "Got firebase instance", Toast.LENGTH_SHORT).show();
 
-        this.emailBox = (EditText)findViewById(R.id.email);         // Reference to textbox
-        this.passwordBox = (EditText)findViewById(R.id.password);   // Reference to textbox
+        // References to textboxes
+        emailBox = (EditText)findViewById(R.id.email);
+        passwordBox = (EditText)findViewById(R.id.password);
 
         // References to buttons
         signinBtn = (Button)findViewById(R.id.signin_button);
         signupBtn = (Button)findViewById(R.id.sign_up_button);
         guestBtn = (Button)findViewById(R.id.guest_button);
 
-        //initListeners();
     }
 
     private void signIn(String email, String password){
