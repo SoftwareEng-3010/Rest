@@ -16,6 +16,12 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import BusinessLogic.Restaurant;
+import DataAccessLayer.RestDB;
+
 public class LoginActivity extends AppCompatActivity {
 
     private static final String TAG = "EmailPassword";
@@ -129,7 +135,9 @@ public class LoginActivity extends AppCompatActivity {
              * move to
              */
             public void onClick(View v) {
-
+                RestDB restDB = new RestDB();
+                ArrayList<Restaurant> restaurants = new ArrayList<>();
+                restDB.getRestaurants(restaurants);
             }
         });
     }
@@ -137,7 +145,6 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        Toast.makeText(this, "Login: onStart", Toast.LENGTH_SHORT).show();
         initListeners();
     }
 }
