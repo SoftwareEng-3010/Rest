@@ -1,5 +1,6 @@
 package com.example.exercise_5;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -37,16 +38,24 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState){
 
-        Toast.makeText(this, "Login: onCreate", Toast.LENGTH_SHORT).show();
-        
         super.onCreate(savedInstanceState);                         // Required
         setContentView(R.layout.login_activity);                    // Connecting to login layout
+        Toast.makeText(this, "Login: onCreate", Toast.LENGTH_SHORT).show();
+
         Toast.makeText(this, "Before getInstance", Toast.LENGTH_SHORT).show();
 
         mAuth = FirebaseAuth.getInstance();
         //authenticator = new Authentication();
 
         Toast.makeText(LoginActivity.this, "Got firebase instance", Toast.LENGTH_SHORT).show();
+
+        if (mAuth.getCurrentUser() != null) {
+            // if a user is already signed in
+            Intent moveToRestSelector = new Intent(this, RestSelector.class);
+            moveToRestSelector.putExtra("UserEmail", mAuth.getCurrentUser().getEmail());
+//            moveToRestSelector.putExtra("UserName", mAuth.getCurrentUser().getDisplayName());
+            startActivity(moveToRestSelector);
+        }
 
         // References to textboxes
         emailBox = (EditText)findViewById(R.id.email);
@@ -89,7 +98,7 @@ public class LoginActivity extends AppCompatActivity {
                         else {
                             // If sign in fails, display a message to the user.
                             Log.w(TAG, "createUserWithEmail:failure", task.getException());
-                            Toast.makeText(LoginActivity.this, "Authentication failed: " + task.getException().toString(),
+                            Toast.makeText(LoginActivity.this, "Authentication failed: " + task.getException().getMessage(),
                                     Toast.LENGTH_LONG).show();
                         }
                     }
