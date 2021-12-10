@@ -1,5 +1,7 @@
 package BusinessEntities;
 
+import com.google.firebase.firestore.PropertyName;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -30,8 +32,9 @@ public class Branch {
         this.id = id;
     }
 
-    public void setIsKosher(boolean kosher) {
-        isKosher = kosher;
+    @PropertyName("isKosher")
+    public void setIsKosher(boolean isKosher) {
+        this.isKosher = isKosher;
     }
 
     public void setMenu(ArrayList<Item> menu) {
@@ -46,7 +49,8 @@ public class Branch {
         return id;
     }
 
-    public boolean isKosher() {
+    @PropertyName("isKosher")
+    public boolean getIsKosher() {
         return isKosher;
     }
 

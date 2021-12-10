@@ -66,7 +66,7 @@ public class Restaurant {
                 "This restaurant has " + this.numOfBranches + " branches: \n";
 
         for(Branch branch : branches){
-            res += "\t" + branch.toString();
+            res += branch.toString();
         }
         return res;
     }
