@@ -17,9 +17,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 import java.util.ArrayList;
-import java.util.List;
 
-import BusinessLogic.Restaurant;
+import BusinessEntities.Restaurant;
 import DataAccessLayer.RestDB;
 
 public class LoginActivity extends AppCompatActivity {

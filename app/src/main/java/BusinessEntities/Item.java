@@ -1,4 +1,4 @@
-package BusinessLogic;
+package BusinessEntities;
 
 public class Item {
 
@@ -42,5 +42,29 @@ public class Item {
 
     public int getPrice() {
         return price;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public void setImageURL(String imageURL) {
+        this.imageURL = imageURL;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setServiceUnit(String serviceUnit) {
+        this.serviceUnit = serviceUnit;
+    }
+
+    public void setInStock(boolean inStock) {
+        this.inStock = inStock;
+    }
+
+    public void setPrice(int price) {
+        this.price = price;
     }
 }

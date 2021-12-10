@@ -9,7 +9,7 @@ import com.example.exercise_5.R;
 
 import java.util.ArrayList;
 
-import BusinessLogic.Restaurant;
+import BusinessEntities.Restaurant;
 import DataAccessLayer.RestDB;
 
 public class ViewRestActivity extends AppCompatActivity {

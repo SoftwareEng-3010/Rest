@@ -1,26 +1,27 @@
 package DataAccessLayer;
 
 import androidx.annotation.NonNull;
+import android.util.Log;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 
-import java.util.ArrayList;
+import java.io.File;
 import java.util.List;
+import java.io.FileWriter;
+import java.io.IOException;
 
-import android.util.Log;
-import android.widget.Toast;
 
-import BusinessLogic.Item;
-import BusinessLogic.Restaurant;
+import BusinessEntities.Restaurant;
 
 public class RestDB {
+
+    FileWriter docs;
+    FileWriter names;
 
     private FirebaseFirestore db;
     private CollectionReference restCollection;
@@ -28,6 +29,13 @@ public class RestDB {
     public RestDB() {
         db = FirebaseFirestore.getInstance();
         restCollection = db.collection("restaurants");
+        try {
+            docs = new FileWriter("DocSnap");
+            names = new FileWriter("RestNames");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
 
     public void getRestaurants(List<Restaurant> restaurants){
@@ -39,8 +47,19 @@ public class RestDB {
                         if (!queryDocumentSnapshots.isEmpty()) {
                             List<DocumentSnapshot> list = queryDocumentSnapshots.getDocuments();
                             for (DocumentSnapshot d : list) {
-                                //Restaurant rest = d.toObject(Restaurant.class);
-                                Log.d("Rest: ", d.toString());
+                                //Log.d("getRestaurants", d.toString());
+                                try {
+                                    docs.write(d.toString() + '\n');
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
+                                Restaurant rest = d.toObject(Restaurant.class);
+                                try {
+                                    names.write((rest.getName()) + '\n');
+                                } catch (IOException e){
+                                    e.printStackTrace();
+                                }
+                                //Log.d("=======================", rest.getName());
                             }
                         }
                         else{
