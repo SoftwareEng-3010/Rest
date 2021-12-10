@@ -43,9 +43,8 @@ public class RestDB {
                         if (!queryDocumentSnapshots.isEmpty()) {
                             List<DocumentSnapshot> list = queryDocumentSnapshots.getDocuments();
                             for (DocumentSnapshot d : list) {
-                                Log.d("getRestaurants", d.toString());
                                 Restaurant rest = d.toObject(Restaurant.class);
-                                Log.d("getRestaurants", rest.getName());
+                                restaurants.add(rest);
                             }
                         }
                         else{

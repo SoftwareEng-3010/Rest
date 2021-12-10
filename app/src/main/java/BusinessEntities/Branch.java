@@ -43,7 +43,7 @@ public class Branch {
         this.id = id;
     }
 
-    public void setKosher(boolean kosher) {
+    public void setIsKosher(boolean kosher) {
         isKosher = kosher;
     }
 

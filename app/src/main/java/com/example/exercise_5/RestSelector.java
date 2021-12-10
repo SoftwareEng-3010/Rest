@@ -2,6 +2,7 @@ package com.example.exercise_5;
 
 import android.os.Bundle;
 import android.os.PersistableBundle;
+import android.util.Log;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -30,5 +31,9 @@ public class RestSelector extends AppCompatActivity {
         super.onStart();
         ArrayList<Restaurant> restaurants = new ArrayList<>();
         restDB.getRestaurants(restaurants);
+        Log.d("RestSelector", Integer.toString(restaurants.size()));
+        for(Restaurant restaurant : restaurants){
+            Log.d("RestSelector", restaurant.getName());
+        }
     }
 }
