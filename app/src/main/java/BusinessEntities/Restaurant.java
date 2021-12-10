@@ -4,12 +4,13 @@ import java.util.ArrayList;
 
 public class Restaurant {
 
+    // private fields
     private int id;
     private int numOfBranches;
-
     private String name;
     private ArrayList<Branch> branches;
 
+    // empty constructor for deserializing Firestore document
     public Restaurant(){}
 
     public Restaurant(int id, int numOfBranches, String name, ArrayList<Branch> branches) {
@@ -19,6 +20,7 @@ public class Restaurant {
         this.branches = branches;
     }
 
+    // setters & getters
     public void setId(int id) {
         this.id = id;
     }
