@@ -26,18 +26,14 @@ public class RestDB {
     private FirebaseFirestore db;
     private CollectionReference restCollection;
 
+    // Constructor
     public RestDB() {
+
         db = FirebaseFirestore.getInstance();
         restCollection = db.collection("restaurants");
-        try {
-            docs = new FileWriter("DocSnap");
-            names = new FileWriter("RestNames");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
     }
 
+    // temp method for testing querying on Firestore
     public void getRestaurants(List<Restaurant> restaurants){
         Log.d("getRestaurants", "Start");
         restCollection.get()
@@ -47,19 +43,9 @@ public class RestDB {
                         if (!queryDocumentSnapshots.isEmpty()) {
                             List<DocumentSnapshot> list = queryDocumentSnapshots.getDocuments();
                             for (DocumentSnapshot d : list) {
-                                //Log.d("getRestaurants", d.toString());
-                                try {
-                                    docs.write(d.toString() + '\n');
-                                } catch (IOException e) {
-                                    e.printStackTrace();
-                                }
+                                Log.d("getRestaurants", d.toString());
                                 Restaurant rest = d.toObject(Restaurant.class);
-                                try {
-                                    names.write((rest.getName()) + '\n');
-                                } catch (IOException e){
-                                    e.printStackTrace();
-                                }
-                                //Log.d("=======================", rest.getName());
+                                Log.d("getRestaurants", rest.getName());
                             }
                         }
                         else{
