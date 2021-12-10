@@ -10,6 +10,8 @@ public class Branch {
     private boolean isKosher;
     private ArrayList<Item> menu;
 
+    public Branch(){}
+
     public Branch(HashMap<String, String> address, int id, boolean isKosher, ArrayList<Item> menu) {
         this.address = address;
         this.id = id;

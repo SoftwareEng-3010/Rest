@@ -10,6 +10,15 @@ public class Restaurant {
     private String name;
     private ArrayList<Branch> branches;
 
+    public Restaurant(){}
+
+    public Restaurant(int id, int numOfBranches, String name, ArrayList<Branch> branches) {
+        this.id = id;
+        this.numOfBranches = numOfBranches;
+        this.name = name;
+        this.branches = branches;
+    }
+
     public void setId(int id) {
         this.id = id;
     }
@@ -23,13 +32,6 @@ public class Restaurant {
     }
 
     public void setBranches(ArrayList<Branch> branches) {
-        this.branches = branches;
-    }
-
-    public Restaurant(int id, int numOfBranches, String name, ArrayList<Branch> branches) {
-        this.id = id;
-        this.numOfBranches = numOfBranches;
-        this.name = name;
         this.branches = branches;
     }
 
