@@ -1,5 +1,7 @@
 package BusinessEntities;
 
+import androidx.annotation.NonNull;
+
 import java.util.ArrayList;
 
 public class Restaurant {
@@ -19,6 +21,7 @@ public class Restaurant {
         this.name = name;
         this.branches = branches;
     }
+
 
     // setters & getters
     public void setId(int id) {
@@ -51,5 +54,20 @@ public class Restaurant {
 
     public ArrayList<Branch> getBranches() {
         return branches;
+    }
+
+
+    // A String representation of a Restaurant object
+    @Override
+    public String toString(){
+        String res = "";
+        res += "Restaurant id: " + this.id + '\n' +
+                "Restaurant name: " + this.name + '\n' +
+                "This restaurant has " + this.numOfBranches + " branches: \n";
+
+        for(Branch branch : branches){
+            res += "\t" + branch.toString();
+        }
+        return res;
     }
 }

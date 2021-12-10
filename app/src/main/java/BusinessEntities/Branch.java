@@ -5,17 +5,36 @@ import java.util.HashMap;
 
 public class Branch {
 
+    // private fields
     private HashMap<String, String> address;
     private int id;
     private boolean isKosher;
     private ArrayList<Item> menu;
 
+    // empty constructor for deserializing Firestore document
     public Branch(){}
 
     public Branch(HashMap<String, String> address, int id, boolean isKosher, ArrayList<Item> menu) {
         this.address = address;
         this.id = id;
         this.isKosher = isKosher;
+        this.menu = menu;
+    }
+
+    // setters & getters
+    public void setAddress(HashMap<String, String> address) {
+        this.address = address;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public void setIsKosher(boolean kosher) {
+        isKosher = kosher;
+    }
+
+    public void setMenu(ArrayList<Item> menu) {
         this.menu = menu;
     }
 
@@ -35,19 +54,15 @@ public class Branch {
         return menu;
     }
 
-    public void setAddress(HashMap<String, String> address) {
-        this.address = address;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public void setIsKosher(boolean kosher) {
-        isKosher = kosher;
-    }
-
-    public void setMenu(ArrayList<Item> menu) {
-        this.menu = menu;
+    // A String representation of a Restaurant object
+    @Override
+    public String toString(){
+        String res = "";
+        res += "Branch id: " + this.id + '\n' +
+                "Branch kosher status: " + this.isKosher + '\n';
+        for(String s : this.address.values()){
+            res += ' ' + s + ' ';
+        }
+        return res + '\n';
     }
 }
