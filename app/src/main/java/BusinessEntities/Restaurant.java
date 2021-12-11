@@ -12,7 +12,7 @@ public class Restaurant {
     private String name;
     private ArrayList<Branch> branches;
 
-    // empty constructor for deserializing Firestore document
+    // empty constructor for deserializing Firestore documents
     public Restaurant(){}
 
     public Restaurant(int id, int numOfBranches, String name, ArrayList<Branch> branches) {

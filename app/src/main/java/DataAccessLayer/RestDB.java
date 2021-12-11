@@ -6,21 +6,16 @@ import androidx.annotation.Nullable;
 import android.util.Log;
 
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
-import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 
-import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
-import java.io.FileWriter;
-import java.io.IOException;
 
 
 import BusinessEntities.Restaurant;
@@ -48,13 +43,14 @@ public class RestDB {
         db = FirebaseFirestore.getInstance();
         restCollection = db.collection("restaurants");
 
+        fetchRestaurants();
+
         // listening on changes in restaurants collection and updating our list accordingly
         restCollection.addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
                 if(error != null){
                     Log.w(TAG, "Listen failed " + error.getMessage());
-                    return;
                 }
                 else{
                     List<DocumentSnapshot> documentSnapshots = value.getDocuments();
@@ -62,7 +58,6 @@ public class RestDB {
                 }
             }
         });
-
     }
 
     /**
@@ -88,29 +83,33 @@ public class RestDB {
         }
     }
 
+    private void fetchRestaurants(){
+        restaurants = new ArrayList<>();
+
+        restCollection.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            // If we were able to fetch all the documents, convert them to Restaurant object
+            // and insert them into the list
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if(task.isSuccessful()){
+                    QuerySnapshot queryRes = task.getResult();
+                    List<DocumentSnapshot> documents = queryRes.getDocuments();
+                    for(DocumentSnapshot doc : documents){
+                        Restaurant restaurant = doc.toObject(Restaurant.class);
+                        Log.d(TAG, restaurant.toString());
+                        restaurants.add(restaurant);
+                    }
+                }
+                else{
+                    Log.d(TAG, task.getException().getMessage());
+                }
+            }
+        });
+    }
+
     // temp method for testing querying on Firestore
     public List<Restaurant> getRestaurants(){
         return this.restaurants;
-
-//        restCollection.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-//
-//            // If we were able to fetch all the documents, convert them to Restaurant object
-//            // and insert them into the list
-//            @Override
-//            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-//                if(task.isSuccessful()){
-//                    QuerySnapshot queryRes = task.getResult();
-//                    List<DocumentSnapshot> documents = queryRes.getDocuments();
-//                    for(DocumentSnapshot doc : documents){
-//                        Restaurant restaurant = doc.toObject(Restaurant.class);
-//                        restaurants.add(restaurant);
-//                    }
-//                }
-//                else{
-//                    Log.d(TAG, task.getException().toString());
-//                }
-//            }
-//        });
     }
 }
 

@@ -140,12 +140,9 @@ public class LoginActivity extends AppCompatActivity {
 
             @Override
             /**
-             * move to
+             * move to RestSelector
              */
             public void onClick(View v) {
-                RestDB restDB = new RestDB();
-                ArrayList<Restaurant> restaurants = new ArrayList<>();
-                restDB.getRestaurants(restaurants);
             }
         });
     }
