@@ -8,6 +8,7 @@ import android.widget.Toast;
 import com.example.exercise_5.R;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import BusinessEntities.Restaurant;
 import DataAccessLayer.RestDB;
@@ -19,16 +20,13 @@ public class ViewRestActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_rest);
-        rdb = new RestDB();
+        rdb = RestDB.getInstance();
     }
 
     @Override
     protected void onStart() {
         super.onStart();
         ArrayList<Restaurant> restaurants = new ArrayList<>();
-        rdb.getRestaurants(restaurants);
-        for(Restaurant r : restaurants){
-            Toast.makeText(ViewRestActivity.this, r.getName(), Toast.LENGTH_SHORT).show();
-        }
+        List<Restaurant> restaurant = rdb.getRestaurants();
     }
 }
