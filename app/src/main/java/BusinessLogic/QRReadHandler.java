@@ -7,6 +7,9 @@ import com.google.zxing.Result;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.List;
+
+import BusinessEntities.Item;
 import DataAccessLayer.RestDB;
 import io.grpc.internal.JsonParser;
 
