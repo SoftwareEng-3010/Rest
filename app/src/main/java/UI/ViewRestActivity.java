@@ -26,7 +26,6 @@ public class ViewRestActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        ArrayList<Restaurant> restaurants = new ArrayList<>();
         List<Restaurant> restaurant = rdb.getRestaurants();
     }
 }
