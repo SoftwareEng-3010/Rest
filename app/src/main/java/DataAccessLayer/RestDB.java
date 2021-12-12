@@ -42,8 +42,9 @@ public class RestDB {
         // databse and collection references
         db = FirebaseFirestore.getInstance();
         restCollection = db.collection("restaurants");
+        restaurants = new ArrayList<>();
 
-        fetchRestaurants();
+//        fetchRestaurants();
 
         // listening on changes in restaurants collection and updating our list accordingly
         restCollection.addSnapshotListener(new EventListener<QuerySnapshot>() {
@@ -90,7 +91,6 @@ public class RestDB {
     }
 
     private void fetchRestaurants(){
-        restaurants = new ArrayList<>();
 
         restCollection.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             // If we were able to fetch all the documents, convert them to Restaurant object

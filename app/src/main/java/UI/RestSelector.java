@@ -33,14 +33,17 @@ public class RestSelector extends AppCompatActivity {
 
         String userEmail = getIntent().getStringExtra("UserEmail");
         Toast.makeText(this, "Welcome, " + userEmail, Toast.LENGTH_SHORT).show();
-        String userName = getIntent().getStringExtra("UserEmail");
-        Toast.makeText(this, "Welcome, " + userName, Toast.LENGTH_SHORT).show();
+//        String userName = getIntent().getStringExtra("UserName");
+//        Toast.makeText(this, "Welcome, " + userName, Toast.LENGTH_SHORT).show();
 
         qrBtn = (Button)findViewById(R.id.qr_button);
         listBtn = (Button)findViewById(R.id.list_button);
 
         restDB = RestDB.getInstance();
         restaurants = restDB.getRestaurants();
+        for (Restaurant r : restaurants) {
+            Log.d(TAG, r.toString());
+        }
     }
 
     @Override

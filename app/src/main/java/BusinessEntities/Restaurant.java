@@ -8,16 +8,14 @@ public class Restaurant {
 
     // private fields
     private int id;
-    private int numOfBranches;
     private String name;
     private ArrayList<Branch> branches;
 
     // empty constructor for deserializing Firestore documents
     public Restaurant(){}
 
-    public Restaurant(int id, int numOfBranches, String name, ArrayList<Branch> branches) {
+    public Restaurant(int id, String name, ArrayList<Branch> branches) {
         this.id = id;
-        this.numOfBranches = numOfBranches;
         this.name = name;
         this.branches = branches;
     }
@@ -26,10 +24,6 @@ public class Restaurant {
     // setters & getters
     public void setId(int id) {
         this.id = id;
-    }
-
-    public void setNumOfBranches(int numOfBranches) {
-        this.numOfBranches = numOfBranches;
     }
 
     public void setName(String name) {
@@ -45,7 +39,7 @@ public class Restaurant {
     }
 
     public int getNumOfBranches() {
-        return numOfBranches;
+        return branches.size();
     }
 
     public String getName() {
@@ -63,7 +57,7 @@ public class Restaurant {
         String res = "";
         res += "Restaurant id: " + this.id + '\n' +
                 "Restaurant name: " + this.name + '\n' +
-                "This restaurant has " + this.numOfBranches + " branches: \n";
+                "This restaurant has " + getNumOfBranches() + " branches: \n";
 
         for(Branch branch : branches){
             res += branch.toString();
