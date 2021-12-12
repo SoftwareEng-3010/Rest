@@ -68,5 +68,13 @@ public class RestSelector extends AppCompatActivity {
                 startActivity(viewRestIntent);
             }
         });
+
+        qrBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent moveToQRScannerActivity = new Intent(RestSelector.this, QRCodeActivity.class);
+                startActivity(moveToQRScannerActivity);
+            }
+        });
     }
 }
