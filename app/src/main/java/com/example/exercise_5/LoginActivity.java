@@ -40,20 +40,14 @@ public class LoginActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);                         // Required
         setContentView(R.layout.login_activity);                    // Connecting to login layout
-        Toast.makeText(this, "Login: onCreate", Toast.LENGTH_SHORT).show();
 
-        Toast.makeText(this, "Before getInstance", Toast.LENGTH_SHORT).show();
 
-        mAuth = FirebaseAuth.getInstance();
-        //authenticator = new Authentication();
+        mAuth = FirebaseAuth.getInstance();                         // getting firebase auth instance
 
-        Toast.makeText(LoginActivity.this, "Got firebase instance", Toast.LENGTH_SHORT).show();
-
+        // if a user is already signed in
         if (mAuth.getCurrentUser() != null) {
-            // if a user is already signed in
             Intent moveToRestSelector = new Intent(this, RestSelector.class);
             moveToRestSelector.putExtra("UserEmail", mAuth.getCurrentUser().getEmail());
-//            moveToRestSelector.putExtra("UserName", mAuth.getCurrentUser().getDisplayName());
             startActivity(moveToRestSelector);
         }
 
@@ -93,13 +87,10 @@ public class LoginActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             FirebaseUser user = mAuth.getCurrentUser();
-                            Toast.makeText(LoginActivity.this, "Email: "+ user.getEmail(), Toast.LENGTH_SHORT).show();
                         }
                         else {
                             // If sign in fails, display a message to the user.
                             Log.w(TAG, "createUserWithEmail:failure", task.getException());
-                            Toast.makeText(LoginActivity.this, "Authentication failed: " + task.getException().getMessage(),
-                                    Toast.LENGTH_LONG).show();
                         }
                     }
                 });
@@ -115,7 +106,6 @@ public class LoginActivity extends AppCompatActivity {
              */
             public void onClick(View v) {
 
-                Toast.makeText(LoginActivity.this, "Started login.onClick", Toast.LENGTH_SHORT).show();
                 String email = emailBox.getText().toString();
                 String password = passwordBox.getText().toString();
                 signIn(email, password);
@@ -129,7 +119,6 @@ public class LoginActivity extends AppCompatActivity {
              * get values from text bars and validate. Then, update db with new user doc
              */
             public void onClick(View v) {
-                Toast.makeText(LoginActivity.this, "Started createAccount.onClick", Toast.LENGTH_SHORT).show();
                 String email = emailBox.getText().toString();
                 String password = passwordBox.getText().toString();
                 createAccount(email, password);
@@ -143,6 +132,9 @@ public class LoginActivity extends AppCompatActivity {
              * move to RestSelector
              */
             public void onClick(View v) {
+                Intent moveToRestSelector = new Intent(LoginActivity.this, RestSelector.class);
+                moveToRestSelector.putExtra("UserEmail", mAuth.getCurrentUser().getEmail());
+                startActivity(moveToRestSelector);
             }
         });
     }
