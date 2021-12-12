@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
+import BusinessEntities.Item;
 import BusinessEntities.Restaurant;
 
 /**
@@ -117,6 +118,11 @@ public class RestDB {
     public List<Restaurant> getRestaurants(){
         Log.d(TAG, "Size of restaurants (GetRests()): " + restaurants.size());
         return this.restaurants;
+    }
+
+    public List<Item> getMenu(int restId, int branchId){
+        // todo: fetch menu from db, according to restaurant id and branch id and return it
+        return null;
     }
 }
 
