@@ -12,6 +12,7 @@ public class Item {
     private int price;
 
     public Item(){}
+
     public Item(String description, String imageURL, String name, String serviceUnit, boolean inStock, int price) {
         this.description = description;
         this.imageURL = imageURL;
