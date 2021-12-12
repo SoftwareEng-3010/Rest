@@ -1,8 +1,7 @@
-package com.example.exercise_5;
+package UI;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.PersistableBundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -11,12 +10,12 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import java.util.ArrayList;
+import com.example.exercise_5.R;
+
 import java.util.List;
 
 import BusinessEntities.Restaurant;
 import DataAccessLayer.RestDB;
-import UI.ViewRestActivity;
 
 public class RestSelector extends AppCompatActivity {
     private RestDB restDB;

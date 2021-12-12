@@ -1,4 +1,4 @@
-package com.example.exercise_5;
+package UI;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,16 +11,12 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.exercise_5.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-
-import java.util.ArrayList;
-
-import BusinessEntities.Restaurant;
-import DataAccessLayer.RestDB;
 
 public class LoginActivity extends AppCompatActivity {
 
