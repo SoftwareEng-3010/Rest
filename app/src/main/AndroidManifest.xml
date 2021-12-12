@@ -14,9 +14,6 @@
         android:theme="@style/Theme.Exercise_5">
 
         <activity
-            android:name="UI.ViewRestActivity"
-            android:exported="false" />
-        <activity
             android:name="BusinessLogic.MainActivity"
             android:exported="true">
             <intent-filter>
@@ -25,6 +22,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity android:name="UI.ViewRestActivity" />
         <activity android:name="UI.LoginActivity" />
         <activity android:name="UI.RestSelector" />
     </application>

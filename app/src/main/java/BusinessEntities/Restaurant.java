@@ -3,13 +3,14 @@ package BusinessEntities;
 import androidx.annotation.NonNull;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Restaurant {
 
     // private fields
     private int id;
     private String name;
-    private ArrayList<Branch> branches;
+    private List<Branch> branches;
 
     // empty constructor for deserializing Firestore documents
     public Restaurant(){}
@@ -46,7 +47,7 @@ public class Restaurant {
         return name;
     }
 
-    public ArrayList<Branch> getBranches() {
+    public List<Branch> getBranches() {
         return branches;
     }
 

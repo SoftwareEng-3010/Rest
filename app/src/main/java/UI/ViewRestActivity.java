@@ -3,7 +3,8 @@ package UI;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
-import android.widget.Toast;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 
 import com.example.exercise_5.R;
 
@@ -13,9 +14,10 @@ import java.util.List;
 import BusinessEntities.Restaurant;
 import DataAccessLayer.RestDB;
 
-public class ViewRestActivity extends AppCompatActivity {
+public class ViewRestActivity<adapter> extends AppCompatActivity {
 
-    RestDB rdb;
+    private RestDB rdb;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -26,7 +28,17 @@ public class ViewRestActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        ArrayList<Restaurant> restaurants = new ArrayList<>();
-        List<Restaurant> restaurant = rdb.getRestaurants();
+        // Construct the data source
+        List<Restaurant> restaurants = rdb.getRestaurants();
+        // Create the adapter to convert the array to views
+        RestViewAdapter adapter = new RestViewAdapter(this, (ArrayList<Restaurant>) restaurants);
+        // Attach the adapter to a ListView
+        ListView listView = (ListView) findViewById(R.id.restListView);
+        listView.setAdapter(adapter);
+
+        for (Restaurant r : restaurants) {
+            adapter.add(r);
+        }
     }
+
 }
