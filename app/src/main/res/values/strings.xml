@@ -7,4 +7,5 @@
     <string name="password_en">Password</string>
     <string name="scan_qr_en">SCAN QR CODE</string>
     <string name="choose_from_list_en">CHOOSE FROM LIST</string>
+    <string name="ready_to_scan">Ready To Scan!</string>
 </resources>
