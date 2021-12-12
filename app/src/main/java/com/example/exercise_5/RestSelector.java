@@ -25,16 +25,18 @@ public class RestSelector extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.rest_selector);
 
-        String userName = getIntent().getStringExtra("UserEmail");
-        Toast.makeText(this, "Welcome, " + userName, Toast.LENGTH_SHORT).show();
-
-        restDB = RestDB.getInstance();
-        restaurants = restDB.getRestaurants();
+        String userEmail = getIntent().getStringExtra("UserEmail");
+        Toast.makeText(this, "Welcome, " + userEmail, Toast.LENGTH_SHORT).show();
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        Log.d(TAG, Integer.toString(restaurants.size()));
+        Log.d(TAG, Integer.toString(RestDB.getInstance().getRestaurants().size()));
+
+//        restDB = RestDB.getInstance();
+//        restaurants = restDB.getRestaurants();
+        for (Restaurant r : RestDB.getInstance().getRestaurants())
+            Log.d(TAG, r.toString());
     }
 }

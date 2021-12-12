@@ -53,9 +53,12 @@ public class RestDB {
                     Log.w(TAG, "Listen failed " + error.getMessage());
                 }
                 else{
+                    Log.d(TAG, "Event occured in database");
                     List<DocumentSnapshot> documentSnapshots = value.getDocuments();
                     updateRestaurants(documentSnapshots);
+                    Log.d(TAG, "\tFrom RestDB " + restaurants.size());
                 }
+                Log.d(TAG, "\tAfter Event:  " + restaurants.size());
             }
         });
     }
@@ -76,11 +79,14 @@ public class RestDB {
     }
 
     private void updateRestaurants(List<DocumentSnapshot> documentSnapshots){
+        Log.d(TAG, "Size of restaurants(Before update()): " + restaurants.size());
+//        restaurants.removeAll(restaurants);
         restaurants.clear();
         for(DocumentSnapshot d : documentSnapshots){
             Restaurant restaurant = d.toObject(Restaurant.class);
             restaurants.add(restaurant);
         }
+        Log.d(TAG, "Size of restaurants(After update()): " + restaurants.size());
     }
 
     private void fetchRestaurants(){
@@ -109,6 +115,7 @@ public class RestDB {
 
     // temp method for testing querying on Firestore
     public List<Restaurant> getRestaurants(){
+        Log.d(TAG, "Size of restaurants (GetRests()): " + restaurants.size());
         return this.restaurants;
     }
 }
