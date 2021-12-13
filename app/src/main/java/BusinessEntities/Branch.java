@@ -8,6 +8,7 @@ import java.util.HashMap;
 public class Branch {
 
     // private fields
+    // TODO: 12/13/2021 change address field to simple string instead of map, also in firestore
     private HashMap<String, String> address;
     private int id;
     private boolean isKosher;
