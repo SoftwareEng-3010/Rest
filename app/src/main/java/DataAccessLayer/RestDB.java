@@ -39,7 +39,7 @@ public class RestDB {
     private HashMap<Integer, HashMap<Integer, List<Item>>> menuMap; // Mapping of rest_id, branch_id and menu
 
     /**
-     * Private constructor
+     * Private constructor - Preventing instantiation of a RestDB object
      */
     private RestDB() {
 
@@ -125,6 +125,7 @@ public class RestDB {
         menuMap.clear();
         if(restaurants != null){
             for(Restaurant rest : restaurants){
+                menuMap.put(rest.getId(), new HashMap<>()); // Prevented a null ptr exception
                 for(Branch branch : rest.getBranches()){
                     if(menuMap.get(rest.getId()) != null){
                         menuMap.put(rest.getId(), new HashMap<>());

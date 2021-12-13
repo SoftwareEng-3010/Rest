@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.exercise_5">
+    package="com.example.exercise_5" >
 
-    <uses-feature android:name="android.hardware.camera"
+    <uses-feature
+        android:name="android.hardware.camera"
         android:required="true" />
     <uses-feature android:name="android.hardware.camera.autofocus" />
+
     <uses-permission-sdk-23 android:name="android.permission.CAMERA" />
 
     <application
@@ -13,18 +15,19 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.Exercise_5">
-
+        android:theme="@style/Theme.Exercise_5" >
+        <activity
+            android:name="UI.BranchDisplayActivity"
+            android:exported="false" />
         <activity
             android:name="BusinessLogic.MainActivity"
-            android:exported="true">
+            android:exported="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity android:name="UI.RestaurantsViewActivity" />
         <activity android:name="UI.BranchesViewActivity" />
         <activity android:name="UI.LoginActivity" />

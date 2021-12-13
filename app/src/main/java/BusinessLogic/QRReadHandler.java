@@ -39,7 +39,7 @@ public class QRReadHandler {
 
     public void handleRead() throws Exception {
         JSONObject json = getJsonObject(result.getText());
-        if(json == null){
+        if(json == null) {
             throw new JSONException(INVALID_JSON_STRING);
         }
         else{
@@ -50,7 +50,7 @@ public class QRReadHandler {
                 List<Item> menu = restDB.getMenu(restId, branchId);
                 // todo: start new activity to display menu
             }
-            catch (Exception e){
+            catch (Exception e) {
                 Log.e(TAG, e.getMessage());
             }
         }

@@ -2,15 +2,14 @@ package UI;
 
 import android.Manifest;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
@@ -26,9 +25,19 @@ import com.budiyev.android.codescanner.ScanMode;
 import com.example.exercise_5.R;
 import com.google.zxing.Result;
 
+import BusinessLogic.QRReader;
+//import BusinessLogic.QRReader;
+
 public class QRCodeActivity extends AppCompatActivity {
 
     private final String TAG = "QRCodeActivity";
+    private final String SELECTED_RESTAURANT_INDEX  = "restaurant_index";
+    private final String SELECTED_BRANCH_INDEX = "branch_index";
+    private final String SELECTED_TABLE_INDEX = "table_index";
+
+    private final String PERMISSION_PROMPT = "You will need to allow Camera permissions to " +
+            "scan a QR code at the restaurant you are visiting";
+
     private CodeScanner qrScanner;
     private CodeScannerView qrScannerView;
     private TextView text;
@@ -47,8 +56,8 @@ public class QRCodeActivity extends AppCompatActivity {
         qrScanner.setCamera(CodeScanner.CAMERA_BACK);
         qrScanner.setScanMode(ScanMode.CONTINUOUS);
 
-        setQRCodeCaptureCallbackMethod(qrScanner);
-        setQRCodeErrorCallbackMethod(qrScanner);
+        setQRCodeCaptureCallbackMethod();
+        setQRCodeErrorCallbackMethod();
 
         // Check whether your app is running on a device that has a camera hardware feature.
         if (getApplicationContext().getPackageManager().hasSystemFeature(
@@ -63,23 +72,14 @@ public class QRCodeActivity extends AppCompatActivity {
 
         if (checkPermission()) {
             Log.d(TAG, "PERMISSION GRANTED");
+            // If the user have granted camera permission - start scanning QRCodes
             qrScanner.startPreview();
         } else {
             Log.e(TAG, "PERMISSION DECLINED");
+            // If the user have not yet granted permissions
+            // or have previously declined permissions - ask the user for permissions.
             requestPermission();
         }
-
-//        // Check whether the user have already granted camera permissions:
-//        if (ContextCompat.checkSelfPermission(this, CAMERA_SERVICE)
-//                ==  PackageManager.PERMISSION_GRANTED) {
-//            Log.d(TAG, "Camera permission GRANTED");
-//
-//        } else {
-//            Log.e(TAG, "Camera permission DENIED");
-////            finishActivity(0);
-//        }
-
-
     }
 
     private boolean checkPermission() {
@@ -104,17 +104,19 @@ public class QRCodeActivity extends AppCompatActivity {
         switch (requestCode) {
             case REQUEST_PERMISSION_CODE:
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    Toast.makeText(getApplicationContext(), "Permission Granted", Toast.LENGTH_SHORT).show();
-                    // main logic
+                    Toast.makeText(getApplicationContext(), "Camera permission granted", Toast.LENGTH_SHORT).show();
+                    // If camera permission is granted - start camera preview
                     qrScanner.startPreview();
                 } else {
-                    Toast.makeText(getApplicationContext(), "Permission Denied", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Camera permission denied", Toast.LENGTH_SHORT).show();
                     // if user sdk version >= 23
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                         if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
                                 != PackageManager.PERMISSION_GRANTED) {
-                            showMessageOKCancel("You will need to allow Camera permissions to " +
-                                            "scan a QR code at the restaurant you are visiting",
+                            showMessageOKCancel(
+                                    PERMISSION_PROMPT,
+
+                                    // onOKListener action:
                                     new DialogInterface.OnClickListener() {
                                         @Override
                                         public void onClick(DialogInterface dialog, int which) {
@@ -123,10 +125,14 @@ public class QRCodeActivity extends AppCompatActivity {
                                                 requestPermission();
                                             }
                                         }
-                                    }, new DialogInterface.OnClickListener() {
+                                    },
+
+                                    // onCancelListener action:
+                                    new DialogInterface.OnClickListener() {
                                         @Override
                                         public void onClick(DialogInterface dialogInterface, int which) {
                                             Log.d(TAG, "which = " + which);
+                                            finishActivity(-1);
                                         }
                                     });
                         }
@@ -146,7 +152,66 @@ public class QRCodeActivity extends AppCompatActivity {
                 .show();
     }
 
-    private void setQRCodeErrorCallbackMethod(CodeScanner qrScanner) {
+
+    /**
+     * Set up a `CallbackHandler` for incoming QRCodes
+     * scanned by the user camera.
+     */
+    private void setQRCodeCaptureCallbackMethod() {
+        qrScanner.setDecodeCallback(new DecodeCallback() {
+            @Override
+            public void onDecoded(@NonNull final Result result) {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(QRCodeActivity.this, result.getText(), Toast.LENGTH_SHORT).show();
+                        Log.d(TAG, "QR Code found: " + result.getText());
+                        try {
+                            // QRReader will return an array of the relevant data
+                            // to load a `Branch` menu, which is a List<Item> object
+                            int[] qrResult = QRReader.readQRResult(result);
+
+                            Intent moveToBranchDisplay = new Intent(QRCodeActivity.this,
+                                    BranchDisplayActivity.class);
+
+                            moveToBranchDisplay.putExtra(SELECTED_RESTAURANT_INDEX, qrResult[0]);
+                            moveToBranchDisplay.putExtra(SELECTED_BRANCH_INDEX, qrResult[1]);
+                            moveToBranchDisplay.putExtra(SELECTED_TABLE_INDEX, qrResult[2]);
+                            startActivity(moveToBranchDisplay);
+                            /*
+                            * QRReader reader = new QRReader();
+                            if (reader.isValidQRCode()) {
+                                // Move to relevant activity
+                                Intent moveToBranchDisplay = new Intent(QRCodeActivity.this,
+                                        BranchDisplayActivity.class);
+                                int qrResult[] = reader.read();
+
+                                moveToBranchDisplay.putExtra(SELECTED_RESTAURANT_INDEX, qrResult[0]);
+                                moveToBranchDisplay.putExtra(SELECTED_BRANCH_INDEX, qrResult[1]);
+                                moveToBranchDisplay.putExtra(SELECTED_TABLE_INDEX, qrResult[2]);
+                                startActivity(moveToBranchDisplay);
+                            }
+                            else {
+                                // Not the QRCode we are looking for...
+                                Log.e(TAG, "Invalid QRCode scanned");
+                            }*/
+                        }
+                        catch (Exception e) {
+                            Log.e(TAG, "The QRCode is not in the correct format or something");
+                            Log.e(TAG, e.getMessage());
+                            Toast.makeText(QRCodeActivity.this, "Invalid QRCode!", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+            }
+        });
+    }
+
+    /**
+     * Set up an `ErrorCallback` action for handling
+     * scanner errors.
+     */
+    private void setQRCodeErrorCallbackMethod() {
         qrScanner.setErrorCallback(new ErrorCallback() {
             @Override
             public void onError(@NonNull Exception error) {
@@ -155,17 +220,4 @@ public class QRCodeActivity extends AppCompatActivity {
         });
     }
 
-    private void setQRCodeCaptureCallbackMethod(CodeScanner qrScanner) {
-        qrScanner.setDecodeCallback(new DecodeCallback() {
-            @Override
-            public void onDecoded(@NonNull final Result result) {
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        Toast.makeText(QRCodeActivity.this, result.getText(), Toast.LENGTH_SHORT).show();
-                    }
-                });
-            }
-        });
-    }
 }
