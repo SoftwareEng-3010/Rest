@@ -13,6 +13,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.budiyev.android.codescanner.CodeScanner;
 import com.budiyev.android.codescanner.CodeScannerView;
 import com.budiyev.android.codescanner.DecodeCallback;
+import com.budiyev.android.codescanner.ErrorCallback;
+import com.budiyev.android.codescanner.ScanMode;
 import com.example.exercise_5.R;
 import com.google.zxing.Result;
 
@@ -33,7 +35,16 @@ public class QRCodeActivity extends AppCompatActivity {
         text = (TextView)findViewById(R.id.qrTextView);
 
         qrScanner = new CodeScanner(this, qrScannerView);
-        qrScanner.setCamera(CodeScanner.CAMERA_FRONT);
+        qrScanner.setCamera(CodeScanner.CAMERA_BACK);
+        qrScanner.setScanMode(ScanMode.CONTINUOUS);
+
+        qrScanner.setErrorCallback(new ErrorCallback() {
+            @Override
+            public void onError(@NonNull Exception error) {
+                Log.e(TAG, error.getMessage());
+//                Toast.makeText(QRCodeActivity.this, error.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
 
         qrScanner.setDecodeCallback(new DecodeCallback() {
             @Override
@@ -48,7 +59,7 @@ public class QRCodeActivity extends AppCompatActivity {
         });
 
         // TODO: 12/13/2021 Figure out how to start the emulated camera to use startPreview()
-//        qrScanner.startPreview();
+        qrScanner.startPreview();
 
 //        qrScannerView.setOnClickListener(new View.OnClickListener() {
 //            @Override
