@@ -16,9 +16,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Exercise_5" >
-        <activity
-            android:name="UI.BranchDisplayActivity"
-            android:exported="false" />
+
         <activity
             android:name="BusinessLogic.MainActivity"
             android:exported="true" >
@@ -29,6 +27,7 @@
             </intent-filter>
         </activity>
         <activity android:name="UI.RestaurantsViewActivity" />
+        <activity android:name="UI.BranchDisplayActivity" />
         <activity android:name="UI.BranchesViewActivity" />
         <activity android:name="UI.LoginActivity" />
         <activity android:name="UI.RestaurantSelectionActivity" />

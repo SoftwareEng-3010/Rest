@@ -48,6 +48,7 @@ public class QRCodeActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.qrcode_activity);
+        Log.e(TAG, "onCreate(QR)");
 
         qrScannerView = (CodeScannerView)findViewById(R.id.scanner_view);
         text = (TextView)findViewById(R.id.qrTextView);
@@ -167,6 +168,8 @@ public class QRCodeActivity extends AppCompatActivity {
                         Toast.makeText(QRCodeActivity.this, result.getText(), Toast.LENGTH_SHORT).show();
                         Log.d(TAG, "QR Code found: " + result.getText());
                         try {
+                            qrScanner.stopPreview();
+                            qrScanner.releaseResources();
                             // QRReader will return an array of the relevant data
                             // to load a `Branch` menu, which is a List<Item> object
                             int[] qrResult = QRReader.readQRResult(result);
@@ -174,32 +177,20 @@ public class QRCodeActivity extends AppCompatActivity {
                             Intent moveToBranchDisplay = new Intent(QRCodeActivity.this,
                                     BranchDisplayActivity.class);
 
+                            // Prepare data from next activity
                             moveToBranchDisplay.putExtra(SELECTED_RESTAURANT_INDEX, qrResult[0]);
                             moveToBranchDisplay.putExtra(SELECTED_BRANCH_INDEX, qrResult[1]);
                             moveToBranchDisplay.putExtra(SELECTED_TABLE_INDEX, qrResult[2]);
+                            // Stop camera and move to BranchDisplay
+                            qrScanner.stopPreview();
+                            qrScanner.releaseResources();
                             startActivity(moveToBranchDisplay);
-                            /*
-                            * QRReader reader = new QRReader();
-                            if (reader.isValidQRCode()) {
-                                // Move to relevant activity
-                                Intent moveToBranchDisplay = new Intent(QRCodeActivity.this,
-                                        BranchDisplayActivity.class);
-                                int qrResult[] = reader.read();
-
-                                moveToBranchDisplay.putExtra(SELECTED_RESTAURANT_INDEX, qrResult[0]);
-                                moveToBranchDisplay.putExtra(SELECTED_BRANCH_INDEX, qrResult[1]);
-                                moveToBranchDisplay.putExtra(SELECTED_TABLE_INDEX, qrResult[2]);
-                                startActivity(moveToBranchDisplay);
-                            }
-                            else {
-                                // Not the QRCode we are looking for...
-                                Log.e(TAG, "Invalid QRCode scanned");
-                            }*/
                         }
                         catch (Exception e) {
                             Log.e(TAG, "The QRCode is not in the correct format or something");
                             Log.e(TAG, e.getMessage());
-                            Toast.makeText(QRCodeActivity.this, "Invalid QRCode!", Toast.LENGTH_SHORT).show();
+                            qrScanner.startPreview();
+//                            Toast.makeText(QRCodeActivity.this, "Invalid QRCode!", Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
@@ -220,4 +211,18 @@ public class QRCodeActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    protected void onStop() {
+        super.onStop();
+        Log.e(TAG, "QRCodeActivity stopped");
+        qrScanner.stopPreview();
+        qrScanner.releaseResources(); // Release the camera connected to the Scanner object
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Log.e(TAG, "Resumed QRCodeActivity");
+        qrScanner.startPreview();
+    }
 }

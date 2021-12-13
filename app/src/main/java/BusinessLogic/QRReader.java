@@ -55,16 +55,16 @@ public class QRReader {
             JSONObject json = getJsonObject(result.getText());
 
             if (!isValidQRCode(result))
-                // If isValidQRCode() did not throw but returned false:
-                throw new Exception("Error in class QRReader: The QRCode is Invalid");
+                throw new Exception("Error in class QRReader: The `Result` object passed to readQRResult(Result) was null");
 
             // Parse data from JSON
-            int restID = json.getInt(SELECTED_RESTAURANT_INDEX);
-            int branchID = json.getInt(SELECTED_BRANCH_INDEX);
+            int restIndex = json.getInt(SELECTED_RESTAURANT_INDEX);
+            int branchIndex = json.getInt(SELECTED_BRANCH_INDEX);
             int tableIndex = json.getInt(SELECTED_TABLE_INDEX);
 
-            // Return an array with the relevant data to display menu at specified branchID
-            return new int[] {restID, branchID, tableIndex};
+            // Return an array with the relevant data to display the menu of the given
+            // branch and restaurant
+            return new int[] {restIndex, branchIndex, tableIndex};
         }
         catch (Exception e) {
             Log.e(TAG, e.getMessage());
@@ -91,15 +91,19 @@ public class QRReader {
             JSONObject json = getJsonObject(result.getText());
 
             // Parse relevant JSON keys. If no such key is found - an exception will be thrown.
-            int restID = json.getInt(SELECTED_RESTAURANT_INDEX);
-            int branchID = json.getInt(SELECTED_BRANCH_INDEX);
+            int restIndex = json.getInt(SELECTED_RESTAURANT_INDEX);
+            int branchIndex = json.getInt(SELECTED_BRANCH_INDEX);
             int tableIndex = json.getInt(SELECTED_TABLE_INDEX);
 
             // Make sure the values are valid as well (Not exceeding table number or whatever)
-            if (restID >= restDB.getRestaurants().size()) return false;
-            Restaurant restaurant = restDB.getRestaurants().get(restID);
-            if (branchID >= restaurant.getNumOfBranches()) return false;
-            Branch branch = restaurant.getBranches().get(branchID);
+            if (restIndex >= restDB.getRestaurants().size())
+                throw new Exception("Restaurant index given exceeds the given restaurant list size which is "
+                        + restDB.getRestaurants().size());
+            Restaurant restaurant = restDB.getRestaurants().get(restIndex);
+            if (branchIndex >= restaurant.getNumOfBranches())
+                throw new Exception("Branch index given exceeds the given restaurant list size which is "
+                    + restDB.getRestaurants().size());
+            Branch branch = restaurant.getBranches().get(branchIndex);
 
             // Check about Table information in the QRCode
             // The JSON object seems to be fine
@@ -115,7 +119,7 @@ public class QRReader {
 
         try {
             JSONObject json = new JSONObject(jsonString);
-            Log.e(TAG, json.toString());
+//            Log.e(TAG, json.toString());
             return json;
         }
         catch (JSONException e) {
