@@ -17,7 +17,13 @@ import java.util.List;
 import BusinessEntities.Restaurant;
 import DataAccessLayer.RestDB;
 
-public class RestSelector extends AppCompatActivity {
+/**
+ * This Activity allows the user to select between two
+ * options:
+ * 1. Scan a QRCode to start a restaurant session
+ * 2. Manually select from Restaurants list.
+ */
+public class RestaurantSelectionActivity extends AppCompatActivity {
     private RestDB restDB;
     private List<Restaurant> restaurants;
 
@@ -33,11 +39,11 @@ public class RestSelector extends AppCompatActivity {
 
         String userEmail = getIntent().getStringExtra("UserEmail");
         Toast.makeText(this, "Welcome, " + userEmail, Toast.LENGTH_SHORT).show();
-//        String userName = getIntent().getStringExtra("UserName");
-//        Toast.makeText(this, "Welcome, " + userName, Toast.LENGTH_SHORT).show();
 
-        qrBtn = (Button)findViewById(R.id.qr_button);
-        listBtn = (Button)findViewById(R.id.list_button);
+        qrBtn = findViewById(R.id.qr_button);
+        listBtn = findViewById(R.id.list_button);
+
+        initListeners();
 
         restDB = RestDB.getInstance();
         restaurants = restDB.getRestaurants();
@@ -46,25 +52,12 @@ public class RestSelector extends AppCompatActivity {
         }
     }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-        Log.d(TAG, Integer.toString(RestDB.getInstance().getRestaurants().size()));
-
-//        restDB = RestDB.getInstance();
-//        restaurants = restDB.getRestaurants();
-        for (Restaurant r : RestDB.getInstance().getRestaurants())
-            Log.d(TAG, r.toString());
-        Log.d(TAG, Integer.toString(restaurants.size()));
-        initListeners();
-    }
-
     private void initListeners(){
 
         listBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent viewRestIntent = new Intent(RestSelector.this, RestaurantsViewActivity.class);
+                Intent viewRestIntent = new Intent(RestaurantSelectionActivity.this, RestaurantsViewActivity.class);
                 startActivity(viewRestIntent);
             }
         });
@@ -72,7 +65,7 @@ public class RestSelector extends AppCompatActivity {
         qrBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent moveToQRScannerActivity = new Intent(RestSelector.this, QRCodeActivity.class);
+                Intent moveToQRScannerActivity = new Intent(RestaurantSelectionActivity.this, QRCodeActivity.class);
                 startActivity(moveToQRScannerActivity);
             }
         });

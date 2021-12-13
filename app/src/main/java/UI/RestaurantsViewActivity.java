@@ -2,18 +2,15 @@ package UI;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.example.exercise_5.R;
 
-import java.util.List;
-
 import BusinessEntities.Restaurant;
 import DataAccessLayer.RestDB;
+import UIAdapters.RestaurantAdapter;
 
 public class RestaurantsViewActivity extends AppCompatActivity {
 

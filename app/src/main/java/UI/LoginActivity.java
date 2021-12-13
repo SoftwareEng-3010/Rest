@@ -42,7 +42,7 @@ public class LoginActivity extends AppCompatActivity {
 
         // if a user is already signed in
         if (mAuth.getCurrentUser() != null) {
-            Intent moveToRestSelector = new Intent(this, RestSelector.class);
+            Intent moveToRestSelector = new Intent(this, RestaurantSelectionActivity.class);
             moveToRestSelector.putExtra("UserEmail", mAuth.getCurrentUser().getEmail());
             startActivity(moveToRestSelector);
         }
@@ -128,7 +128,7 @@ public class LoginActivity extends AppCompatActivity {
              * move to RestSelector
              */
             public void onClick(View v) {
-                Intent moveToRestSelector = new Intent(LoginActivity.this, RestSelector.class);
+                Intent moveToRestSelector = new Intent(LoginActivity.this, RestaurantSelectionActivity.class);
                 moveToRestSelector.putExtra("UserEmail", mAuth.getCurrentUser().getEmail());
                 startActivity(moveToRestSelector);
             }

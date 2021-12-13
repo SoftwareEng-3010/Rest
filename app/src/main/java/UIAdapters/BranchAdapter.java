@@ -1,4 +1,4 @@
-package UI;
+package UIAdapters;
 
 
 import android.content.Context;
@@ -19,19 +19,21 @@ import com.example.exercise_5.R;
 import java.util.ArrayList;
 import java.util.List;
 
+import BusinessEntities.Branch;
 import BusinessEntities.Restaurant;
+import BusinessLogic.MainActivity;
 import DataAccessLayer.RestDB;
 
-public class RestaurantAdapter extends ArrayAdapter<Restaurant> {
+public class BranchAdapter extends ArrayAdapter<Branch> {
 
-    private static final String TAG = "RestaurantAdapter";
+    private static final String TAG = "BranchAdapter";
     private Context context;
     private int resource;
-    private List<Restaurant> restaurants;
+    private List<Branch> branches;
 
-    public RestaurantAdapter(@NonNull Context context, int resource, List<Restaurant> restaurants) {
-        super(context, resource, restaurants);
-        this.restaurants = restaurants;
+    public BranchAdapter(@NonNull Context context, int resource, List<Branch> branches) {
+        super(context, resource, branches);
+        this.branches = branches;
         this.context = context;
         this.resource = resource;
     }
@@ -39,35 +41,34 @@ public class RestaurantAdapter extends ArrayAdapter<Restaurant> {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         // Get the data item for this position
-        Restaurant restaurant = restaurants.get(position);
+        Branch branch = branches.get(position);
         // Check if an existing view is being reused, otherwise inflate the view
         if (convertView == null) {
             convertView = LayoutInflater.from(context).inflate(resource, parent, false);
         }
         // Lookup view for data population
-        TextView rName = convertView.findViewById(R.id.restaurantNameTextView);
+        TextView bName = convertView.findViewById(R.id.branchNameTextView);
 
-        Button moveToBranches = convertView.findViewById(R.id.restaurantBranchesButton);
-        moveToBranches.setOnClickListener(new View.OnClickListener() {
+        Button moveToMenu = convertView.findViewById(R.id.branchMenuButton);
+        moveToMenu.setOnClickListener(new View.OnClickListener() {
 
             @Override
             /**
-             * move to BranchesActivity
+             * move to MenuActivity
              */
             public void onClick(View v) {
 
                 ListView parentView = (ListView) v.getParent().getParent().getParent();
-                int index = parentView.indexOfChild((View) v.getParent().getParent());
+//                int index = parentView.indexOfChild((View) v.getParent().getParent());
                 Intent moveToBranchesActivity =
-                        new Intent(getContext(), BranchesViewActivity.class);
-                moveToBranchesActivity.putExtra("restInd", index);
+                        new Intent(getContext(), MainActivity.class);
+//                moveToBranchesActivity.putExtra("restInd", index); // change to relevant menu
                 getContext().startActivity(moveToBranchesActivity);
             }
         });
 
-
         // Populate the data into the template view using the data object
-        rName.setText(restaurant.getName());
+        bName.setText(branch.getAddress().toString());
 
         // Return the completed view to render on screen
         return convertView;
