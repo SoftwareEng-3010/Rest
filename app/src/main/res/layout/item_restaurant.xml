@@ -1,22 +1,59 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="horizontal"
+    android:weightSum="100"
+    android:padding="40dp"
+    >
 
     <TextView
-        android:id="@+id/restaurantName"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Name: "
-        android:layout_marginTop="50px"
-        android:layout_marginLeft="50px"
+        android:layout_weight="33.3"
+        android:layout_marginTop="45dp"
+        android:text="Restaurant name" />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:id="@+id/restaurantNameTextView"
+        android:layout_weight="33.3"
+        android:layout_marginTop="40dp"
+        android:textSize="15sp"
+        android:textColor="@android:color/black"
+        android:text="Visit website"
         />
 
-<!--    <TextView-->
-<!--        android:id="@+id/restaurantNumberOfBranches"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:text="Number of branches: "-->
-<!--        android:layout_marginTop="200px"-->
-<!--        android:layout_marginLeft="0px"/>-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_weight="33.3">
+
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:id="@+id/restaurantBranchesButton"
+            android:textSize="20sp"
+            android:textColor="@android:color/black"
+            android:text="Go to branches"
+            />
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:id="@+id/someOtherActionButton"
+            android:textSize="20sp"
+            android:textColor="@android:color/black"
+            android:text="Some other data"
+            />
+
+    </LinearLayout>
+
+
 </LinearLayout>

@@ -64,7 +64,7 @@ public class RestSelector extends AppCompatActivity {
         listBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent viewRestIntent = new Intent(RestSelector.this, ViewRestActivity.class);
+                Intent viewRestIntent = new Intent(RestSelector.this, RestaurantsViewActivity.class);
                 startActivity(viewRestIntent);
             }
         });
