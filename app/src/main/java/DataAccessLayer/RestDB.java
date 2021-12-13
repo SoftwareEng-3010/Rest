@@ -45,11 +45,11 @@ public class RestDB {
      */
     private RestDB() {
 
-        // databse and collection references
+        // Database and collection references
         db = FirebaseFirestore.getInstance();
         restCollection = db.collection("restaurants");
 
-        // cached data
+        // Data holders
         restaurants = new ArrayList<>();
         menuMap = new HashMap<>();
 
