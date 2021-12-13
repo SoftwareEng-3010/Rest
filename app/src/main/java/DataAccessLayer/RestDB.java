@@ -4,6 +4,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import android.util.Log;
+import android.util.Pair;
+import android.view.Menu;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -15,9 +17,11 @@ import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 
+import BusinessEntities.Branch;
 import BusinessEntities.Item;
 import BusinessEntities.Restaurant;
 
@@ -34,6 +38,7 @@ public class RestDB {
     private CollectionReference restCollection;     // collection reference
 
     private List<Restaurant> restaurants;           // list of currently active restaurants
+    private HashMap<Pair, List<Item>> menuMap;
 
     /**
      * Private constructor
@@ -43,9 +48,10 @@ public class RestDB {
         // databse and collection references
         db = FirebaseFirestore.getInstance();
         restCollection = db.collection("restaurants");
-        restaurants = new ArrayList<>();
 
-//        fetchRestaurants();
+        // cached data
+        restaurants = new ArrayList<>();
+        menuMap = new HashMap<>();
 
         // listening on changes in restaurants collection and updating our list accordingly
         restCollection.addSnapshotListener(new EventListener<QuerySnapshot>() {
@@ -55,12 +61,9 @@ public class RestDB {
                     Log.w(TAG, "Listen failed " + error.getMessage());
                 }
                 else{
-                    Log.d(TAG, "Event occured in database");
                     List<DocumentSnapshot> documentSnapshots = value.getDocuments();
                     updateRestaurants(documentSnapshots);
-                    Log.d(TAG, "\tFrom RestDB " + restaurants.size());
                 }
-                Log.d(TAG, "\tAfter Event:  " + restaurants.size());
             }
         });
     }
@@ -80,15 +83,21 @@ public class RestDB {
         return instance;
     }
 
+    public List<Restaurant> getRestaurants(){
+        return this.restaurants;
+    }
+
+    public List<Item> getMenu(int restId, int branchId){
+        return menuMap.get(new Pair(restId, branchId));
+    }
+
     private void updateRestaurants(List<DocumentSnapshot> documentSnapshots){
-        Log.d(TAG, "Size of restaurants(Before update()): " + restaurants.size());
-//        restaurants.removeAll(restaurants);
         restaurants.clear();
         for(DocumentSnapshot d : documentSnapshots){
             Restaurant restaurant = d.toObject(Restaurant.class);
             restaurants.add(restaurant);
         }
-        Log.d(TAG, "Size of restaurants(After update()): " + restaurants.size());
+        updateMap();
     }
 
     private void fetchRestaurants(){
@@ -114,15 +123,15 @@ public class RestDB {
         });
     }
 
-    // temp method for testing querying on Firestore
-    public List<Restaurant> getRestaurants(){
-        Log.d(TAG, "Size of restaurants (GetRests()): " + restaurants.size());
-        return this.restaurants;
-    }
-
-    public List<Item> getMenu(int restId, int branchId){
-        // todo: fetch menu from db, according to restaurant id and branch id and return it
-        return null;
+    private void updateMap(){
+        if(restaurants != null){
+            for(Restaurant rest : restaurants){
+                for(Branch b : rest.getBranches()){
+                    Pair<Integer, Integer> ids = new Pair<>(rest.getId(), b.getId());
+                    menuMap.put(ids, b.getMenu());
+                }
+            }
+        }
     }
 }
 

@@ -22,6 +22,7 @@ public class QRReadHandler {
     private final String REST_ID_STRING = "restaurant_id";
     private final String BRANCH_ID_STRING = "branch_id";
     private final String TABLE_NUM_STRING = "table_num";
+    private final String INVALID_JSON_STRING = "Invalid scan";
 
     private Result result;
     private RestDB restDB;
@@ -36,10 +37,10 @@ public class QRReadHandler {
     }
 
 
-    public void handleRead(){
+    public void handleRead() throws Exception {
         JSONObject json = getJsonObject(result.getText());
         if(json == null){
-            // todo: let the calling method know the qrcode is not valid
+            throw new JSONException(INVALID_JSON_STRING);
         }
         else{
             try{
