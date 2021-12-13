@@ -37,24 +37,6 @@ public class RestaurantsViewActivity extends AppCompatActivity {
         );
 
         listView.setAdapter(adapter);
-
-
-
-
-        // Construct the data source
-//        List<Restaurant> restaurants = rdb.getRestaurants();
-//        // Create the adapter to convert the array to views
-//        RestaurantAdapter adapter = new RestaurantAdapter(
-//                this,
-//                R.layout.item_restaurant,
-//                restaurants);
-//        // Attach the adapter to a ListView
-//        ListView listView = findViewById(R.id.restaurantsListView);
-//        listView.setAdapter(adapter);
-//
-//        for (Restaurant r : restaurants) {
-//            adapter.add(r);
-//        }
     }
 
 }
