@@ -47,7 +47,8 @@ public class QRCodeActivity extends AppCompatActivity {
             }
         });
 
-        qrScanner.startPreview();
+        // TODO: 12/13/2021 Figure out how to start the emulated camera to use startPreview()
+//        qrScanner.startPreview();
 
 //        qrScannerView.setOnClickListener(new View.OnClickListener() {
 //            @Override
