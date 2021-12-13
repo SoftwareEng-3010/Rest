@@ -4,8 +4,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import android.util.Log;
-import android.util.Pair;
-import android.view.Menu;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -38,7 +36,7 @@ public class RestDB {
     private CollectionReference restCollection;     // collection reference
 
     private List<Restaurant> restaurants;           // list of currently active restaurants
-    private HashMap<Pair, List<Item>> menuMap;
+    private HashMap<Integer, HashMap<Integer, List<Item>>> menuMap; // Mapping of rest_id, branch_id and menu
 
     /**
      * Private constructor
@@ -88,7 +86,7 @@ public class RestDB {
     }
 
     public List<Item> getMenu(int restId, int branchId){
-        return menuMap.get(new Pair(restId, branchId));
+        return menuMap.get(restId).get(branchId);
     }
 
     private void updateRestaurants(List<DocumentSnapshot> documentSnapshots){
@@ -124,11 +122,14 @@ public class RestDB {
     }
 
     private void updateMap(){
+        menuMap.clear();
         if(restaurants != null){
             for(Restaurant rest : restaurants){
-                for(Branch b : rest.getBranches()){
-                    Pair<Integer, Integer> ids = new Pair<>(rest.getId(), b.getId());
-                    menuMap.put(ids, b.getMenu());
+                for(Branch branch : rest.getBranches()){
+                    if(menuMap.get(rest.getId()) != null){
+                        menuMap.put(rest.getId(), new HashMap<>());
+                    }
+                    menuMap.get(rest.getId()).put(branch.getId(), branch.getMenu());
                 }
             }
         }

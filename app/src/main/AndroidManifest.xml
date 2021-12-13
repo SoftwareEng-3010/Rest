@@ -26,6 +26,7 @@
         </activity>
 
         <activity android:name="UI.RestaurantsViewActivity" />
+        <activity android:name="UI.BranchesViewActivity" />
         <activity android:name="UI.LoginActivity" />
         <activity android:name="UI.RestSelector" />
         <activity android:name="UI.QRCodeActivity" />
