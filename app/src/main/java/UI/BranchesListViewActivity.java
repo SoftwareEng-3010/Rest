@@ -20,7 +20,7 @@ public class BranchesListViewActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.branch_view_activity);
+        setContentView(R.layout.activity_branch_scrollview);
         rdb = RestDB.getInstance();
     }
 

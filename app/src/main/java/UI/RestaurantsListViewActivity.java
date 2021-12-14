@@ -20,7 +20,7 @@ public class RestaurantsListViewActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.rest_view_activity);
+        setContentView(R.layout.activity_rest_scrollview);
         rdb = RestDB.getInstance();
     }
 

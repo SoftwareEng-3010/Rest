@@ -18,6 +18,7 @@ import com.example.exercise_5.R;
 import java.util.List;
 
 import BusinessEntities.Branch;
+import UI.BranchViewActivity;
 import UI.MainActivity;
 
 public class BranchAdapter extends ArrayAdapter<Branch> {
@@ -57,7 +58,7 @@ public class BranchAdapter extends ArrayAdapter<Branch> {
                 ListView parentView = (ListView) v.getParent().getParent().getParent();
 //                int index = parentView.indexOfChild((View) v.getParent().getParent());
                 Intent moveToBranchesActivity =
-                        new Intent(getContext(), MainActivity.class);
+                        new Intent(getContext(), BranchViewActivity.class);
 //                moveToBranchesActivity.putExtra("restInd", index); // change to relevant menu
                 getContext().startActivity(moveToBranchesActivity);
             }
