@@ -20,7 +20,8 @@ import com.google.firebase.auth.FirebaseUser;
 
 public class LoginActivity extends AppCompatActivity {
 
-    private static final String TAG = "EmailPassword";
+    private static final String TAGCredentials = "EmailPassword";
+    private static final String TAG = "LoginActivity";
 
     private FirebaseAuth mAuth;
     private EditText emailBox;
@@ -33,21 +34,18 @@ public class LoginActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.login_activity);
+        Log.e(TAG, "onCreate()");
 
-        super.onCreate(savedInstanceState);                         // Required
-        setContentView(R.layout.login_activity);                    // Connecting to login layout
-
-
-        mAuth = FirebaseAuth.getInstance();                         // getting firebase auth instance
+        mAuth = FirebaseAuth.getInstance(); // getting firebase auth instance
 
         // if a user is already signed in
         if (mAuth.getCurrentUser() != null) {
-            Intent moveToRestSelector = new Intent(this, RestaurantSelectionActivity.class);
-            moveToRestSelector.putExtra("UserEmail", mAuth.getCurrentUser().getEmail());
-            startActivity(moveToRestSelector);
+            moveToRestaurantSelectionActivity(mAuth.getCurrentUser());
         }
 
-        // References to textboxes
+        // References to TextBoxes
         emailBox = (EditText)findViewById(R.id.email);
         passwordBox = (EditText)findViewById(R.id.password);
 
@@ -55,7 +53,15 @@ public class LoginActivity extends AppCompatActivity {
         signinBtn = (Button)findViewById(R.id.signin_button);
         signupBtn = (Button)findViewById(R.id.sign_up_button);
         guestBtn = (Button)findViewById(R.id.guest_button);
+        initListeners();
 
+    }
+    private void moveToRestaurantSelectionActivity(FirebaseUser user) {
+        if (user == null) return;
+        Intent moveToRestSelector = new Intent(this, RestaurantSelectionActivity.class);
+        moveToRestSelector.putExtra("UserEmail", user.getEmail());
+        startActivity(moveToRestSelector);
+        finish();   // No need in this activity anymore.
     }
 
     private void signIn(String email, String password){
@@ -63,17 +69,21 @@ public class LoginActivity extends AppCompatActivity {
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
+                        FirebaseUser user = mAuth.getCurrentUser();
+                        if (user == null) return; // Something went wrong
+
                         if (task.isSuccessful()) {
-                            FirebaseUser user = mAuth.getCurrentUser();
-                            Toast.makeText(LoginActivity.this, "Email: "+ user.getEmail(), Toast.LENGTH_SHORT).show();
-                        } else {
+                            moveToRestaurantSelectionActivity(user);
+                        }
+                        else {
                             // If sign in fails, display a message to the user.
-                            Log.w(TAG, "signInWithEmail:failure", task.getException());
+                            Log.e(TAGCredentials, "signInWithEmail:failure", task.getException());
                             Toast.makeText(LoginActivity.this, "Authentication failed.",
                                     Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
+
     }
 
     private void createAccount(String email, String password){
@@ -83,10 +93,13 @@ public class LoginActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             FirebaseUser user = mAuth.getCurrentUser();
+                            if (user == null) return;
+                            Log.d(TAGCredentials, "User logged in with email: " + user.getEmail());
                         }
                         else {
-                            // If sign in fails, display a message to the user.
+                            // If sign in fails, display a message to the user and ask for pw.
                             Log.w(TAG, "createUserWithEmail:failure", task.getException());
+                            passwordBox.setText("");
                         }
                     }
                 });
@@ -128,9 +141,8 @@ public class LoginActivity extends AppCompatActivity {
              * move to RestSelector
              */
             public void onClick(View v) {
-                Intent moveToRestSelector = new Intent(LoginActivity.this, RestaurantSelectionActivity.class);
-                moveToRestSelector.putExtra("UserEmail", mAuth.getCurrentUser().getEmail());
-                startActivity(moveToRestSelector);
+                // TODO: 12/14/2021 Figure out what should be done here
+//                moveToRestaurantSelectionActivity(); // ?
             }
         });
     }
@@ -138,6 +150,6 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        initListeners();
+        Log.e(TAG, "onCreate()");
     }
 }
