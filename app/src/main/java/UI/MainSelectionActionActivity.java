@@ -23,7 +23,7 @@ import DataAccessLayer.RestDB;
  * 1. Scan a QRCode to start a restaurant session
  * 2. Manually select from Restaurants list.
  */
-public class RestaurantSelectionActivity extends AppCompatActivity {
+public class MainSelectionActionActivity extends AppCompatActivity {
     private RestDB restDB;
     private List<Restaurant> restaurants;
 
@@ -57,7 +57,7 @@ public class RestaurantSelectionActivity extends AppCompatActivity {
         listBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent viewRestIntent = new Intent(RestaurantSelectionActivity.this, RestaurantsViewActivity.class);
+                Intent viewRestIntent = new Intent(MainSelectionActionActivity.this, RestaurantsListViewActivity.class);
                 startActivity(viewRestIntent);
             }
         });
@@ -65,7 +65,7 @@ public class RestaurantSelectionActivity extends AppCompatActivity {
         qrBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent moveToQRScannerActivity = new Intent(RestaurantSelectionActivity.this, QRCodeActivity.class);
+                Intent moveToQRScannerActivity = new Intent(MainSelectionActionActivity.this, QRCodeActivity.class);
                 startActivity(moveToQRScannerActivity);
             }
         });

@@ -3,7 +3,6 @@ package UIAdapters;
 
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,12 +15,10 @@ import androidx.annotation.NonNull;
 
 import com.example.exercise_5.R;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import BusinessEntities.Restaurant;
-import DataAccessLayer.RestDB;
-import UI.BranchesViewActivity;
+import UI.BranchesListViewActivity;
 
 public class RestaurantAdapter extends ArrayAdapter<Restaurant> {
 
@@ -60,7 +57,7 @@ public class RestaurantAdapter extends ArrayAdapter<Restaurant> {
                 ListView parentView = (ListView) v.getParent().getParent().getParent();
                 int index = parentView.indexOfChild((View) v.getParent().getParent());
                 Intent moveToBranchesActivity =
-                        new Intent(getContext(), BranchesViewActivity.class);
+                        new Intent(getContext(), BranchesListViewActivity.class);
                 moveToBranchesActivity.putExtra("restInd", index);
                 getContext().startActivity(moveToBranchesActivity);
             }

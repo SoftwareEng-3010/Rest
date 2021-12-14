@@ -1,4 +1,4 @@
-package BusinessLogic;
+package UI;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.util.Log;
 
 import DataAccessLayer.RestDB;
-import UI.LoginActivity;
 
 public class MainActivity extends AppCompatActivity {
     private final String TAG = "MainActivity";

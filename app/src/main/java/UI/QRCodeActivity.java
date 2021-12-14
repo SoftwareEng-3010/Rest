@@ -180,7 +180,7 @@ public class QRCodeActivity extends AppCompatActivity {
                             int[] qrResult = QRReader.readQRResult(result);
 
                             Intent moveToBranchDisplay = new Intent(QRCodeActivity.this,
-                                    BranchDisplayActivity.class);
+                                    BranchViewActivity.class);
 
                             // Prepare data from next activity
                             moveToBranchDisplay.putExtra(SELECTED_RESTAURANT_INDEX, qrResult[0]);

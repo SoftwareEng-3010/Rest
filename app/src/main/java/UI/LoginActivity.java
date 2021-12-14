@@ -58,7 +58,7 @@ public class LoginActivity extends AppCompatActivity {
     }
     private void moveToRestaurantSelectionActivity(FirebaseUser user) {
         if (user == null) return;
-        Intent moveToRestSelector = new Intent(this, RestaurantSelectionActivity.class);
+        Intent moveToRestSelector = new Intent(this, MainSelectionActionActivity.class);
         moveToRestSelector.putExtra("UserEmail", user.getEmail());
         startActivity(moveToRestSelector);
         finish();   // No need in this activity anymore.

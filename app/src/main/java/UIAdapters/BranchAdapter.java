@@ -3,7 +3,6 @@ package UIAdapters;
 
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,13 +15,10 @@ import androidx.annotation.NonNull;
 
 import com.example.exercise_5.R;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import BusinessEntities.Branch;
-import BusinessEntities.Restaurant;
-import BusinessLogic.MainActivity;
-import DataAccessLayer.RestDB;
+import UI.MainActivity;
 
 public class BranchAdapter extends ArrayAdapter<Branch> {
 
