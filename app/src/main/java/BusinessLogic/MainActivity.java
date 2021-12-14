@@ -4,23 +4,27 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 
 import DataAccessLayer.RestDB;
 import UI.LoginActivity;
 
 public class MainActivity extends AppCompatActivity {
-
+    private final String TAG = "MainActivity";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.e(TAG, "onCreate()");
         RestDB.getInstance(); // initialize db class
     }
+
 
     @Override
     protected void onStart() {
         super.onStart();
-
+        Log.e(TAG, "onStart()");
         Intent intent  = new Intent(this, LoginActivity.class);
         startActivity(intent);
+//        finish();
     }
 }

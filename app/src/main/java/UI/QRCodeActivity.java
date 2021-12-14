@@ -50,6 +50,7 @@ public class QRCodeActivity extends AppCompatActivity {
         setContentView(R.layout.qrcode_activity);
         Log.e(TAG, "onCreate(QR)");
 
+        // Get the CodeScannerView brought from `com.budiyev`
         qrScannerView = (CodeScannerView)findViewById(R.id.scanner_view);
         text = (TextView)findViewById(R.id.qrTextView);
 
@@ -59,7 +60,13 @@ public class QRCodeActivity extends AppCompatActivity {
 
         setQRCodeCaptureCallbackMethod();
         setQRCodeErrorCallbackMethod();
+    }
 
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        Log.e(TAG, "Started QRCodeActivity (onStart())");
         // Check whether your app is running on a device that has a camera hardware feature.
         if (getApplicationContext().getPackageManager().hasSystemFeature(
                 PackageManager.FEATURE_CAMERA_ANY)) {
@@ -168,8 +175,6 @@ public class QRCodeActivity extends AppCompatActivity {
                         Toast.makeText(QRCodeActivity.this, result.getText(), Toast.LENGTH_SHORT).show();
                         Log.d(TAG, "QR Code found: " + result.getText());
                         try {
-                            qrScanner.stopPreview();
-                            qrScanner.releaseResources();
                             // QRReader will return an array of the relevant data
                             // to load a `Branch` menu, which is a List<Item> object
                             int[] qrResult = QRReader.readQRResult(result);
@@ -214,15 +219,14 @@ public class QRCodeActivity extends AppCompatActivity {
     @Override
     protected void onStop() {
         super.onStop();
-        Log.e(TAG, "QRCodeActivity stopped");
         qrScanner.stopPreview();
-        qrScanner.releaseResources(); // Release the camera connected to the Scanner object
+        qrScanner.releaseResources(); // Release the camera connected to the Scanner object.
+        finish();          // Stop this activity. Even on hold it seems to slow things down.
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        Log.e(TAG, "Resumed QRCodeActivity");
-        qrScanner.startPreview();
+//        qrScanner.startPreview();
     }
 }
