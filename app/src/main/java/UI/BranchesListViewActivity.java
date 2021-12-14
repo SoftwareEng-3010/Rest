@@ -16,6 +16,7 @@ import UIAdapters.BranchAdapter;
 public class BranchesListViewActivity extends AppCompatActivity {
 
     private RestDB rdb;
+    private ListView listView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,7 +29,7 @@ public class BranchesListViewActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
 
-        ListView listView = (ListView) findViewById(R.id.branchListView);
+        listView = (ListView) findViewById(R.id.branchListView);
 
         int index = getIntent().getIntExtra("restInd", 0);
         Restaurant selectedRestaurant = rdb.getRestaurants().get(index);

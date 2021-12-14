@@ -19,6 +19,7 @@ import java.util.List;
 
 import BusinessEntities.Branch;
 import UI.BranchViewActivity;
+import UI.BranchesListViewActivity;
 import UI.MainActivity;
 
 public class BranchAdapter extends ArrayAdapter<Branch> {
@@ -51,16 +52,18 @@ public class BranchAdapter extends ArrayAdapter<Branch> {
 
             @Override
             /**
-             * move to MenuActivity
+             * move to BranchViewActivity
              */
             public void onClick(View v) {
 
                 ListView parentView = (ListView) v.getParent().getParent().getParent();
-//                int index = parentView.indexOfChild((View) v.getParent().getParent());
-                Intent moveToBranchesActivity =
+                int restIndex = parentView.indexOfChild((View) v.getParent().getParent());
+                int branchIndex = parentView.indexOfChild((View) v.getParent().getParent());
+                Intent moveToSingleBranchActivity =
                         new Intent(getContext(), BranchViewActivity.class);
-//                moveToBranchesActivity.putExtra("restInd", index); // change to relevant menu
-                getContext().startActivity(moveToBranchesActivity);
+                moveToSingleBranchActivity.putExtra("restaurant_index", restIndex);
+                moveToSingleBranchActivity.putExtra("branch_index", branchIndex);
+                getContext().startActivity(moveToSingleBranchActivity);
             }
         });
 

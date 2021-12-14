@@ -107,6 +107,7 @@ public class RestDB {
 //        }
     }
 
+    // TODO: 12/14/2021 we need to decide if this method is necessary
     private void fetchRestaurants(){
 
         restCollection.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
