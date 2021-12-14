@@ -174,7 +174,6 @@ public class QRCodeActivity extends AppCompatActivity {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        Toast.makeText(QRCodeActivity.this, result.getText(), Toast.LENGTH_SHORT).show();
                         Log.d(TAG, "QR Code found: " + result.getText());
                         try {
                             // QRReader will return an array of the relevant data
@@ -184,7 +183,7 @@ public class QRCodeActivity extends AppCompatActivity {
                             Intent moveToBranchDisplay = new Intent(QRCodeActivity.this,
                                     BranchViewActivity.class);
 
-                            // Prepare data from next activity
+                            // Prepare data for next activity
                             moveToBranchDisplay.putExtra(SELECTED_RESTAURANT_INDEX, qrResult[0]);
                             moveToBranchDisplay.putExtra(SELECTED_BRANCH_INDEX, qrResult[1]);
                             moveToBranchDisplay.putExtra(SELECTED_TABLE_INDEX, qrResult[2]);
@@ -196,10 +195,8 @@ public class QRCodeActivity extends AppCompatActivity {
                             finish(); // activity can be finished
                         }
                         catch (Exception e) {
-                            Log.e(TAG, "The QRCode is not in the correct format or something");
+                            Log.e(TAG, "Invalid QRCode");
                             Log.e(TAG, e.getMessage());
-                            qrScanner.startPreview();
-//                            Toast.makeText(QRCodeActivity.this, "Invalid QRCode!", Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
@@ -223,14 +220,8 @@ public class QRCodeActivity extends AppCompatActivity {
     @Override
     protected void onStop() {
         super.onStop();
+        Log.e(TAG, "onStop()");
         qrScanner.stopPreview();
         qrScanner.releaseResources(); // Release the camera connected to the Scanner object.
-        finish();          // Stop this activity. Even on hold it seems to slow things down.
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-//        qrScanner.startPreview();
     }
 }

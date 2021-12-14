@@ -131,6 +131,9 @@ public class RestDB {
         });
     }
 
+    /**
+     * TODO: This method loads all menu`es of all restaurants which is not necessary
+     */
     private void updateMap(){
         menuMap.clear();
         if(restaurants != null){
