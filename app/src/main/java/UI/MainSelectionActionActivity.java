@@ -35,7 +35,7 @@ public class MainSelectionActionActivity extends AppCompatActivity {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.rest_selector);
+        setContentView(R.layout.activity_main_selection);
 
         String userEmail = getIntent().getStringExtra("UserEmail");
         Toast.makeText(this, "Welcome, " + userEmail, Toast.LENGTH_SHORT).show();
