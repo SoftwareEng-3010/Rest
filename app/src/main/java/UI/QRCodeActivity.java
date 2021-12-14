@@ -73,7 +73,8 @@ public class QRCodeActivity extends AppCompatActivity {
             // Continue with the part of your app's workflow that requires a
             // front-facing camera.
             Log.d(TAG, "PackageManager: There is a camera available");
-        } else {
+        }
+        else {
             // Gracefully degrade your app experience.
             Log.e(TAG, "PackageManager: There are NO cameras available to open");
         }
@@ -82,7 +83,8 @@ public class QRCodeActivity extends AppCompatActivity {
             Log.d(TAG, "PERMISSION GRANTED");
             // If the user have granted camera permission - start scanning QRCodes
             qrScanner.startPreview();
-        } else {
+        }
+        else {
             Log.e(TAG, "PERMISSION DECLINED");
             // If the user have not yet granted permissions
             // or have previously declined permissions - ask the user for permissions.
@@ -186,10 +188,12 @@ public class QRCodeActivity extends AppCompatActivity {
                             moveToBranchDisplay.putExtra(SELECTED_RESTAURANT_INDEX, qrResult[0]);
                             moveToBranchDisplay.putExtra(SELECTED_BRANCH_INDEX, qrResult[1]);
                             moveToBranchDisplay.putExtra(SELECTED_TABLE_INDEX, qrResult[2]);
+
                             // Stop camera and move to BranchDisplay
                             qrScanner.stopPreview();
                             qrScanner.releaseResources();
                             startActivity(moveToBranchDisplay);
+                            finish(); // activity can be finished
                         }
                         catch (Exception e) {
                             Log.e(TAG, "The QRCode is not in the correct format or something");
