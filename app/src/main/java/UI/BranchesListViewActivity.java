@@ -8,7 +8,7 @@ import android.widget.ListView;
 
 import com.example.exercise_5.R;
 
-import BusinessEntities.Branch;
+import UIAdapters.BranchSmallViewModel;
 import DataAccessLayer.RemoteRestDB;
 import UIAdapters.BranchAdapter;
 
@@ -32,10 +32,10 @@ public class BranchesListViewActivity extends AppCompatActivity {
 
         int restIndex = getIntent().getIntExtra("restInd", 0);
 
-        ArrayAdapter<Branch> adapter = new BranchAdapter(
+        ArrayAdapter<BranchSmallViewModel> adapter = new BranchAdapter(
                 this,
                 R.layout.item_branch,
-                rdb.getBranchs(restIndex);
+                rdb.getBranches(restIndex)
         );
 
         listView.setAdapter(adapter);

@@ -2,11 +2,8 @@ package DataAccessLayer;
 
 import android.util.Log;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
@@ -18,6 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import BusinessEntities.Branch;
+import UIAdapters.BranchSmallViewModel;
 import BusinessEntities.Restaurant;
 
 
@@ -98,7 +96,7 @@ public class RemoteRestDB {
         return null;
     }
 
-    public List<Branch> getBranches(int restId){
+    public List<BranchSmallViewModel> getBranches(int restId){
         return null;
     }
 

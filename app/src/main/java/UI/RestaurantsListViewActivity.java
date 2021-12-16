@@ -8,12 +8,8 @@ import android.widget.ListView;
 
 import com.example.exercise_5.R;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import BusinessEntities.Restaurant;
 import DataAccessLayer.RemoteRestDB;
-import DataAccessLayer.RestDB;
 import UIAdapters.RestaurantAdapter;
 
 public class RestaurantsListViewActivity extends AppCompatActivity {

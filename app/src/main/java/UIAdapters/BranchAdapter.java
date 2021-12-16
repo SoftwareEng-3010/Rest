@@ -17,19 +17,16 @@ import com.example.exercise_5.R;
 
 import java.util.List;
 
-import BusinessEntities.Branch;
 import UI.BranchViewActivity;
-import UI.BranchesListViewActivity;
-import UI.MainActivity;
 
-public class BranchAdapter extends ArrayAdapter<Branch> {
+public class BranchAdapter extends ArrayAdapter<BranchSmallViewModel> {
 
     private static final String TAG = "BranchAdapter";
     private Context context;
     private int resource;
-    private List<Branch> branches;
+    private List<BranchSmallViewModel> branches;
 
-    public BranchAdapter(@NonNull Context context, int resource, List<Branch> branches) {
+    public BranchAdapter(@NonNull Context context, int resource, List<BranchSmallViewModel> branches) {
         super(context, resource, branches);
         this.branches = branches;
         this.context = context;
@@ -39,7 +36,7 @@ public class BranchAdapter extends ArrayAdapter<Branch> {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         // Get the data item for this position
-        Branch branch = branches.get(position);
+        BranchSmallViewModel branch = branches.get(position);
         // Check if an existing view is being reused, otherwise inflate the view
         if (convertView == null) {
             convertView = LayoutInflater.from(context).inflate(resource, parent, false);
