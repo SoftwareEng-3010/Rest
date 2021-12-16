@@ -15,7 +15,7 @@ public class Restaurant {
     // empty constructor for deserializing Firestore documents
     public Restaurant(){}
 
-    public Restaurant(int id, String name, ArrayList<Branch> branches) {
+    public Restaurant(int id, String name, List<Branch> branches) {
         this.id = id;
         this.name = name;
         this.branches = branches;
@@ -31,7 +31,7 @@ public class Restaurant {
         this.name = name;
     }
 
-    public void setBranches(ArrayList<Branch> branches) {
+    public void setBranches(List<Branch> branches) {
         this.branches = branches;
     }
 

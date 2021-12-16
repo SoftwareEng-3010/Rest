@@ -6,14 +6,13 @@ public class Item {
     private String imageURL;
     private String name;
     private String serviceUnit;
-
     private boolean inStock;
-
     private int price;
 
     public Item(){}
 
-    public Item(String description, String imageURL, String name, String serviceUnit, boolean inStock, int price) {
+    public Item(String description, String imageURL, String name, String serviceUnit,
+                boolean inStock, int price) {
         this.description = description;
         this.imageURL = imageURL;
         this.name = name;

@@ -2,31 +2,39 @@ package BusinessEntities;
 
 import com.google.firebase.firestore.PropertyName;
 
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.List;
 
 public class Branch {
 
     // private fields
-    // TODO: 12/13/2021 change address field to Address object instead of map, also in firestore
-    private HashMap<String, String> address;
+    private Address address;
     private int id;
     private boolean isKosher;
-    private ArrayList<Item> menu;
+    private List<Item> menu;
+    private List<Table> tables;
 
     // empty constructor for deserializing Firestore document
     public Branch(){}
 
-    public Branch(HashMap<String, String> address, int id, boolean isKosher, ArrayList<Item> menu) {
+    public Branch(Address address, int id, boolean isKosher,
+                  List<Item> menu, List<Table> tables) {
         this.address = address;
         this.id = id;
         this.isKosher = isKosher;
         this.menu = menu;
+        this.tables = tables;
     }
 
-    // setters & getters
-    public void setAddress(HashMap<String, String> address) {
+    public Address getAddress() {
+        return address;
+    }
+
+    public void setAddress(Address address) {
         this.address = address;
+    }
+
+    public int getId() {
+        return id;
     }
 
     public void setId(int id) {
@@ -34,40 +42,39 @@ public class Branch {
     }
 
     @PropertyName("isKosher")
-    public void setIsKosher(boolean isKosher) {
-        this.isKosher = isKosher;
-    }
-
-    public void setMenu(ArrayList<Item> menu) {
-        this.menu = menu;
-    }
-
-    public HashMap<String, String> getAddress() {
-        return address;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    @PropertyName("isKosher")
-    public boolean getIsKosher() {
+    public boolean isKosher() {
         return isKosher;
     }
 
-    public ArrayList<Item> getMenu() {
+    @PropertyName("isKosher")
+    public void setKosher(boolean kosher) {
+        isKosher = kosher;
+    }
+
+    public List<Item> getMenu() {
         return menu;
     }
 
-    // A String representation of a Restaurant object
+    public void setMenu(List<Item> menu) {
+        this.menu = menu;
+    }
+
+    public List<Table> getTables() {
+        return tables;
+    }
+
+    public void setTables(List<Table> tables) {
+        this.tables = tables;
+    }
+
     @Override
-    public String toString(){
-        String res = "";
-        res += "Branch id: " + this.id + '\n' +
-                "Branch kosher status: " + this.isKosher + '\n';
-        for(String s : this.address.values()){
-            res += ' ' + s + ' ';
-        }
-        return res + '\n';
+    public String toString() {
+        return "Branch{" +
+                "address=" + address +
+                ", id=" + id +
+                ", isKosher=" + isKosher +
+                ", menu=" + menu +
+                ", tables=" + tables +
+                '}';
     }
 }
