@@ -12,6 +12,7 @@ import com.example.exercise_5.R;
 import BusinessEntities.Branch;
 import BusinessEntities.Item;
 import BusinessEntities.Restaurant;
+import DataAccessLayer.RemoteRestDB;
 import DataAccessLayer.RestDB;
 import UIAdapters.BranchDisplayAdapter;
 
@@ -23,7 +24,7 @@ public class BranchViewActivity extends AppCompatActivity {
 
     private final String TAG = "BranchViewActivity";
 
-    private RestDB rdb;
+    private RemoteRestDB rdb;
     private ListView listView;
 
     private TextView branchNameText;
@@ -32,7 +33,7 @@ public class BranchViewActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_branch_view);
-        rdb = RestDB.getInstance();
+        rdb = RemoteRestDB.getInstance();
     }
 
     @Override

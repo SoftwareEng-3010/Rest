@@ -9,7 +9,7 @@ import org.json.JSONObject;
 
 import BusinessEntities.Branch;
 import BusinessEntities.Restaurant;
-import DataAccessLayer.RestDB;
+import DataAccessLayer.RemoteRestDB;
 
 /**
  * QRReader class will handle the validation and parsing of
@@ -25,8 +25,8 @@ public class QRReader {
     private static final String SELECTED_BRANCH_INDEX = "branch_index";
     private static final String SELECTED_TABLE_INDEX = "table_index";
 
-    private static final RestDB restDB =
-            RestDB.getInstance(); // Database reference, statically initialized
+    private static final RemoteRestDB restDB =
+            RemoteRestDB.getInstance(); // Database reference, statically initialized
 
     /**
      * A private empty constructor to prevent object instantiation
@@ -90,6 +90,9 @@ public class QRReader {
 
             JSONObject json = getJsonObject(result.getText());
 
+            // TODO: 12/16/2021 Check if QRCode scan validation is still good after
+            //  removing `Branch` list from Restaurant.
+
             // Parse relevant JSON keys. If no such key is found - an exception will be thrown.
             int restIndex = json.getInt(SELECTED_RESTAURANT_INDEX);
             int branchIndex = json.getInt(SELECTED_BRANCH_INDEX);
@@ -99,11 +102,6 @@ public class QRReader {
             if (restIndex >= restDB.getRestaurants().size())
                 throw new Exception("Restaurant index given exceeds the given restaurant list size which is "
                         + restDB.getRestaurants().size());
-            Restaurant restaurant = restDB.getRestaurants().get(restIndex);
-            if (branchIndex >= restaurant.getNumOfBranches())
-                throw new Exception("Branch index given exceeds the given restaurant list size which is "
-                    + restDB.getRestaurants().size());
-            Branch branch = restaurant.getBranches().get(branchIndex);
 
             // Check about Table information in the QRCode
             // The JSON object seems to be fine

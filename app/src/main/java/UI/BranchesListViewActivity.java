@@ -9,9 +9,7 @@ import android.widget.ListView;
 import com.example.exercise_5.R;
 
 import BusinessEntities.Branch;
-import BusinessEntities.Restaurant;
 import DataAccessLayer.RemoteRestDB;
-import DataAccessLayer.RestDB;
 import UIAdapters.BranchAdapter;
 
 public class BranchesListViewActivity extends AppCompatActivity {
@@ -32,12 +30,12 @@ public class BranchesListViewActivity extends AppCompatActivity {
 
         listView = (ListView) findViewById(R.id.branchListView);
 
-        int index = getIntent().getIntExtra("restInd", 0);
+        int restIndex = getIntent().getIntExtra("restInd", 0);
 
         ArrayAdapter<Branch> adapter = new BranchAdapter(
                 this,
                 R.layout.item_branch,
-
+                rdb.getBranchs(restIndex);
         );
 
         listView.setAdapter(adapter);

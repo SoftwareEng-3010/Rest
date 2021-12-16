@@ -42,10 +42,10 @@ public class RestaurantAdapter extends ArrayAdapter<Restaurant> {
         if (convertView == null) {
             convertView = LayoutInflater.from(context).inflate(resource, parent, false);
         }
-        // Lookup view for data population
-        TextView rNameTextView = convertView.findViewById(R.id.restaurantNameTextView);
 
+        // Lookup view for data population
         Button moveToBranchesBtn = convertView.findViewById(R.id.restaurantBranchesButton);
+        moveToBranchesBtn.setText(restaurantName);
         moveToBranchesBtn.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -63,9 +63,6 @@ public class RestaurantAdapter extends ArrayAdapter<Restaurant> {
             }
         });
 
-
-        // Populate the data into the template view using the data object
-        rNameTextView.setText(restaurantName);
 
         // Return the completed view to render on screen
         return convertView;

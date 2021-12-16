@@ -10,17 +10,19 @@ public class Branch {
     private Address address;
     private int id;
     private boolean isKosher;
+    private boolean isOpen;
     private List<Item> menu;
     private List<Table> tables;
 
     // empty constructor for deserializing Firestore document
     public Branch(){}
 
-    public Branch(Address address, int id, boolean isKosher,
+    public Branch(Address address, int id, boolean isKosher, boolean isOpen,
                   List<Item> menu, List<Table> tables) {
         this.address = address;
         this.id = id;
         this.isKosher = isKosher;
+        this.isOpen = isOpen;
         this.menu = menu;
         this.tables = tables;
     }
@@ -31,6 +33,14 @@ public class Branch {
 
     public void setAddress(Address address) {
         this.address = address;
+    }
+
+    public boolean isOpen() {
+        return isOpen;
+    }
+
+    public void setOpen(boolean open) {
+        isOpen = open;
     }
 
     public int getId() {
