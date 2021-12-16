@@ -27,7 +27,24 @@ public class RemoteRestDB {
     private CollectionReference restCollection;     // collection reference
 
     private RemoteRestDB(){
+        // Database and collection references
+        db = FirebaseFirestore.getInstance();
+        restCollection = db.collection("restaurants");
+    }
 
+    /**
+     * Thread safe getInstance method that returns the single static instance of this class
+     * @return RestDB single static instance
+     */
+    public static RestDB getInstance(){
+        if(instance == null){
+            synchronized (RestDB.class){
+                if(instance == null){
+                    instance = new RestDB();
+                }
+            }
+        }
+        return instance;
     }
 
     public List<String> getRestNames(){
