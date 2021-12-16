@@ -1,0 +1,8 @@
+{ "restaurant_id": 1, "branch_id" : 1 , "table_num" : 1}
+{ "restaurant_id": 1, "branch_id" : 1 , "table_num" : 2}
+{ "restaurant_id": 1, "branch_id" : 2 , "table_num" : 1}
+{ "restaurant_id": 1, "branch_id" : 2 , "table_num" : 2}
+{ "restaurant_id": 2, "branch_id" : 1 , "table_num" : 1}
+{ "restaurant_id": 2, "branch_id" : 1 , "table_num" : 2}
+{ "restaurant_id": 3, "branch_id" : 1 , "table_num" : 1}
+{ "restaurant_id": 3, "branch_id" : 1 , "table_num" : 2}
