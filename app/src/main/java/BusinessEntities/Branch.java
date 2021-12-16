@@ -2,28 +2,56 @@ package BusinessEntities;
 
 import java.util.List;
 
-import UIAdapters.BranchSmallViewModel;
+public class Branch {
 
-public class Branch extends BranchSmallViewModel {
-
-    /**
-     * Protected fields are passed by inheritance.
-     *         protected Address address;
-     *         protected int id;
-     *         protected boolean isKosher;
-     *         protected boolean isOpen;
-     */
 
     // Private fields
-    protected List<Item> menu;
-    protected List<Table> tables;
+    private Address address;
+    private int id;
+    private boolean isKosher;
+    private boolean isOpen;
+    private List<Item> menu;
+    private List<Table> tables;
 
-    public Branch(Address address, int id, boolean isKosher, boolean isOpen,
-                  List<Item> menu, List<Table> tables) {
-        super(address, id, isKosher, isOpen);
-
+    public Branch(Address address, int id, boolean isKosher, boolean isOpen, List<Item> menu, List<Table> tables) {
+        this.address = address;
+        this.id = id;
+        this.isKosher = isKosher;
+        this.isOpen = isOpen;
         this.menu = menu;
         this.tables = tables;
+    }
+
+    public Address getAddress() {
+        return address;
+    }
+
+    public void setAddress(Address address) {
+        this.address = address;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public boolean isKosher() {
+        return isKosher;
+    }
+
+    public void setKosher(boolean kosher) {
+        isKosher = kosher;
+    }
+
+    public boolean isOpen() {
+        return isOpen;
+    }
+
+    public void setOpen(boolean open) {
+        isOpen = open;
     }
 
     public List<Item> getMenu() {
@@ -48,6 +76,7 @@ public class Branch extends BranchSmallViewModel {
                 "address=" + address +
                 ", id=" + id +
                 ", isKosher=" + isKosher +
+                ", isOpen=" + isOpen +
                 ", menu=" + menu +
                 ", tables=" + tables +
                 '}';

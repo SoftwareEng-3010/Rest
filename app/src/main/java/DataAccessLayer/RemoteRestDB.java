@@ -2,20 +2,23 @@ package DataAccessLayer;
 
 import android.util.Log;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import BusinessEntities.Branch;
-import UIAdapters.BranchSmallViewModel;
 import BusinessEntities.Restaurant;
 
 
@@ -35,6 +38,8 @@ public class RemoteRestDB {
 
     private FirebaseFirestore db;                   // db reference
     private CollectionReference restCollection;     // collection reference
+
+    private List <Branch> branches;
 
     private RemoteRestDB(){
         // Database and collection references
@@ -85,7 +90,7 @@ public class RemoteRestDB {
         return restNames;
     }
 
-    public List<String> getBranchAddresses(int restId, int branchId){
+    public List<String> getBranchAddresses(int restId){
         return null;
     }
 
@@ -96,8 +101,26 @@ public class RemoteRestDB {
         return null;
     }
 
-    public List<BranchSmallViewModel> getBranches(int restId){
-        return null;
+    public List<Branch> getBranches(String restName) {
+        restCollection.whereEqualTo("name", restName)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            if (task.getResult().size() != 1){
+                                throw new RuntimeException("RestID provided does not return a single document.");
+                            }
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                branches = (List<Branch>) document.get("branches");
+                                for (Branch branch : branches) {
+                                    Log.d(TAG, Integer.toString(branch.getId()));
+                                }
+                            }
+                        }
+                    }
+                });
+        return branches;
     }
 
     /**

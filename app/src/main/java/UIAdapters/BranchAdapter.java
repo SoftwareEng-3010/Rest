@@ -17,16 +17,17 @@ import com.example.exercise_5.R;
 
 import java.util.List;
 
+import BusinessEntities.Branch;
 import UI.BranchViewActivity;
 
-public class BranchAdapter extends ArrayAdapter<BranchSmallViewModel> {
+public class BranchAdapter extends ArrayAdapter<Branch> {
 
     private static final String TAG = "BranchAdapter";
     private Context context;
     private int resource;
-    private List<BranchSmallViewModel> branches;
+    private List<Branch> branches;
 
-    public BranchAdapter(@NonNull Context context, int resource, List<BranchSmallViewModel> branches) {
+    public BranchAdapter(@NonNull Context context, int resource, List<Branch> branches) {
         super(context, resource, branches);
         this.branches = branches;
         this.context = context;
@@ -36,7 +37,7 @@ public class BranchAdapter extends ArrayAdapter<BranchSmallViewModel> {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         // Get the data item for this position
-        BranchSmallViewModel branch = branches.get(position);
+        Branch branch = branches.get(position);
         String branchAddress = branch.getAddress().toString();
 
         // Check if an existing view is being reused, otherwise inflate the view
@@ -46,6 +47,7 @@ public class BranchAdapter extends ArrayAdapter<BranchSmallViewModel> {
 
         // Lookup view for data population
         Button moveToMenu = convertView.findViewById(R.id.branchMenuButton);
+        moveToMenu.setText(branchAddress);
         moveToMenu.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -55,12 +57,11 @@ public class BranchAdapter extends ArrayAdapter<BranchSmallViewModel> {
             public void onClick(View v) {
 
                 ListView parentView = (ListView) v.getParent().getParent().getParent();
-                int restIndex = parentView.indexOfChild((View) v.getParent().getParent());
                 int branchIndex = parentView.indexOfChild((View) v.getParent().getParent());
                 Intent moveToSingleBranchActivity =
                         new Intent(getContext(), BranchViewActivity.class);
-                moveToSingleBranchActivity.putExtra("restaurant_index", restIndex);
-                moveToSingleBranchActivity.putExtra("branch_index", branchIndex);
+                String bAddress = branches.get(branchIndex).getAddress().toString();
+                moveToSingleBranchActivity.putExtra("branchAddress", bAddress);
                 getContext().startActivity(moveToSingleBranchActivity);
             }
         });
