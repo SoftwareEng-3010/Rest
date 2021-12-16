@@ -3,6 +3,11 @@ package DataAccessLayer;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import BusinessEntities.Branch;
+
 
 // todo: 1. getRestNames()
 // todo: 2. getBranchAddresses(restId, branchId)
@@ -23,6 +28,21 @@ public class RemoteRestDB {
 
     private RemoteRestDB(){
 
+    }
+
+    public List<String> getRestNames(){
+        return null;
+    }
+
+    public List<String> getBranchAddresses(int restId, int branchId){
+        return null;
+    }
+
+    public List<Integer> getOpenTables(int restId, int branchId){
+        return null;
+    }
+    public Branch getBranch(int restId, int branchId){
+        return null;
     }
 
 }
