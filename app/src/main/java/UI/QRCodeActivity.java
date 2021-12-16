@@ -47,7 +47,7 @@ public class QRCodeActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.qrcode_activity);
+        setContentView(R.layout.activity_qrcode);
         Log.e(TAG, "onCreate(QR)");
 
         // Get the CodeScannerView brought from `com.budiyev`
@@ -73,7 +73,8 @@ public class QRCodeActivity extends AppCompatActivity {
             // Continue with the part of your app's workflow that requires a
             // front-facing camera.
             Log.d(TAG, "PackageManager: There is a camera available");
-        } else {
+        }
+        else {
             // Gracefully degrade your app experience.
             Log.e(TAG, "PackageManager: There are NO cameras available to open");
         }
@@ -82,7 +83,8 @@ public class QRCodeActivity extends AppCompatActivity {
             Log.d(TAG, "PERMISSION GRANTED");
             // If the user have granted camera permission - start scanning QRCodes
             qrScanner.startPreview();
-        } else {
+        }
+        else {
             Log.e(TAG, "PERMISSION DECLINED");
             // If the user have not yet granted permissions
             // or have previously declined permissions - ask the user for permissions.
@@ -172,7 +174,6 @@ public class QRCodeActivity extends AppCompatActivity {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        Toast.makeText(QRCodeActivity.this, result.getText(), Toast.LENGTH_SHORT).show();
                         Log.d(TAG, "QR Code found: " + result.getText());
                         try {
                             // QRReader will return an array of the relevant data
@@ -180,22 +181,22 @@ public class QRCodeActivity extends AppCompatActivity {
                             int[] qrResult = QRReader.readQRResult(result);
 
                             Intent moveToBranchDisplay = new Intent(QRCodeActivity.this,
-                                    BranchDisplayActivity.class);
+                                    BranchViewActivity.class);
 
-                            // Prepare data from next activity
+                            // Prepare data for next activity
                             moveToBranchDisplay.putExtra(SELECTED_RESTAURANT_INDEX, qrResult[0]);
                             moveToBranchDisplay.putExtra(SELECTED_BRANCH_INDEX, qrResult[1]);
                             moveToBranchDisplay.putExtra(SELECTED_TABLE_INDEX, qrResult[2]);
+
                             // Stop camera and move to BranchDisplay
                             qrScanner.stopPreview();
                             qrScanner.releaseResources();
                             startActivity(moveToBranchDisplay);
+                            finish(); // activity can be finished
                         }
                         catch (Exception e) {
-                            Log.e(TAG, "The QRCode is not in the correct format or something");
+                            Log.e(TAG, "Invalid QRCode");
                             Log.e(TAG, e.getMessage());
-                            qrScanner.startPreview();
-//                            Toast.makeText(QRCodeActivity.this, "Invalid QRCode!", Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
@@ -219,14 +220,8 @@ public class QRCodeActivity extends AppCompatActivity {
     @Override
     protected void onStop() {
         super.onStop();
+        Log.e(TAG, "onStop()");
         qrScanner.stopPreview();
         qrScanner.releaseResources(); // Release the camera connected to the Scanner object.
-        finish();          // Stop this activity. Even on hold it seems to slow things down.
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-//        qrScanner.startPreview();
     }
 }

@@ -12,7 +12,7 @@ import BusinessEntities.Restaurant;
 import DataAccessLayer.RestDB;
 import UIAdapters.RestaurantAdapter;
 
-public class RestaurantsViewActivity extends AppCompatActivity {
+public class RestaurantsListViewActivity extends AppCompatActivity {
 
     private RestDB rdb;
     private ListView listView;
@@ -20,7 +20,7 @@ public class RestaurantsViewActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.rest_view_activity);
+        setContentView(R.layout.activity_rest_scrollview);
         rdb = RestDB.getInstance();
     }
 

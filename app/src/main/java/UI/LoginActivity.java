@@ -35,7 +35,7 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.login_activity);
+        setContentView(R.layout.activity_login);
         Log.e(TAG, "onCreate()");
 
         mAuth = FirebaseAuth.getInstance(); // getting firebase auth instance
@@ -58,7 +58,7 @@ public class LoginActivity extends AppCompatActivity {
     }
     private void moveToRestaurantSelectionActivity(FirebaseUser user) {
         if (user == null) return;
-        Intent moveToRestSelector = new Intent(this, RestaurantSelectionActivity.class);
+        Intent moveToRestSelector = new Intent(this, MainSelectionActionActivity.class);
         moveToRestSelector.putExtra("UserEmail", user.getEmail());
         startActivity(moveToRestSelector);
         finish();   // No need in this activity anymore.
@@ -69,11 +69,14 @@ public class LoginActivity extends AppCompatActivity {
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
-                        FirebaseUser user = mAuth.getCurrentUser();
-                        if (user == null) return; // Something went wrong
 
                         if (task.isSuccessful()) {
-                            moveToRestaurantSelectionActivity(user);
+                            FirebaseUser user = mAuth.getCurrentUser();
+                            if (user == null) return; // Something went wrong
+                            Intent moveToRestSelector = new Intent(LoginActivity.this, MainSelectionActionActivity.class);
+                            moveToRestSelector.putExtra("UserEmail", user.getEmail());
+                            startActivity(moveToRestSelector);
+                            finish();   // No need in this activity anymore.
                         }
                         else {
                             // If sign in fails, display a message to the user.

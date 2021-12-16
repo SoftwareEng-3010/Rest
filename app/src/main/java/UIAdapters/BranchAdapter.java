@@ -3,7 +3,6 @@ package UIAdapters;
 
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,13 +15,12 @@ import androidx.annotation.NonNull;
 
 import com.example.exercise_5.R;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import BusinessEntities.Branch;
-import BusinessEntities.Restaurant;
-import BusinessLogic.MainActivity;
-import DataAccessLayer.RestDB;
+import UI.BranchViewActivity;
+import UI.BranchesListViewActivity;
+import UI.MainActivity;
 
 public class BranchAdapter extends ArrayAdapter<Branch> {
 
@@ -54,16 +52,18 @@ public class BranchAdapter extends ArrayAdapter<Branch> {
 
             @Override
             /**
-             * move to MenuActivity
+             * move to BranchViewActivity
              */
             public void onClick(View v) {
 
                 ListView parentView = (ListView) v.getParent().getParent().getParent();
-//                int index = parentView.indexOfChild((View) v.getParent().getParent());
-                Intent moveToBranchesActivity =
-                        new Intent(getContext(), MainActivity.class);
-//                moveToBranchesActivity.putExtra("restInd", index); // change to relevant menu
-                getContext().startActivity(moveToBranchesActivity);
+                int restIndex = parentView.indexOfChild((View) v.getParent().getParent());
+                int branchIndex = parentView.indexOfChild((View) v.getParent().getParent());
+                Intent moveToSingleBranchActivity =
+                        new Intent(getContext(), BranchViewActivity.class);
+                moveToSingleBranchActivity.putExtra("restaurant_index", restIndex);
+                moveToSingleBranchActivity.putExtra("branch_index", branchIndex);
+                getContext().startActivity(moveToSingleBranchActivity);
             }
         });
 

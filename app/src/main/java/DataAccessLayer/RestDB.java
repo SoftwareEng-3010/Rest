@@ -85,19 +85,29 @@ public class RestDB {
         return this.restaurants;
     }
 
-    public List<Item> getMenu(int restId, int branchId){
+    public List<Item>/*Menu*/ getMenu(int restId, int branchId){
         return menuMap.get(restId).get(branchId);
     }
 
     private void updateRestaurants(List<DocumentSnapshot> documentSnapshots){
-        restaurants.clear();
+
         for(DocumentSnapshot d : documentSnapshots){
             Restaurant restaurant = d.toObject(Restaurant.class);
             restaurants.add(restaurant);
         }
         updateMap();
+//        try {
+//            List<Restaurant> temp = DocumentParser
+//                    .parseRestaurantFromDocs(documentSnapshots);
+//            restaurants.clear();
+//            restaurants = new ArrayList<>(temp);
+//        }
+//        catch (Exception e) {
+//            Log.d(TAG, "An exception occurred in updateRestaurants()");
+//        }
     }
 
+    // TODO: 12/14/2021 we need to decide if this method is necessary
     private void fetchRestaurants(){
 
         restCollection.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -114,13 +124,16 @@ public class RestDB {
                         restaurants.add(restaurant);
                     }
                 }
-                else{
+                else {
                     Log.d(TAG, task.getException().getMessage());
                 }
             }
         });
     }
 
+    /**
+     * TODO: This method loads all menu`es of all restaurants which is not necessary
+     */
     private void updateMap(){
         menuMap.clear();
         if(restaurants != null){

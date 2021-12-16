@@ -18,7 +18,7 @@
         android:theme="@style/Theme.Exercise_5" >
 
         <activity
-            android:name="BusinessLogic.MainActivity"
+            android:name="UI.MainActivity"
             android:exported="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -26,11 +26,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="UI.RestaurantsViewActivity" />
-        <activity android:name="UI.BranchDisplayActivity" />
-        <activity android:name="UI.BranchesViewActivity" />
+        <activity android:name="UI.RestaurantsListViewActivity" />
+        <activity android:name="UI.BranchViewActivity" />
+        <activity android:name="UI.BranchesListViewActivity" />
         <activity android:name="UI.LoginActivity" />
-        <activity android:name="UI.RestaurantSelectionActivity" />
+        <activity android:name="UI.MainSelectionActionActivity" />
         <activity android:name="UI.QRCodeActivity" />
     </application>
 

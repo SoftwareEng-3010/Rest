@@ -13,14 +13,15 @@ import BusinessEntities.Restaurant;
 import DataAccessLayer.RestDB;
 import UIAdapters.BranchAdapter;
 
-public class BranchesViewActivity extends AppCompatActivity {
+public class BranchesListViewActivity extends AppCompatActivity {
 
     private RestDB rdb;
+    private ListView listView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.branch_view_activity);
+        setContentView(R.layout.activity_branch_scrollview);
         rdb = RestDB.getInstance();
     }
 
@@ -28,7 +29,7 @@ public class BranchesViewActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
 
-        ListView listView = (ListView) findViewById(R.id.branchListView);
+        listView = (ListView) findViewById(R.id.branchListView);
 
         int index = getIntent().getIntExtra("restInd", 0);
         Restaurant selectedRestaurant = rdb.getRestaurants().get(index);
