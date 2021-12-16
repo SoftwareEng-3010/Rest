@@ -21,7 +21,7 @@ import BusinessEntities.Branch;
 import BusinessEntities.Restaurant;
 
 
-// todo: 1. getRestNames()
+// todo: 1. getRestNames() - v
 // todo: 2. getBranchAddresses(restId, branchId)
 // todo: 3. getOpenTables(restId, branchId)
 // todo: 4. getBranch(restId, branchId)
@@ -50,7 +50,7 @@ public class RemoteRestDB {
      */
     public static RemoteRestDB getInstance(){
         if(instance == null){
-            synchronized (RestDB.class){
+            synchronized (RemoteRestDB.class){
                 if(instance == null){
                     instance = new RemoteRestDB();
                 }
@@ -59,7 +59,12 @@ public class RemoteRestDB {
         return instance;
     }
 
+    /**
+     * Gets the names of all the restaurants in our collection
+     * @return the names of all the restaurants
+     */
     public List<String> getRestNames(){
+
         // the list we will be returning
         ArrayList<String> restNames = new ArrayList<>();
 
@@ -73,12 +78,12 @@ public class RemoteRestDB {
                 else{
                     List<DocumentSnapshot> documentSnapshots = value.getDocuments();
                     for(DocumentSnapshot documentSnapshot : documentSnapshots){
-
+                        String restName = (String) documentSnapshot.get("name");
+                        restNames.add(restName);
                     }
                 }
             }
         });
-
         return restNames;
     }
 
@@ -93,8 +98,35 @@ public class RemoteRestDB {
         return null;
     }
 
-    public List<Restaurant> getRestaurants(){
+    public List<Branch> getBranches(int restId){
         return null;
+    }
+
+    /**
+     * Gets a list of all the restaurants in our collection
+     * @return all the restaurants in our collection
+     */
+    public List<Restaurant> getRestaurants(){
+        // the list we will be returning
+        ArrayList<Restaurant> restaurants = new ArrayList<>();
+
+        // document references
+        restCollection.addSnapshotListener(new EventListener<QuerySnapshot>() {
+            @Override
+            public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+                if(error != null){
+                    Log.w(TAG, "Listen failed " + error.getMessage());
+                }
+                else{
+                    List<DocumentSnapshot> documentSnapshots = value.getDocuments();
+                    for(DocumentSnapshot documentSnapshot : documentSnapshots){
+                        Restaurant restaurant = documentSnapshot.toObject(Restaurant.class);
+                        restaurants.add(restaurant);
+                    }
+                }
+            }
+        });
+        return restaurants;
     }
 
 }
