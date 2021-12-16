@@ -21,7 +21,7 @@ import BusinessEntities.Branch;
 public class RemoteRestDB {
     private final String TAG = "RemoteRestDB";       // for debugging
 
-    private static RestDB instance = null;          // private single instance
+    private static RemoteRestDB instance = null;          // private single instance
 
     private FirebaseFirestore db;                   // db reference
     private CollectionReference restCollection;     // collection reference
@@ -36,11 +36,11 @@ public class RemoteRestDB {
      * Thread safe getInstance method that returns the single static instance of this class
      * @return RestDB single static instance
      */
-    public static RestDB getInstance(){
+    public static RemoteRestDB getInstance(){
         if(instance == null){
             synchronized (RestDB.class){
                 if(instance == null){
-                    instance = new RestDB();
+                    instance = new RemoteRestDB();
                 }
             }
         }
