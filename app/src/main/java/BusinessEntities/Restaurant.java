@@ -10,7 +10,8 @@ public class Restaurant {
     // private fields
     private int id;
     private String name;
-    private List<Branch> branches;
+//    private String imageURL;
+//    private List<Branch> branches;
 
     // empty constructor for deserializing Firestore documents
     public Restaurant(){}
@@ -18,7 +19,7 @@ public class Restaurant {
     public Restaurant(int id, String name, List<Branch> branches) {
         this.id = id;
         this.name = name;
-        this.branches = branches;
+//        this.branches = branches;
     }
 
 
@@ -31,25 +32,25 @@ public class Restaurant {
         this.name = name;
     }
 
-    public void setBranches(List<Branch> branches) {
-        this.branches = branches;
-    }
+//    public void setBranches(List<Branch> branches) {
+//        this.branches = branches;
+//    }
 
     public int getId() {
         return id;
     }
 
-    public int getNumOfBranches() {
-        return branches.size();
-    }
+//    public int getNumOfBranches() {
+//        return branches.size();
+//    }
 
     public String getName() {
         return name;
     }
 
-    public List<Branch> getBranches() {
-        return branches;
-    }
+//    public List<Branch> getBranches() {
+//        return branches;
+//    }
 
 
     // A String representation of a Restaurant object
@@ -57,12 +58,12 @@ public class Restaurant {
     public String toString(){
         String res = "";
         res += "Restaurant id: " + this.id + '\n' +
-                "Restaurant name: " + this.name + '\n' +
-                "This restaurant has " + getNumOfBranches() + " branches: \n";
+                "Restaurant name: " + this.name + '\n'; //+
+//                "This restaurant has " + getNumOfBranches() + " branches: \n";
 
-        for(Branch branch : branches){
-            res += branch.toString();
-        }
+//        for(Branch branch : branches){
+//            res += branch.toString();
+//        }
         return res;
     }
 }

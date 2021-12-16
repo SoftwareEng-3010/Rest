@@ -18,7 +18,7 @@ import UIAdapters.RestaurantAdapter;
 
 public class RestaurantsListViewActivity extends AppCompatActivity {
 
-    private RestDB rdb;
+    private RemoteRestDB rdb;
     private ListView listView;
 
     @Override

@@ -25,11 +25,11 @@ public class RestaurantAdapter extends ArrayAdapter<Restaurant> {
     private static final String TAG = "RestaurantAdapter";
     private Context context;
     private int resource;
-    private List<Restaurant> restaurants;
+    private List<Restaurant> restaurantNames;
 
     public RestaurantAdapter(@NonNull Context context, int resource, List<Restaurant> restaurants) {
         super(context, resource, restaurants);
-        this.restaurants = restaurants;
+        this.restaurantNames = restaurants;
         this.context = context;
         this.resource = resource;
     }
@@ -37,16 +37,16 @@ public class RestaurantAdapter extends ArrayAdapter<Restaurant> {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         // Get the data item for this position
-        Restaurant restaurant = restaurants.get(position);
+        String restaurantName = restaurantNames.get(position).getName();
         // Check if an existing view is being reused, otherwise inflate the view
         if (convertView == null) {
             convertView = LayoutInflater.from(context).inflate(resource, parent, false);
         }
         // Lookup view for data population
-        TextView rName = convertView.findViewById(R.id.restaurantNameTextView);
+        TextView rNameTextView = convertView.findViewById(R.id.restaurantNameTextView);
 
-        Button moveToBranches = convertView.findViewById(R.id.restaurantBranchesButton);
-        moveToBranches.setOnClickListener(new View.OnClickListener() {
+        Button moveToBranchesBtn = convertView.findViewById(R.id.restaurantBranchesButton);
+        moveToBranchesBtn.setOnClickListener(new View.OnClickListener() {
 
             @Override
             /**
@@ -65,7 +65,7 @@ public class RestaurantAdapter extends ArrayAdapter<Restaurant> {
 
 
         // Populate the data into the template view using the data object
-        rName.setText(restaurant.getName());
+        rNameTextView.setText(restaurantName);
 
         // Return the completed view to render on screen
         return convertView;

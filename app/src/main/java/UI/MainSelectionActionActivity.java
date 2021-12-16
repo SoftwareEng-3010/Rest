@@ -15,6 +15,7 @@ import com.example.exercise_5.R;
 import java.util.List;
 
 import BusinessEntities.Restaurant;
+import DataAccessLayer.RemoteRestDB;
 import DataAccessLayer.RestDB;
 
 /**
@@ -24,8 +25,7 @@ import DataAccessLayer.RestDB;
  * 2. Manually select from Restaurants list.
  */
 public class MainSelectionActionActivity extends AppCompatActivity {
-    private RestDB restDB;
-    private List<Restaurant> restaurants;
+//    private List<Restaurant> restaurants;
 
     private final String TAG = "RestSelector";
 
@@ -44,12 +44,6 @@ public class MainSelectionActionActivity extends AppCompatActivity {
         listBtn = findViewById(R.id.list_button);
 
         initListeners();
-
-        restDB = RestDB.getInstance();
-        restaurants = restDB.getRestaurants();
-        for (Restaurant r : restaurants) {
-            Log.d(TAG, r.toString());
-        }
     }
 
     private void initListeners(){
