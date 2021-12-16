@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 
+import DataAccessLayer.RemoteRestDB;
 import DataAccessLayer.RestDB;
 
 public class MainActivity extends AppCompatActivity {
@@ -14,7 +15,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Log.e(TAG, "onCreate()");
-        RestDB.getInstance(); // initialize db class
+        RemoteRestDB.getInstance(); // initialize db class
     }
 
 

@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import BusinessEntities.Restaurant;
+import DataAccessLayer.RemoteRestDB;
 import DataAccessLayer.RestDB;
 import UIAdapters.RestaurantAdapter;
 
@@ -24,7 +25,7 @@ public class RestaurantsListViewActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rest_scrollview);
-        rdb = RestDB.getInstance();
+        rdb = RemoteRestDB.getInstance();
     }
 
     @Override
