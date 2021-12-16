@@ -37,7 +37,9 @@ public class RestaurantAdapter extends ArrayAdapter<Restaurant> {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         // Get the data item for this position
-        String restaurantName = restaurantNames.get(position).getName();
+        Restaurant restaurant = restaurantNames.get(position);
+        String restaurantName = restaurant.getName();
+
         // Check if an existing view is being reused, otherwise inflate the view
         if (convertView == null) {
             convertView = LayoutInflater.from(context).inflate(resource, parent, false);
@@ -58,7 +60,8 @@ public class RestaurantAdapter extends ArrayAdapter<Restaurant> {
                 int index = parentView.indexOfChild((View) v.getParent().getParent());
                 Intent moveToBranchesActivity =
                         new Intent(getContext(), BranchesListViewActivity.class);
-                moveToBranchesActivity.putExtra("restInd", index);
+                String restName = restaurantNames.get(index).getName();
+                moveToBranchesActivity.putExtra("restName", restName);
                 getContext().startActivity(moveToBranchesActivity);
             }
         });

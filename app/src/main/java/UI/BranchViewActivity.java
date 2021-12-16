@@ -14,7 +14,6 @@ import BusinessEntities.Item;
 import BusinessEntities.Restaurant;
 import DataAccessLayer.RemoteRestDB;
 import DataAccessLayer.RestDB;
-import UIAdapters.BranchDisplayAdapter;
 
 public class BranchViewActivity extends AppCompatActivity {
 
@@ -52,11 +51,11 @@ public class BranchViewActivity extends AppCompatActivity {
 //        branchNameText = findViewById(R.id.branchNameDisplayTextView);
 //        branchNameText.setText(restaurant.getBranches().get(selectedBranch).getAddress().get("city"));
 
-        ArrayAdapter<Item> adapter = new BranchDisplayAdapter(
-                this,
-                R.layout.item_menu,
-                branch.getMenu()
-        );
+//        ArrayAdapter<Item> adapter = new BranchDisplayAdapter(
+//                this,
+//                R.layout.item_menu,
+//                branch.getMenu()
+//        );
 
         listView.setAdapter(adapter);
     }

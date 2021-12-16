@@ -30,12 +30,12 @@ public class BranchesListViewActivity extends AppCompatActivity {
 
         listView = (ListView) findViewById(R.id.branchListView);
 
-        int restIndex = getIntent().getIntExtra("restInd", 0);
+        String restName = getIntent().getStringExtra("restName");
 
         ArrayAdapter<BranchSmallViewModel> adapter = new BranchAdapter(
                 this,
                 R.layout.item_branch,
-                rdb.getBranches(restIndex)
+                rdb.getBranches(restName)
         );
 
         listView.setAdapter(adapter);
