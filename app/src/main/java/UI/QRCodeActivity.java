@@ -180,19 +180,19 @@ public class QRCodeActivity extends AppCompatActivity {
                             // to load a `Branch` menu, which is a List<Item> object
                             int[] qrResult = QRReader.readQRResult(result);
 
-                            Intent moveToBranchDisplay = new Intent(QRCodeActivity.this,
-                                    BranchViewActivity.class);
-
-                            // Prepare data for next activity
-                            moveToBranchDisplay.putExtra(SELECTED_RESTAURANT_INDEX, qrResult[0]);
-                            moveToBranchDisplay.putExtra(SELECTED_BRANCH_INDEX, qrResult[1]);
-                            moveToBranchDisplay.putExtra(SELECTED_TABLE_INDEX, qrResult[2]);
+//                            Intent moveToBranchDisplay = new Intent(QRCodeActivity.this,
+//                                    BranchViewActivity.class);
+//
+//                            // Prepare data for next activity
+//                            moveToBranchDisplay.putExtra(SELECTED_RESTAURANT_INDEX, qrResult[0]);
+//                            moveToBranchDisplay.putExtra(SELECTED_BRANCH_INDEX, qrResult[1]);
+//                            moveToBranchDisplay.putExtra(SELECTED_TABLE_INDEX, qrResult[2]);
 
                             // Stop camera and move to BranchDisplay
                             qrScanner.stopPreview();
                             qrScanner.releaseResources();
-                            startActivity(moveToBranchDisplay);
-                            finish(); // activity can be finished
+//                            startActivity(moveToBranchDisplay);
+//                            finish(); // activity can be finished
                         }
                         catch (Exception e) {
                             Log.e(TAG, "Invalid QRCode");
