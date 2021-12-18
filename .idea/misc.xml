@@ -4,16 +4,22 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="../../../../layout/custom_preview.xml" value="0.29739583333333336" />
-        <entry key="..\:/AndroidProjects/Rest/app/src/main/res/layout/activity_branch_view.xml" value="0.18" />
-        <entry key="..\:/AndroidProjects/Rest/app/src/main/res/layout/activity_qrcode.xml" value="0.1625" />
-        <entry key="..\:/AndroidProjects/Rest/app/src/main/res/layout/activity_rest_scrollview.xml" value="0.13177083333333334" />
+        <entry key="..\:/AndroidProjects/Rest/app/src/main/res/layout/activity_branch_view.xml" value="0.2" />
+        <entry key="..\:/AndroidProjects/Rest/app/src/main/res/layout/activity_branch_view2.xml" value="0.1" />
+        <entry key="..\:/AndroidProjects/Rest/app/src/main/res/layout/activity_qrcode.xml" value="0.25" />
+        <entry key="..\:/AndroidProjects/Rest/app/src/main/res/layout/activity_rest_scrollview.xml" value="0.18" />
+        <entry key="..\:/AndroidProjects/Rest/app/src/main/res/layout/item_menu.xml" value="0.2552083333333333" />
+        <entry key="..\:/AndroidProjects/Rest/app/src/main/res/layout/layout_menu_list_item.xml" value="0.33" />
         <entry key="..\:/AndroidProjects/Rest/app/src/main/res/layout/login_activity.xml" value="0.13272543059777103" />
         <entry key="..\:/AndroidProjects/Rest/app/src/main/res/layout/qrcode_activity.xml" value="0.25" />
         <entry key="..\:/AndroidProjects/Rest/app/src/main/res/layout/rest_selector.xml" value="0.25" />
         <entry key="..\:/Users/97250/Desktop/Rest/app/src/main/res/layout/activity_branch_display.xml" value="0.1796875" />
+        <entry key="..\:/Users/97250/Desktop/Rest/app/src/main/res/layout/activity_branch_scrollview.xml" value="0.17300724637681159" />
+        <entry key="..\:/Users/97250/Desktop/Rest/app/src/main/res/layout/activity_rest_scrollview.xml" value="0.1693840579710145" />
         <entry key="..\:/Users/97250/Desktop/Rest/app/src/main/res/layout/activity_view_rest.xml" value="0.16666666666666666" />
         <entry key="..\:/Users/97250/Desktop/Rest/app/src/main/res/layout/branch_view_activity.xml" value="0.1796875" />
         <entry key="..\:/Users/97250/Desktop/Rest/app/src/main/res/layout/item_branch.xml" value="0.1796875" />
+        <entry key="..\:/Users/97250/Desktop/Rest/app/src/main/res/layout/item_menu.xml" value="0.17300724637681159" />
         <entry key="..\:/Users/97250/Desktop/Rest/app/src/main/res/layout/item_restaurant.xml" value="0.5" />
         <entry key="..\:/Users/97250/Desktop/Rest/app/src/main/res/layout/login_activity.xml" value="0.17074275362318841" />
         <entry key="..\:/Users/97250/Desktop/Rest/app/src/main/res/layout/rest_view_activity.xml" value="0.1" />

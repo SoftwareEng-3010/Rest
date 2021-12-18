@@ -8,35 +8,39 @@ public class Branch {
 
     // ------- Branch info ----------
     private Address address;
-    private int id;
-    @PropertyName("menu")
     private List<Item> menu;
-    private Menu menuObj;
     private List<Table> tables;
+
     @PropertyName("isKosher")
     private boolean isKosher;
     // More will be added ...
 //    private boolean isOpen;
+//    private Menu menuObj;
     // ------------------------------
     public Branch() {
         // Empty constructor is required by Firebase method .toObject()
     }
 
-    public Branch(Address address, int id, boolean isKosher/*, boolean isOpen*/, List<Item> menu, List<Table> tables) {
+    public Branch(Address address, String id, boolean isKosher/*, boolean isOpen*/, List<Item> menu, List<Table> tables) {
         this.address = address;
-        this.id = id;
         this.isKosher = isKosher;
         this.menu = menu;
-        this.menuObj = new Menu(menu);
         this.tables = tables;
+    }
+
+    public Branch(Branch other) {
+        this.address = other.address; // Has a copy constructor
+        this.isKosher = other.isKosher;
+        this.menu = other.menu;
+
     }
 
     public Address getAddress() {
         return address;
     }
 
-    public int getId() {
-        return id;
+    public List<Item> getMenu() {
+        return menu;
     }
 
     @PropertyName("isKosher")
@@ -44,9 +48,9 @@ public class Branch {
         return isKosher;
     }
 
-    public Menu getMenu() {
-        return menuObj;
-    }
+//    public Menu getMenu() {
+//        return menuObj;
+//    }
 
     public List<Table> getTables() {
         return tables;
@@ -54,12 +58,19 @@ public class Branch {
 
     @Override
     public String toString() {
-        return "\nBranch{" +
+        return "\nBranch{\n" +
                 "address=" + address +
-                ", id=" + id +
                 ", isKosher=" + isKosher +
-                ",\n menu=" + menuObj +
+                ",\n menu=" + menu +
                 ",\n tables=" + tables +
-                "}\n";
+                "\n}\n";
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Branch branch = (Branch) o;
+        return address.equals(branch.address);
     }
 }

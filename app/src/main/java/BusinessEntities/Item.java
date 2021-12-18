@@ -8,7 +8,7 @@ public class Item {
 
     private String name;
     private String serviceUnit;
-    private int price;
+    private double price;
     private String imageURL;
     private boolean inStock;
 
@@ -17,7 +17,7 @@ public class Item {
     }
 
     public Item(String description, String imageURL, String name, String serviceUnit,
-                boolean inStock, int price) {
+                boolean inStock, double price) {
         this.description = description;
         this.imageURL = imageURL;
         this.name = name;
@@ -46,7 +46,7 @@ public class Item {
         return inStock;
     }
 
-    public int getPrice() {
+    public double getPrice() {
         return price;
     }
 

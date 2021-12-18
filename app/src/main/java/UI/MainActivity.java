@@ -10,6 +10,7 @@ import android.util.Log;
 import com.example.exercise_5.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -22,11 +23,10 @@ import java.util.List;
 import BusinessEntities.Branch;
 import BusinessEntities.Restaurant;
 
-//import DataAccessLayer.RemoteRestDB;
-//import DataAccessLayer.RestDB;
-
 public class MainActivity extends AppCompatActivity {
+
     private final String TAG = "MainActivity";
+
     private FirebaseFirestore db;
     private List<Restaurant> restaurantList;
 
@@ -42,6 +42,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         Log.e(TAG, "onStart()");
+
+//        getRestaurants("McMoshe");
 
         Intent intent  = new Intent(this, LoginActivity.class);
         startActivity(intent);

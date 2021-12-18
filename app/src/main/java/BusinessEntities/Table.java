@@ -25,6 +25,14 @@ public class Table {
         this.isInside = isInside;
     }
 
+    public Table(Table other) {
+        this.billAmount = other.billAmount;
+        this.tableIndex = other.tableIndex;
+        this.capacity = other.capacity;
+        this.isInside = other.isInside;
+        this.isOccupied = other.isOccupied;
+    }
+
     public int getTableIndex() {
         return tableIndex;
     }

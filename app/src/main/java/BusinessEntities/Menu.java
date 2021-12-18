@@ -12,8 +12,11 @@ public class Menu {
     }
 
     public Menu(List<Item> items) {
-        this.items = new ArrayList<>();
-        this.items.addAll(items);
+        this.items = new ArrayList<>(items);
+    }
+
+    public Menu(Menu other) {
+        this.items = new ArrayList<>(items);
     }
 
     public List<Item> getItems() {
