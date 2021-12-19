@@ -36,10 +36,10 @@ public class RestaurantAdapter extends ArrayAdapter<Restaurant> {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
+
         // Get the data item for this position
         Restaurant restaurant = restaurantNames.get(position);
         String restaurantName = restaurant.getName();
-//        String restaurantId = restaurant.getId();
 
         // Check if an existing view is being reused, otherwise inflate the view
         if (convertView == null) {

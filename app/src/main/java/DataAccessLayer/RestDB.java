@@ -35,6 +35,8 @@ import BusinessEntities.Restaurant;
 public class RestDB {
 
     private final String TAG = "RestDB";                // for debugging
+
+    // constant strings for querying database
     private final String BRANCHES_COLLECTION_NAME =  "branch";
     private final String RESTAURANT_COLLECTION_NAME = "our_restaurants";
     private final String MENU_COLLECTION_NAME = "menus";
