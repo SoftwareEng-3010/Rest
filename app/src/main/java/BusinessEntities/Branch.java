@@ -16,6 +16,7 @@ public class Branch {
 
     @PropertyName("isKosher")
     private boolean isKosher;
+
     // More will be added ...
 //    private boolean isOpen;
 //    private Menu menuObj;
@@ -23,7 +24,6 @@ public class Branch {
     public Branch() {
         // Empty constructor is required by Firebase method .toObject()
     }
-
     public Branch(Address address, String id, boolean isKosher/*, boolean isOpen*/, List<Item> menu, List<Table> tables) {
         this.address = address;
         this.isKosher = isKosher;
@@ -36,6 +36,10 @@ public class Branch {
         this.isKosher = other.isKosher;
         this.menu = other.menu;
 
+    }
+
+    public String getDocId() {
+        return docId;
     }
 
     public Address getAddress() {
