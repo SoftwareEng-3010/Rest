@@ -38,7 +38,6 @@ public class RemoteRestDB {
 
 private static RemoteRestDB instance = null;            // private single instance
 
-    private final long TIMEOUT = 4000;
     private FirebaseFirestore db;                       // db reference
     private CollectionReference restCollection;         // collection reference
 
@@ -88,54 +87,40 @@ private static RemoteRestDB instance = null;            // private single instan
 
     public List<Restaurant> getRestaurantDoNotUse(String name) {
 
-        try {
-            List<Restaurant> restaurantList = new ArrayList<>();
-            restCollection.whereEqualTo("name", name).get().addOnCompleteListener(
-                    new OnCompleteListener<QuerySnapshot>() {
-                        @Override
-                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                            if (task.isSuccessful()) {
-                                for (DocumentSnapshot doc : task.getResult().getDocuments()) {
-                                    restaurantList.add(doc.toObject(Restaurant.class));
-                                }
+        List<Restaurant> restaurantList = new ArrayList<>();
+        restCollection.whereEqualTo("name", name).get().addOnCompleteListener(
+                new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (DocumentSnapshot doc : task.getResult().getDocuments()) {
+                                restaurantList.add(doc.toObject(Restaurant.class));
                             }
                         }
                     }
-            ).wait(TIMEOUT);
-            return restaurantList;
-        } catch (InterruptedException e) {
-            Log.e(TAG, e.getMessage());
-        } catch (Exception e) {
-            Log.e(TAG, e.getMessage());
-        }
-        return null;
+                }
+        );
+        return restaurantList;
     }
 
 
 
     public List<Branch> getBranchDoNotUse(String name, int id) {
 
-        try {
-            List<Branch> queriedBranches = new ArrayList<>();
-            restCollection.whereEqualTo("name", name).whereEqualTo("id", id).get().addOnCompleteListener(
-                    new OnCompleteListener<QuerySnapshot>() {
-                        @Override
-                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                            if (task.isSuccessful()) {
-                                for (DocumentSnapshot doc : task.getResult().getDocuments()) {
-                                    queriedBranches.add(doc.toObject(Branch.class));
-                                }
+        List<Branch> queriedBranches = new ArrayList<>();
+        restCollection.whereEqualTo("name", name).whereEqualTo("id", id).get().addOnCompleteListener(
+                new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (DocumentSnapshot doc : task.getResult().getDocuments()) {
+                                queriedBranches.add(doc.toObject(Branch.class));
                             }
                         }
                     }
-            ).wait(TIMEOUT);
-            return queriedBranches;
-        } catch (InterruptedException e) {
-            Log.e(TAG, e.getMessage());
-        } catch (Exception e) {
-            Log.e(TAG, e.getMessage());
-        }
-        return null;
+                }
+        );
+        return queriedBranches;
     }
 
     /**
@@ -146,7 +131,6 @@ private static RemoteRestDB instance = null;            // private single instan
 
         // the list we will be returning
         ArrayList<String> restNames = new ArrayList<>();
-
 
         // document references
         restCollection.addSnapshotListener(new EventListener<QuerySnapshot>() {
@@ -186,7 +170,7 @@ private static RemoteRestDB instance = null;            // private single instan
         return null;
     }
 
-    public List<Branch> getBranches(String restName) {
+    public void getBranches(String restName, OnDataReceived dataReceivedCallback) {
         restCollection.whereEqualTo("name", restName)
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -199,13 +183,13 @@ private static RemoteRestDB instance = null;            // private single instan
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 branches = (List<Branch>) document.get("branches");
                                 for (Branch branch : branches) {
-//                                    Log.d(TAG, Integer.toString(branch.getId()));
+
                                 }
+                                dataReceivedCallback.onObjectReceivedFromDB(branches);
                             }
                         }
                     }
                 });
-        return branches;
     }
 
 
@@ -214,33 +198,27 @@ private static RemoteRestDB instance = null;            // private single instan
         List<Restaurant> restaurants = new ArrayList<>();
 
         // document references
-        try {
-            restCollection.addSnapshotListener(new EventListener<QuerySnapshot>() {
-                @Override
-                public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
-                    if(error != null){
-                        Log.w(TAG, "Listen failed " + error.getMessage());
-                    }
+        restCollection.addSnapshotListener(new EventListener<QuerySnapshot>() {
+            @Override
+            public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+                if(error != null){
+                    Log.w(TAG, "Listen failed " + error.getMessage());
+                }
 
-                    else if(value != null){
-                        List<DocumentSnapshot> documentSnapshots = value.getDocuments();
-                        for(DocumentSnapshot documentSnapshot : documentSnapshots){
-                            Restaurant restaurant = documentSnapshot.toObject(Restaurant.class);
-                            restaurants.add(restaurant);
-                        }
-                    }
-
-                    else {
-                        Log.e(TAG, "Query failed");
+                else if(value != null){
+                    List<DocumentSnapshot> documentSnapshots = value.getDocuments();
+                    for(DocumentSnapshot documentSnapshot : documentSnapshots){
+                        Restaurant restaurant = documentSnapshot.toObject(Restaurant.class);
+                        restaurants.add(restaurant);
                     }
                 }
-            }).wait(TIMEOUT);
-            return restaurants.get(0);
-        } catch (InterruptedException e) {
-            Log.e(TAG, "Query failed");
-            Log.e(TAG, e.getMessage());
-        }
-        return null;
+
+                else {
+                    Log.e(TAG, "Query failed");
+                }
+            }
+        });
+        return restaurants.get(0);
     }
 
     /**
@@ -252,33 +230,27 @@ private static RemoteRestDB instance = null;            // private single instan
         ArrayList<Restaurant> restaurants = new ArrayList<>();
 
         // document references
-        try {
-            restCollection.addSnapshotListener(new EventListener<QuerySnapshot>() {
-                @Override
-                public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
-                    if(error != null){
-                        Log.w(TAG, "Listen failed " + error.getMessage());
-                    }
+        restCollection.addSnapshotListener(new EventListener<QuerySnapshot>() {
+            @Override
+            public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+                if(error != null){
+                    Log.w(TAG, "Listen failed " + error.getMessage());
+                }
 
-                    else if(value != null){
-                        List<DocumentSnapshot> documentSnapshots = value.getDocuments();
-                        for(DocumentSnapshot documentSnapshot : documentSnapshots){
-                            Restaurant restaurant = documentSnapshot.toObject(Restaurant.class);
-                            restaurants.add(restaurant);
-                        }
-                    }
-
-                    else {
-                        Log.e(TAG, "Query failed");
+                else if(value != null){
+                    List<DocumentSnapshot> documentSnapshots = value.getDocuments();
+                    for(DocumentSnapshot documentSnapshot : documentSnapshots){
+                        Restaurant restaurant = documentSnapshot.toObject(Restaurant.class);
+                        restaurants.add(restaurant);
                     }
                 }
-            }).wait(TIMEOUT);
-            return restaurants;
-        } catch (InterruptedException e) {
-            Log.e(TAG, "Query failed");
-            Log.e(TAG, e.getMessage());
-        }
-        return null;
+
+                else {
+                    Log.e(TAG, "Query failed");
+                }
+            }
+        });
+        return restaurants;
     }
 
 }
