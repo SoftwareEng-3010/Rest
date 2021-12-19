@@ -26,7 +26,7 @@ import BusinessEntities.Branch;
 import BusinessEntities.Item;
 import BusinessEntities.QRCode;
 import BusinessEntities.Restaurant;
-import DataAccessLayer.RemoteRestDB;
+import DataAccessLayer.RestDB;
 import UIAdapters.MenuRecyclerViewAdapter;
 import ViewModels.BranchMenuViewModel;
 
@@ -34,7 +34,7 @@ public class BranchViewActivity extends AppCompatActivity {
 
     private final String TAG = "BranchViewActivity";
 
-    private RemoteRestDB rdb;
+    private RestDB rdb;
 
     private TextView branchNameTV;
     private TextView branchBusinessHrsTV;
@@ -50,7 +50,7 @@ public class BranchViewActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_branch_view2);
-        rdb = RemoteRestDB.getInstance();
+        rdb = RestDB.getInstance();
 
         String restId = getIntent().getStringExtra(QRCode.KEY_RESTAURANT_ID);
         String branchAddr = getIntent().getStringExtra(QRCode.KEY_BRANCH_ADDRESS);

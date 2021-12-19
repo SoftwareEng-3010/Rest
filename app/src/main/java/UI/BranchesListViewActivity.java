@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.example.exercise_5.R;
 
@@ -19,6 +20,7 @@ public class BranchesListViewActivity extends AppCompatActivity {
 
     private RestDB rdb;
     private ListView listView;
+    private List<Branch> branches;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,9 +51,9 @@ public class BranchesListViewActivity extends AppCompatActivity {
                     public void onObjectReturnedFromDB(Object obj) {
 
                         // When data arrives from DB - init the ListView adapter
-                        List<Branch> branches = (List<Branch>) obj;
+                        branches = (List<Branch>) obj;
                         ArrayAdapter<Branch> adapter = new BranchAdapter(
-                                getApplicationContext(),
+                                BranchesListViewActivity.this,
                                 R.layout.item_branch,
                                 branches
                         );

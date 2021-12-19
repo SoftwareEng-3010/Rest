@@ -47,7 +47,7 @@ public class RestaurantsListViewActivity extends AppCompatActivity {
                 restaurants = (List<Restaurant>) obj;
 
                 ArrayAdapter<Restaurant> adapter = new RestaurantAdapter(
-                        getApplicationContext(),
+                        RestaurantsListViewActivity.this,
                         R.layout.item_restaurant,
                         restaurants
                 );
