@@ -42,10 +42,11 @@ public class BranchesListViewActivity extends AppCompatActivity {
 
     private void setListViewAdapter() {
         // Extract restID from previous activity
-        String restName = getIntent().getStringExtra("restID");
+        String restID = getIntent().getStringExtra("restID");
+
 
         // Retrieve data from Database
-        rdb.getBranches(restName,
+        rdb.getBranches(restID,
                 new OnDataReceived() {
                     @Override
                     public void onObjectReturnedFromDB(Object obj) {

@@ -59,11 +59,11 @@ public class BranchAdapter extends ArrayAdapter<Branch> {
 
                 ListView parentView = (ListView) v.getParent().getParent().getParent();
                 int branchIndex = parentView.indexOfChild((View) v.getParent().getParent());
-                Intent moveToSingleBranchActivity =
+                Intent moveToBranchViewActivity =
                         new Intent(getContext(), BranchViewActivity.class);
-                String bAddress = branches.get(branchIndex).getAddress().toString();
-                moveToSingleBranchActivity.putExtra("branchAddress", bAddress);
-                getContext().startActivity(moveToSingleBranchActivity);
+                String branchID = branches.get(branchIndex).getAddress().toString();
+                moveToBranchViewActivity.putExtra("branchID", branchID);
+                getContext().startActivity(moveToBranchViewActivity);
             }
         });
 
