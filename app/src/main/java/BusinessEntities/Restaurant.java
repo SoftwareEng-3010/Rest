@@ -1,30 +1,26 @@
 package BusinessEntities;
 
+import com.google.firebase.firestore.DocumentId;
+
 import java.util.List;
 
 public class Restaurant {
 
-//    private int id;
+    @DocumentId
+    private String docId;
     private String name;
     private List<Branch> branches;
-//    public static final String FIELD_ID = "restaurant_id";
-//    public static final String FIELD_NAME = "name";
-//    public static final String FIELD_BRANCHES = "branches";
-    // Other fields will be added
+
 
     public Restaurant() {
         // Empty constructor required by Firebase method .toObject()
     }
 
     public Restaurant(String name, List<Branch> branches) {
-//        this.id = id;
         this.name = name;
         this.branches = branches;
     }
 
-//    public String getId() {
-//        return id;
-//    }
 
     public String getName() {
         return name;
@@ -39,4 +35,6 @@ public class Restaurant {
                 ", branches=" + branches +
                 "\n}";
     }
+
+    public String getDocId() { return docId; }
 }
