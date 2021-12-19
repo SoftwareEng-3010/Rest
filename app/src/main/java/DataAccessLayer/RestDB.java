@@ -18,10 +18,14 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import BusinessEntities.Address;
 import BusinessEntities.Branch;
+import BusinessEntities.Item;
+import BusinessEntities.Menu;
 import BusinessEntities.Restaurant;
 
 /**
@@ -31,8 +35,10 @@ import BusinessEntities.Restaurant;
 public class RestDB {
 
     private final String TAG = "RestDB";                // for debugging
-    private final String BRANCHES_COLLECTION_NAME =  "branches";
-    private final String RESTAURANT_COLLECTION_NAME = "test";
+    private final String BRANCHES_COLLECTION_NAME =  "branch";
+    private final String RESTAURANT_COLLECTION_NAME = "our_restaurants";
+    private final String MENU_COLLECTION_NAME = "menus";
+    private final String MENU_FIELD_NAME = "menu";
 
     private static RestDB instance = null;              // private single instance
 
@@ -104,29 +110,54 @@ public class RestDB {
         });
     }
 
-    public void getAllRestaurants(OnDataReceived callBack) {
+    public void getMenu(String restId, String branchId, OnDataReceived dataClient){
 
-        restCollection.get().addOnCompleteListener(
-                new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
+        CollectionReference branchCollection =
+                restCollection.document(restId).collection(BRANCHES_COLLECTION_NAME);
 
-                            List<Restaurant> restaurantList = new ArrayList<>();
-                            List<DocumentSnapshot> docs = task.getResult().getDocuments();
+        CollectionReference menuCollection =
+                restCollection.document(restId).collection(MENU_COLLECTION_NAME);
 
-                            for (DocumentSnapshot doc : docs) {
-                                restaurantList.add(doc.toObject(Restaurant.class));
+        DocumentReference branchDocRef = branchCollection.document(branchId);
+
+        branchDocRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if(task.isSuccessful()){
+
+                    DocumentSnapshot documentSnapshot = task.getResult();
+                    String menuId = (String)documentSnapshot.get(MENU_FIELD_NAME);
+                    DocumentReference menuDocRef = menuCollection.document(menuId);
+
+                    menuDocRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                            if(task.isSuccessful()){
+                                DocumentSnapshot menuSnapshot = task.getResult();
+                                dataClient.onObjectReturnedFromDB(menuSnapshot.toObject(Menu.class));
                             }
-                            callBack.onObjectReturnedFromDB(restaurantList);
                         }
-                        else {
-                            // An error occurred - returning null
-                            callBack.onObjectReturnedFromDB(null);
-                        }
-                    }
+                    });
                 }
-        );
+            }
+        });
+    }
+
+    public void getRestaurants(OnDataReceived dataReceived){
+
+        List<Restaurant> restaurants = new ArrayList<>();
+
+        restCollection.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if(task.isSuccessful()){
+                    for(QueryDocumentSnapshot documentSnapshots : task.getResult()){
+                        restaurants.add(documentSnapshots.toObject(Restaurant.class));
+                    }
+                    dataReceived.onObjectReturnedFromDB(restaurants);
+                }
+            }
+        });
     }
 }
 
