@@ -34,13 +34,13 @@ import BusinessEntities.Restaurant;
  * Instead, the class will be used to query the db for necessary data
  */
 public class RemoteRestDB {
-    private final String TAG = "RemoteRestDB";       // for debugging
+    private final String TAG = "RemoteRestDB";          // for debugging
 
-    private static RemoteRestDB instance = null;          // private single instance
+private static RemoteRestDB instance = null;            // private single instance
 
     private final long TIMEOUT = 4000;
-    private FirebaseFirestore db;                   // db reference
-    private CollectionReference restCollection;     // collection reference
+    private FirebaseFirestore db;                       // db reference
+    private CollectionReference restCollection;         // collection reference
 
     private List <Branch> branches;
 
@@ -147,7 +147,6 @@ public class RemoteRestDB {
         // the list we will be returning
         ArrayList<String> restNames = new ArrayList<>();
 
-        restCollection.document().se
 
         // document references
         restCollection.addSnapshotListener(new EventListener<QuerySnapshot>() {

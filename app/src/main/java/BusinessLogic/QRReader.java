@@ -55,6 +55,7 @@ public class QRReader {
             JSONObject json = getJsonObject(result.getText());
 
             Log.e(TAG, "Got JSON Object" + result.getText());
+
             // Parse data from JSON
             String restaurantId = json.getString(QRCode.KEY_RESTAURANT_ID);
 
