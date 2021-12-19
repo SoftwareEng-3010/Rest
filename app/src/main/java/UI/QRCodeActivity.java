@@ -7,6 +7,8 @@ import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -26,6 +28,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.zxing.Result;
 
 import BusinessEntities.QRCode;
+import BusinessEntities.Restaurant;
 import BusinessLogic.QRReader;
 //import BusinessLogic.QRReader;
 
@@ -38,6 +41,7 @@ public class QRCodeActivity extends AppCompatActivity {
 
     private CodeScanner qrScanner;
     private CodeScannerView qrScannerView;
+    private Button showListBtn;
 
 //    private TextView text;
 
@@ -62,6 +66,27 @@ public class QRCodeActivity extends AppCompatActivity {
 
         setQRCodeCaptureCallbackMethod();
         setQRCodeErrorCallbackMethod();
+
+        // References to button
+        showListBtn = (Button)findViewById(R.id.showListButton);
+        initListeners();
+    }
+
+    private void initListeners(){
+
+        showListBtn.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            /**
+             * Move to RestaurantListViewActivity
+             */
+            public void onClick(View v) {
+
+                Intent moveToRestActivity =
+                        new Intent(QRCodeActivity.this, RestaurantsListViewActivity.class);
+                startActivity(moveToRestActivity);
+            }
+        });
     }
 
 
@@ -69,6 +94,7 @@ public class QRCodeActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         Log.e(TAG, "Started QRCodeActivity (onStart())");
+
         // Check whether your app is running on a device that has a camera hardware feature.
         if (getApplicationContext().getPackageManager().hasSystemFeature(
                 PackageManager.FEATURE_CAMERA_ANY)) {

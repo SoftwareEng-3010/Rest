@@ -1,5 +1,5 @@
 package DataAccessLayer;
 
 public interface OnDataReceived {
-    public void onObjectReceivedFromDB(Object obj);
+    public void onObjectReturnedFromDB(Object obj);
 }
