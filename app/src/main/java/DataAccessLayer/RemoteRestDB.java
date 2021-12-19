@@ -239,7 +239,7 @@ public class RemoteRestDB {
      *
      * @return all the restaurants in our collection
      */
-    public List<Restaurant> getRestaurants() {
+    public void getRestaurants(OnDataReceived dataReceivedCallback) {
         // the list we will be returning
         ArrayList<Restaurant> restaurants = new ArrayList<>();
 
@@ -255,11 +255,11 @@ public class RemoteRestDB {
                         Restaurant restaurant = documentSnapshot.toObject(Restaurant.class);
                         restaurants.add(restaurant);
                     }
+                    dataReceivedCallback.onObjectReturnedFromDB(restaurants);
                 } else {
                     Log.e(TAG, "Query failed");
                 }
             }
         });
-        return restaurants;
     }
 }
