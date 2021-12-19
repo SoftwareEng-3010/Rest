@@ -68,7 +68,7 @@ public class QRCodeActivity extends AppCompatActivity {
         setQRCodeErrorCallbackMethod();
 
         // References to button
-        showListBtn = (Button)findViewById(R.id.showListBtn);
+        showListBtn = (Button)findViewById(R.id.showListButton);
         initListeners();
     }
 
