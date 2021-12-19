@@ -5,7 +5,6 @@ import com.google.firebase.firestore.PropertyName;
 public class Item {
 
     private String description;
-
     private String name;
     private String serviceUnit;
     private double price;
