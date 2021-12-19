@@ -1,5 +1,6 @@
 package BusinessEntities;
 
+import com.google.firebase.firestore.DocumentId;
 import com.google.firebase.firestore.PropertyName;
 
 import java.util.List;
@@ -7,6 +8,8 @@ import java.util.List;
 public class Branch {
 
     // ------- Branch info ----------
+    @DocumentId
+    private String docId;
     private Address address;
     private List<Item> menu;
     private List<Table> tables;
