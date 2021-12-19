@@ -214,30 +214,25 @@ public class RemoteRestDB {
         List<Restaurant> restaurants = new ArrayList<>();
 
         // document references
-        try {
-            restCollection.addSnapshotListener(new EventListener<QuerySnapshot>() {
-                @Override
-                public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
-                    if (error != null) {
-                        Log.w(TAG, "Listen failed " + error.getMessage());
-                    } else if (value != null) {
-                        List<DocumentSnapshot> documentSnapshots = value.getDocuments();
-                        for (DocumentSnapshot documentSnapshot : documentSnapshots) {
-                            Restaurant restaurant = documentSnapshot.toObject(Restaurant.class);
-                            restaurants.add(restaurant);
-                        }
-                    } else {
-                        Log.e(TAG, "Query failed");
+        restCollection.addSnapshotListener(new EventListener<QuerySnapshot>() {
+            @Override
+            public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+                if (error != null) {
+                    Log.w(TAG, "Listen failed " + error.getMessage());
+                } else if (value != null) {
+                    List<DocumentSnapshot> documentSnapshots = value.getDocuments();
+                    for (DocumentSnapshot documentSnapshot : documentSnapshots) {
+                        Restaurant restaurant = documentSnapshot.toObject(Restaurant.class);
+                        restaurants.add(restaurant);
                     }
+                } else {
+                    Log.e(TAG, "Query failed");
                 }
-            }).wait(TIMEOUT);
-            return restaurants.get(0);
-        } catch (InterruptedException e) {
-            Log.e(TAG, "Query failed");
-            Log.e(TAG, e.getMessage());
-        }
-        return null;
+            }
+        });
+        return restaurants.get(0);
     }
+
 
     /**
      * Gets a list of all the restaurants in our collection
