@@ -142,6 +142,23 @@ public class RestDB {
             }
         });
     }
+
+    public void getRestaurants(OnDataReceived dataReceived){
+
+        List<Restaurant> restaurants = new ArrayList<>();
+
+        restCollection.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if(task.isSuccessful()){
+                    for(QueryDocumentSnapshot documentSnapshots : task.getResult()){
+                        restaurants.add(documentSnapshots.toObject(Restaurant.class));
+                    }
+                    dataReceived.onObjectReturnedFromDB(restaurants);
+                }
+            }
+        });
+    }
 }
 
 
