@@ -20,7 +20,7 @@
         <entry key="app/src/main/res/layout/activity_branch_view.xml" value="0.26766304347826086" />
         <entry key="app/src/main/res/layout/activity_login.xml" value="0.26766304347826086" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.25" />
-        <entry key="app/src/main/res/layout/activity_qrcode.xml" value="0.26766304347826086" />
+        <entry key="app/src/main/res/layout/activity_qrcode.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_rest_scrollview.xml" value="0.26766304347826086" />
         <entry key="app/src/main/res/layout/item_branch.xml" value="0.26766304347826086" />
         <entry key="app/src/main/res/layout/login_activity.xml" value="0.375" />

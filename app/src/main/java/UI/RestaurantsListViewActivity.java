@@ -8,7 +8,10 @@ import android.widget.ListView;
 
 import com.example.exercise_5.R;
 
+import java.util.List;
+
 import BusinessEntities.Restaurant;
+import DataAccessLayer.OnDataReceived;
 import DataAccessLayer.RemoteRestDB;
 import UIAdapters.RestaurantAdapter;
 
@@ -16,6 +19,7 @@ public class RestaurantsListViewActivity extends AppCompatActivity {
 
     private RemoteRestDB rdb;
     private ListView listView;
+    private List<Restaurant> restaurants;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,13 +34,21 @@ public class RestaurantsListViewActivity extends AppCompatActivity {
 
         listView = (ListView) findViewById(R.id.restaurantListView);
 
-        ArrayAdapter<Restaurant> adapter = new RestaurantAdapter(
-                this,
-                R.layout.item_restaurant,
-                rdb.getRestaurants()
-        );
 
-        listView.setAdapter(adapter);
+        rdb.getRestaurants(new OnDataReceived() {
+            @Override
+            public void onObjectReturnedFromDB(Object obj) {
+                restaurants = (List<Restaurant>) obj;
+
+                ArrayAdapter<Restaurant> adapter = new RestaurantAdapter(
+                        getApplicationContext(),
+                        R.layout.item_restaurant,
+                        restaurants
+                        );
+
+                listView.setAdapter(adapter);
+            }
+        });
     }
 
 }
