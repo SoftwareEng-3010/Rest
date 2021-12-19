@@ -23,12 +23,6 @@ import BusinessEntities.Address;
 import BusinessEntities.Branch;
 import BusinessEntities.Restaurant;
 
-
-// todo: 1. getRestNames() - v
-// todo: 2. getBranchAddresses(restId, branchId)
-// todo: 3. getOpenTables(restId, branchId)
-// todo: 4. getBranch(restId, branchId)
-
 /**
  * This class will be similar  to RestDB, but without saving data to device.
  * Instead, the class will be used to query the db for necessary data
@@ -172,26 +166,26 @@ public class RestDB {
         return null;
     }
 
-    public List<Branch> getBranches(String restName) {
-        restCollection.whereEqualTo("name", restName)
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+    public List<Branch> getBranches(String restId) {
+        CollectionReference branches = restCollection.document(restId).collection("branches");
+
+        branches.addSnapshotListener(
+                new EventListener<QuerySnapshot>() {
                     @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            if (task.getResult().size() != 1){
-                                throw new RuntimeException("RestID provided does not return a single document.");
-                            }
-                            for (QueryDocumentSnapshot document : task.getResult()) {
-                                branches = (List<Branch>) document.get("branches");
-                                for (Branch branch : branches) {
-//                                    Log.d(TAG, Integer.toString(branch.getId()));
-                                }
+                    public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+                        if (error != null) {
+                            Log.w(TAG, "Listen failed " + error.getMessage());
+                        } else if (value != null) {
+                            List<DocumentSnapshot> documentSnapshots = value.getDocuments();
+                            for (DocumentSnapshot documentSnapshot : documentSnapshots) {
+                                Log.d(TAG, Boolean.toString((boolean) documentSnapshot.get("isKosher")));
                             }
                         }
                     }
-                });
-        return branches;
+                }
+        );
+
+        return null;
     }
 
 
