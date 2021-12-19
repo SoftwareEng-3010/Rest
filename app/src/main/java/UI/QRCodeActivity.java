@@ -30,9 +30,12 @@ import com.google.zxing.Result;
 import BusinessEntities.QRCode;
 import BusinessEntities.Restaurant;
 import BusinessLogic.QRReader;
+import DataAccessLayer.PermissionManager;
 //import BusinessLogic.QRReader;
 
 public class QRCodeActivity extends AppCompatActivity {
+
+    PermissionManager p;
 
     private final String TAG = "QRCodeActivity";
 
@@ -94,9 +97,10 @@ public class QRCodeActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         Log.e(TAG, "Started QRCodeActivity (onStart())");
+
+        p = new PermissionManager(this);
         // Check whether your app is running on a device that has a camera hardware feature.
-        if (getApplicationContext().getPackageManager().hasSystemFeature(
-                PackageManager.FEATURE_CAMERA_ANY)) {
+        if (p.hasSystemFeature(PackageManager.FEATURE_CAMERA_ANY)) {
             // Continue with the part of your app's workflow that requires a
             // front-facing camera.
             Log.d(TAG, "PackageManager: There is a camera available");
@@ -106,7 +110,7 @@ public class QRCodeActivity extends AppCompatActivity {
             Log.e(TAG, "PackageManager: There are NO cameras available to open");
         }
 
-        if (checkPermission()) {
+        if (p.hasPermission(Manifest.permission.CAMERA)) {
             Log.d(TAG, "PERMISSION GRANTED");
             // If the user have granted camera permission - start scanning QRCodes
             qrScanner.startPreview();
@@ -115,26 +119,53 @@ public class QRCodeActivity extends AppCompatActivity {
             Log.e(TAG, "PERMISSION DECLINED");
             // If the user have not yet granted permissions
             // or have previously declined permissions - ask the user for permissions.
-            requestPermission();
+            p.requestPermission(REQUEST_PERMISSION_CODE, Manifest.permission.CAMERA);
         }
+//        super.onStart();
+//        Log.e(TAG, "Started QRCodeActivity (onStart())");
+//
+//        PermissionManager p = new PermissionManager(this);
+//        // Check whether your app is running on a device that has a camera hardware feature.
+//        if (getApplicationContext().getPackageManager().hasSystemFeature(
+//                PackageManager.FEATURE_CAMERA_ANY)) {
+//            // Continue with the part of your app's workflow that requires a
+//            // front-facing camera.
+//            Log.d(TAG, "PackageManager: There is a camera available");
+//        }
+//        else {
+//            // Gracefully degrade your app experience.
+//            Log.e(TAG, "PackageManager: There are NO cameras available to open");
+//        }
+//
+//        if (checkPermission()) {
+//            Log.d(TAG, "PERMISSION GRANTED");
+//            // If the user have granted camera permission - start scanning QRCodes
+//            qrScanner.startPreview();
+//        }
+//        else {
+//            Log.e(TAG, "PERMISSION DECLINED");
+//            // If the user have not yet granted permissions
+//            // or have previously declined permissions - ask the user for permissions.
+//            requestPermission();
+//        }
 
     }
-
-    private boolean checkPermission() {
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
-                != PackageManager.PERMISSION_GRANTED) {
-            // Permission is not granted
-            return false;
-        }
-        return true;
-    }
-
-    private void requestPermission() {
-
-        ActivityCompat.requestPermissions(this,
-                new String[]{Manifest.permission.CAMERA},
-                REQUEST_PERMISSION_CODE);
-    }
+//
+//    private boolean checkPermission() {
+//        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
+//                != PackageManager.PERMISSION_GRANTED) {
+//            // Permission is not granted
+//            return false;
+//        }
+//        return true;
+//    }
+//
+//    private void requestPermission() {
+//
+//        ActivityCompat.requestPermissions(this,
+//                new String[]{Manifest.permission.CAMERA},
+//                REQUEST_PERMISSION_CODE);
+//    }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
@@ -160,7 +191,7 @@ public class QRCodeActivity extends AppCompatActivity {
                                         public void onClick(DialogInterface dialog, int which) {
                                             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                                                 Log.d(TAG, "which = " + which);
-                                                requestPermission();
+                                                p.requestPermission(REQUEST_PERMISSION_CODE, Manifest.permission.CAMERA);
                                             }
                                         }
                                     },
