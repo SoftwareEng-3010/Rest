@@ -9,20 +9,19 @@ import android.widget.ListView;
 import com.example.exercise_5.R;
 
 import BusinessEntities.Branch;
-import BusinessEntities.Restaurant;
-import DataAccessLayer.RestDB;
+import DataAccessLayer.RemoteRestDB;
 import UIAdapters.BranchAdapter;
 
 public class BranchesListViewActivity extends AppCompatActivity {
 
-    private RestDB rdb;
+    private RemoteRestDB rdb;
     private ListView listView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_branch_scrollview);
-        rdb = RestDB.getInstance();
+        rdb = RemoteRestDB.getInstance();
     }
 
     @Override
@@ -31,13 +30,12 @@ public class BranchesListViewActivity extends AppCompatActivity {
 
         listView = (ListView) findViewById(R.id.branchListView);
 
-        int index = getIntent().getIntExtra("restInd", 0);
-        Restaurant selectedRestaurant = rdb.getRestaurants().get(index);
+        String restName = getIntent().getStringExtra("restName");
 
         ArrayAdapter<Branch> adapter = new BranchAdapter(
                 this,
                 R.layout.item_branch,
-                selectedRestaurant.getBranches()
+                rdb.getBranches(restName)
         );
 
         listView.setAdapter(adapter);

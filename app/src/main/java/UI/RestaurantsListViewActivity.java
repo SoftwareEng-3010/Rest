@@ -8,23 +8,20 @@ import android.widget.ListView;
 
 import com.example.exercise_5.R;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import BusinessEntities.Restaurant;
-import DataAccessLayer.RestDB;
+import DataAccessLayer.RemoteRestDB;
 import UIAdapters.RestaurantAdapter;
 
 public class RestaurantsListViewActivity extends AppCompatActivity {
 
-    private RestDB rdb;
+    private RemoteRestDB rdb;
     private ListView listView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rest_scrollview);
-        rdb = RestDB.getInstance();
+        rdb = RemoteRestDB.getInstance();
     }
 
     @Override

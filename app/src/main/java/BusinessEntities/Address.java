@@ -1,10 +1,29 @@
 package BusinessEntities;
 
+import android.util.Log;
+
+import com.google.firebase.firestore.PropertyName;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
 public class Address {
+
+    private final String TAG = "Address";
+
+    public static final int FIELD_CITY = 0;
+    public static final int FIELD_STREET = 1;
+    public static final int FIELD_BUILDING_NUMBER = 2;
 
     private String city;
     private String street;
+
+    @PropertyName("building_number") // Presented in the database with this name
     private String buildingNumber;
+
+    public Address() {
+        // Empty constructor is required by Firebase method .toObject()
+    }
 
     public Address(String city, String street, String buildingNumber) {
         this.city = city;
@@ -12,36 +31,70 @@ public class Address {
         this.buildingNumber = buildingNumber;
     }
 
-    public String getCity() {
-        return city;
+    public Address(String addressAsString) {
+        Log.e(TAG + "Constructor(Str)", addressAsString);
+
+        try {
+            String[] fields = addressAsString.split(",");
+
+            this.city = fields[FIELD_CITY].trim();
+            this.street = fields[FIELD_STREET].trim();
+            this.buildingNumber = fields[FIELD_BUILDING_NUMBER].trim();
+        }
+        catch (Exception e) {
+            Log.e(TAG, e.getMessage());
+        }
     }
 
-    public void setCity(String city) {
-        this.city = city;
+    public Address(JSONObject json) {
+        initFromJSONString(json.toString());
+    }
+
+    private void initFromJSONString(String jsonString) {
+        try {
+            JSONObject json = new JSONObject(jsonString);
+            Log.e(TAG, "Initializing Address with JSON: " + jsonString);
+            this.city = json.getString("city");
+            this.street = json.getString("street");
+            this.buildingNumber = json.getString("building_number");
+        }
+        catch (JSONException e) {
+            Log.e(TAG, e.getMessage());
+        }
+    }
+
+    public Address(Address other) {
+        this.city = other.city;
+        this.street = other.street;
+        this.buildingNumber = other.buildingNumber;
+
+    }
+
+    public String getCity() {
+        return city;
     }
 
     public String getStreet() {
         return street;
     }
 
-    public void setStreet(String street) {
-        this.street = street;
-    }
-
+    @PropertyName("building_number")
     public String getBuildingNumber() {
         return buildingNumber;
     }
 
-    public void setBuildingNumber(String buildingNumber) {
-        this.buildingNumber = buildingNumber;
+    @Override
+    public String toString() {
+        return city +
+                ", " + street +
+                ", " + buildingNumber;
     }
 
     @Override
-    public String toString() {
-        return "Address{" +
-                "city='" + city + '\'' +
-                ", street='" + street + '\'' +
-                ", buildingNumber='" + buildingNumber + '\'' +
-                '}';
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Address address = (Address) o;
+        return buildingNumber.equals(address.buildingNumber) && city.equals(address.city) && street.equals(address.street);
     }
 }
