@@ -27,18 +27,12 @@ public class BranchAdapter extends ArrayAdapter<Branch> {
     private Context context;
     private int resource;
     private List<Branch> branches;
-    private String restID;
 
     public BranchAdapter(@NonNull Context context, int resource, List<Branch> branches) {
         super(context, resource, branches);
         this.branches = branches;
         this.context = context;
         this.resource = resource;
-    }
-
-    public void setRestID(String id) {
-
-        this.restID = id;
     }
 
     @Override
@@ -67,9 +61,8 @@ public class BranchAdapter extends ArrayAdapter<Branch> {
                 int branchIndex = parentView.indexOfChild((View) v.getParent().getParent());
                 Intent moveToBranchViewActivity =
                         new Intent(getContext(), BranchViewActivity.class);
-                String branchID = branches.get(branchIndex).getDocId();
-//                String restID = branches.get(branchIndex)
-                moveToBranchViewActivity.putExtra("branchID", branchID);
+                String branchMenuId = branches.get(branchIndex).getMenuId();
+                moveToBranchViewActivity.putExtra("branchMenuID", branchMenuId);
                 getContext().startActivity(moveToBranchViewActivity);
             }
         });

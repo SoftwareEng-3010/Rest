@@ -11,7 +11,7 @@ public class Branch {
     @DocumentId
     private String docId;
     private Address address;
-    private List<Item> menu;
+    private String menuId;
     private List<Table> tables;
 
     @PropertyName("isKosher")
@@ -24,17 +24,17 @@ public class Branch {
     public Branch() {
         // Empty constructor is required by Firebase method .toObject()
     }
-    public Branch(Address address, String id, boolean isKosher/*, boolean isOpen*/, List<Item> menu, List<Table> tables) {
+    public Branch(Address address, String id, boolean isKosher/*, boolean isOpen*/, String menuId, List<Table> tables) {
         this.address = address;
         this.isKosher = isKosher;
-        this.menu = menu;
+        this.menuId = menuId;
         this.tables = tables;
     }
 
     public Branch(Branch other) {
         this.address = other.address; // Has a copy constructor
         this.isKosher = other.isKosher;
-        this.menu = other.menu;
+        this.menuId = other.menuId;
 
     }
 
@@ -46,8 +46,8 @@ public class Branch {
         return address;
     }
 
-    public List<Item> getMenu() {
-        return menu;
+    public String getMenuId() {
+        return menuId;
     }
 
     @PropertyName("isKosher")
@@ -68,7 +68,7 @@ public class Branch {
         return "\nBranch{\n" +
                 "address=" + address +
                 ", isKosher=" + isKosher +
-                ",\n menu=" + menu +
+                ",\n menu=" + menuId +
                 ",\n tables=" + tables +
                 "\n}\n";
     }
