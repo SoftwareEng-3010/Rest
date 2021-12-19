@@ -97,6 +97,7 @@ public class RestDB {
                 restCollection.document(restId).collection(BRANCHES_COLLECTION_NAME);
 
         DocumentReference branchDocRef = branchCollection.document(branchId);
+
         branchDocRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
@@ -161,6 +162,7 @@ public class RestDB {
             }
         });
     }
+
 }
 
 

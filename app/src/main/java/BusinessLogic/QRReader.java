@@ -9,7 +9,7 @@ import org.json.JSONObject;
 
 import BusinessEntities.Address;
 import BusinessEntities.QRCode;
-import DataAccessLayer.RemoteRestDB;
+//import DataAccessLayer.RemoteRestDB;
 
 /**
  * QRReader class will handle the validation and parsing of

@@ -18,6 +18,7 @@ import com.example.exercise_5.R;
 import java.util.List;
 
 import BusinessEntities.Branch;
+import UI.BranchViewActivity;
 //import UI.BranchViewActivity;
 
 public class BranchAdapter extends ArrayAdapter<Branch> {
@@ -58,11 +59,11 @@ public class BranchAdapter extends ArrayAdapter<Branch> {
 
                 ListView parentView = (ListView) v.getParent().getParent().getParent();
                 int branchIndex = parentView.indexOfChild((View) v.getParent().getParent());
-//                Intent moveToSingleBranchActivity =
-//                        new Intent(getContext(), BranchViewActivity.class);
-//                String bAddress = branches.get(branchIndex).getAddress().toString();
-//                moveToSingleBranchActivity.putExtra("branchAddress", bAddress);
-//                getContext().startActivity(moveToSingleBranchActivity);
+                Intent moveToSingleBranchActivity =
+                        new Intent(getContext(), BranchViewActivity.class);
+                String bAddress = branches.get(branchIndex).getAddress().toString();
+                moveToSingleBranchActivity.putExtra("branchAddress", bAddress);
+                getContext().startActivity(moveToSingleBranchActivity);
             }
         });
 

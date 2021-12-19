@@ -94,6 +94,7 @@ public class QRCodeActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         Log.e(TAG, "Started QRCodeActivity (onStart())");
+
         // Check whether your app is running on a device that has a camera hardware feature.
         if (getApplicationContext().getPackageManager().hasSystemFeature(
                 PackageManager.FEATURE_CAMERA_ANY)) {
@@ -117,7 +118,6 @@ public class QRCodeActivity extends AppCompatActivity {
             // or have previously declined permissions - ask the user for permissions.
             requestPermission();
         }
-
     }
 
     private boolean checkPermission() {

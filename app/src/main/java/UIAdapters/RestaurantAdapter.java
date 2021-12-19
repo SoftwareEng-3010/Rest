@@ -3,6 +3,7 @@ package UIAdapters;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +20,7 @@ import java.util.List;
 
 import BusinessEntities.Restaurant;
 import UI.BranchesListViewActivity;
+import UI.RestaurantsListViewActivity;
 
 public class RestaurantAdapter extends ArrayAdapter<Restaurant> {
 
