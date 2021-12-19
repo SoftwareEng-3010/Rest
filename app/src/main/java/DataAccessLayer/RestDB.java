@@ -127,7 +127,7 @@ public class RestDB {
         // the list we will be returning
         ArrayList<String> restNames = new ArrayList<>();
 
-
+        Log.d(TAG, "getRestaurant start");
         // document references
         restCollection.addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
@@ -233,15 +233,14 @@ public class RestDB {
                 if(error != null){
                     Log.w(TAG, "Listen failed " + error.getMessage());
                 }
-
                 else if(value != null){
                     List<DocumentSnapshot> documentSnapshots = value.getDocuments();
                     for(DocumentSnapshot documentSnapshot : documentSnapshots){
                         Restaurant restaurant = documentSnapshot.toObject(Restaurant.class);
+                        Log.d(TAG, restaurant.getName());
                         restaurants.add(restaurant);
                     }
                 }
-
                 else {
                     Log.e(TAG, "Query failed");
                 }
