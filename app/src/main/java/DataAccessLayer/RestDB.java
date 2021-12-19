@@ -112,7 +112,6 @@ public class RestDB {
         });
     }
 
-
     public void getMenu(String restId, String branchId, OnDataReceived dataClient){
 
         CollectionReference branchCollection =

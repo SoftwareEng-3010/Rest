@@ -38,7 +38,7 @@ public class RestaurantsListViewActivity extends AppCompatActivity {
     }
 
     private void setUpAdapter() {
-        rdb.getAllRestaurants(new OnDataReceived() {
+        rdb.getRestaurants(new OnDataReceived() {
             @Override
             public void onObjectReturnedFromDB(Object obj) {
 
