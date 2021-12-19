@@ -71,6 +71,8 @@ public class RemoteRestDB {
         // the list we will be returning
         ArrayList<String> restNames = new ArrayList<>();
 
+        restCollection.document().se
+
         // document references
         restCollection.addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override

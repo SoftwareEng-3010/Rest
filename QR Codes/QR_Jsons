@@ -6,3 +6,15 @@
 { "restaurant_id": 2, "branch_id" : 1 , "table_num" : 2}
 { "restaurant_id": 3, "branch_id" : 1 , "table_num" : 1}
 { "restaurant_id": 3, "branch_id" : 1 , "table_num" : 2}
+
+
+
+{
+    "restaurant_id": "BKxoYnZGNLOghk9qCzvj",
+    "branch_address": {
+        "city": "Tel Aviv",
+        "street": "Ben Yehuda",
+        "building_number": 12
+    },
+    "table_num": 1
+}
