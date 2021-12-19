@@ -1,13 +1,42 @@
-{ "restaurant_id": 1, "branch_id" : 1 , "table_num" : 1}
-{ "restaurant_id": 1, "branch_id" : 1 , "table_num" : 2}
-{ "restaurant_id": 1, "branch_id" : 2 , "table_num" : 1}
-{ "restaurant_id": 1, "branch_id" : 2 , "table_num" : 2}
-{ "restaurant_id": 2, "branch_id" : 1 , "table_num" : 1}
-{ "restaurant_id": 2, "branch_id" : 1 , "table_num" : 2}
-{ "restaurant_id": 3, "branch_id" : 1 , "table_num" : 1}
-{ "restaurant_id": 3, "branch_id" : 1 , "table_num" : 2}
+{
+    "restaurant_id": "qJXPYuqAjntu80liXGRE",
+    "branch_address": {
+        "city": "Ramat Gan",
+        "street": "Haro'e",
+        "building_number": 3
+    },
+    "table_num": 1
+}
 
+{
+    "restaurant_id": "qJXPYuqAjntu80liXGRE",
+    "branch_address": {
+        "city": "Ramat Gan",
+        "street": "Haro'e",
+        "building_number": 3
+    },
+    "table_num": 2
+}
 
+{
+    "restaurant_id": "KFKm2jdfHUy5rwdThhj3",
+    "branch_address": {
+        "city": "Jerusalem",
+        "street": "King George",
+        "building_number": 8
+    },
+    "table_num": 1
+}
+
+{
+    "restaurant_id": "KFKm2jdfHUy5rwdThhj3",
+    "branch_address": {
+        "city": "Jerusalem",
+        "street": "King George",
+        "building_number": 8
+    },
+    "table_num": 2
+}
 
 {
     "restaurant_id": "BKxoYnZGNLOghk9qCzvj",
@@ -18,3 +47,37 @@
     },
     "table_num": 1
 }
+
+{
+    "restaurant_id": "BKxoYnZGNLOghk9qCzvj",
+    "branch_address": {
+        "city": "Tel Aviv",
+        "street": "Ben Yehuda",
+        "building_number": 12
+    },
+    "table_num": 2
+}
+
+{
+    "restaurant_id": "BKxoYnZGNLOghk9qCzvj",
+    "branch_address": {
+        "city": "Yehud",
+        "street": "Ashkenazi",
+        "building_number": 77
+    },
+    "table_num": 1
+}
+
+{
+    "restaurant_id": "BKxoYnZGNLOghk9qCzvj",
+    "branch_address": {
+        "city": "Yehud",
+        "street": "Ashkenazi",
+        "building_number": 77
+    },
+    "table_num": 2
+}
+
+
+
+
