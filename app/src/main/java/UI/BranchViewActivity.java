@@ -99,17 +99,6 @@ public class BranchViewActivity extends AppCompatActivity {
         String selectedRestaurant = getIntent().getStringExtra(QRCode.KEY_RESTAURANT_ID);
         String selectedBranch = getIntent().getStringExtra(QRCode.KEY_BRANCH_ADDRESS);
         int selectedTable = getIntent().getIntExtra(QRCode.KEY_TABLE_NUMBER, 0);
-
-
-//        branchNameText.setText(restaurant.getBranches().get(selectedBranch).getAddress().get("city"));
-//
-//        ArrayAdapter<Item> adapter = new BranchDisplayAdapter(
-//                this,
-//                R.layout.item_menu,
-//                branch.getMenu()
-//        );
-//
-//        listView.setAdapter(adapter);
     }
 
     private void getBranchFromIntent() {
