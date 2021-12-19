@@ -35,6 +35,7 @@ public class RestaurantAdapter extends ArrayAdapter<Restaurant> {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
+
         // Get the data item for this position
         Restaurant restaurant = restaurants.get(position);
         String restaurantName = restaurant.getName();
@@ -59,7 +60,7 @@ public class RestaurantAdapter extends ArrayAdapter<Restaurant> {
                 int index = parentView.indexOfChild((View) v.getParent().getParent());
                 Intent moveToBranchesActivity =
                         new Intent(getContext(), BranchesListViewActivity.class);
-                String restID = restaurants.get(index).getName();
+                String restID = restaurants.get(index).getDocId();
                 moveToBranchesActivity.putExtra("restID", restID);
                 getContext().startActivity(moveToBranchesActivity);
             }
