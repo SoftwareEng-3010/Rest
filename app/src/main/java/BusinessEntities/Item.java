@@ -1,18 +1,23 @@
 package BusinessEntities;
 
+import com.google.firebase.firestore.PropertyName;
+
 public class Item {
 
     private String description;
-    private String imageURL;
+
     private String name;
     private String serviceUnit;
+    private double price;
+    private String imageURL;
     private boolean inStock;
-    private int price;
 
-    public Item(){}
+    public Item(){
+        // Empty constructor required by Firebase method .toObject()
+    }
 
     public Item(String description, String imageURL, String name, String serviceUnit,
-                boolean inStock, int price) {
+                boolean inStock, double price) {
         this.description = description;
         this.imageURL = imageURL;
         this.name = name;
@@ -41,7 +46,7 @@ public class Item {
         return inStock;
     }
 
-    public int getPrice() {
+    public double getPrice() {
         return price;
     }
 
@@ -49,31 +54,15 @@ public class Item {
         this.description = description;
     }
 
-    public void setImageURL(String imageURL) {
-        this.imageURL = imageURL;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setServiceUnit(String serviceUnit) {
-        this.serviceUnit = serviceUnit;
-    }
-
-    public void setInStock(boolean inStock) {
-        this.inStock = inStock;
-    }
-
-    public void setPrice(int price) {
-        this.price = price;
-    }
-
     @Override
     public String toString() {
-        return "Item{" +
-                "name='" + name + '\'' +
+        return "\nItem{" +
+                "description='" + description + '\'' +
+                ", name='" + name + '\'' +
+                ", serviceUnit='" + serviceUnit + '\'' +
                 ", price=" + price +
+                ", imageURL='" + imageURL + '\'' +
+                ", inStock=" + inStock +
                 '}';
     }
 }

@@ -6,39 +6,41 @@ import java.util.List;
 
 public class Branch {
 
-    // private fields
+    // ------- Branch info ----------
     private Address address;
-    private int id;
-    private boolean isKosher;
     private List<Item> menu;
     private List<Table> tables;
 
-    // empty constructor for deserializing Firestore document
-    public Branch(){}
+    @PropertyName("isKosher")
+    private boolean isKosher;
+    // More will be added ...
+//    private boolean isOpen;
+//    private Menu menuObj;
+    // ------------------------------
+    public Branch() {
+        // Empty constructor is required by Firebase method .toObject()
+    }
 
-    public Branch(Address address, int id, boolean isKosher,
-                  List<Item> menu, List<Table> tables) {
+    public Branch(Address address, String id, boolean isKosher/*, boolean isOpen*/, List<Item> menu, List<Table> tables) {
         this.address = address;
-        this.id = id;
         this.isKosher = isKosher;
         this.menu = menu;
         this.tables = tables;
+    }
+
+    public Branch(Branch other) {
+        this.address = other.address; // Has a copy constructor
+        this.isKosher = other.isKosher;
+        this.menu = other.menu;
+
     }
 
     public Address getAddress() {
         return address;
     }
 
-    public void setAddress(Address address) {
-        this.address = address;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
+    public List<Item> getMenu() {
+        return menu;
     }
 
     @PropertyName("isKosher")
@@ -46,35 +48,29 @@ public class Branch {
         return isKosher;
     }
 
-    @PropertyName("isKosher")
-    public void setKosher(boolean kosher) {
-        isKosher = kosher;
-    }
-
-    public List<Item> getMenu() {
-        return menu;
-    }
-
-    public void setMenu(List<Item> menu) {
-        this.menu = menu;
-    }
+//    public Menu getMenu() {
+//        return menuObj;
+//    }
 
     public List<Table> getTables() {
         return tables;
     }
 
-    public void setTables(List<Table> tables) {
-        this.tables = tables;
+    @Override
+    public String toString() {
+        return "\nBranch{\n" +
+                "address=" + address +
+                ", isKosher=" + isKosher +
+                ",\n menu=" + menu +
+                ",\n tables=" + tables +
+                "\n}\n";
     }
 
     @Override
-    public String toString() {
-        return "Branch{" +
-                "address=" + address +
-                ", id=" + id +
-                ", isKosher=" + isKosher +
-                ", menu=" + menu +
-                ", tables=" + tables +
-                '}';
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Branch branch = (Branch) o;
+        return address.equals(branch.address);
     }
 }

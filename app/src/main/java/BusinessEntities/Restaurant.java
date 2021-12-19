@@ -1,68 +1,42 @@
 package BusinessEntities;
 
-import androidx.annotation.NonNull;
-
-import java.util.ArrayList;
 import java.util.List;
 
 public class Restaurant {
 
-    // private fields
-    private int id;
+//    private int id;
     private String name;
     private List<Branch> branches;
+//    public static final String FIELD_ID = "restaurant_id";
+//    public static final String FIELD_NAME = "name";
+//    public static final String FIELD_BRANCHES = "branches";
+    // Other fields will be added
 
-    // empty constructor for deserializing Firestore documents
-    public Restaurant(){}
+    public Restaurant() {
+        // Empty constructor required by Firebase method .toObject()
+    }
 
-    public Restaurant(int id, String name, List<Branch> branches) {
-        this.id = id;
+    public Restaurant(String name, List<Branch> branches) {
+//        this.id = id;
         this.name = name;
         this.branches = branches;
     }
 
-
-    // setters & getters
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setBranches(List<Branch> branches) {
-        this.branches = branches;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public int getNumOfBranches() {
-        return branches.size();
-    }
+//    public String getId() {
+//        return id;
+//    }
 
     public String getName() {
         return name;
     }
 
-    public List<Branch> getBranches() {
-        return branches;
-    }
+    public List<Branch> getBranches() {return this.branches;}
 
-
-    // A String representation of a Restaurant object
     @Override
-    public String toString(){
-        String res = "";
-        res += "Restaurant id: " + this.id + '\n' +
-                "Restaurant name: " + this.name + '\n' +
-                "This restaurant has " + getNumOfBranches() + " branches: \n";
-
-        for(Branch branch : branches){
-            res += branch.toString();
-        }
-        return res;
+    public String toString() {
+        return "Restaurant{\n" +
+                "name='" + name + '\'' +
+                ", branches=" + branches +
+                "\n}";
     }
 }

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/branch_name_TV"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Branch name" />
+
+        <TextView
+            android:id="@+id/branch_business_hrs_TV"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Business hours:" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/user_selected_table_TV"
+            android:text="You are now sitting at table: "/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/branch_menu_recycle_view"
+            android:layout_marginTop="40dp"/>
+
+    </LinearLayout>
+
+</RelativeLayout>
