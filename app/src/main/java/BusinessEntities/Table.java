@@ -1,12 +1,20 @@
 package BusinessEntities;
 
+import com.google.firebase.firestore.PropertyName;
+
 public class Table {
 
     private int tableIndex;
     private int capacity;
     private double billAmount;
+    @PropertyName("isOccupied")
     private boolean isOccupied;
+    @PropertyName("isInside")
     private boolean isInside;
+
+    public Table() {
+        // Empty constructor required by Firebase method .toObject()
+    }
 
     public Table(int tableIndex, int capacity, double billAmount,
                  boolean isOccupied, boolean isInside) {
@@ -17,44 +25,34 @@ public class Table {
         this.isInside = isInside;
     }
 
-    public int getTableIndex() {
-        return tableIndex;
+    public Table(Table other) {
+        this.billAmount = other.billAmount;
+        this.tableIndex = other.tableIndex;
+        this.capacity = other.capacity;
+        this.isInside = other.isInside;
+        this.isOccupied = other.isOccupied;
     }
 
-    public void setTableIndex(int tableIndex) {
-        this.tableIndex = tableIndex;
+    public int getTableIndex() {
+        return tableIndex;
     }
 
     public int getCapacity() {
         return capacity;
     }
 
-    public void setCapacity(int capacity) {
-        this.capacity = capacity;
-    }
-
     public double getBillAmount() {
         return billAmount;
     }
 
-    public void setBillAmount(double billAmount) {
-        this.billAmount = billAmount;
-    }
-
+    @PropertyName("isOccupied")
     public boolean isOccupied() {
         return isOccupied;
     }
 
-    public void setOccupied(boolean occupied) {
-        isOccupied = occupied;
-    }
-
+    @PropertyName("isInside")
     public boolean isInside() {
         return isInside;
-    }
-
-    public void setInside(boolean inside) {
-        isInside = inside;
     }
 
     @Override

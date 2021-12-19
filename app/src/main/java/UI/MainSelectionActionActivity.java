@@ -14,9 +14,9 @@ import com.example.exercise_5.R;
 
 import java.util.List;
 
-import BusinessEntities.Restaurant;
-import DataAccessLayer.RemoteRestDB;
-import DataAccessLayer.RestDB;
+//import BusinessEntities.Restaurant;
+//import DataAccessLayer.RemoteRestDB;
+//import DataAccessLayer.RestDB;
 
 /**
  * This Activity allows the user to select between two

@@ -4,40 +4,39 @@ import java.util.List;
 
 public class Restaurant {
 
-    // Private fields
-    private int id;
+//    private int id;
     private String name;
+    private List<Branch> branches;
+//    public static final String FIELD_ID = "restaurant_id";
+//    public static final String FIELD_NAME = "name";
+//    public static final String FIELD_BRANCHES = "branches";
     // Other fields will be added
 
+    public Restaurant() {
+        // Empty constructor required by Firebase method .toObject()
+    }
 
-    public Restaurant(int id, String name, List<Branch> branches) {
-        this.id = id;
+    public Restaurant(String name, List<Branch> branches) {
+//        this.id = id;
         this.name = name;
+        this.branches = branches;
     }
 
-
-    // setters & getters
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public int getId() {
-        return id;
-    }
+//    public String getId() {
+//        return id;
+//    }
 
     public String getName() {
         return name;
     }
 
+    public List<Branch> getBranches() {return this.branches;}
+
     @Override
     public String toString() {
-        return "Restaurant{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                '}';
+        return "Restaurant{\n" +
+                "name='" + name + '\'' +
+                ", branches=" + branches +
+                "\n}";
     }
 }

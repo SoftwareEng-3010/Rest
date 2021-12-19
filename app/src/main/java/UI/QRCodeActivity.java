@@ -7,7 +7,8 @@ import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.TextView;
+import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -23,24 +24,27 @@ import com.budiyev.android.codescanner.DecodeCallback;
 import com.budiyev.android.codescanner.ErrorCallback;
 import com.budiyev.android.codescanner.ScanMode;
 import com.example.exercise_5.R;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.zxing.Result;
 
+import BusinessEntities.QRCode;
+import BusinessEntities.Restaurant;
 import BusinessLogic.QRReader;
 //import BusinessLogic.QRReader;
 
 public class QRCodeActivity extends AppCompatActivity {
 
     private final String TAG = "QRCodeActivity";
-    private final String SELECTED_RESTAURANT_INDEX  = "restaurant_index";
-    private final String SELECTED_BRANCH_INDEX = "branch_index";
-    private final String SELECTED_TABLE_INDEX = "table_index";
 
     private final String PERMISSION_PROMPT = "You will need to allow Camera permissions to " +
             "scan a QR code at the restaurant you are visiting";
 
     private CodeScanner qrScanner;
     private CodeScannerView qrScannerView;
-    private TextView text;
+    private Button showListBtn;
+
+//    private TextView text;
+
     private final int REQUEST_PERMISSION_CODE = 210;
 
 
@@ -52,14 +56,37 @@ public class QRCodeActivity extends AppCompatActivity {
 
         // Get the CodeScannerView brought from `com.budiyev`
         qrScannerView = (CodeScannerView)findViewById(R.id.scanner_view);
-        text = (TextView)findViewById(R.id.qrTextView);
+//        text = (TextView)findViewById(R.id.qrTextView);
 
         qrScanner = new CodeScanner(this, qrScannerView);
         qrScanner.setCamera(CodeScanner.CAMERA_BACK);
         qrScanner.setScanMode(ScanMode.CONTINUOUS);
 
+        String email = FirebaseAuth.getInstance().getCurrentUser().getEmail();
+
         setQRCodeCaptureCallbackMethod();
         setQRCodeErrorCallbackMethod();
+
+        // References to button
+        showListBtn = (Button)findViewById(R.id.showListBtn);
+        initListeners();
+    }
+
+    private void initListeners(){
+
+        showListBtn.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            /**
+             * Move to RestaurantListViewActivity
+             */
+            public void onClick(View v) {
+
+                Intent moveToRestActivity =
+                        new Intent(QRCodeActivity.this, RestaurantsListViewActivity.class);
+                startActivity(moveToRestActivity);
+            }
+        });
     }
 
 
@@ -90,6 +117,7 @@ public class QRCodeActivity extends AppCompatActivity {
             // or have previously declined permissions - ask the user for permissions.
             requestPermission();
         }
+
     }
 
     private boolean checkPermission() {
@@ -175,33 +203,38 @@ public class QRCodeActivity extends AppCompatActivity {
                     @Override
                     public void run() {
                         Log.d(TAG, "QR Code found: " + result.getText());
+                        qrScanner.stopPreview();
                         try {
-                            // QRReader will return an array of the relevant data
-                            // to load a `Branch` menu, which is a List<Item> object
-                            int[] qrResult = QRReader.readQRResult(result);
 
-                            Intent moveToBranchDisplay = new Intent(QRCodeActivity.this,
-                                    BranchViewActivity.class);
+                            // Validating QRCode and move to BranchViewActivity
 
-                            // Prepare data for next activity
-                            moveToBranchDisplay.putExtra(SELECTED_RESTAURANT_INDEX, qrResult[0]);
-                            moveToBranchDisplay.putExtra(SELECTED_BRANCH_INDEX, qrResult[1]);
-                            moveToBranchDisplay.putExtra(SELECTED_TABLE_INDEX, qrResult[2]);
+                            QRCode scannedQR = QRReader.readFromResult(result);
 
-                            // Stop camera and move to BranchDisplay
-                            qrScanner.stopPreview();
+                            // Release camera resource
                             qrScanner.releaseResources();
-                            startActivity(moveToBranchDisplay);
-                            finish(); // activity can be finished
+
+                            // Move to next activity
+                            moveToBranchViewActivity(scannedQR);
                         }
                         catch (Exception e) {
-                            Log.e(TAG, "Invalid QRCode");
                             Log.e(TAG, e.getMessage());
+                            qrScanner.startPreview();
                         }
                     }
                 });
             }
         });
+    }
+
+    private void moveToBranchViewActivity(QRCode qr) {
+        Intent moveToBranchView = new Intent(this, BranchViewActivity.class);
+
+        // Add extra data to next activity:
+        moveToBranchView.putExtra(QRCode.KEY_RESTAURANT_ID, qr.getRestaurantId());
+        moveToBranchView.putExtra(QRCode.KEY_BRANCH_ADDRESS, qr.getBranchAddress().toString());
+        moveToBranchView.putExtra(QRCode.KEY_TABLE_NUMBER, qr.getTableNumber());
+
+        startActivity(moveToBranchView);
     }
 
     /**

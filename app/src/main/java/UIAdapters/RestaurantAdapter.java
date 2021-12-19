@@ -39,6 +39,7 @@ public class RestaurantAdapter extends ArrayAdapter<Restaurant> {
         // Get the data item for this position
         Restaurant restaurant = restaurantNames.get(position);
         String restaurantName = restaurant.getName();
+//        String restaurantId = restaurant.getId();
 
         // Check if an existing view is being reused, otherwise inflate the view
         if (convertView == null) {
