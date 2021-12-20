@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.TextView;
 
 import com.example.exercise_5.R;
@@ -47,50 +48,11 @@ public class BranchViewActivity extends AppCompatActivity {
 
         // Must come from QRCodeActivity:
         int tableNumber = getIntent().getIntExtra(QRCode.KEY_TABLE_NUMBER, -1);
-
         // Must come only from manual restaurant selection:
-        String menuPath = getIntent().getStringExtra("menuPath");
+        String menuPath = getIntent().getStringExtra("menu_path");
 
         // Get Branch from Database
         getBranchAndMenu(restId, branchId, menuPath);
-
-//        List<Item> menu = branch.getMenu();
-
-        // Get selected branch
-
-
-
-    }
-
-    public void getBranchAndMenu(String restId, String branchId, String menuPath) {
-
-        rdb.getBranch(restId, branchId,
-                new OnDataReceived() {
-                    @Override
-                    public void onObjectReturnedFromDB(Object obj) {
-                        branch = (Branch) obj;
-                        if (branch != null) {
-                            if (menuPath == null) {
-                                rdb.getMenu(restId, branchId, new OnDataReceived() {
-                                    @Override
-                                    public void onObjectReturnedFromDB(Object obj) {
-                                        menu = (Menu) obj;
-                                        setupUI();
-                                    }
-                                });
-                            }
-                            else {
-                                rdb.getMenu(menuPath, new OnDataReceived() {
-                                    @Override
-                                    public void onObjectReturnedFromDB(Object obj) {
-                                        menu = (Menu) obj;
-                                        setupUI();
-                                    }
-                                });
-                            }
-                        }
-                    }
-                });
     }
 
     private void setupUI() {
@@ -113,5 +75,29 @@ public class BranchViewActivity extends AppCompatActivity {
         menuRecyclerView = (RecyclerView) findViewById(R.id.branch_menu_recycle_view);
         menuRecyclerView.setLayoutManager(new LinearLayoutManager(BranchViewActivity.this));
         menuRecyclerView.setAdapter(menuAdapter);
+    }
+
+    public void getBranchAndMenu(String restId, String branchId, String menuPath) {
+
+        rdb.getBranch(branchId, new OnDataReceived() {
+            @Override
+            public void onObjectReturnedFromDB(Object obj) {
+                branch = (Branch) obj;
+                if (branch != null) {
+                    rdb.getMenu(restId, branchId, menuPath,
+                            new OnDataReceived() {
+                        @Override
+                        public void onObjectReturnedFromDB(Object obj) {
+                            menu = (Menu) obj;
+                            setupUI();
+                        }
+                    });
+                }
+                else {
+                    Log.e(TAG, "An error occurred retrieving Branch "
+                            + branchId + " from Database");
+                }
+            }
+        });
     }
 }

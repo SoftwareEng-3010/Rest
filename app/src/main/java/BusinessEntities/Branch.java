@@ -23,10 +23,11 @@ public class Branch {
         // Empty constructor is required by Firebase method .toObject()
     }
 
-    public Branch(Address address, String id, boolean isKosher, String menuId, List<Table> tables) {
+    public Branch(Address address, String id, boolean isKosher, String menuPath, List<Table> tables) {
         this.address = address;
         this.isKosher = isKosher;
         this.tables = tables;
+        this.menuPath = menuPath;
     }
 
     public Branch(Branch other) {
