@@ -47,7 +47,8 @@ public class MenuRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
 
         itemNameTV.setText(item.getName());
         itemDescriptionTV.setText(item.getDescription());
-        itemPriceTV.setText(Integer.toString((int)item.getPrice()));
+        itemPriceTV.setText(Integer.toString((int)item.getPrice()) + "₪");
+
 
         // TODO: add OnClickListener to button
     }
