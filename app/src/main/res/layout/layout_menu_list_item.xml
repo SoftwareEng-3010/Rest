@@ -12,20 +12,12 @@
         android:weightSum="100"
         >
 
-        <Button
-            android:id="@+id/btn_add_to_order"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="33.3"
-            android:gravity="left"
-            android:text="Add to order" />
-
         <LinearLayout
             android:id="@+id/idk"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="66.6"
-            android:layout_gravity="right"
+            android:layout_gravity="left"
             android:orientation="vertical">
 
             <TextView
@@ -33,7 +25,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
-                android:gravity="right"
+                android:gravity="left"
                 android:text="item name: " />
 
             <TextView
@@ -41,7 +33,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
-                android:gravity="right"
+                android:gravity="left"
                 android:text="item price: " />
 
             <TextView
@@ -49,9 +41,17 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
-                android:gravity="right"
+                android:gravity="left"
                 android:text="item is in stock: " />
         </LinearLayout>
+
+        <Button
+            android:id="@+id/btn_add_to_order"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="33.3"
+            android:gravity="right"
+            android:text="Add to order" />
 
     </LinearLayout>
 
