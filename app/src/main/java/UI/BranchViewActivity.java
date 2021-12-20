@@ -44,6 +44,7 @@ public class BranchViewActivity extends AppCompatActivity {
     private RecyclerView menuRecyclerView;
 
     private BranchMenuViewModel branchMenuViewModel;
+    private MenuRecyclerViewAdapter menuAdapter;
     
     private Branch branch;
 
@@ -69,7 +70,6 @@ public class BranchViewActivity extends AppCompatActivity {
         // Initialize ViewModel
         branchMenuViewModel = ViewModelProvider.AndroidViewModelFactory.getInstance(getApplication()).create(BranchMenuViewModel.class);
 
-        getBranchFromIntent();
 
 //        List<Item> menu = branch.getMenu();
 
@@ -79,14 +79,18 @@ public class BranchViewActivity extends AppCompatActivity {
 //        items.add(new Item("desc2", "someImgURL", "itemName2", "bar", false, 21.0));
         // -----------------------------------------------------------------------------------
 
+        // Get selected branch
+
+
+
         // set up adapter
-//        MenuRecyclerViewAdapter menuAdapter = new MenuRecyclerViewAdapter(this, menu);
+//        menuAdapter = new MenuRecyclerViewAdapter(this, menu);
 
         // set up the RecyclerView
         menuRecyclerView = (RecyclerView) findViewById(R.id.branch_menu_recycle_view);
 
-//        menuRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-//        menuRecyclerView.setAdapter(menuAdapter);
+        menuRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        menuRecyclerView.setAdapter(menuAdapter);
 
         // TODO: 12/18/2021 Stopped here
 //        branch = rdb.getBranch(getIntent()
@@ -97,42 +101,8 @@ public class BranchViewActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
 
-
         String selectedRestaurant = getIntent().getStringExtra(QRCode.KEY_RESTAURANT_ID);
         String selectedBranch = getIntent().getStringExtra(QRCode.KEY_BRANCH_ADDRESS);
         int selectedTable = getIntent().getIntExtra(QRCode.KEY_TABLE_NUMBER, 0);
     }
-
-    private void getBranchFromIntent() {
-
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-
-        List<Branch> branchList = new ArrayList<>();
-
-        String restaurantId = getIntent().getStringExtra(QRCode.KEY_RESTAURANT_ID);
-        String branchAddressString = getIntent().getStringExtra(QRCode.KEY_BRANCH_ADDRESS);
-
-        Address branchAddress = new Address(branchAddressString);
-
-
-        db.collection("restaurants").document(restaurantId).get().addOnCompleteListener(
-                new OnCompleteListener<DocumentSnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                        if (task.isSuccessful()) {
-
-                            Restaurant r = task.getResult().toObject(Restaurant.class);
-                            if (r == null) return;
-                            for (Branch b : r.getBranches()) {
-                                if (b.getAddress().equals(branchAddress)) {
-                                    branch = b;
-                                }
-                            }
-                            Log.e(TAG, "Found required branch: " + branch.toString());
-                        }
-                    }
-                }
-        );
-    }
-
 }

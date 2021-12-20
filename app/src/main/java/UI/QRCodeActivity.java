@@ -40,7 +40,6 @@ public class QRCodeActivity extends AppCompatActivity {
             "scan a QR code at the restaurant you are visiting";
 
     private CodeScanner qrScanner;
-    private CodeScannerView qrScannerView;
     private Button showListBtn;
 
 //    private TextView text;
@@ -55,14 +54,12 @@ public class QRCodeActivity extends AppCompatActivity {
         Log.e(TAG, "onCreate(QR)");
 
         // Get the CodeScannerView brought from `com.budiyev`
-        qrScannerView = (CodeScannerView)findViewById(R.id.scanner_view);
+        CodeScannerView qrScannerView = (CodeScannerView)findViewById(R.id.scanner_view);
 //        text = (TextView)findViewById(R.id.qrTextView);
 
         qrScanner = new CodeScanner(this, qrScannerView);
         qrScanner.setCamera(CodeScanner.CAMERA_BACK);
         qrScanner.setScanMode(ScanMode.CONTINUOUS);
-
-        String email = FirebaseAuth.getInstance().getCurrentUser().getEmail();
 
         setQRCodeCaptureCallbackMethod();
         setQRCodeErrorCallbackMethod();
