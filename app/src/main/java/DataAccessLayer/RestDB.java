@@ -37,7 +37,7 @@ public class RestDB {
     private final String TAG = "RestDB";                // for debugging
 
     // constant strings for querying database
-    private final String BRANCHES_COLLECTION_NAME =  "branch";
+    private final String BRANCHES_COLLECTION_NAME = "branch";
     private final String RESTAURANT_COLLECTION_NAME = "our_restaurants";
     private final String MENU_FIELD_NAME = "menu_path";
 
@@ -68,7 +68,7 @@ public class RestDB {
         return instance;
     }
 
-    public void getBranches(String restId, OnDataReceived dataClient){
+    public void getBranches(String restId, OnDataReceived dataClient) {
 
         List<Branch> branches = new ArrayList<>();
 
@@ -76,8 +76,8 @@ public class RestDB {
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if(task.isSuccessful()){
-                            for(QueryDocumentSnapshot queryDocumentSnapshot : task.getResult()){
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot queryDocumentSnapshot : task.getResult()) {
                                 branches.add(queryDocumentSnapshot.toObject(Branch.class));
                             }
                             dataClient.onObjectReturnedFromDB(branches);
@@ -89,61 +89,40 @@ public class RestDB {
 
     }
 
-    public void getBranch(String restId, String branchId, OnDataReceived dataClient){
-        CollectionReference branchCollection =
-                restCollection.document(restId).collection(BRANCHES_COLLECTION_NAME);
-
-        DocumentReference branchDocRef = branchCollection.document(branchId);
-
-        branchDocRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if(task.isSuccessful()){
-                    DocumentSnapshot documentSnapshot = task.getResult();
-                    dataClient.onObjectReturnedFromDB(documentSnapshot.toObject(Branch.class));
-                } else {
-                    Log.e(TAG, task.getException().getMessage());
-                    dataClient.onObjectReturnedFromDB(null);
-                }
-            }
-        });
-    }
-
     public void getBranch(String branchId, OnDataReceived callBack) {
 
         restCollection.get().addOnCompleteListener(
                 new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if(task.isSuccessful()){
+                        if (task.isSuccessful()) {
                             List<DocumentSnapshot> restaurantDocs = task.getResult().getDocuments();
                             for (DocumentSnapshot doc : restaurantDocs) {
                                 restCollection.document(doc.getId())
                                         .collection(BRANCHES_COLLECTION_NAME).get()
                                         .addOnCompleteListener(
-                                        new OnCompleteListener<QuerySnapshot>() {
-                                            @Override
-                                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                                new OnCompleteListener<QuerySnapshot>() {
+                                                    @Override
+                                                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
 
-                                                if (task.isSuccessful()) {
-                                                    List<DocumentSnapshot> branchDocs = task.getResult().getDocuments();
+                                                        if (task.isSuccessful()) {
+                                                            List<DocumentSnapshot> branchDocs = task.getResult().getDocuments();
 
-                                                    for (DocumentSnapshot doc : branchDocs) {
-                                                        if (branchId.equals(doc.getId())) {
-                                                            callBack.onObjectReturnedFromDB(
-                                                                    doc.toObject(Branch.class)
-                                                            );
+                                                            for (DocumentSnapshot doc : branchDocs) {
+                                                                if (branchId.equals(doc.getId())) {
+                                                                    callBack.onObjectReturnedFromDB(
+                                                                            doc.toObject(Branch.class)
+                                                                    );
+                                                                }
+                                                            }
+                                                            callBack.onObjectReturnedFromDB(null);
+                                                        } else {
+                                                            // Task unsuccessful
+                                                            callBack.onObjectReturnedFromDB(null);
                                                         }
                                                     }
-                                                    callBack.onObjectReturnedFromDB(null);
                                                 }
-                                                else {
-                                                    // Task unsuccessful
-                                                    callBack.onObjectReturnedFromDB(null);
-                                                }
-                                            }
-                                        }
-                                );
+                                        );
                             }
                         } else {
                             Log.e(TAG, task.getException().getMessage());
@@ -157,13 +136,12 @@ public class RestDB {
     public void getMenu(String restId, String branchId, String menuPath, OnDataReceived callBack) {
         if (null == menuPath) {
             getMenu(restId, branchId, callBack);
-        }
-        else if (null == restId){
+        } else if (null == restId) {
             getMenu(menuPath, callBack);
         }
     }
 
-    public void getMenu(String restId, String branchId, OnDataReceived dataClient){
+    public void getMenu(String restId, String branchId, OnDataReceived dataClient) {
 
         CollectionReference branchCollection =
                 restCollection.document(restId).collection(BRANCHES_COLLECTION_NAME);
@@ -173,7 +151,7 @@ public class RestDB {
         branchDocRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if(task.isSuccessful()){
+                if (task.isSuccessful()) {
 
                     DocumentSnapshot documentSnapshot = task.getResult();
                     String menuPath = (String) documentSnapshot.get(MENU_FIELD_NAME);
@@ -182,7 +160,7 @@ public class RestDB {
                     menuDocRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                         @Override
                         public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                            if(task.isSuccessful()){
+                            if (task.isSuccessful()) {
                                 DocumentSnapshot menuSnapshot = task.getResult();
                                 Menu menu = menuSnapshot.toObject(Menu.class);
                                 dataClient.onObjectReturnedFromDB(menu);
@@ -199,12 +177,12 @@ public class RestDB {
         });
     }
 
-    public void getMenu(String menuPath, OnDataReceived dataClient){
+    public void getMenu(String menuPath, OnDataReceived dataClient) {
         db.document(menuPath).get()
                 .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                        if(task.isSuccessful()){
+                        if (task.isSuccessful()) {
                             DocumentSnapshot menuSnapshot = task.getResult();
                             dataClient.onObjectReturnedFromDB(menuSnapshot.toObject(Menu.class));
                         } else {
@@ -215,15 +193,15 @@ public class RestDB {
                 });
     }
 
-    public void getRestaurants(OnDataReceived dataReceived){
+    public void getRestaurants(OnDataReceived dataReceived) {
 
         List<Restaurant> restaurants = new ArrayList<>();
 
         restCollection.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                if(task.isSuccessful()){
-                    for(QueryDocumentSnapshot documentSnapshots : task.getResult()){
+                if (task.isSuccessful()) {
+                    for (QueryDocumentSnapshot documentSnapshots : task.getResult()) {
                         restaurants.add(documentSnapshots.toObject(Restaurant.class));
                     }
                     dataReceived.onObjectReturnedFromDB(restaurants);
@@ -236,5 +214,3 @@ public class RestDB {
     }
 
 }
-
-
