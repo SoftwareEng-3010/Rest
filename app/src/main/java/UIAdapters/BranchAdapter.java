@@ -14,6 +14,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 
 import com.example.exercise_5.R;
+import com.google.firebase.firestore.DocumentReference;
 
 import java.util.List;
 
@@ -61,8 +62,8 @@ public class BranchAdapter extends ArrayAdapter<Branch> {
                 int branchIndex = parentView.indexOfChild((View) v.getParent().getParent());
                 Intent moveToBranchViewActivity =
                         new Intent(getContext(), BranchViewActivity.class);
-                String branchMenuId = branches.get(branchIndex).getMenuId();
-                moveToBranchViewActivity.putExtra("branchMenuID", branchMenuId);
+                String menuPath = branches.get(branchIndex).getMenuPath();
+                moveToBranchViewActivity.putExtra("menuPath", menuPath);
                 getContext().startActivity(moveToBranchViewActivity);
             }
         });

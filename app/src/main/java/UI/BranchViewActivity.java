@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.exercise_5.R;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -54,6 +55,7 @@ public class BranchViewActivity extends AppCompatActivity {
 
         String restId = getIntent().getStringExtra(QRCode.KEY_RESTAURANT_ID);
         String branchAddr = getIntent().getStringExtra(QRCode.KEY_BRANCH_ADDRESS);
+        String menuPath = getIntent().getStringExtra("menuPath");
 
 //        Branch branch = rdb.getBranch(restId, branchAddr); // ??
 
