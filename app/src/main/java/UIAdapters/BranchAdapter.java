@@ -58,8 +58,8 @@ public class BranchAdapter extends ArrayAdapter<Branch> {
              */
             public void onClick(View v) {
 
-                ListView parentView = (ListView) v.getParent().getParent().getParent();
-                int branchIndex = parentView.indexOfChild((View) v.getParent().getParent());
+                ListView parentView = (ListView) v.getParent().getParent();
+                int branchIndex = parentView.indexOfChild((View) v.getParent());
                 Intent moveToBranchViewActivity =
                         new Intent(getContext(), BranchViewActivity.class);
                 String menuPath = branches.get(branchIndex).getMenuPath();
