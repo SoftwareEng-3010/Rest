@@ -30,7 +30,6 @@
         <activity android:name="UI.BranchViewActivity" />
         <activity android:name="UI.BranchesListViewActivity" />
         <activity android:name="UI.LoginActivity" />
-        <activity android:name="UI.MainSelectionActionActivity" />
         <activity android:name="UI.QRCodeActivity" />
     </application>
 
