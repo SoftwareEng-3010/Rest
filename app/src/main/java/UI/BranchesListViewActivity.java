@@ -5,7 +5,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.example.exercise_5.R;
 
@@ -55,7 +54,7 @@ public class BranchesListViewActivity extends AppCompatActivity {
                         branches = (List<Branch>) obj;
                         ArrayAdapter<Branch> adapter = new BranchAdapter(
                                 BranchesListViewActivity.this,
-                                R.layout.item_branch,
+                                R.layout.layout_branch_item,
                                 branches
                         );
                         listView.setAdapter(adapter);
