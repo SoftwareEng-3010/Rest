@@ -29,20 +29,20 @@
                 android:text="item name: " />
 
             <TextView
+                android:id="@+id/menu_item_description_TV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:gravity="left"
+                android:text="item description" />
+
+            <TextView
                 android:id="@+id/menu_item_price_TV"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:gravity="left"
                 android:text="item price: " />
-
-            <TextView
-                android:id="@+id/menu_item_inStock_TV"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:gravity="left"
-                android:text="item is in stock: " />
         </LinearLayout>
 
         <Button
