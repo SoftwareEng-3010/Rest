@@ -13,12 +13,8 @@ public class Branch {
     private String docId;
     private Address address;
     private List<Table> tables;
-
-    //private DocumentReference menuPath;
-
     @PropertyName("menu_path")
     private String menuPath;
-
     @PropertyName("isKosher")
     private boolean isKosher;
     // ------------------------------

@@ -83,6 +83,8 @@ public class RestDB {
                                 branches.add(queryDocumentSnapshot.toObject(Branch.class));
                             }
                             dataClient.onObjectReturnedFromDB(branches);
+                        } else {
+                            Log.e(TAG, task.getException().getMessage());
                         }
                     }
                 });
@@ -101,9 +103,8 @@ public class RestDB {
                 if(task.isSuccessful()){
                     DocumentSnapshot documentSnapshot = task.getResult();
                     dataClient.onObjectReturnedFromDB(documentSnapshot.toObject(Branch.class));
-                }
-                else{
-                    Log.w(TAG, "Query Failed");
+                } else {
+                    Log.e(TAG, task.getException().getMessage());
                 }
             }
         });
@@ -117,6 +118,8 @@ public class RestDB {
                     if(task.isSuccessful()){
                         DocumentSnapshot menuSnapshot = task.getResult();
                         dataClient.onObjectReturnedFromDB(menuSnapshot.toObject(Menu.class));
+                    } else {
+                        Log.e(TAG, task.getException().getMessage());
                     }
                 }
             });
@@ -148,9 +151,13 @@ public class RestDB {
                             if(task.isSuccessful()){
                                 DocumentSnapshot menuSnapshot = task.getResult();
                                 dataClient.onObjectReturnedFromDB(menuSnapshot.toObject(Menu.class));
+                            } else {
+                                Log.e(TAG, task.getException().getMessage());
                             }
                         }
                     });
+                } else {
+                    Log.e(TAG, task.getException().getMessage());
                 }
             }
         });
@@ -168,6 +175,8 @@ public class RestDB {
                         restaurants.add(documentSnapshots.toObject(Restaurant.class));
                     }
                     dataReceived.onObjectReturnedFromDB(restaurants);
+                } else {
+                    Log.e(TAG, task.getException().getMessage());
                 }
             }
         });
