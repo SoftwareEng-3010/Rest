@@ -112,6 +112,20 @@ public class RestDB {
         });
     }
 
+    public void getMenu(String menuPath, OnDataReceived dataClient){
+        db.document(menuPath).get()
+            .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                    if(task.isSuccessful()){
+                        DocumentSnapshot menuSnapshot = task.getResult();
+                        dataClient.onObjectReturnedFromDB(menuSnapshot.toObject(Menu.class));
+                    }
+                }
+            });
+    }
+
+
     public void getMenu(String restId, String branchId, OnDataReceived dataClient){
 
         CollectionReference branchCollection =
