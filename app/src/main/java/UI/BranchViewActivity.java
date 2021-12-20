@@ -30,7 +30,6 @@ public class BranchViewActivity extends AppCompatActivity {
 
     private RecyclerView menuRecyclerView;
 
-    private BranchMenuViewModel branchMenuViewModel;
     private MenuRecyclerViewAdapter menuAdapter;
     
     private Branch branch;
@@ -62,15 +61,6 @@ public class BranchViewActivity extends AppCompatActivity {
 
 
     }
-
-//    @Override
-//    protected void onStart() {
-//        super.onStart();
-//
-////        String selectedRestaurant = getIntent().getStringExtra(QRCode.KEY_RESTAURANT_ID);
-////        String selectedBranch = getIntent().getStringExtra(QRCode.KEY_BRANCH_ID);
-////        int selectedTable = getIntent().getIntExtra(QRCode.KEY_TABLE_NUMBER, 0);
-//    }
 
     public void getBranchAndMenu(String restId, String branchId, String menuPath) {
 
@@ -112,13 +102,15 @@ public class BranchViewActivity extends AppCompatActivity {
         menuRecyclerView = (RecyclerView) findViewById(R.id.branch_menu_recycle_view);
 
         // Initialize ViewModel
-        branchMenuViewModel = ViewModelProvider.AndroidViewModelFactory.getInstance(getApplication()).create(BranchMenuViewModel.class);
+        BranchMenuViewModel branchMenuViewModel = ViewModelProvider.AndroidViewModelFactory
+                .getInstance(getApplication())
+                .create(BranchMenuViewModel.class);
+
         // set up adapter
         menuAdapter = new MenuRecyclerViewAdapter(BranchViewActivity.this, menu.getMenu());
 
         // set up the RecyclerView
         menuRecyclerView = (RecyclerView) findViewById(R.id.branch_menu_recycle_view);
-
         menuRecyclerView.setLayoutManager(new LinearLayoutManager(BranchViewActivity.this));
         menuRecyclerView.setAdapter(menuAdapter);
     }
