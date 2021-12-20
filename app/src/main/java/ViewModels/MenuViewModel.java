@@ -7,7 +7,7 @@ import java.util.List;
 
 import BusinessEntities.Item;
 
-public class BranchMenuViewModel extends ViewModel {
+public class MenuViewModel extends ViewModel {
     private LiveData<List<Item>> items;
     // LiveData<Menu> menu; // ??
 

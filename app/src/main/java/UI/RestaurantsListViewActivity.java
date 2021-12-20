@@ -13,7 +13,7 @@ import java.util.List;
 import BusinessEntities.Restaurant;
 import DataAccessLayer.OnDataReceived;
 import DataAccessLayer.RestDB;
-import UIAdapters.RestaurantAdapter;
+import UIAdapters.RestaurantArrayAdapter;
 
 public class RestaurantsListViewActivity extends AppCompatActivity {
 
@@ -46,7 +46,7 @@ public class RestaurantsListViewActivity extends AppCompatActivity {
 
                 restaurants = (List<Restaurant>) obj;
 
-                ArrayAdapter<Restaurant> adapter = new RestaurantAdapter(
+                ArrayAdapter<Restaurant> adapter = new RestaurantArrayAdapter(
                         RestaurantsListViewActivity.this,
                         R.layout.layout_restaurant_item,
                         restaurants

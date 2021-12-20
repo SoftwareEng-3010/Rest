@@ -24,13 +24,10 @@ import com.budiyev.android.codescanner.DecodeCallback;
 import com.budiyev.android.codescanner.ErrorCallback;
 import com.budiyev.android.codescanner.ScanMode;
 import com.example.exercise_5.R;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.zxing.Result;
 
 import BusinessEntities.QRCode;
-import BusinessEntities.Restaurant;
 import BusinessLogic.QRReader;
-//import BusinessLogic.QRReader;
 
 public class QRCodeActivity extends AppCompatActivity {
 
@@ -41,8 +38,6 @@ public class QRCodeActivity extends AppCompatActivity {
 
     private CodeScanner qrScanner;
     private Button showListBtn;
-
-//    private TextView text;
 
     private final int REQUEST_PERMISSION_CODE = 210;
 
@@ -55,7 +50,6 @@ public class QRCodeActivity extends AppCompatActivity {
 
         // Get the CodeScannerView brought from `com.budiyev`
         CodeScannerView qrScannerView = (CodeScannerView)findViewById(R.id.scanner_view);
-//        text = (TextView)findViewById(R.id.qrTextView);
 
         qrScanner = new CodeScanner(this, qrScannerView);
         qrScanner.setCamera(CodeScanner.CAMERA_BACK);

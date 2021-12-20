@@ -13,7 +13,7 @@ import java.util.List;
 import BusinessEntities.Branch;
 import DataAccessLayer.OnDataReceived;
 import DataAccessLayer.RestDB;
-import UIAdapters.BranchAdapter;
+import UIAdapters.BranchArrayAdapter;
 
 public class BranchesListViewActivity extends AppCompatActivity {
 
@@ -52,7 +52,7 @@ public class BranchesListViewActivity extends AppCompatActivity {
 
                         // When data arrives from DB - init the ListView adapter
                         branches = (List<Branch>) obj;
-                        ArrayAdapter<Branch> adapter = new BranchAdapter(
+                        ArrayAdapter<Branch> adapter = new BranchArrayAdapter(
                                 BranchesListViewActivity.this,
                                 R.layout.layout_branch_item,
                                 branches

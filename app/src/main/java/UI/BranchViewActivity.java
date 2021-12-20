@@ -17,7 +17,7 @@ import BusinessEntities.QRCode;
 import DataAccessLayer.OnDataReceived;
 import DataAccessLayer.RestDB;
 import UIAdapters.MenuRecyclerViewAdapter;
-import ViewModels.BranchMenuViewModel;
+import ViewModels.MenuViewModel;
 
 public class BranchViewActivity extends AppCompatActivity {
 
@@ -64,9 +64,9 @@ public class BranchViewActivity extends AppCompatActivity {
         menuRecyclerView = (RecyclerView) findViewById(R.id.branch_menu_recycle_view);
 
         // Initialize ViewModel
-        BranchMenuViewModel branchMenuViewModel = ViewModelProvider.AndroidViewModelFactory
+        MenuViewModel menuViewModel = ViewModelProvider.AndroidViewModelFactory
                 .getInstance(getApplication())
-                .create(BranchMenuViewModel.class);
+                .create(MenuViewModel.class);
 
         // set up adapter
         menuAdapter = new MenuRecyclerViewAdapter(BranchViewActivity.this, menu.getMenu());

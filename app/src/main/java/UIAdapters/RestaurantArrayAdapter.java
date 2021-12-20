@@ -20,14 +20,14 @@ import java.util.List;
 import BusinessEntities.Restaurant;
 import UI.BranchesListViewActivity;
 
-public class RestaurantAdapter extends ArrayAdapter<Restaurant> {
+public class RestaurantArrayAdapter extends ArrayAdapter<Restaurant> {
 
-    private static final String TAG = "RestaurantAdapter";
+    private static final String TAG = "RestaurantArrayAdapter";
     private Context context;
     private int resource;
     private List<Restaurant> restaurants;
 
-    public RestaurantAdapter(@NonNull Context context, int resource, List<Restaurant> restaurants) {
+    public RestaurantArrayAdapter(@NonNull Context context, int resource, List<Restaurant> restaurants) {
         super(context, resource, restaurants);
         this.restaurants = restaurants;
         this.context = context;

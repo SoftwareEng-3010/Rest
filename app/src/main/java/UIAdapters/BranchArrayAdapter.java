@@ -22,14 +22,14 @@ import BusinessEntities.Branch;
 import UI.BranchViewActivity;
 //import UI.BranchViewActivity;
 
-public class BranchAdapter extends ArrayAdapter<Branch> {
+public class BranchArrayAdapter extends ArrayAdapter<Branch> {
 
-    private static final String TAG = "BranchAdapter";
+    private static final String TAG = "BranchArrayAdapter";
     private Context context;
     private int resource;
     private List<Branch> branches;
 
-    public BranchAdapter(@NonNull Context context, int resource, List<Branch> branches) {
+    public BranchArrayAdapter(@NonNull Context context, int resource, List<Branch> branches) {
         super(context, resource, branches);
         this.branches = branches;
         this.context = context;
