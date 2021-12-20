@@ -26,7 +26,7 @@
         <entry key="app/src/main/res/layout/item_branch.xml" value="0.26766304347826086" />
         <entry key="app/src/main/res/layout/item_restaurant.xml" value="0.19270833333333334" />
         <entry key="app/src/main/res/layout/layout_branch_item.xml" value="0.28229166666666666" />
-        <entry key="app/src/main/res/layout/layout_menu_list_item.xml" value="0.28229166666666666" />
+        <entry key="app/src/main/res/layout/layout_menu_list_item.xml" value="0.1" />
         <entry key="app/src/main/res/layout/login_activity.xml" value="0.375" />
         <entry key="app/src/main/res/layout/qrcode_activity.xml" value="0.17708333333333334" />
         <entry key="app/src/main/res/layout/rest_selector.xml" value="0.19655797101449277" />
