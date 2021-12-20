@@ -105,7 +105,7 @@ public class LoginActivity extends AppCompatActivity {
 
             @Override
             /**
-             * get signin credentials and authenticate
+             * get signIn credentials and authenticate
              */
             public void onClick(View v) {
 
