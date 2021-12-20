@@ -1,20 +1,54 @@
-{ "restaurant_id": 1, "branch_id" : 1 , "table_num" : 1}
-{ "restaurant_id": 1, "branch_id" : 1 , "table_num" : 2}
-{ "restaurant_id": 1, "branch_id" : 2 , "table_num" : 1}
-{ "restaurant_id": 1, "branch_id" : 2 , "table_num" : 2}
-{ "restaurant_id": 2, "branch_id" : 1 , "table_num" : 1}
-{ "restaurant_id": 2, "branch_id" : 1 , "table_num" : 2}
-{ "restaurant_id": 3, "branch_id" : 1 , "table_num" : 1}
-{ "restaurant_id": 3, "branch_id" : 1 , "table_num" : 2}
-
+{
+    "restaurant_id": "O1Ej5Uw54u2zaBHUOrwS",
+    "branch_id": "I3nTkiKWsdkl8YCM1UZv",
+    "table_num": 1
+}
+{
+    "restaurant_id": "O1Ej5Uw54u2zaBHUOrwS",
+    "branch_id": "I3nTkiKWsdkl8YCM1UZv",
+    "table_num": 2
+}
+{
+    "restaurant_id": "O1Ej5Uw54u2zaBHUOrwS",
+    "branch_id": "M5lJQt12fQE618KoXML7",
+    "table_num": 1
+}
+{
+    "restaurant_id": "O1Ej5Uw54u2zaBHUOrwS",
+    "branch_id": "M5lJQt12fQE618KoXML7",
+    "table_num": 2
+}
 
 
 {
-    "restaurant_id": "BKxoYnZGNLOghk9qCzvj",
-    "branch_address": {
-        "city": "Tel Aviv",
-        "street": "Ben Yehuda",
-        "building_number": 12
-    },
+    "restaurant_id": "iPTADbkWEoxft8ZlDYfA",
+    "branch_id": "s3nlVyN8qJKSFRgw4q7g",
     "table_num": 1
+}
+{
+    "restaurant_id": "iPTADbkWEoxft8ZlDYfA",
+    "branch_id": "s3nlVyN8qJKSFRgw4q7g",
+    "table_num": 2
+}
+
+
+{
+    "restaurant_id": "rFwaEj6DrW79B4Q5Gyhc",
+    "branch_id": "D4UyrFwhsYi9ac6RuPht",
+    "table_num": 1
+}
+{
+    "restaurant_id": "rFwaEj6DrW79B4Q5Gyhc",
+    "branch_id": "D4UyrFwhsYi9ac6RuPht",
+    "table_num": 2
+}
+{
+    "restaurant_id": "rFwaEj6DrW79B4Q5Gyhc",
+    "branch_id": "vsuPQS7J3M0bGcTheT62",
+    "table_num": 1
+}
+{
+    "restaurant_id": "rFwaEj6DrW79B4Q5Gyhc",
+    "branch_id": "vsuPQS7J3M0bGcTheT62",
+    "table_num": 2
 }
