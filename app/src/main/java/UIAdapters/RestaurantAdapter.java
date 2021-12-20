@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 
@@ -46,6 +47,9 @@ public class RestaurantAdapter extends ArrayAdapter<Restaurant> {
         }
 
         // Lookup view for data population
+//        TextView restName = convertView.findViewById(R.id.setRestaurantName);
+//        restName.setText(restaurantName);
+
         Button moveToBranchesBtn = convertView.findViewById(R.id.restaurantBranchesButton);
         moveToBranchesBtn.setText(restaurantName);
         moveToBranchesBtn.setOnClickListener(new View.OnClickListener() {
@@ -56,8 +60,8 @@ public class RestaurantAdapter extends ArrayAdapter<Restaurant> {
              */
             public void onClick(View v) {
 
-                ListView parentView = (ListView) v.getParent().getParent().getParent();
-                int index = parentView.indexOfChild((View) v.getParent().getParent());
+                ListView parentView = (ListView) v.getParent().getParent();
+                int index = parentView.indexOfChild((View) v.getParent());
                 Intent moveToBranchesActivity =
                         new Intent(getContext(), BranchesListViewActivity.class);
                 String restID = restaurants.get(index).getDocId();

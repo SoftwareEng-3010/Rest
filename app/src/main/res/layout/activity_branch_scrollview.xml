@@ -10,9 +10,10 @@
         android:orientation="vertical">
 
         <ListView
+            android:id="@+id/branchListView"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/branchListView" />
+            android:layout_height="650dp"
+            android:baselineAligned="true" />
     </LinearLayout>
 
 
