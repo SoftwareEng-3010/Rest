@@ -59,14 +59,13 @@ public class QRReader {
             // Parse data from JSON
             String restaurantId = json.getString(QRCode.KEY_RESTAURANT_ID);
 
-            JSONObject addressJson = getJsonObject(json.getString(QRCode.KEY_BRANCH_ADDRESS));
-            Address branchAddress = new Address(addressJson);
+            String branchId = json.getString(QRCode.KEY_BRANCH_ID);
 
             int tableIndex = json.getInt(QRCode.KEY_TABLE_NUMBER);
 
             // Return an array with the relevant data to display the menu of the given
             // branch and restaurant
-            return new QRCode(restaurantId, branchAddress, tableIndex);
+            return new QRCode(restaurantId, branchId, tableIndex);
         }
         catch (Exception e) {
             Log.e(TAG, e.getMessage());

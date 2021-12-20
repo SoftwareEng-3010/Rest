@@ -25,8 +25,10 @@ import java.util.List;
 import BusinessEntities.Address;
 import BusinessEntities.Branch;
 import BusinessEntities.Item;
+import BusinessEntities.Menu;
 import BusinessEntities.QRCode;
 import BusinessEntities.Restaurant;
+import DataAccessLayer.OnDataReceived;
 import DataAccessLayer.RestDB;
 import UIAdapters.MenuRecyclerViewAdapter;
 import ViewModels.BranchMenuViewModel;
@@ -47,6 +49,7 @@ public class BranchViewActivity extends AppCompatActivity {
     private MenuRecyclerViewAdapter menuAdapter;
     
     private Branch branch;
+    private Menu menu;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,11 +57,40 @@ public class BranchViewActivity extends AppCompatActivity {
         setContentView(R.layout.activity_branch_view2);
         rdb = RestDB.getInstance();
 
+        // Required data to receive a branch from Database
         String restId = getIntent().getStringExtra(QRCode.KEY_RESTAURANT_ID);
-        String branchAddr = getIntent().getStringExtra(QRCode.KEY_BRANCH_ADDRESS);
+        String branchId = getIntent().getStringExtra(QRCode.KEY_BRANCH_ID);
+        // Must come from QRCodeActivity:
+        int tableNumber = getIntent().getIntExtra(QRCode.KEY_TABLE_NUMBER, -1);
+
         String menuPath = getIntent().getStringExtra("menuPath");
 
-//        Branch branch = rdb.getBranch(restId, branchAddr); // ??
+        // Get Branch from Database
+        rdb.getBranch(restId, branchId,
+                new OnDataReceived() {
+            @Override
+            public void onObjectReturnedFromDB(Object obj) {
+                branch = (Branch) obj;
+                if (branch != null) {
+                    if (menuPath == null) {
+                        rdb.getMenu(branch.getMenuPath(), new OnDataReceived() {
+                            @Override
+                            public void onObjectReturnedFromDB(Object obj) {
+                                menu = (Menu) obj;
+                            }
+                        });
+                    }
+                }
+            }
+        });
+
+
+
+
+        Log.e(TAG, branch.toString());
+        Log.e(TAG, menu.toString());
+
+
 
         branchNameTV = (TextView) findViewById(R.id.branch_name_TV);
         branchBusinessHrsTV = (TextView) findViewById(R.id.branch_business_hrs_TV);
@@ -83,6 +115,7 @@ public class BranchViewActivity extends AppCompatActivity {
 
 
 
+
         // set up adapter
 //        menuAdapter = new MenuRecyclerViewAdapter(this, menu);
 
@@ -102,7 +135,7 @@ public class BranchViewActivity extends AppCompatActivity {
         super.onStart();
 
         String selectedRestaurant = getIntent().getStringExtra(QRCode.KEY_RESTAURANT_ID);
-        String selectedBranch = getIntent().getStringExtra(QRCode.KEY_BRANCH_ADDRESS);
+        String selectedBranch = getIntent().getStringExtra(QRCode.KEY_BRANCH_ID);
         int selectedTable = getIntent().getIntExtra(QRCode.KEY_TABLE_NUMBER, 0);
     }
 }

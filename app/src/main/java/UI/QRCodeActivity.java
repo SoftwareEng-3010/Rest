@@ -228,7 +228,7 @@ public class QRCodeActivity extends AppCompatActivity {
 
         // Add extra data to next activity:
         moveToBranchView.putExtra(QRCode.KEY_RESTAURANT_ID, qr.getRestaurantId());
-        moveToBranchView.putExtra(QRCode.KEY_BRANCH_ADDRESS, qr.getBranchAddress().toString());
+        moveToBranchView.putExtra(QRCode.KEY_BRANCH_ID, qr.getBranchId());
         moveToBranchView.putExtra(QRCode.KEY_TABLE_NUMBER, qr.getTableNumber());
 
         startActivity(moveToBranchView);
