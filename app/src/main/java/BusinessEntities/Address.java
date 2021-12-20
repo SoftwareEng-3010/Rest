@@ -73,7 +73,7 @@ public class Address {
     public String toString() {
         return city +
                 ", " + street +
-                ", " + buildingNumber;
+                " " + buildingNumber;
     }
 
     @Override
