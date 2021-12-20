@@ -39,7 +39,7 @@ public class BranchViewActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_branch_view2);
+        setContentView(R.layout.activity_branch_view);
         rdb = RestDB.getInstance();
 
         // Required data to receive a branch from Database
