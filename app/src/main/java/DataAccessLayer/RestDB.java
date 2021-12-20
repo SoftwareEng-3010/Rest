@@ -39,8 +39,7 @@ public class RestDB {
     // constant strings for querying database
     private final String BRANCHES_COLLECTION_NAME =  "branch";
     private final String RESTAURANT_COLLECTION_NAME = "our_restaurants";
-    private final String MENU_COLLECTION_NAME = "menus";
-    private final String MENU_FIELD_NAME = "menu";
+    private final String MENU_FIELD_NAME = "menu_path";
 
     private static RestDB instance = null;              // private single instance
 
@@ -105,6 +104,7 @@ public class RestDB {
                     dataClient.onObjectReturnedFromDB(documentSnapshot.toObject(Branch.class));
                 } else {
                     Log.e(TAG, task.getException().getMessage());
+                    dataClient.onObjectReturnedFromDB(null);
                 }
             }
         });
@@ -120,6 +120,7 @@ public class RestDB {
                         dataClient.onObjectReturnedFromDB(menuSnapshot.toObject(Menu.class));
                     } else {
                         Log.e(TAG, task.getException().getMessage());
+                        dataClient.onObjectReturnedFromDB(null);
                     }
                 }
             });
@@ -131,9 +132,6 @@ public class RestDB {
         CollectionReference branchCollection =
                 restCollection.document(restId).collection(BRANCHES_COLLECTION_NAME);
 
-        CollectionReference menuCollection =
-                restCollection.document(restId).collection(MENU_COLLECTION_NAME);
-
         DocumentReference branchDocRef = branchCollection.document(branchId);
 
         branchDocRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
@@ -142,17 +140,19 @@ public class RestDB {
                 if(task.isSuccessful()){
 
                     DocumentSnapshot documentSnapshot = task.getResult();
-                    String menuId = (String)documentSnapshot.get(MENU_FIELD_NAME);
-                    DocumentReference menuDocRef = menuCollection.document(menuId);
+                    String menuPath = (String) documentSnapshot.get(MENU_FIELD_NAME);
+                    DocumentReference menuDocRef = db.document(menuPath);
 
                     menuDocRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                         @Override
                         public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                             if(task.isSuccessful()){
                                 DocumentSnapshot menuSnapshot = task.getResult();
-                                dataClient.onObjectReturnedFromDB(menuSnapshot.toObject(Menu.class));
+                                Menu menu = menuSnapshot.toObject(Menu.class);
+                                dataClient.onObjectReturnedFromDB(menu);
                             } else {
                                 Log.e(TAG, task.getException().getMessage());
+                                dataClient.onObjectReturnedFromDB(null);
                             }
                         }
                     });
@@ -177,6 +177,7 @@ public class RestDB {
                     dataReceived.onObjectReturnedFromDB(restaurants);
                 } else {
                     Log.e(TAG, task.getException().getMessage());
+                    dataReceived.onObjectReturnedFromDB(null);
                 }
             }
         });
