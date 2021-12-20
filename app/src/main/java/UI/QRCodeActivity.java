@@ -98,7 +98,9 @@ public class QRCodeActivity extends AppCompatActivity {
         super.onStart();
         Log.e(TAG, "Started QRCodeActivity (onStart())");
 
+
         p = new PermissionManager(this);
+        
         // Check whether your app is running on a device that has a camera hardware feature.
         if (p.hasSystemFeature(PackageManager.FEATURE_CAMERA_ANY)) {
             // Continue with the part of your app's workflow that requires a
@@ -121,33 +123,6 @@ public class QRCodeActivity extends AppCompatActivity {
             // or have previously declined permissions - ask the user for permissions.
             p.requestPermission(REQUEST_PERMISSION_CODE, Manifest.permission.CAMERA);
         }
-//        super.onStart();
-//        Log.e(TAG, "Started QRCodeActivity (onStart())");
-//
-//        PermissionManager p = new PermissionManager(this);
-//        // Check whether your app is running on a device that has a camera hardware feature.
-//        if (getApplicationContext().getPackageManager().hasSystemFeature(
-//                PackageManager.FEATURE_CAMERA_ANY)) {
-//            // Continue with the part of your app's workflow that requires a
-//            // front-facing camera.
-//            Log.d(TAG, "PackageManager: There is a camera available");
-//        }
-//        else {
-//            // Gracefully degrade your app experience.
-//            Log.e(TAG, "PackageManager: There are NO cameras available to open");
-//        }
-//
-//        if (checkPermission()) {
-//            Log.d(TAG, "PERMISSION GRANTED");
-//            // If the user have granted camera permission - start scanning QRCodes
-//            qrScanner.startPreview();
-//        }
-//        else {
-//            Log.e(TAG, "PERMISSION DECLINED");
-//            // If the user have not yet granted permissions
-//            // or have previously declined permissions - ask the user for permissions.
-//            requestPermission();
-//        }
 
     }
 //

@@ -12,12 +12,12 @@ import java.util.List;
 
 import BusinessEntities.Restaurant;
 import DataAccessLayer.OnDataReceived;
-import DataAccessLayer.RemoteRestDB;
+import DataAccessLayer.RestDB;
 import UIAdapters.RestaurantAdapter;
 
 public class RestaurantsListViewActivity extends AppCompatActivity {
 
-    private RemoteRestDB rdb;
+    private RestDB rdb;
     private ListView listView;
     private List<Restaurant> restaurants;
 
@@ -25,7 +25,7 @@ public class RestaurantsListViewActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rest_scrollview);
-        rdb = RemoteRestDB.getInstance();
+        rdb = RestDB.getInstance();
     }
 
     @Override
@@ -34,17 +34,23 @@ public class RestaurantsListViewActivity extends AppCompatActivity {
 
         listView = (ListView) findViewById(R.id.restaurantListView);
 
+        setUpAdapter();
+    }
 
+    private void setUpAdapter() {
         rdb.getRestaurants(new OnDataReceived() {
             @Override
             public void onObjectReturnedFromDB(Object obj) {
+
+                if (obj == null) return; // An error occurred
+
                 restaurants = (List<Restaurant>) obj;
 
                 ArrayAdapter<Restaurant> adapter = new RestaurantAdapter(
-                        getApplicationContext(),
+                        RestaurantsListViewActivity.this,
                         R.layout.item_restaurant,
                         restaurants
-                        );
+                );
 
                 listView.setAdapter(adapter);
             }

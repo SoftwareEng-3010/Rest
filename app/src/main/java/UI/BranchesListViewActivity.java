@@ -5,40 +5,64 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.example.exercise_5.R;
 
+import java.util.List;
+
 import BusinessEntities.Branch;
-import DataAccessLayer.RemoteRestDB;
+import DataAccessLayer.OnDataReceived;
+import DataAccessLayer.RestDB;
 import UIAdapters.BranchAdapter;
 
 public class BranchesListViewActivity extends AppCompatActivity {
 
-    private RemoteRestDB rdb;
+    // TODO: 12/19/2021 merge RestListView and BranchesListView to one activity
+
+    private RestDB rdb;
     private ListView listView;
+    private List<Branch> branches;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_branch_scrollview);
-        rdb = RemoteRestDB.getInstance();
+        rdb = RestDB.getInstance();
     }
 
     @Override
     protected void onStart() {
         super.onStart();
 
+        // Listview reference
         listView = (ListView) findViewById(R.id.branchListView);
 
-        String restName = getIntent().getStringExtra("restName");
+        // Get a list of branches and set up the listview adapter
+        setListViewAdapter();
+    }
 
-        ArrayAdapter<Branch> adapter = new BranchAdapter(
-                this,
-                R.layout.item_branch,
-                rdb.getBranches(restName)
-        );
+    private void setListViewAdapter() {
+        // Extract restID from previous activity
+        String restID = getIntent().getStringExtra("restID");
 
-        listView.setAdapter(adapter);
+
+        // Retrieve data from Database
+        rdb.getBranches(restID,
+                new OnDataReceived() {
+                    @Override
+                    public void onObjectReturnedFromDB(Object obj) {
+
+                        // When data arrives from DB - init the ListView adapter
+                        branches = (List<Branch>) obj;
+                        ArrayAdapter<Branch> adapter = new BranchAdapter(
+                                BranchesListViewActivity.this,
+                                R.layout.item_branch,
+                                branches
+                        );
+                        listView.setAdapter(adapter);
+                    }
+                });
     }
 
 }

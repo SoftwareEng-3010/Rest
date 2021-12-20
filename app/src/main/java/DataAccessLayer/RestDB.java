@@ -18,10 +18,14 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import BusinessEntities.Address;
 import BusinessEntities.Branch;
+import BusinessEntities.Item;
+import BusinessEntities.Menu;
 import BusinessEntities.Restaurant;
 
 /**
@@ -31,8 +35,12 @@ import BusinessEntities.Restaurant;
 public class RestDB {
 
     private final String TAG = "RestDB";                // for debugging
-    private final String BRANCHES_COLLECTION_NAME =  "branches";
-    private final String RESTAURANT_COLLECTION_NAME = "test";
+
+    // constant strings for querying database
+    private final String BRANCHES_COLLECTION_NAME =  "branch";
+    private final String RESTAURANT_COLLECTION_NAME = "our_restaurants";
+    private final String MENU_COLLECTION_NAME = "menus";
+    private final String MENU_FIELD_NAME = "menu";
 
     private static RestDB instance = null;              // private single instance
 
@@ -89,6 +97,7 @@ public class RestDB {
                 restCollection.document(restId).collection(BRANCHES_COLLECTION_NAME);
 
         DocumentReference branchDocRef = branchCollection.document(branchId);
+
         branchDocRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
@@ -103,6 +112,69 @@ public class RestDB {
         });
     }
 
+    public void getMenu(String menuPath, OnDataReceived dataClient){
+        db.document(menuPath).get()
+            .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                    if(task.isSuccessful()){
+                        DocumentSnapshot menuSnapshot = task.getResult();
+                        dataClient.onObjectReturnedFromDB(menuSnapshot.toObject(Menu.class));
+                    }
+                }
+            });
+    }
+
+
+    public void getMenu(String restId, String branchId, OnDataReceived dataClient){
+
+        CollectionReference branchCollection =
+                restCollection.document(restId).collection(BRANCHES_COLLECTION_NAME);
+
+        CollectionReference menuCollection =
+                restCollection.document(restId).collection(MENU_COLLECTION_NAME);
+
+        DocumentReference branchDocRef = branchCollection.document(branchId);
+
+        branchDocRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if(task.isSuccessful()){
+
+                    DocumentSnapshot documentSnapshot = task.getResult();
+                    String menuId = (String)documentSnapshot.get(MENU_FIELD_NAME);
+                    DocumentReference menuDocRef = menuCollection.document(menuId);
+
+                    menuDocRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                            if(task.isSuccessful()){
+                                DocumentSnapshot menuSnapshot = task.getResult();
+                                dataClient.onObjectReturnedFromDB(menuSnapshot.toObject(Menu.class));
+                            }
+                        }
+                    });
+                }
+            }
+        });
+    }
+
+    public void getRestaurants(OnDataReceived dataReceived){
+
+        List<Restaurant> restaurants = new ArrayList<>();
+
+        restCollection.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if(task.isSuccessful()){
+                    for(QueryDocumentSnapshot documentSnapshots : task.getResult()){
+                        restaurants.add(documentSnapshots.toObject(Restaurant.class));
+                    }
+                    dataReceived.onObjectReturnedFromDB(restaurants);
+                }
+            }
+        });
+    }
 
 }
 

@@ -9,7 +9,6 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 
@@ -25,21 +24,21 @@ public class RestaurantAdapter extends ArrayAdapter<Restaurant> {
     private static final String TAG = "RestaurantAdapter";
     private Context context;
     private int resource;
-    private List<Restaurant> restaurantNames;
+    private List<Restaurant> restaurants;
 
     public RestaurantAdapter(@NonNull Context context, int resource, List<Restaurant> restaurants) {
         super(context, resource, restaurants);
-        this.restaurantNames = restaurants;
+        this.restaurants = restaurants;
         this.context = context;
         this.resource = resource;
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
+
         // Get the data item for this position
-        Restaurant restaurant = restaurantNames.get(position);
+        Restaurant restaurant = restaurants.get(position);
         String restaurantName = restaurant.getName();
-//        String restaurantId = restaurant.getId();
 
         // Check if an existing view is being reused, otherwise inflate the view
         if (convertView == null) {
@@ -61,8 +60,8 @@ public class RestaurantAdapter extends ArrayAdapter<Restaurant> {
                 int index = parentView.indexOfChild((View) v.getParent().getParent());
                 Intent moveToBranchesActivity =
                         new Intent(getContext(), BranchesListViewActivity.class);
-                String restName = restaurantNames.get(index).getName();
-                moveToBranchesActivity.putExtra("restName", restName);
+                String restID = restaurants.get(index).getDocId();
+                moveToBranchesActivity.putExtra("restID", restID);
                 getContext().startActivity(moveToBranchesActivity);
             }
         });
