@@ -68,7 +68,6 @@ public class RestDB {
         return instance;
     }
 
-
     public void getBranches(String restId, OnDataReceived dataClient){
 
         List<Branch> branches = new ArrayList<>();
@@ -125,7 +124,6 @@ public class RestDB {
                 }
             });
     }
-
 
     public void getMenu(String restId, String branchId, OnDataReceived dataClient){
 
