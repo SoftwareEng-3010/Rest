@@ -12,14 +12,9 @@ public class Branch {
     @DocumentId
     private String docId;
     private Address address;
-    private String menuId;
     private List<Table> tables;
-
-    //private DocumentReference menuPath;
-
     @PropertyName("menu_path")
     private String menuPath;
-
     @PropertyName("isKosher")
     private boolean isKosher;
     // ------------------------------
@@ -31,14 +26,12 @@ public class Branch {
     public Branch(Address address, String id, boolean isKosher, String menuId, List<Table> tables) {
         this.address = address;
         this.isKosher = isKosher;
-        this.menuId = menuId;
         this.tables = tables;
     }
 
     public Branch(Branch other) {
         this.address = other.address; // Has a copy constructor
         this.isKosher = other.isKosher;
-        this.menuId = other.menuId;
 
     }
 
@@ -50,9 +43,6 @@ public class Branch {
         return address;
     }
 
-    public String getMenuId() {
-        return menuId;
-    }
 
     @PropertyName("menu_path")
     public String getMenuPath() { return menuPath; }
@@ -72,7 +62,7 @@ public class Branch {
         return "\nBranch{\n" +
                 "address=" + address +
                 ", isKosher=" + isKosher +
-                ",\n menu=" + menuId +
+                ",\n menu=" + menuPath +
                 ",\n tables=" + tables +
                 "\n}\n";
     }

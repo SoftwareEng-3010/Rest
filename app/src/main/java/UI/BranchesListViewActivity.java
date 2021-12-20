@@ -18,8 +18,6 @@ import UIAdapters.BranchAdapter;
 
 public class BranchesListViewActivity extends AppCompatActivity {
 
-    // TODO: 12/19/2021 merge RestListView and BranchesListView to one activity
-
     private RestDB rdb;
     private ListView listView;
     private List<Branch> branches;

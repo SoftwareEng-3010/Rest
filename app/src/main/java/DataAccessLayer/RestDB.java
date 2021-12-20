@@ -70,26 +70,25 @@ public class RestDB {
     }
 
 
-    public void getBranches(String restId, OnDataReceived dataClient) {
-        CollectionReference branchesCollection =
-                restCollection.document(restId).collection(BRANCHES_COLLECTION_NAME);
+    public void getBranches(String restId, OnDataReceived dataClient){
 
-        ArrayList<Branch> branches = new ArrayList<>();
+        List<Branch> branches = new ArrayList<>();
 
-        branchesCollection.addSnapshotListener( new EventListener<QuerySnapshot>() {
-            @Override
-            public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
-                if (error != null) {
-                    Log.w(TAG, "Listen failed " + error.getMessage());
-                } else if (value != null) {
-                    List<DocumentSnapshot> documentSnapshots = value.getDocuments();
-                    for (DocumentSnapshot documentSnapshot : documentSnapshots) {
-                        branches.add(documentSnapshot.toObject(Branch.class));
+        restCollection.document(restId).collection(BRANCHES_COLLECTION_NAME).get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if(task.isSuccessful()){
+                            for(QueryDocumentSnapshot queryDocumentSnapshot : task.getResult()){
+                                branches.add(queryDocumentSnapshot.toObject(Branch.class));
+                            }
+                            dataClient.onObjectReturnedFromDB(branches);
+                        } else {
+                            Log.e(TAG, task.getException().getMessage());
+                        }
                     }
-                    dataClient.onObjectReturnedFromDB(branches);
-                }
-            }
-        });
+                });
+
     }
 
     public void getBranch(String restId, String branchId, OnDataReceived dataClient){
@@ -104,13 +103,28 @@ public class RestDB {
                 if(task.isSuccessful()){
                     DocumentSnapshot documentSnapshot = task.getResult();
                     dataClient.onObjectReturnedFromDB(documentSnapshot.toObject(Branch.class));
-                }
-                else{
-                    Log.w(TAG, "Query Failed");
+                } else {
+                    Log.e(TAG, task.getException().getMessage());
                 }
             }
         });
     }
+
+    public void getMenu(String menuPath, OnDataReceived dataClient){
+        db.document(menuPath).get()
+            .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                    if(task.isSuccessful()){
+                        DocumentSnapshot menuSnapshot = task.getResult();
+                        dataClient.onObjectReturnedFromDB(menuSnapshot.toObject(Menu.class));
+                    } else {
+                        Log.e(TAG, task.getException().getMessage());
+                    }
+                }
+            });
+    }
+
 
     public void getMenu(String restId, String branchId, OnDataReceived dataClient){
 
@@ -137,9 +151,13 @@ public class RestDB {
                             if(task.isSuccessful()){
                                 DocumentSnapshot menuSnapshot = task.getResult();
                                 dataClient.onObjectReturnedFromDB(menuSnapshot.toObject(Menu.class));
+                            } else {
+                                Log.e(TAG, task.getException().getMessage());
                             }
                         }
                     });
+                } else {
+                    Log.e(TAG, task.getException().getMessage());
                 }
             }
         });
@@ -157,6 +175,8 @@ public class RestDB {
                         restaurants.add(documentSnapshots.toObject(Restaurant.class));
                     }
                     dataReceived.onObjectReturnedFromDB(restaurants);
+                } else {
+                    Log.e(TAG, task.getException().getMessage());
                 }
             }
         });
