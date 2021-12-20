@@ -22,58 +22,26 @@ import java.util.List;
 
 import BusinessEntities.Branch;
 import BusinessEntities.Restaurant;
+import DataAccessLayer.RestDB;
 
 public class MainActivity extends AppCompatActivity {
 
     private final String TAG = "MainActivity";
 
-    private FirebaseFirestore db;
-    private List<Restaurant> restaurantList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        Log.e(TAG, "onCreate()");
-        db = FirebaseFirestore.getInstance(); // Database reference
+        Log.d(TAG, "onCreate()");
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        Log.e(TAG, "onStart()");
-
-//        getRestaurants("McMoshe");
 
         Intent intent  = new Intent(this, LoginActivity.class);
         startActivity(intent);
         finish();
-    }
-
-
-    /**
-     * Method for later use
-     * @param name
-     */
-    private void getRestaurants(String name) {
-        db.collection("restaurants").whereEqualTo("name", name)
-                .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                restaurantList = new ArrayList<>();
-                if (task.isSuccessful()) {
-                    List<DocumentSnapshot> docs = task.getResult().getDocuments();
-                    for (DocumentSnapshot doc : docs) {
-                        Restaurant restaurant = doc.toObject(Restaurant.class);
-
-                        if (restaurant == null) continue;
-                        restaurantList.add(restaurant);
-                    }
-                    Log.e(TAG, restaurantList.toString());
-                }
-
-
-            }
-        });
     }
 }

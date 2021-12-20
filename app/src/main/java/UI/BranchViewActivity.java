@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.exercise_5.R;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -26,7 +27,7 @@ import BusinessEntities.Branch;
 import BusinessEntities.Item;
 import BusinessEntities.QRCode;
 import BusinessEntities.Restaurant;
-import DataAccessLayer.RemoteRestDB;
+import DataAccessLayer.RestDB;
 import UIAdapters.MenuRecyclerViewAdapter;
 import ViewModels.BranchMenuViewModel;
 
@@ -34,7 +35,7 @@ public class BranchViewActivity extends AppCompatActivity {
 
     private final String TAG = "BranchViewActivity";
 
-    private RemoteRestDB rdb;
+    private RestDB rdb;
 
     private TextView branchNameTV;
     private TextView branchBusinessHrsTV;
@@ -50,10 +51,11 @@ public class BranchViewActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_branch_view2);
-        rdb = RemoteRestDB.getInstance();
+        rdb = RestDB.getInstance();
 
         String restId = getIntent().getStringExtra(QRCode.KEY_RESTAURANT_ID);
         String branchAddr = getIntent().getStringExtra(QRCode.KEY_BRANCH_ADDRESS);
+        String menuPath = getIntent().getStringExtra("menuPath");
 
 //        Branch branch = rdb.getBranch(restId, branchAddr); // ??
 
@@ -99,17 +101,6 @@ public class BranchViewActivity extends AppCompatActivity {
         String selectedRestaurant = getIntent().getStringExtra(QRCode.KEY_RESTAURANT_ID);
         String selectedBranch = getIntent().getStringExtra(QRCode.KEY_BRANCH_ADDRESS);
         int selectedTable = getIntent().getIntExtra(QRCode.KEY_TABLE_NUMBER, 0);
-
-
-//        branchNameText.setText(restaurant.getBranches().get(selectedBranch).getAddress().get("city"));
-//
-//        ArrayAdapter<Item> adapter = new BranchDisplayAdapter(
-//                this,
-//                R.layout.item_menu,
-//                branch.getMenu()
-//        );
-//
-//        listView.setAdapter(adapter);
     }
 
     private void getBranchFromIntent() {

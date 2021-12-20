@@ -1,5 +1,7 @@
 package BusinessEntities;
 
+import com.google.firebase.firestore.DocumentId;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.PropertyName;
 
 import java.util.List;
@@ -7,50 +9,59 @@ import java.util.List;
 public class Branch {
 
     // ------- Branch info ----------
+    @DocumentId
+    private String docId;
     private Address address;
-    private List<Item> menu;
+    private String menuId;
     private List<Table> tables;
+
+    //private DocumentReference menuPath;
+
+    @PropertyName("menu_path")
+    private String menuPath;
 
     @PropertyName("isKosher")
     private boolean isKosher;
-    // More will be added ...
-//    private boolean isOpen;
-//    private Menu menuObj;
     // ------------------------------
+
     public Branch() {
         // Empty constructor is required by Firebase method .toObject()
     }
 
-    public Branch(Address address, String id, boolean isKosher/*, boolean isOpen*/, List<Item> menu, List<Table> tables) {
+    public Branch(Address address, String id, boolean isKosher, String menuId, List<Table> tables) {
         this.address = address;
         this.isKosher = isKosher;
-        this.menu = menu;
+        this.menuId = menuId;
         this.tables = tables;
     }
 
     public Branch(Branch other) {
         this.address = other.address; // Has a copy constructor
         this.isKosher = other.isKosher;
-        this.menu = other.menu;
+        this.menuId = other.menuId;
 
+    }
+
+    public String getDocId() {
+        return docId;
     }
 
     public Address getAddress() {
         return address;
     }
 
-    public List<Item> getMenu() {
-        return menu;
+    public String getMenuId() {
+        return menuId;
     }
+
+    @PropertyName("menu_path")
+    public String getMenuPath() { return menuPath; }
 
     @PropertyName("isKosher")
     public boolean isKosher() {
         return isKosher;
     }
 
-//    public Menu getMenu() {
-//        return menuObj;
-//    }
 
     public List<Table> getTables() {
         return tables;
@@ -61,7 +72,7 @@ public class Branch {
         return "\nBranch{\n" +
                 "address=" + address +
                 ", isKosher=" + isKosher +
-                ",\n menu=" + menu +
+                ",\n menu=" + menuId +
                 ",\n tables=" + tables +
                 "\n}\n";
     }

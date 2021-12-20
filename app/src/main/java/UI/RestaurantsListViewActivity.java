@@ -8,20 +8,24 @@ import android.widget.ListView;
 
 import com.example.exercise_5.R;
 
+import java.util.List;
+
 import BusinessEntities.Restaurant;
-import DataAccessLayer.RemoteRestDB;
+import DataAccessLayer.OnDataReceived;
+import DataAccessLayer.RestDB;
 import UIAdapters.RestaurantAdapter;
 
 public class RestaurantsListViewActivity extends AppCompatActivity {
 
-    private RemoteRestDB rdb;
+    private RestDB rdb;
     private ListView listView;
+    private List<Restaurant> restaurants;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rest_scrollview);
-        rdb = RemoteRestDB.getInstance();
+        rdb = RestDB.getInstance();
     }
 
     @Override
@@ -30,13 +34,27 @@ public class RestaurantsListViewActivity extends AppCompatActivity {
 
         listView = (ListView) findViewById(R.id.restaurantListView);
 
-        ArrayAdapter<Restaurant> adapter = new RestaurantAdapter(
-                this,
-                R.layout.item_restaurant,
-                rdb.getRestaurants()
-        );
+        setUpAdapter();
+    }
 
-        listView.setAdapter(adapter);
+    private void setUpAdapter() {
+        rdb.getRestaurants(new OnDataReceived() {
+            @Override
+            public void onObjectReturnedFromDB(Object obj) {
+
+                if (obj == null) return; // An error occurred
+
+                restaurants = (List<Restaurant>) obj;
+
+                ArrayAdapter<Restaurant> adapter = new RestaurantAdapter(
+                        RestaurantsListViewActivity.this,
+                        R.layout.item_restaurant,
+                        restaurants
+                );
+
+                listView.setAdapter(adapter);
+            }
+        });
     }
 
 }
