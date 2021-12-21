@@ -18,6 +18,7 @@ import com.google.firebase.firestore.DocumentReference;
 
 import java.util.List;
 
+import API.Constants.Constants;
 import BusinessEntities.Branch;
 import UI.BranchViewActivity;
 //import UI.BranchViewActivity;
@@ -66,8 +67,8 @@ public class BranchArrayAdapter extends ArrayAdapter<Branch> {
                 String menuPath = branches.get(branchIndex).getMenuPath();
                 String branchId = branch.getDocId();
 
-                moveToBranchViewActivity.putExtra("branch_id", branchId);
-                moveToBranchViewActivity.putExtra("menu_path", menuPath);
+                moveToBranchViewActivity.putExtra(Constants.KEY_BRANCH_ID, branchId);
+                moveToBranchViewActivity.putExtra(Constants.KEY_MENU_PATH, menuPath);
                 getContext().startActivity(moveToBranchViewActivity);
             }
         });

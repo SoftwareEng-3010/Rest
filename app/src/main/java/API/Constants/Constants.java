@@ -11,9 +11,10 @@ public interface Constants {
     public final String DB_MENU_FIELD_NAME = "menu_path";
 
     // Constant key names of our QRCode`s JSON object:
-    public static final String QRCODE_KEY_RESTAURANT_ID = QRCode.KEY_RESTAURANT_ID;
-    public static final String QRCODE_KEY_BRANCH_ID = QRCode.KEY_BRANCH_ID;
-    public static final String QRCODE_KEY_TABLE_NUMBER = QRCode.KEY_TABLE_NUMBER;
+    public static final String KEY_RESTAURANT_ID = QRCode.KEY_RESTAURANT_ID;
+    public static final String KEY_BRANCH_ID = QRCode.KEY_BRANCH_ID;
+    public static final String KEY_TABLE_NUMBER = QRCode.KEY_TABLE_NUMBER;
+    public static final String KEY_MENU_PATH = DB_MENU_FIELD_NAME;
 
     // Constant key names of our QRCode`s JSON object:
     public static final int ADDRESS_FIELD_CITY = Address.FIELD_CITY;

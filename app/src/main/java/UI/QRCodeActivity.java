@@ -214,9 +214,9 @@ public class QRCodeActivity extends AppCompatActivity {
         Intent moveToBranchView = new Intent(this, BranchViewActivity.class);
 
         // Add extra data to next activity:
-        moveToBranchView.putExtra(Constants.QRCODE_KEY_RESTAURANT_ID, qr.getRestaurantId());
-        moveToBranchView.putExtra(Constants.QRCODE_KEY_BRANCH_ID, qr.getBranchId());
-        moveToBranchView.putExtra(Constants.QRCODE_KEY_TABLE_NUMBER, qr.getTableNumber());
+        moveToBranchView.putExtra(Constants.KEY_RESTAURANT_ID, qr.getRestaurantId());
+        moveToBranchView.putExtra(Constants.KEY_BRANCH_ID, qr.getBranchId());
+        moveToBranchView.putExtra(Constants.KEY_TABLE_NUMBER, qr.getTableNumber());
 
         startActivity(moveToBranchView);
     }
