@@ -3,28 +3,23 @@ package DataAccessLayer;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.FirebaseFirestoreException;
-import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-import BusinessEntities.Address;
+import API.Database;
+import API.OnDataReceivedFromDB;
+import API.OnDataSentToDB;
 import BusinessEntities.Branch;
-import BusinessEntities.Item;
 import BusinessEntities.Menu;
 import BusinessEntities.Restaurant;
 
@@ -32,19 +27,19 @@ import BusinessEntities.Restaurant;
  * This class will be similar  to RestDB, but without saving data to device.
  * Instead, the class will be used to query the db for necessary data
  */
-public class RestDB {
+public class RestDB implements Database {
 
-    private final String TAG = "RestDB";                // for debugging
+    private final String TAG = "RestDB";
 
     // constant strings for querying database
     private final String BRANCHES_COLLECTION_NAME = "branch";
     private final String RESTAURANT_COLLECTION_NAME = "our_restaurants";
     private final String MENU_FIELD_NAME = "menu_path";
 
-    private static RestDB instance = null;              // private single instance
+    private static RestDB instance = null;                    // private single instance
 
-    private final FirebaseFirestore db;                       // db reference
-    private final CollectionReference restCollection;         // restaurants collection reference
+    private final FirebaseFirestore db;                       // Database reference
+    private final CollectionReference restCollection;         // Restaurants collection reference
 
     private RestDB() {
         // Database and collection references
@@ -68,15 +63,11 @@ public class RestDB {
         return instance;
     }
 
-    /**
-     * Get a List<Branch> of all branches associated with a specific restaurant.
-     *
-     * @param restId - The document id of the required restaurant
-     *
-     * @param callBack - A callback method, returns the required object to the caller after
-     *                 the object comes back from the Firestore Database
+    /*
+    Firestore database Querying methods:
      */
-    public void getBranches(String restId, OnDataReceived callBack) {
+    @Override
+    public void getBranches(String restId, OnDataReceivedFromDB callBack) {
 
         List<Branch> branches = new ArrayList<>();
 
@@ -98,15 +89,8 @@ public class RestDB {
 
     }
 
-    /**
-     * Get a `Branch` object from the database.
-     *
-     * @param branchId - The document id of the required branch
-     *
-     * @param callBack - A callback method, returns the required object to the caller after
-     *                 the object comes back from the Firestore Database
-     */
-    public void getBranch(String branchId, OnDataReceived callBack) {
+    @Override
+    public void getBranch(String branchId, OnDataReceivedFromDB callBack) {
 
         restCollection.get().addOnCompleteListener(
                 new OnCompleteListener<QuerySnapshot>() {
@@ -150,19 +134,8 @@ public class RestDB {
         );
     }
 
-    /**
-     * Get a `Menu` object from the database.
-     * This method receives all possible parameters required to find a menu.
-     * Either use restId + branchId,
-     * Or use directly a menuPath.
-     * @param restId - (String) A unique restaurant identifier
-     * @param branchId - (String) A unique branch identifier
-     * @param menuPath - (String) An explicit path for a menu.
-     *                 For example: <collectionName>/<restId>/menus/CSGarr0tfBlOfOUGAga1
-     * @param callBack - A callback method, returns the required object to the caller after
-     *                 the object comes back from the Firestore Database
-     */
-    public void getMenu(String restId, String branchId, String menuPath, OnDataReceived callBack) {
+    @Override
+    public void getMenu(String restId, String branchId, String menuPath, OnDataReceivedFromDB callBack) {
         if (restId != null && branchId != null) {
             // menuPath will be null if the user scans a QRCode
             getMenu(restId, branchId, callBack);
@@ -179,14 +152,8 @@ public class RestDB {
         }
     }
 
-    /**
-     * Get a `Menu` object using the restaurant and branch id.
-     * @param restId - restaurant document id field
-     * @param branchId - branch document id field
-     * @param callBack - A callback method, returns the required object to the caller after
-     *                   the object comes back from the Firestore Database.
-     */
-    public void getMenu(String restId, String branchId, OnDataReceived callBack) {
+    @Override
+    public void getMenu(String restId, String branchId, OnDataReceivedFromDB callBack) {
 
         CollectionReference branchCollection =
                 restCollection.document(restId).collection(BRANCHES_COLLECTION_NAME);
@@ -231,14 +198,8 @@ public class RestDB {
         });
     }
 
-    /**
-     * Get a `Menu` object using the restaurant and branch id.
-     * @param menuPath - A given menu path.
-     *                 For example: <collectionName>/<restId>/menus/CSGarr0tfBlOfOUGAga1
-     * @param callBack - A callback method, returns the required object to the caller after
-     *                   the object comes back from the Firestore Database.
-     */
-    public void getMenu(String menuPath, OnDataReceived callBack) {
+    @Override
+    public void getMenu(String menuPath, OnDataReceivedFromDB callBack) {
         db.document(menuPath).get()
                 .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                     @Override
@@ -257,13 +218,8 @@ public class RestDB {
                 });
     }
 
-    /**
-     * Get a List<Restaurant> of all restaurants from the database.
-     *
-     * @param callBack - A callback method, returns the required object to the caller after
-     *                   the object comes back from the Firestore Database.
-     */
-    public void getRestaurants(OnDataReceived callBack) {
+    @Override
+    public void getRestaurants(OnDataReceivedFromDB callBack) {
 
         List<Restaurant> restaurants = new ArrayList<>();
 
@@ -286,4 +242,11 @@ public class RestDB {
         });
     }
 
+    /*
+    Firestore database Writing methods:
+     */
+    @Override
+    public void addRestaurant(Restaurant restaurant, OnDataSentToDB callBack) {
+        // Implement
+    }
 }

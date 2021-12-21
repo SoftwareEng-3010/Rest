@@ -11,10 +11,13 @@ import android.widget.TextView;
 
 import com.example.exercise_5.R;
 
+import javax.annotation.Nullable;
+
 import BusinessEntities.Branch;
 import BusinessEntities.Menu;
 import BusinessEntities.QRCode;
-import DataAccessLayer.OnDataReceived;
+import API.Database;
+import API.OnDataReceivedFromDB;
 import DataAccessLayer.RestDB;
 import UIAdapters.MenuRecyclerViewAdapter;
 import ViewModels.MenuViewModel;
@@ -23,7 +26,7 @@ public class BranchViewActivity extends AppCompatActivity {
 
     private final String TAG = "BranchViewActivity";
 
-    private RestDB rdb;
+    private Database rdb;
 
     private TextView branchNameTV;
     private TextView branchBusinessHrsTV;
@@ -79,15 +82,15 @@ public class BranchViewActivity extends AppCompatActivity {
 
     public void getBranchAndMenu(String restId, String branchId, String menuPath) {
 
-        rdb.getBranch(branchId, new OnDataReceived() {
+        rdb.getBranch(branchId, new OnDataReceivedFromDB() {
             @Override
-            public void onObjectReturnedFromDB(Object obj) {
+            public void onObjectReturnedFromDB(@Nullable Object obj) {
                 branch = (Branch) obj;
                 if (branch != null) {
                     rdb.getMenu(restId, branchId, menuPath,
-                            new OnDataReceived() {
+                            new OnDataReceivedFromDB() {
                         @Override
-                        public void onObjectReturnedFromDB(Object obj) {
+                        public void onObjectReturnedFromDB(@Nullable Object obj) {
                             menu = (Menu) obj;
                             setupUI();
                         }

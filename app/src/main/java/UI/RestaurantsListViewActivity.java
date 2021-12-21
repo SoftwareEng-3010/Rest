@@ -11,7 +11,7 @@ import com.example.exercise_5.R;
 import java.util.List;
 
 import BusinessEntities.Restaurant;
-import DataAccessLayer.OnDataReceived;
+import API.OnDataReceivedFromDB;
 import DataAccessLayer.RestDB;
 import UIAdapters.RestaurantArrayAdapter;
 
@@ -38,7 +38,7 @@ public class RestaurantsListViewActivity extends AppCompatActivity {
     }
 
     private void setUpAdapter() {
-        rdb.getRestaurants(new OnDataReceived() {
+        rdb.getRestaurants(new OnDataReceivedFromDB() {
             @Override
             public void onObjectReturnedFromDB(Object obj) {
 

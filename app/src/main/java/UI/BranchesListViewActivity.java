@@ -11,7 +11,7 @@ import com.example.exercise_5.R;
 import java.util.List;
 
 import BusinessEntities.Branch;
-import DataAccessLayer.OnDataReceived;
+import API.OnDataReceivedFromDB;
 import DataAccessLayer.RestDB;
 import UIAdapters.BranchArrayAdapter;
 
@@ -46,7 +46,7 @@ public class BranchesListViewActivity extends AppCompatActivity {
 
         // Retrieve data from Database
         rdb.getBranches(restID,
-                new OnDataReceived() {
+                new OnDataReceivedFromDB() {
                     @Override
                     public void onObjectReturnedFromDB(Object obj) {
 
