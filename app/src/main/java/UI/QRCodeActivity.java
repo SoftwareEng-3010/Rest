@@ -26,6 +26,7 @@ import com.budiyev.android.codescanner.ScanMode;
 import com.example.exercise_5.R;
 import com.google.zxing.Result;
 
+import API.Constants.Constants;
 import BusinessEntities.QRCode;
 import BusinessLogic.QRReader;
 
@@ -142,28 +143,7 @@ public class QRCodeActivity extends AppCompatActivity {
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                         if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
                                 != PackageManager.PERMISSION_GRANTED) {
-                            showMessageOKCancel(
-                                    PERMISSION_PROMPT,
-
-                                    // onOKListener action:
-                                    new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialog, int which) {
-                                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                                                Log.d(TAG, "which = " + which);
-                                                requestPermission();
-                                            }
-                                        }
-                                    },
-
-                                    // onCancelListener action:
-                                    new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialogInterface, int which) {
-                                            Log.d(TAG, "which = " + which);
-                                            finishActivity(-1);
-                                        }
-                                    });
+                            showMessageOKCancel(PERMISSION_PROMPT);
                         }
                     }
                 }
@@ -171,12 +151,25 @@ public class QRCodeActivity extends AppCompatActivity {
         }
     }
 
-    private void showMessageOKCancel(String message, DialogInterface.OnClickListener okListener
-                                                   , DialogInterface.OnClickListener cancelListener) {
+    private void showMessageOKCancel(String message) {
         new AlertDialog.Builder(this)
                 .setMessage(message)
-                .setPositiveButton("OK", okListener)
-                .setNegativeButton("Cancel", cancelListener)
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                            Log.d(TAG, "which = " + which);
+                            requestPermission();
+                        }
+                    }
+                })
+                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int which) {
+                        Log.d(TAG, "which = " + which);
+                        finishActivity(-1);
+                    }
+                })
                 .create()
                 .show();
     }
@@ -221,9 +214,9 @@ public class QRCodeActivity extends AppCompatActivity {
         Intent moveToBranchView = new Intent(this, BranchViewActivity.class);
 
         // Add extra data to next activity:
-        moveToBranchView.putExtra(QRCode.KEY_RESTAURANT_ID, qr.getRestaurantId());
-        moveToBranchView.putExtra(QRCode.KEY_BRANCH_ID, qr.getBranchId());
-        moveToBranchView.putExtra(QRCode.KEY_TABLE_NUMBER, qr.getTableNumber());
+        moveToBranchView.putExtra(Constants.QRCODE_KEY_RESTAURANT_ID, qr.getRestaurantId());
+        moveToBranchView.putExtra(Constants.QRCODE_KEY_BRANCH_ID, qr.getBranchId());
+        moveToBranchView.putExtra(Constants.QRCODE_KEY_TABLE_NUMBER, qr.getTableNumber());
 
         startActivity(moveToBranchView);
     }

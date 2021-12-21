@@ -23,7 +23,7 @@ public class Branch {
         // Empty constructor is required by Firebase method .toObject()
     }
 
-    public Branch(Address address, String id, boolean isKosher, String menuPath, List<Table> tables) {
+    public Branch(Address address/*, String id*/, boolean isKosher, String menuPath, List<Table> tables) {
         this.address = address;
         this.isKosher = isKosher;
         this.tables = tables;
@@ -33,10 +33,11 @@ public class Branch {
     public Branch(Branch other) {
         this.address = other.address; // Has a copy constructor
         this.isKosher = other.isKosher;
-
     }
 
     public String getDocId() {
+        if (docId == null)
+            return "Branch with address: " + this.address + ", does not have its docId field initialized";
         return docId;
     }
 
