@@ -43,8 +43,8 @@ public class RestDB {
 
     private static RestDB instance = null;              // private single instance
 
-    private FirebaseFirestore db;                       // db reference
-    private CollectionReference restCollection;         // collection reference
+    private final FirebaseFirestore db;                       // db reference
+    private final CollectionReference restCollection;         // restaurants collection reference
 
     private RestDB() {
         // Database and collection references
@@ -68,7 +68,15 @@ public class RestDB {
         return instance;
     }
 
-    public void getBranches(String restId, OnDataReceived dataClient) {
+    /**
+     * Get all branches associated with a specific restaurant.
+     *
+     * @param restId - The document id of the required restaurant
+     *
+     * @param callBack - A callback method, returns the required object to the caller after
+     *                 the object comes back from the Firestore Database
+     */
+    public void getBranches(String restId, OnDataReceived callBack) {
 
         List<Branch> branches = new ArrayList<>();
 
@@ -80,8 +88,9 @@ public class RestDB {
                             for (QueryDocumentSnapshot queryDocumentSnapshot : task.getResult()) {
                                 branches.add(queryDocumentSnapshot.toObject(Branch.class));
                             }
-                            dataClient.onObjectReturnedFromDB(branches);
-                        } else {
+                            callBack.onObjectReturnedFromDB(branches);
+                        } else if (null != task.getException()){
+                            callBack.onObjectReturnedFromDB(null);
                             Log.e(TAG, task.getException().getMessage());
                         }
                     }
@@ -89,6 +98,14 @@ public class RestDB {
 
     }
 
+    /**
+     * Get a `Branch` object from the database.
+     *
+     * @param branchId - The document id of the required branch
+     *
+     * @param callBack - A callback method, returns the required object to the caller after
+     *                 the object comes back from the Firestore Database
+     */
     public void getBranch(String branchId, OnDataReceived callBack) {
 
         restCollection.get().addOnCompleteListener(
@@ -124,24 +141,52 @@ public class RestDB {
                                                 }
                                         );
                             }
-                        } else {
-                            Log.e(TAG, task.getException().getMessage());
+                        } else if (null != task.getException()){
                             callBack.onObjectReturnedFromDB(null);
+                            Log.e(TAG, task.getException().getMessage());
                         }
                     }
                 }
         );
     }
 
+    /**
+     * Get a `Menu` object from the database.
+     * This method receives all possible parameters required to find a menu.
+     * Either use restId + branchId,
+     * Or use directly a menuPath.
+     * @param restId - (String) A unique restaurant identifier
+     * @param branchId - (String) A unique branch identifier
+     * @param menuPath - (String) An explicit path for a menu.
+     *                 For example: <collectionName>/<restId>/menus/CSGarr0tfBlOfOUGAga1
+     * @param callBack - A callback method, returns the required object to the caller after
+     *                 the object comes back from the Firestore Database
+     */
     public void getMenu(String restId, String branchId, String menuPath, OnDataReceived callBack) {
-        if (null == menuPath) {
+        if (restId != null && branchId != null) {
+            // menuPath will be null if the user scans a QRCode
             getMenu(restId, branchId, callBack);
-        } else if (null == restId) {
+        }
+        else if (menuPath != null) {
+            // restId will be null if the user uses manual restaurant search
             getMenu(menuPath, callBack);
+        }
+        else {
+            // All fields passed to the method are null...
+
+            callBack.onObjectReturnedFromDB(null);
+            Log.e(TAG, "restId, branchId and menuPath are null!!!");
         }
     }
 
-    public void getMenu(String restId, String branchId, OnDataReceived dataClient) {
+    /**
+     * Get a `Menu` object using the restaurant and branch id.
+     * @param restId - restaurant document id field
+     * @param branchId - branch document id field
+     * @param callBack - A callback method, returns the required object to the caller after
+     *                   the object comes back from the Firestore Database.
+     */
+    public void getMenu(String restId, String branchId, OnDataReceived callBack) {
 
         CollectionReference branchCollection =
                 restCollection.document(restId).collection(BRANCHES_COLLECTION_NAME);
@@ -155,6 +200,9 @@ public class RestDB {
 
                     DocumentSnapshot documentSnapshot = task.getResult();
                     String menuPath = (String) documentSnapshot.get(MENU_FIELD_NAME);
+
+                    if (null == menuPath) Log.e(TAG, "Failed to retrieve menu path from database. menu_path is null");
+
                     DocumentReference menuDocRef = db.document(menuPath);
 
                     menuDocRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
@@ -163,37 +211,59 @@ public class RestDB {
                             if (task.isSuccessful()) {
                                 DocumentSnapshot menuSnapshot = task.getResult();
                                 Menu menu = menuSnapshot.toObject(Menu.class);
-                                dataClient.onObjectReturnedFromDB(menu);
-                            } else {
+                                callBack.onObjectReturnedFromDB(menu);
+                            }
+
+                            else if (null != task.getException()){
+                                // An error occurred
                                 Log.e(TAG, task.getException().getMessage());
-                                dataClient.onObjectReturnedFromDB(null);
+                                callBack.onObjectReturnedFromDB(null);
                             }
                         }
                     });
-                } else {
+                }
+
+                else if (null != task.getException()){
+                    // An error occurred
                     Log.e(TAG, task.getException().getMessage());
                 }
             }
         });
     }
 
-    public void getMenu(String menuPath, OnDataReceived dataClient) {
+    /**
+     * Get a `Menu` object using the restaurant and branch id.
+     * @param menuPath - A given menu path.
+     *                 For example: <collectionName>/<restId>/menus/CSGarr0tfBlOfOUGAga1
+     * @param callBack - A callback method, returns the required object to the caller after
+     *                   the object comes back from the Firestore Database.
+     */
+    public void getMenu(String menuPath, OnDataReceived callBack) {
         db.document(menuPath).get()
                 .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                         if (task.isSuccessful()) {
                             DocumentSnapshot menuSnapshot = task.getResult();
-                            dataClient.onObjectReturnedFromDB(menuSnapshot.toObject(Menu.class));
-                        } else {
+                            callBack.onObjectReturnedFromDB(menuSnapshot.toObject(Menu.class));
+                        }
+
+                        else if (null != task.getException()){
+                            // An error occurred
                             Log.e(TAG, task.getException().getMessage());
-                            dataClient.onObjectReturnedFromDB(null);
+                            callBack.onObjectReturnedFromDB(null);
                         }
                     }
                 });
     }
 
-    public void getRestaurants(OnDataReceived dataReceived) {
+    /**
+     * Get a List<Restaurant> of all restaurants from the database.
+     *
+     * @param callBack - A callback method, returns the required object to the caller after
+     *                   the object comes back from the Firestore Database.
+     */
+    public void getRestaurants(OnDataReceived callBack) {
 
         List<Restaurant> restaurants = new ArrayList<>();
 
@@ -204,10 +274,13 @@ public class RestDB {
                     for (QueryDocumentSnapshot documentSnapshots : task.getResult()) {
                         restaurants.add(documentSnapshots.toObject(Restaurant.class));
                     }
-                    dataReceived.onObjectReturnedFromDB(restaurants);
-                } else {
+                    callBack.onObjectReturnedFromDB(restaurants);
+                }
+
+                else if (null != task.getException()){
+                    // An error occurred
                     Log.e(TAG, task.getException().getMessage());
-                    dataReceived.onObjectReturnedFromDB(null);
+                    callBack.onObjectReturnedFromDB(null);
                 }
             }
         });
