@@ -69,7 +69,7 @@ public class RestDB {
     }
 
     /**
-     * Get all branches associated with a specific restaurant.
+     * Get a List<Branch> of all branches associated with a specific restaurant.
      *
      * @param restId - The document id of the required restaurant
      *
