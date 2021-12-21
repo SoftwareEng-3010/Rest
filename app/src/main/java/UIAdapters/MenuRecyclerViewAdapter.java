@@ -41,14 +41,14 @@ public class MenuRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         Item item = items.get(position);
-//        holder.myTextView.setText(animal);
         TextView itemNameTV = (TextView) holder.itemView.findViewById(R.id.menu_item_name_TV);
+        TextView itemDescriptionTV = (TextView) holder.itemView.findViewById(R.id.menu_item_description_TV);
         TextView itemPriceTV = (TextView) holder.itemView.findViewById(R.id.menu_item_price_TV);
-        TextView itemIsInStockTV = (TextView) holder.itemView.findViewById(R.id.menu_item_inStock_TV);
 
         itemNameTV.setText(item.getName());
-        itemPriceTV.setText("" + item.getPrice());
-        itemIsInStockTV.setText("" + item.isInStock());
+        itemDescriptionTV.setText(item.getDescription());
+        itemPriceTV.setText(Integer.toString((int)item.getPrice()) + "₪");
+
 
         // TODO: add OnClickListener to button
     }

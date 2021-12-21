@@ -4,6 +4,7 @@ import com.google.firebase.firestore.PropertyName;
 
 public class Item {
 
+    @PropertyName("description")
     private String description;
     private String name;
     private String serviceUnit;
@@ -25,6 +26,7 @@ public class Item {
         this.price = price;
     }
 
+    @PropertyName("description")
     public String getDescription() {
         return description;
     }
