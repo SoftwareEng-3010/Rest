@@ -1,4 +1,4 @@
-package API;
+package API.Database;
 
 import BusinessEntities.Restaurant;
 

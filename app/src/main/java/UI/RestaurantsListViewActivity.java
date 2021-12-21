@@ -11,7 +11,7 @@ import com.example.exercise_5.R;
 import java.util.List;
 
 import BusinessEntities.Restaurant;
-import API.OnDataReceivedFromDB;
+import API.Database.OnDataReceivedFromDB;
 import DataAccessLayer.RestDB;
 import UIAdapters.RestaurantArrayAdapter;
 

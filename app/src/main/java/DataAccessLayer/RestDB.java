@@ -16,9 +16,9 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.ArrayList;
 import java.util.List;
 
-import API.Database;
-import API.OnDataReceivedFromDB;
-import API.OnDataSentToDB;
+import API.Database.Database;
+import API.Database.OnDataReceivedFromDB;
+import API.Database.OnDataSentToDB;
 import BusinessEntities.Branch;
 import BusinessEntities.Menu;
 import BusinessEntities.Restaurant;
