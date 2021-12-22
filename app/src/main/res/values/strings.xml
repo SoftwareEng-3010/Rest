@@ -8,6 +8,7 @@
     <string name="scan_qr_en">SCAN QR CODE</string>
     <string name="choose_from_list_en">CHOOSE FROM LIST</string>
     <string name="ready_to_scan">Ready To Scan!</string>
+    <string name="show_list_en">Show List of Restaurants</string>
     <string name="title_activity_branch_display">BranchDisplayActivity</string>
     <string name="large_text">
         "Material is the metaphor.\n\n"

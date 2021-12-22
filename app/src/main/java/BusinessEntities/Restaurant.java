@@ -1,68 +1,40 @@
 package BusinessEntities;
 
-import androidx.annotation.NonNull;
+import com.google.firebase.firestore.DocumentId;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class Restaurant {
 
-    // private fields
-    private int id;
+    @DocumentId
+    private String docId;
     private String name;
     private List<Branch> branches;
 
-    // empty constructor for deserializing Firestore documents
-    public Restaurant(){}
 
-    public Restaurant(int id, String name, ArrayList<Branch> branches) {
-        this.id = id;
+    public Restaurant() {
+        // Empty constructor required by Firebase method .toObject()
+    }
+
+    public Restaurant(String name, List<Branch> branches) {
         this.name = name;
         this.branches = branches;
     }
 
-
-    // setters & getters
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setBranches(ArrayList<Branch> branches) {
-        this.branches = branches;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public int getNumOfBranches() {
-        return branches.size();
-    }
 
     public String getName() {
         return name;
     }
 
-    public List<Branch> getBranches() {
-        return branches;
-    }
+    public List<Branch> getBranches() {return this.branches;}
 
-
-    // A String representation of a Restaurant object
     @Override
-    public String toString(){
-        String res = "";
-        res += "Restaurant id: " + this.id + '\n' +
-                "Restaurant name: " + this.name + '\n' +
-                "This restaurant has " + getNumOfBranches() + " branches: \n";
-
-        for(Branch branch : branches){
-            res += branch.toString();
-        }
-        return res;
+    public String toString() {
+        return "Restaurant{\n" +
+                "name='" + name + '\'' +
+                ", branches=" + branches +
+                "\n}";
     }
+
+    public String getDocId() { return docId; }
 }

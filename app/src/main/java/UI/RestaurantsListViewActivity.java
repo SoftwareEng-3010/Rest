@@ -8,14 +8,18 @@ import android.widget.ListView;
 
 import com.example.exercise_5.R;
 
+import java.util.List;
+
 import BusinessEntities.Restaurant;
+import API.Database.OnDataReceivedFromDB;
 import DataAccessLayer.RestDB;
-import UIAdapters.RestaurantAdapter;
+import UIAdapters.RestaurantArrayAdapter;
 
 public class RestaurantsListViewActivity extends AppCompatActivity {
 
     private RestDB rdb;
     private ListView listView;
+    private List<Restaurant> restaurants;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,13 +34,27 @@ public class RestaurantsListViewActivity extends AppCompatActivity {
 
         listView = (ListView) findViewById(R.id.restaurantListView);
 
-        ArrayAdapter<Restaurant> adapter = new RestaurantAdapter(
-                this,
-                R.layout.item_restaurant,
-                rdb.getRestaurants()
-        );
+        setUpAdapter();
+    }
 
-        listView.setAdapter(adapter);
+    private void setUpAdapter() {
+        rdb.getRestaurants(new OnDataReceivedFromDB() {
+            @Override
+            public void onObjectReturnedFromDB(Object obj) {
+
+                if (obj == null) return; // An error occurred
+
+                restaurants = (List<Restaurant>) obj;
+
+                ArrayAdapter<Restaurant> adapter = new RestaurantArrayAdapter(
+                        RestaurantsListViewActivity.this,
+                        R.layout.layout_restaurant_item,
+                        restaurants
+                );
+
+                listView.setAdapter(adapter);
+            }
+        });
     }
 
 }

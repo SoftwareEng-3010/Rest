@@ -1,73 +1,79 @@
 package BusinessEntities;
 
+import com.google.firebase.firestore.DocumentId;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.PropertyName;
 
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.List;
 
 public class Branch {
 
-    // private fields
-    // TODO: 12/13/2021 change address field to Address object instead of map, also in firestore
-    private HashMap<String, String> address;
-    private int id;
-    private boolean isKosher;
-    private ArrayList<Item> menu;
-
-    // empty constructor for deserializing Firestore document
-    public Branch(){}
-
-    public Branch(HashMap<String, String> address, int id, boolean isKosher, ArrayList<Item> menu) {
-        this.address = address;
-        this.id = id;
-        this.isKosher = isKosher;
-        this.menu = menu;
-    }
-
-    // setters & getters
-    public void setAddress(HashMap<String, String> address) {
-        this.address = address;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
+    // ------- Branch info ----------
+    @DocumentId
+    private String docId;
+    private Address address;
+    private List<Table> tables;
+    @PropertyName("menu_path")
+    private String menuPath;
     @PropertyName("isKosher")
-    public void setIsKosher(boolean isKosher) {
+    private boolean isKosher;
+    // ------------------------------
+
+    public Branch() {
+        // Empty constructor is required by Firebase method .toObject()
+    }
+
+    public Branch(Address address/*, String id*/, boolean isKosher, String menuPath, List<Table> tables) {
+        this.address = address;
         this.isKosher = isKosher;
+        this.tables = tables;
+        this.menuPath = menuPath;
     }
 
-    public void setMenu(ArrayList<Item> menu) {
-        this.menu = menu;
+    public Branch(Branch other) {
+        this.address = other.address; // Has a copy constructor
+        this.isKosher = other.isKosher;
     }
 
-    public HashMap<String, String> getAddress() {
+    public String getDocId() {
+        if (docId == null)
+            return "Branch with address: " + this.address + ", does not have its docId field initialized";
+        return docId;
+    }
+
+    public Address getAddress() {
         return address;
     }
 
-    public int getId() {
-        return id;
-    }
+
+    @PropertyName("menu_path")
+    public String getMenuPath() { return menuPath; }
 
     @PropertyName("isKosher")
-    public boolean getIsKosher() {
+    public boolean isKosher() {
         return isKosher;
     }
 
-    public ArrayList<Item> getMenu() {
-        return menu;
+
+    public List<Table> getTables() {
+        return tables;
     }
 
-    // A String representation of a Restaurant object
     @Override
-    public String toString(){
-        String res = "";
-        res += "Branch id: " + this.id + '\n' +
-                "Branch kosher status: " + this.isKosher + '\n';
-        for(String s : this.address.values()){
-            res += ' ' + s + ' ';
-        }
-        return res + '\n';
+    public String toString() {
+        return "\nBranch{\n" +
+                "address=" + address +
+                ", isKosher=" + isKosher +
+                ",\n menu=" + menuPath +
+                ",\n tables=" + tables +
+                "\n}\n";
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Branch branch = (Branch) o;
+        return address.equals(branch.address);
     }
 }

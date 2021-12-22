@@ -20,14 +20,14 @@ import java.util.List;
 import BusinessEntities.Restaurant;
 import UI.BranchesListViewActivity;
 
-public class RestaurantAdapter extends ArrayAdapter<Restaurant> {
+public class RestaurantArrayAdapter extends ArrayAdapter<Restaurant> {
 
-    private static final String TAG = "RestaurantAdapter";
+    private static final String TAG = "RestaurantArrayAdapter";
     private Context context;
     private int resource;
     private List<Restaurant> restaurants;
 
-    public RestaurantAdapter(@NonNull Context context, int resource, List<Restaurant> restaurants) {
+    public RestaurantArrayAdapter(@NonNull Context context, int resource, List<Restaurant> restaurants) {
         super(context, resource, restaurants);
         this.restaurants = restaurants;
         this.context = context;
@@ -36,17 +36,23 @@ public class RestaurantAdapter extends ArrayAdapter<Restaurant> {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
+
         // Get the data item for this position
         Restaurant restaurant = restaurants.get(position);
+        String restaurantName = restaurant.getName();
+
         // Check if an existing view is being reused, otherwise inflate the view
         if (convertView == null) {
             convertView = LayoutInflater.from(context).inflate(resource, parent, false);
         }
-        // Lookup view for data population
-        TextView rName = convertView.findViewById(R.id.restaurantNameTextView);
 
-        Button moveToBranches = convertView.findViewById(R.id.restaurantBranchesButton);
-        moveToBranches.setOnClickListener(new View.OnClickListener() {
+        // Lookup view for data population
+//        TextView restName = convertView.findViewById(R.id.setRestaurantName);
+//        restName.setText(restaurantName);
+
+        Button moveToBranchesBtn = convertView.findViewById(R.id.restaurantBranchesButton);
+        moveToBranchesBtn.setText(restaurantName);
+        moveToBranchesBtn.setOnClickListener(new View.OnClickListener() {
 
             @Override
             /**
@@ -54,18 +60,16 @@ public class RestaurantAdapter extends ArrayAdapter<Restaurant> {
              */
             public void onClick(View v) {
 
-                ListView parentView = (ListView) v.getParent().getParent().getParent();
-                int index = parentView.indexOfChild((View) v.getParent().getParent());
+                ListView parentView = (ListView) v.getParent().getParent();
+                int index = parentView.indexOfChild((View) v.getParent());
                 Intent moveToBranchesActivity =
                         new Intent(getContext(), BranchesListViewActivity.class);
-                moveToBranchesActivity.putExtra("restInd", index);
+                String restID = restaurants.get(index).getDocId();
+                moveToBranchesActivity.putExtra("restID", restID);
                 getContext().startActivity(moveToBranchesActivity);
             }
         });
 
-
-        // Populate the data into the template view using the data object
-        rName.setText(restaurant.getName());
 
         // Return the completed view to render on screen
         return convertView;

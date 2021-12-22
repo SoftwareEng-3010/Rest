@@ -8,15 +8,18 @@ import android.widget.ListView;
 
 import com.example.exercise_5.R;
 
+import java.util.List;
+
 import BusinessEntities.Branch;
-import BusinessEntities.Restaurant;
+import API.Database.OnDataReceivedFromDB;
 import DataAccessLayer.RestDB;
-import UIAdapters.BranchAdapter;
+import UIAdapters.BranchArrayAdapter;
 
 public class BranchesListViewActivity extends AppCompatActivity {
 
     private RestDB rdb;
     private ListView listView;
+    private List<Branch> branches;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,18 +32,34 @@ public class BranchesListViewActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
 
+        // Listview reference
         listView = (ListView) findViewById(R.id.branchListView);
 
-        int index = getIntent().getIntExtra("restInd", 0);
-        Restaurant selectedRestaurant = rdb.getRestaurants().get(index);
+        // Get a list of branches and set up the listview adapter
+        setListViewAdapter();
+    }
 
-        ArrayAdapter<Branch> adapter = new BranchAdapter(
-                this,
-                R.layout.item_branch,
-                selectedRestaurant.getBranches()
-        );
+    private void setListViewAdapter() {
+        // Extract restID from previous activity
+        String restID = getIntent().getStringExtra("restID");
 
-        listView.setAdapter(adapter);
+
+        // Retrieve data from Database
+        rdb.getBranches(restID,
+                new OnDataReceivedFromDB() {
+                    @Override
+                    public void onObjectReturnedFromDB(Object obj) {
+
+                        // When data arrives from DB - init the ListView adapter
+                        branches = (List<Branch>) obj;
+                        ArrayAdapter<Branch> adapter = new BranchArrayAdapter(
+                                BranchesListViewActivity.this,
+                                R.layout.layout_branch_item,
+                                branches
+                        );
+                        listView.setAdapter(adapter);
+                    }
+                });
     }
 
 }

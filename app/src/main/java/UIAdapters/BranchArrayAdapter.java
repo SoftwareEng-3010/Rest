@@ -14,22 +14,23 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 
 import com.example.exercise_5.R;
+import com.google.firebase.firestore.DocumentReference;
 
 import java.util.List;
 
+import API.Constants.Constants;
 import BusinessEntities.Branch;
 import UI.BranchViewActivity;
-import UI.BranchesListViewActivity;
-import UI.MainActivity;
+//import UI.BranchViewActivity;
 
-public class BranchAdapter extends ArrayAdapter<Branch> {
+public class BranchArrayAdapter extends ArrayAdapter<Branch> {
 
-    private static final String TAG = "BranchAdapter";
+    private static final String TAG = "BranchArrayAdapter";
     private Context context;
     private int resource;
     private List<Branch> branches;
 
-    public BranchAdapter(@NonNull Context context, int resource, List<Branch> branches) {
+    public BranchArrayAdapter(@NonNull Context context, int resource, List<Branch> branches) {
         super(context, resource, branches);
         this.branches = branches;
         this.context = context;
@@ -40,14 +41,16 @@ public class BranchAdapter extends ArrayAdapter<Branch> {
     public View getView(int position, View convertView, ViewGroup parent) {
         // Get the data item for this position
         Branch branch = branches.get(position);
+        String branchAddress = branch.getAddress().toString();
+
         // Check if an existing view is being reused, otherwise inflate the view
         if (convertView == null) {
             convertView = LayoutInflater.from(context).inflate(resource, parent, false);
         }
-        // Lookup view for data population
-        TextView bName = convertView.findViewById(R.id.branchNameTextView);
 
+        // Lookup view for data population
         Button moveToMenu = convertView.findViewById(R.id.branchMenuButton);
+        moveToMenu.setText(branchAddress);
         moveToMenu.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -56,19 +59,19 @@ public class BranchAdapter extends ArrayAdapter<Branch> {
              */
             public void onClick(View v) {
 
-                ListView parentView = (ListView) v.getParent().getParent().getParent();
-                int restIndex = parentView.indexOfChild((View) v.getParent().getParent());
-                int branchIndex = parentView.indexOfChild((View) v.getParent().getParent());
-                Intent moveToSingleBranchActivity =
+                ListView parentView = (ListView) v.getParent().getParent();
+                int branchIndex = parentView.indexOfChild((View) v.getParent());
+                Intent moveToBranchViewActivity =
                         new Intent(getContext(), BranchViewActivity.class);
-                moveToSingleBranchActivity.putExtra("restaurant_index", restIndex);
-                moveToSingleBranchActivity.putExtra("branch_index", branchIndex);
-                getContext().startActivity(moveToSingleBranchActivity);
+
+                String menuPath = branches.get(branchIndex).getMenuPath();
+                String branchId = branch.getDocId();
+
+                moveToBranchViewActivity.putExtra(Constants.KEY_BRANCH_ID, branchId);
+                moveToBranchViewActivity.putExtra(Constants.KEY_MENU_PATH, menuPath);
+                getContext().startActivity(moveToBranchViewActivity);
             }
         });
-
-        // Populate the data into the template view using the data object
-        bName.setText(branch.getAddress().toString());
 
         // Return the completed view to render on screen
         return convertView;

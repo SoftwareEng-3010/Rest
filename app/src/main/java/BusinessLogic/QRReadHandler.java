@@ -7,64 +7,82 @@ import com.google.zxing.Result;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.List;
-
-import BusinessEntities.Item;
-import DataAccessLayer.RestDB;
-import io.grpc.internal.JsonParser;
+import BusinessEntities.Address;
+import BusinessEntities.QRCode;
+//import DataAccessLayer.RemoteRestDB;
 
 /**
- * This class handles a decoded read from QRCodeActivity
+ * QRReadHandler class will handle the validation and parsing of
+ * scanned QRCodes.
+ * Class methods are static so no instance of the class should be created
+ * and
  */
 public class QRReadHandler {
 
-    private final String TAG = "QRReadHandler";
-    private final String REST_ID_STRING = "restaurant_id";
-    private final String BRANCH_ID_STRING = "branch_id";
-    private final String TABLE_NUM_STRING = "table_num";
-    private final String INVALID_JSON_STRING = "Invalid scan";
+    private static final String TAG = "QRReadHandler";
 
-    private Result result;
-    private RestDB restDB;
+//    private static final String SELECTED_RESTAURANT_INDEX  = "restaurant_index";
+//    private static final String SELECTED_BRANCH_INDEX = "branch_index";
+//    private static final String SELECTED_TABLE_INDEX = "table_index";
 
-    public QRReadHandler(Result result){
-        this.result = result;
-        restDB = RestDB.getInstance();
-    }
+//    private static final RemoteRestDB restDB =
+//            RemoteRestDB.getInstance(); // Database reference, statically initialized
 
-    public Result getResult() {
-        return result;
-    }
+    /**
+     * A private empty constructor to prevent object instantiation
+     */
+    private QRReadHandler() {}
 
+    /**
+     * Main functionality of the class:
+     * This method validates and parses a `Result` object.
+     * A valid QRCode for our app contains a JSON object,
+     * which contains 3 keys:
+     * 1. Restaurant index (Relative to our database restaurant indexing)
+     * 2. Branch index (Relative in the same way)
+     * 3. Table index (The table number in which the client scanned the QRCode from)
+     *
+     * @param result - An object from `Budiyev`s dependency for our QRCode scanner.
+     *                 It contains the information contained in the QRCode.
+     * @return - An array of `int`s with the specified data values (Integers) in our specific order.
+     * @throws Exception - If something went wrong while parsing from string to json,
+     *                      or, if the data does not correspond to our database current data.
+     */
+    public static QRCode readFromResult(Result result) throws Exception {
 
-    public void handleRead() throws Exception {
-        JSONObject json = getJsonObject(result.getText());
-        if(json == null) {
-            throw new JSONException(INVALID_JSON_STRING);
+        try {
+            // QRCode should contain a JSON formatted `String`
+            JSONObject json = getJsonObject(result.getText());
+
+            Log.e(TAG, "Got JSON Object" + result.getText());
+
+            // Parse data from JgSON
+            String restaurantId = json.getString(QRCode.KEY_RESTAURANT_ID);
+
+            String branchId = json.getString(QRCode.KEY_BRANCH_ID);
+
+            int tableIndex = json.getInt(QRCode.KEY_TABLE_NUMBER);
+
+            // Return an array with the relevant data to display the menu of the given
+            // branch and restaurant
+            return new QRCode(restaurantId, branchId, tableIndex);
         }
-        else{
-            try{
-                int restId = json.getInt(REST_ID_STRING);
-                int branchId = json.getInt(BRANCH_ID_STRING);
-                int tableNum = json.getInt(TABLE_NUM_STRING);
-                List<Item> menu = restDB.getMenu(restId, branchId);
-                // todo: start new activity to display menu
-            }
-            catch (Exception e) {
-                Log.e(TAG, e.getMessage());
-            }
+        catch (Exception e) {
+            Log.e(TAG, e.getMessage());
+            throw e;
         }
     }
 
-    private JSONObject getJsonObject(String jsonString){
-        JSONObject json;
-        try{
-            json = new JSONObject(jsonString);
+    private static JSONObject getJsonObject(String jsonString) throws Exception{
+
+        try {
+            JSONObject json = new JSONObject(jsonString);
+//            Log.e(TAG, json.toString());
             return json;
         }
-        catch (JSONException e){
+        catch (JSONException e) {
             Log.e(TAG, e.getMessage());
-            return null;
+            throw e;
         }
     }
 }

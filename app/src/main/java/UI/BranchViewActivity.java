@@ -1,65 +1,106 @@
 package UI;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.exercise_5.R;
 
+import javax.annotation.Nullable;
+
 import BusinessEntities.Branch;
-import BusinessEntities.Item;
-import BusinessEntities.Restaurant;
+import BusinessEntities.Menu;
+import BusinessEntities.QRCode;
+import API.Database.Database;
+import API.Database.OnDataReceivedFromDB;
 import DataAccessLayer.RestDB;
-import UIAdapters.BranchAdapter;
-import UIAdapters.BranchDisplayAdapter;
+import UIAdapters.MenuRecyclerViewAdapter;
+import ViewModels.MenuViewModel;
 
 public class BranchViewActivity extends AppCompatActivity {
 
-    private final String SELECTED_RESTAURANT_INDEX  = "restaurant_index";
-    private final String SELECTED_BRANCH_INDEX = "branch_index";
-    private final String SELECTED_TABLE_INDEX = "table_index";
-
     private final String TAG = "BranchViewActivity";
 
-    private RestDB rdb;
-    private ListView listView;
+    private Database rdb;
 
-    private TextView branchNameText;
+    private TextView branchNameTV;
+    private TextView branchBusinessHrsTV;
+    private TextView selectedTableTV;
+
+    private RecyclerView menuRecyclerView;
+
+    private MenuRecyclerViewAdapter menuAdapter;
+    
+    private Branch branch;
+    private Menu menu;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_branch_display);
+        setContentView(R.layout.activity_branch_view);
         rdb = RestDB.getInstance();
+
+        // Required data to receive a branch from Database
+        String restId = getIntent().getStringExtra(QRCode.KEY_RESTAURANT_ID);
+        String branchId = getIntent().getStringExtra(QRCode.KEY_BRANCH_ID);
+
+        // Must come from QRCodeActivity:
+        int tableNumber = getIntent().getIntExtra(QRCode.KEY_TABLE_NUMBER, -1);
+        // Must come only from manual restaurant selection:
+        String menuPath = getIntent().getStringExtra("menu_path");
+
+        // Get Branch from Database
+        getBranchAndMenu(restId, branchId, menuPath);
     }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
+    private void setupUI() {
+        branchNameTV = (TextView) findViewById(R.id.branch_name_TV);
+        branchBusinessHrsTV = (TextView) findViewById(R.id.branch_business_hrs_TV);
+        selectedTableTV = (TextView) findViewById(R.id.user_selected_table_TV);
 
-        listView = (ListView) findViewById(R.id.branchDisplayView);
+        // Menu Recycler View ref
+        menuRecyclerView = (RecyclerView) findViewById(R.id.branch_menu_recycle_view);
 
-        int selectedRestaurant = getIntent().getIntExtra(SELECTED_RESTAURANT_INDEX, -1);
-        int selectedBranch = getIntent().getIntExtra(SELECTED_BRANCH_INDEX, -1);
-        int selectedTable = getIntent().getIntExtra(SELECTED_TABLE_INDEX, 0);
+        // Initialize ViewModel
+        MenuViewModel menuViewModel = ViewModelProvider.AndroidViewModelFactory
+                .getInstance(getApplication())
+                .create(MenuViewModel.class);
 
-        Restaurant restaurant = rdb.getRestaurants().get(selectedRestaurant);
-        Branch branch = restaurant.getBranches().get(selectedBranch);
+        // set up adapter
+        menuAdapter = new MenuRecyclerViewAdapter(BranchViewActivity.this, menu.getMenu());
 
-//        branchNameText = findViewById(R.id.branchNameDisplayTextView);
-//        branchNameText.setText(restaurant.getBranches().get(selectedBranch).getAddress().get("city"));
-
-        ArrayAdapter<Item> adapter = new BranchDisplayAdapter(
-                this,
-                R.layout.item_menu,
-                branch.getMenu()
-        );
-
-        listView.setAdapter(adapter);
+        // set up the RecyclerView
+        menuRecyclerView = (RecyclerView) findViewById(R.id.branch_menu_recycle_view);
+        menuRecyclerView.setLayoutManager(new LinearLayoutManager(BranchViewActivity.this));
+        menuRecyclerView.setAdapter(menuAdapter);
     }
 
+    public void getBranchAndMenu(String restId, String branchId, String menuPath) {
+
+        rdb.getBranch(branchId, new OnDataReceivedFromDB() {
+            @Override
+            public void onObjectReturnedFromDB(@Nullable Object obj) {
+                branch = (Branch) obj;
+                if (branch != null) {
+                    rdb.getMenu(restId, branchId, menuPath,
+                            new OnDataReceivedFromDB() {
+                        @Override
+                        public void onObjectReturnedFromDB(@Nullable Object obj) {
+                            menu = (Menu) obj;
+                            setupUI();
+                        }
+                    });
+                }
+                else {
+                    Log.e(TAG, "An error occurred retrieving Branch "
+                            + branchId + " from Database");
+                }
+            }
+        });
+    }
 }
