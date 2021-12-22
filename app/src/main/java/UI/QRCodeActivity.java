@@ -34,7 +34,6 @@ public class QRCodeActivity extends AppCompatActivity {
     private final String PERMISSION_PROMPT = "You will need to allow Camera permissions to " +
             "scan a QR code at the restaurant you are visiting";
 
-
     private CodeScannerView qrScannerView; // QRScanner view reference
     private CodeScanner qrScanner; // QRScanner object reference
 
