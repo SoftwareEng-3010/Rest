@@ -174,7 +174,6 @@ public class QRCodeActivity extends AppCompatActivity {
                 .show();
     }
 
-
     /**
      * Set up a `CallbackHandler` for incoming QRCodes
      * scanned by the user camera.
