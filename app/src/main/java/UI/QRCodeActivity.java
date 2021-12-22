@@ -28,7 +28,7 @@ import com.google.zxing.Result;
 
 import API.Constants.Constants;
 import BusinessEntities.QRCode;
-import BusinessLogic.QRReader;
+import BusinessLogic.QRReadHandler;
 
 public class QRCodeActivity extends AppCompatActivity {
 
@@ -192,7 +192,7 @@ public class QRCodeActivity extends AppCompatActivity {
 
                             // Validating QRCode and move to BranchViewActivity
 
-                            QRCode scannedQR = QRReader.readFromResult(result);
+                            QRCode scannedQR = QRReadHandler.readFromResult(result);
 
                             // Release camera resource
                             qrScanner.releaseResources();

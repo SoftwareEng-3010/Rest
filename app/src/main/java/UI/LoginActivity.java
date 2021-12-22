@@ -38,7 +38,7 @@ public class LoginActivity extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance(); // getting firebase auth instance
 
-        // if a user is already signed in
+        // If a user is already signed in
         if (mAuth.getCurrentUser() != null) {
             moveToQRCodeActivity();
         }
@@ -54,6 +54,38 @@ public class LoginActivity extends AppCompatActivity {
         initListeners();
 
     }
+
+    private void initListeners(){
+
+        signInBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Sign in
+                String email = emailBox.getText().toString();
+                String password = passwordBox.getText().toString();
+                signIn(email, password);
+            }
+        });
+
+        signupBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Sign up
+                String email = emailBox.getText().toString();
+                String password = passwordBox.getText().toString();
+                createAccount(email, password);
+            }
+        });
+
+        guestBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // TODO: 12/14/2021 Figure out what should be done here
+//                moveToRestaurantSelectionActivity(); // ?
+            }
+        });
+    }
+
     private void moveToQRCodeActivity() {
         Intent moveToQRActivity = new Intent(this, QRCodeActivity.class);
         startActivity(moveToQRActivity);
@@ -99,51 +131,4 @@ public class LoginActivity extends AppCompatActivity {
                 });
     }
 
-    private void initListeners(){
-
-        signInBtn.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            /**
-             * get signIn credentials and authenticate
-             */
-            public void onClick(View v) {
-
-                String email = emailBox.getText().toString();
-                String password = passwordBox.getText().toString();
-                signIn(email, password);
-            }
-        });
-
-        signupBtn.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            /**
-             * get values from text bars and validate. Then, update db with new user doc
-             */
-            public void onClick(View v) {
-                String email = emailBox.getText().toString();
-                String password = passwordBox.getText().toString();
-                createAccount(email, password);
-            }
-        });
-
-        guestBtn.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            /**
-             * move to RestSelector
-             */
-            public void onClick(View v) {
-                // TODO: 12/14/2021 Figure out what should be done here
-//                moveToRestaurantSelectionActivity(); // ?
-            }
-        });
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        Log.e(TAG, "onCreate()");
-    }
 }

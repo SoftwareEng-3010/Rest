@@ -26,5 +26,5 @@ public interface OnDataSentToDB {
      * @param isTaskSuccessful - A boolean parameter which indicates
      *                           if writing to database was successful or not.
      */
-    public void onObjectWrittenToDB(@NonNull boolean isTaskSuccessful);
+    public void onObjectWrittenToDB(boolean isTaskSuccessful);
 }

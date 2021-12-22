@@ -12,14 +12,14 @@ import BusinessEntities.QRCode;
 //import DataAccessLayer.RemoteRestDB;
 
 /**
- * QRReader class will handle the validation and parsing of
+ * QRReadHandler class will handle the validation and parsing of
  * scanned QRCodes.
  * Class methods are static so no instance of the class should be created
  * and
  */
-public class QRReader {
+public class QRReadHandler {
 
-    private static final String TAG = "QRReader";
+    private static final String TAG = "QRReadHandler";
 
 //    private static final String SELECTED_RESTAURANT_INDEX  = "restaurant_index";
 //    private static final String SELECTED_BRANCH_INDEX = "branch_index";
@@ -31,7 +31,7 @@ public class QRReader {
     /**
      * A private empty constructor to prevent object instantiation
      */
-    private QRReader() {}
+    private QRReadHandler() {}
 
     /**
      * Main functionality of the class:
