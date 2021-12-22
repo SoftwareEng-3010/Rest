@@ -10,7 +10,7 @@ import androidx.core.content.ContextCompat;
 
 public class Permissions {
 
-    private static int counter = 1;
+    private static int counter = 0;
 
     public static boolean isPermissionGranted(String permission, Activity activity) {
         return ContextCompat.checkSelfPermission(activity, permission)
