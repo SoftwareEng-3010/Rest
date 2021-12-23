@@ -85,10 +85,12 @@ public class QRCodeActivity extends AppCompatActivity {
         super.onStart();
         Log.e(TAG, "Started QRCodeActivity (onStart())");
 
-        Permissions.requestPermission(
-                Manifest.permission.CAMERA
-                , REQUEST_PERMISSION_CODE
+        Permissions.requestCameraPermission(
+                REQUEST_PERMISSION_CODE
                 , this);
+        if (Permissions.isPermissionGranted(Manifest.permission.CAMERA, this)) {
+            qrScanner.startPreview();
+        }
     }
 
     @Override
