@@ -100,7 +100,7 @@ public class QRCodeActivity extends AppCompatActivity {
 
 
         p = new PermissionManager(this);
-        
+
         // Check whether your app is running on a device that has a camera hardware feature.
         if (p.hasSystemFeature(PackageManager.FEATURE_CAMERA_ANY)) {
             // Continue with the part of your app's workflow that requires a
