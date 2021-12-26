@@ -16,7 +16,7 @@ public class Item {
         // Empty constructor required by Firebase method .toObject()
     }
 
-    public Item(String description, String imageURL, String name, String serviceUnit,
+    public Item(String name,String description, String imageURL, String serviceUnit,
                 boolean inStock, double price) {
         this.description = description;
         this.imageURL = imageURL;

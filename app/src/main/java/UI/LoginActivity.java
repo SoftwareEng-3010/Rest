@@ -16,7 +16,8 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
+
+import UI.DataActivity.DataActivity;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -45,7 +46,7 @@ public class LoginActivity extends AppCompatActivity {
 
         // References to TextBoxes
         emailBox = (EditText)findViewById(R.id.email);
-        passwordBox = (EditText)findViewById(R.id.password);
+        passwordBox = (EditText)findViewById(R.id.editTextStreet);
 
         // References to buttons
         signInBtn = (Button)findViewById(R.id.signin_button);
@@ -82,6 +83,10 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View v) {
                 // TODO: 12/14/2021 Figure out what should be done here
 //                moveToRestaurantSelectionActivity(); // ?
+                // Temporary intent to DataActivity
+                Intent moveToDataActivity = new Intent(LoginActivity.this, DataActivity.class);
+                startActivity(moveToDataActivity);
+                // Don't call finish()
             }
         });
     }
