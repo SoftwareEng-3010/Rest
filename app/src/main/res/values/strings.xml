@@ -1,13 +1,8 @@
 <resources>
-    <string name="app_name">RestApp</string>
 
-    <string name="user_name">User Name</string>
-    <string name="password">Password</string>
-    <string name="scan_qr">SCAN QR CODE</string>
-    <string name="choose_from_list">CHOOSE FROM LIST</string>
-    <string name="ready_to_scan">Ready To Scan!</string>
-    <string name="title_activity_branch_display">BranchDisplayActivity</string>
-    <string name="action_settings">Settings</string>
+    <!-- General -->
+    <string name="app_name">RestApp</string>
+    <!-- General -->
 
     <!-- Login Activity -->
     <string name="prompt_email">אימייל</string>
@@ -15,8 +10,8 @@
     <string name="login">התחברות</string>
     <string name="signup">הרשמה</string>
     <string name="im_a_restaurant">אני בעל מסעדה</string>
+    <string name="logout">התנתק</string>
     <!-- Login Activity -->
-
 
     <!-- QRCode Activity -->
     <string name="show_list">אין לי מצלמה, בחר מרשימה</string>
@@ -25,10 +20,5 @@
     <!-- Menu List Item -->
     <string name="add_to_order">הוסף להזמנה</string>
     <!-- Menu List Item -->
-    <string name="action_sign_in">Sign in or register</string>
-    <string name="action_sign_in_short">Sign in</string>
-    <string name="welcome">Welcome!</string>
-    <string name="invalid_username">Not a valid username</string>
-    <string name="invalid_password">Password must be >5 characters</string>
-    <string name="login_failed">"Login failed"</string>
+
 </resources>
