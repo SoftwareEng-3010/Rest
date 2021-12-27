@@ -28,7 +28,4 @@ public class ServiceUnit implements IServiceUnit {
     public void removeFromOrder(IOrder order, List<Item> items) {
 
     }
-
-
-
 }

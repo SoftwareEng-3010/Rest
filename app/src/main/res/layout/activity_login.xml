@@ -6,7 +6,6 @@
     android:layout_height="match_parent"
     tools:context="UI.LoginActivity">
 
-
     <Button
         android:id="@+id/signin_button"
         android:layout_width="wrap_content"
@@ -76,8 +75,5 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.431"
         />
-
-
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -16,7 +16,10 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
+import API.Database.OnDataSentToDB;
+import DataAccessLayer.RestDB;
 import UI.DataActivity.DataActivity;
 
 public class LoginActivity extends AppCompatActivity {
@@ -38,9 +41,10 @@ public class LoginActivity extends AppCompatActivity {
         Log.e(TAG, "onCreate()");
 
         mAuth = FirebaseAuth.getInstance(); // getting firebase auth instance
-
+        RestDB.getInstance();
         // If a user is already signed in
         if (mAuth.getCurrentUser() != null) {
+
             moveToQRCodeActivity();
         }
 
@@ -115,7 +119,6 @@ public class LoginActivity extends AppCompatActivity {
                         }
                     }
                 });
-
     }
 
     private void createAccount(String email, String password){
@@ -125,7 +128,25 @@ public class LoginActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             // User is logged in and can move to the next activity
-                            moveToQRCodeActivity();
+
+                            int userType = 0; // Determine userType!!!
+
+                            RestDB.getInstance().addUserWithType(
+                                    task.getResult().getUser(),
+                                    userType,
+                                    new OnDataSentToDB() {
+                                        @Override
+                                        public void onObjectWrittenToDB(boolean isTaskSuccessful) {
+                                            if (isTaskSuccessful) {
+                                                moveToQRCodeActivity();
+                                            }
+                                            else {
+                                                Log.e(TAG, "Something went wrong writing the user into database");
+//                                                mAuth.signOut();
+                                            }
+                                        }
+                                    }
+                            );
                         }
                         else {
                             // If sign in fails, display a message to the user and ask for pw.

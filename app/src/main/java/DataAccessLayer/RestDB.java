@@ -4,22 +4,31 @@ import android.util.Log;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import API.BusinessEntitiesInterface.IOrder;
 import API.Database.Database;
 import API.Database.OnDataReceivedFromDB;
 import API.Database.OnDataSentToDB;
+import API.IUser;
 import BusinessEntities.Branch;
 import BusinessEntities.Menu;
 import BusinessEntities.Restaurant;
@@ -34,7 +43,7 @@ public class RestDB implements Database {
 
     // constant strings for querying database
     private final String BRANCHES_COLLECTION_NAME = "branch";
-    private final String RESTAURANT_COLLECTION_NAME = "our_restaurants";
+    private final String RESTAURANT_COLLECTION_NAME = "test";
     private final String MENU_FIELD_NAME = "menu_path";
 
     private static RestDB instance = null;                    // private single instance
@@ -87,7 +96,6 @@ public class RestDB implements Database {
                         }
                     }
                 });
-
     }
 
     @Override
@@ -271,5 +279,35 @@ public class RestDB implements Database {
                         );
         Log.e(TAG, "finished addRestaurant()");
 
+    }
+
+    @Override
+    public void addUserWithType(FirebaseUser user, int userType, OnDataSentToDB callback) {
+
+        IUser newUser = new IUser() {
+            @Override
+            public String getUid() {
+                return user.getUid();
+            }
+
+            @Override
+            public int getType() {
+                return userType;
+            }
+
+            @Override
+            public String getEmail() {
+                return user.getEmail();
+            }
+        };
+
+        db.collection("users").document().set(newUser).addOnCompleteListener(
+                new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        callback.onObjectWrittenToDB(true);
+                    }
+                }
+        );
     }
 }

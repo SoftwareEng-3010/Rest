@@ -60,7 +60,7 @@ public class CreateMenuFragment extends Fragment implements DataEditSubView{
 
 
         MenuViewModel menuViewModel = ViewModelProvider.AndroidViewModelFactory
-                .getInstance()
+                .getInstance(getActivity().getApplication())
                 .create(MenuViewModel.class);
 
         // set up adapter
