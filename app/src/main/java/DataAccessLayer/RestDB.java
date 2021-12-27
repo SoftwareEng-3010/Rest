@@ -25,8 +25,8 @@ import BusinessEntities.Menu;
 import BusinessEntities.Restaurant;
 
 /**
- * This class will be similar  to RestDB, but without saving data to device.
- * Instead, the class will be used to query the db for necessary data
+ * This class implements the Database interface and affectively performs all CRUD operations
+ * on our Firestore database
  */
 public class RestDB implements Database {
 
