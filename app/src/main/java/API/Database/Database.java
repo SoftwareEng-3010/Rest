@@ -1,5 +1,7 @@
 package API.Database;
 
+import com.google.firebase.auth.FirebaseUser;
+
 import BusinessEntities.Restaurant;
 
 /**
@@ -74,4 +76,6 @@ public interface Database {
     public void addRestaurant(Restaurant restaurant, OnDataSentToDB callBack);
 
     // More operations will be added later...
+
+    public void addUserWithType(FirebaseUser user, int userType, OnDataSentToDB callback);
 }
