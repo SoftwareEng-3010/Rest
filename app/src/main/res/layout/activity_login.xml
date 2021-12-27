@@ -35,7 +35,7 @@
         android:id="@+id/guest_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/guest_en"
+        android:text="Add a Restaurant"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -57,7 +57,7 @@
         app:layout_constraintVertical_bias="0.276" />
 
     <EditText
-        android:id="@+id/password"
+        android:id="@+id/editTextStreet"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:ems="10"
