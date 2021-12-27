@@ -50,7 +50,7 @@ public class LoginActivity extends AppCompatActivity {
 
         // References to TextBoxes
         emailBox = (EditText)findViewById(R.id.email);
-        passwordBox = (EditText)findViewById(R.id.editTextStreet);
+        passwordBox = (EditText)findViewById(R.id.password);
 
         // References to buttons
         signInBtn = (Button)findViewById(R.id.signin_button);
