@@ -23,7 +23,10 @@
         <entry key="app/src/main/res/layout/activity_login.xml" value="0.25" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.25" />
         <entry key="app/src/main/res/layout/activity_qrcode.xml" value="0.125" />
+        <entry key="app/src/main/res/layout/activity_rest_scrollview.xml" value="0.14947916666666666" />
         <entry key="app/src/main/res/layout/layout_branch_item.xml" value="0.14947916666666666" />
+        <entry key="app/src/main/res/layout/layout_menu_list_item.xml" value="0.12590579710144928" />
+        <entry key="app/src/main/res/layout/layout_restaurant_item.xml" value="0.14947916666666666" />
         <entry key="app/src/main/res/layout/login_activity.xml" value="0.375" />
         <entry key="app/src/main/res/layout/qrcode_activity.xml" value="0.17708333333333334" />
         <entry key="app/src/main/res/layout/rest_selector.xml" value="0.19655797101449277" />
