@@ -6,16 +6,21 @@
     <string name="scan_qr">SCAN QR CODE</string>
     <string name="choose_from_list">CHOOSE FROM LIST</string>
     <string name="ready_to_scan">Ready To Scan!</string>
-    <string name="show_list">Show List of Restaurants</string>
     <string name="title_activity_branch_display">BranchDisplayActivity</string>
     <string name="action_settings">Settings</string>
 
-    <!-- Strings related to login -->
+    <!-- Login Activity -->
     <string name="prompt_email">אימייל</string>
     <string name="prompt_password">סיסמה</string>
     <string name="login">התחברות</string>
     <string name="signup">הרשמה</string>
     <string name="im_a_restaurant">אני בעל מסעדה</string>
+    <!-- Login Activity -->
+
+
+    <!-- QRCode Activity -->
+    <string name="show_list">אין לי מצלמה, בחר מרשימה</string>
+    <!-- QRCode Activity -->
 
     <string name="action_sign_in">Sign in or register</string>
     <string name="action_sign_in_short">Sign in</string>
