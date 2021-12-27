@@ -45,7 +45,6 @@ public class Branch {
         return address;
     }
 
-
     @PropertyName("menu_path")
     public String getMenuPath() { return menuPath; }
 
@@ -53,7 +52,6 @@ public class Branch {
     public boolean isKosher() {
         return isKosher;
     }
-
 
     public List<Table> getTables() {
         return tables;

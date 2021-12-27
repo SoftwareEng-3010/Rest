@@ -54,4 +54,9 @@ public class MenuRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
     public int getItemCount() {
         return items.size();
     }
+
+    public void addItem(Item item) {
+        if (item == null) return;
+        this.items.add(item);
+    }
 }

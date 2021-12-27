@@ -18,14 +18,6 @@ public class Permissions {
     }
 
     public static void requestPermission(String permission, int requestCode, Activity activity) {
-
-        if (permission.equals(Manifest.permission.CAMERA)) {
-            if (!activity.getPackageManager().hasSystemFeature(
-                    PackageManager.FEATURE_CAMERA_ANY)) {
-                return;
-            }
-        }
-
         // if user sdk version >= 23
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (!isPermissionGranted(permission, activity)) {
@@ -37,6 +29,15 @@ public class Permissions {
                 }
             }
         }
+    }
+
+    public static void requestCameraPermission(
+            int requestCode, Activity activity) {
+            if (!activity.getPackageManager().hasSystemFeature(
+                    PackageManager.FEATURE_CAMERA_ANY)) {
+                return;
+            }
+            requestPermission(Manifest.permission.CAMERA, requestCode, activity);
     }
 
 
