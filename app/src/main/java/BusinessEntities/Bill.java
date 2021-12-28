@@ -36,7 +36,7 @@ public class Bill {
     public String toString(){
         String res = "";
         for (Order orders : orders){
-            
+
         }
     }
 
