@@ -144,12 +144,12 @@ public class LoginActivity extends AppCompatActivity implements ILoginView{
         final int REGULAR_USER = 0,
                 MANAGER_USER = 1;
 
-        if (user.getType() == REGULAR_USER) {
+        if (getCheckRadioButtonIndex() == REGULAR_USER) {
             // Regular customer user: Navigate to QRActivity
             moveToCustomerUI();
         }
 
-        else if(user.getType() == MANAGER_USER) {
+        else if(getCheckRadioButtonIndex() == MANAGER_USER) {
             // Branch manager user is connected: Navigate to Branch management UI
             moveToBranchManagementUI();
         }
