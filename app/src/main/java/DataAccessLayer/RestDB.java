@@ -344,4 +344,14 @@ public class RestDB implements Database {
     }
 
 
+    @Override
+    public void pushOrder(String orderId, OnDataSentToDB callback) {
+        Log.e(TAG, "IMPLEMENT pushOrder");
+    }
+
+    @Override
+    public void getOrder(String orderId, OnDataReceivedFromDB callback) {
+        Log.e(TAG, "IMPLEMENT pullOrder");
+    }
+
 }

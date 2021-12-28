@@ -82,4 +82,9 @@ public interface Database {
     // More operations will be added later...
 
     public void addUserWithType(FirebaseUser user, int userType, OnDataSentToDB callback);
+
+
+    public void pushOrder(String orderId, OnDataSentToDB callback);
+
+    public void getOrder(String orderId, OnDataReceivedFromDB callback);
 }
