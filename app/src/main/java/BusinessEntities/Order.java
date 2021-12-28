@@ -10,7 +10,7 @@ import API.BusinessEntitiesInterface.IOrder;
 public class Order implements IOrder {
 
     @DocumentId
-    private String docId;
+    private String orderId;
     private List<Item> order;
     private Table table;
 
@@ -20,7 +20,7 @@ public class Order implements IOrder {
 
     @Override
     public String getOrderID() {
-        return docId;
+        return orderId;
     }
 
     @Override
