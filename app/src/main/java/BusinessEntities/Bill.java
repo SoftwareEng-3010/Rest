@@ -35,9 +35,12 @@ public class Bill {
 
     public String toString(){
         String res = "";
-        for (Order orders : orders){
-
+        for (Order order : orders){
+            for(Item item : order.getOrderItems()){
+                res += item.toString() + '\n';
+            }
         }
+        res += "Total Amount:\t" + Double.toString(amount);
+        return res;
     }
-
 }
