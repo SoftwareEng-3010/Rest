@@ -17,6 +17,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Exercise_5">
         <activity
+            android:name="UI.RestaurantManagementUI.ManagementMainActivity"
+            android:exported="false" />
+        <activity
             android:name="UI.DataActivity.DataActivity"
             android:exported="false" />
         <activity
