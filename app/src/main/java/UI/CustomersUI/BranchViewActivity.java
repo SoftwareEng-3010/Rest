@@ -56,6 +56,8 @@ public class BranchViewActivity extends AppCompatActivity {
 
         // Get Branch from Database
         getBranchAndMenu(restId, branchId, menuPath);
+
+
     }
 
     private void setupUI() {
@@ -78,6 +80,8 @@ public class BranchViewActivity extends AppCompatActivity {
         menuRecyclerView = (RecyclerView) findViewById(R.id.branch_menu_recycle_view);
         menuRecyclerView.setLayoutManager(new LinearLayoutManager(BranchViewActivity.this));
         menuRecyclerView.setAdapter(menuAdapter);
+
+
     }
 
     public void getBranchAndMenu(String restId, String branchId, String menuPath) {

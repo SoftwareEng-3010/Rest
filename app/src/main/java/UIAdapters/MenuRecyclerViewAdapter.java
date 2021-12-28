@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -21,11 +22,12 @@ public class MenuRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
 
     private Context context;
     private List<Item> items;
-    private IOrder order;
+    private List<Item> selectedItems;
 
     public MenuRecyclerViewAdapter(Context context, List<Item> menuItems) {
         this.context = context;
         this.items = new ArrayList<>(menuItems);
+        this.selectedItems = new ArrayList<>();
     }
 
     @NonNull
@@ -50,6 +52,21 @@ public class MenuRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
         itemNameTV.setText(item.getName());
         itemDescriptionTV.setText(item.getDescription());
         itemPriceTV.setText(Integer.toString((int)item.getPrice()) + "₪");
+
+        Button buttonAddRemove = (Button) holder.itemView.findViewById(R.id.btn_add_to_order);
+        buttonAddRemove.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (selectedItems.contains(item)) {
+                    selectedItems.remove(item);
+                    buttonAddRemove.setText("ADD TO ORDER");
+                }
+                else {
+                    selectedItems.add(item);
+                    buttonAddRemove.setText("REMOVE FROM ORDER");
+                }
+            }
+        });
     }
 
     @Override
@@ -60,5 +77,9 @@ public class MenuRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
     public void addItem(Item item) {
         if (item == null) return;
         this.items.add(item);
+    }
+
+    public List<Item> getSelectedItems() {
+        return selectedItems;
     }
 }
