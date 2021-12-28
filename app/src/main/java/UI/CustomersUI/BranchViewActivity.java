@@ -7,6 +7,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.exercise_5.R;
@@ -14,6 +16,7 @@ import com.example.exercise_5.R;
 import javax.annotation.Nullable;
 
 import BusinessEntities.Branch;
+import BusinessEntities.Item;
 import BusinessEntities.Menu;
 import BusinessEntities.QRCode;
 import API.Database.Database;
@@ -81,7 +84,15 @@ public class BranchViewActivity extends AppCompatActivity {
         menuRecyclerView.setLayoutManager(new LinearLayoutManager(BranchViewActivity.this));
         menuRecyclerView.setAdapter(menuAdapter);
 
-
+        Button buttonSubmit = (Button) findViewById(R.id.button_submit_order);
+        buttonSubmit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                for (Item i : menuAdapter.getSelectedItems()) {
+                    Log.d(TAG, i.getName());
+                }
+            }
+        });
     }
 
     public void getBranchAndMenu(String restId, String branchId, String menuPath) {
