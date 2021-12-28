@@ -4,7 +4,8 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="../../../../layout/custom_preview.xml" value="0.29739583333333336" />
-        <entry key="..\:/AndroidProjects/Rest/app/src/main/res/layout/activity_login.xml" value="0.4" />
+        <entry key="..\:/AndroidProjects/Rest/app/src/main/res/layout/activity_login.xml" value="0.25" />
+        <entry key="..\:/AndroidProjects/Rest/app/src/main/res/layout/activity_login_test.xml" value="0.14270833333333333" />
         <entry key="..\:/AndroidProjects/Rest/app/src/main/res/layout/activity_qrcode.xml" value="0.1" />
         <entry key="..\:/AndroidProjects/Rest/app/src/main/res/layout/activity_rest_scrollview.xml" value="0.1" />
         <entry key="..\:/AndroidProjects/Rest/app/src/main/res/layout/login_activity.xml" value="0.13272543059777103" />
@@ -20,15 +21,7 @@
         <entry key="..\:/Users/97250/Desktop/Rest/app/src/main/res/layout/item_restaurant.xml" value="0.5" />
         <entry key="..\:/Users/97250/Desktop/Rest/app/src/main/res/layout/login_activity.xml" value="0.17074275362318841" />
         <entry key="..\:/Users/97250/Desktop/Rest/app/src/main/res/layout/rest_view_activity.xml" value="0.1" />
-        <entry key="app/src/main/res/layout/activity_branch_scrollview.xml" value="0.14947916666666666" />
-        <entry key="app/src/main/res/layout/activity_branch_view.xml" value="0.12681159420289856" />
-        <entry key="app/src/main/res/layout/activity_login.xml" value="0.25" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.25" />
-        <entry key="app/src/main/res/layout/activity_qrcode.xml" value="0.125" />
-        <entry key="app/src/main/res/layout/activity_rest_scrollview.xml" value="0.14947916666666666" />
-        <entry key="app/src/main/res/layout/layout_branch_item.xml" value="0.14947916666666666" />
-        <entry key="app/src/main/res/layout/layout_menu_list_item.xml" value="0.12590579710144928" />
-        <entry key="app/src/main/res/layout/layout_restaurant_item.xml" value="0.14947916666666666" />
         <entry key="app/src/main/res/layout/login_activity.xml" value="0.375" />
         <entry key="app/src/main/res/layout/qrcode_activity.xml" value="0.17708333333333334" />
         <entry key="app/src/main/res/layout/rest_selector.xml" value="0.19655797101449277" />

@@ -9,8 +9,10 @@
     <string name="prompt_password">סיסמה</string>
     <string name="login">התחברות</string>
     <string name="signup">הרשמה</string>
-    <string name="im_a_restaurant">אני בעל מסעדה</string>
+    <string name="im_a_restaurant">התחברות בתור בעל מסעדה</string>
     <string name="logout">התנתק</string>
+    <string name="prompt_im_a_restaurant">אם אינך מנהל מסעדה, לחץ התחברות רגילה</string>
+    <string name="im_a_regular_user">התחברות רגילה</string>
     <!-- Login Activity -->
 
     <!-- QRCode Activity -->
@@ -19,6 +21,13 @@
 
     <!-- Menu List Item -->
     <string name="add_to_order">הוסף להזמנה</string>
+    <string name="title_activity_login_test">LoginActivityTest</string>
+    <string name="action_sign_in">Sign in or register</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="welcome">"Welcome !"</string>
+    <string name="invalid_username">Not a valid username</string>
+    <string name="invalid_password">Password must be >5 characters</string>
+    <string name="login_failed">"Login failed"</string>
     <!-- Menu List Item -->
 
 </resources>

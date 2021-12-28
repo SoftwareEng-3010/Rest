@@ -9,19 +9,17 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 
 import com.example.exercise_5.R;
-import com.google.firebase.firestore.DocumentReference;
 
 import java.util.List;
 
 import API.Constants.Constants;
 import BusinessEntities.Branch;
-import UI.BranchViewActivity;
-//import UI.BranchViewActivity;
+import UI.CustomersUI.BranchViewActivity;
+//import UI.SimpleUserUI.BranchViewActivity;
 
 public class BranchArrayAdapter extends ArrayAdapter<Branch> {
 

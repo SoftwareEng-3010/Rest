@@ -32,6 +32,7 @@ import API.IUser;
 import BusinessEntities.Branch;
 import BusinessEntities.Menu;
 import BusinessEntities.Restaurant;
+import BusinessEntities.User;
 
 /**
  * This class implements the Database interface and affectively performs all CRUD operations
@@ -43,7 +44,7 @@ public class RestDB implements Database {
 
     // constant strings for querying database
     private final String BRANCHES_COLLECTION_NAME = "branch";
-    private final String RESTAURANT_COLLECTION_NAME = "test";
+    private final String RESTAURANT_COLLECTION_NAME = "our_restaurants";
     private final String MENU_FIELD_NAME = "menu_path";
 
     private static RestDB instance = null;                    // private single instance
@@ -301,13 +302,46 @@ public class RestDB implements Database {
             }
         };
 
-        db.collection("users").document().set(newUser).addOnCompleteListener(
-                new OnCompleteListener<Void>() {
+        db.collection("users")
+                .document(user.getUid())
+                .set(newUser)
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
-                        callback.onObjectWrittenToDB(true);
+                        if (task.isSuccessful()) {
+                            Log.e(TAG, "User was successfully written to database");
+                            callback.onObjectWrittenToDB(true);
+                        }
+                        else {
+                            Log.e(TAG, "User was successfully written to database");
+                            callback.onObjectWrittenToDB(false);
+                        }
                     }
                 }
         );
     }
+
+    @Override
+    public void getUser(String uid, OnDataReceivedFromDB callback) {
+
+        db.collection("users").document(uid)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if (task.isSuccessful()) {
+
+                            User user = task.getResult().toObject(User.class);
+                            Log.e(TAG, "User: " + user);
+                            callback.onObjectReturnedFromDB(user);
+                        }
+                        else {
+                            callback.onObjectReturnedFromDB(null);
+                            Log.e(TAG, "getUser("+uid+") returned null");
+                        }
+                    }
+                });
+    }
+
+
 }

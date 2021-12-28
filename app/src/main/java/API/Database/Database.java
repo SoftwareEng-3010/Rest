@@ -72,6 +72,10 @@ public interface Database {
      */
     public void getRestaurants(OnDataReceivedFromDB callBack);
 
+
+    public void getUser(String uid, OnDataReceivedFromDB callback);
+
+
     // Write operations in our database:
     public void addRestaurant(Restaurant restaurant, OnDataSentToDB callBack);
 
