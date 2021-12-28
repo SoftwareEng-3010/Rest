@@ -4,29 +4,39 @@ import android.util.Log;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import API.BusinessEntitiesInterface.IOrder;
 import API.Database.Database;
 import API.Database.OnDataReceivedFromDB;
 import API.Database.OnDataSentToDB;
+import API.IUser;
 import BusinessEntities.Branch;
 import BusinessEntities.Menu;
 import BusinessEntities.Restaurant;
+import BusinessEntities.User;
 
 /**
- * This class will be similar  to RestDB, but without saving data to device.
- * Instead, the class will be used to query the db for necessary data
+ * This class implements the Database interface and affectively performs all CRUD operations
+ * on our Firestore database
  */
 public class RestDB implements Database {
 
@@ -87,7 +97,6 @@ public class RestDB implements Database {
                         }
                     }
                 });
-
     }
 
     @Override
@@ -272,4 +281,67 @@ public class RestDB implements Database {
         Log.e(TAG, "finished addRestaurant()");
 
     }
+
+    @Override
+    public void addUserWithType(FirebaseUser user, int userType, OnDataSentToDB callback) {
+
+        IUser newUser = new IUser() {
+            @Override
+            public String getUid() {
+                return user.getUid();
+            }
+
+            @Override
+            public int getType() {
+                return userType;
+            }
+
+            @Override
+            public String getEmail() {
+                return user.getEmail();
+            }
+        };
+
+        db.collection("users")
+                .document(user.getUid())
+                .set(newUser)
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful()) {
+                            Log.e(TAG, "User was successfully written to database");
+                            callback.onObjectWrittenToDB(true);
+                        }
+                        else {
+                            Log.e(TAG, "User was successfully written to database");
+                            callback.onObjectWrittenToDB(false);
+                        }
+                    }
+                }
+        );
+    }
+
+    @Override
+    public void getUser(String uid, OnDataReceivedFromDB callback) {
+
+        db.collection("users").document(uid)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if (task.isSuccessful()) {
+
+                            User user = task.getResult().toObject(User.class);
+                            Log.e(TAG, "User: " + user);
+                            callback.onObjectReturnedFromDB(user);
+                        }
+                        else {
+                            callback.onObjectReturnedFromDB(null);
+                            Log.e(TAG, "getUser("+uid+") returned null");
+                        }
+                    }
+                });
+    }
+
+
 }

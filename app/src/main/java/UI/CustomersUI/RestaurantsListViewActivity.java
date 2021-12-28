@@ -1,4 +1,4 @@
-package UI;
+package UI.CustomersUI;
 
 import androidx.appcompat.app.AppCompatActivity;
 

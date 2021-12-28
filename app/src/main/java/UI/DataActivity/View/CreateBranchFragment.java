@@ -17,10 +17,6 @@ import android.widget.Toast;
 
 import com.example.exercise_5.R;
 
-import java.util.Map;
-
-import UI.DataActivity.Controller.DataViewController;
-
 public class CreateBranchFragment extends Fragment implements DataEditView{
 
     private final String TAG = "CreateBranchFragment";
@@ -49,7 +45,7 @@ public class CreateBranchFragment extends Fragment implements DataEditView{
         }
 
         editTextBranchCity = (EditText) view.findViewById(R.id.editTextCity);
-        editTextBranchStreet = (EditText) view.findViewById(R.id.editTextStreet);
+        editTextBranchStreet = (EditText) view.findViewById(R.id.edit_text_login_password);
         editTextBranchBuildingNumber = (EditText) view.findViewById(R.id.editTextBuildingNumber);
         switchIsKosher = (Switch) view.findViewById(R.id.switchIsKosher);
         btnCreateBranch = (Button) view.findViewById(R.id.buttonCreateBranch);

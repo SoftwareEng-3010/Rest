@@ -20,7 +20,7 @@
             android:name="UI.DataActivity.DataActivity"
             android:exported="false" />
         <activity
-            android:name="UI.LoginActivity"
+            android:name="UI.login.view.LoginActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -28,10 +28,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="UI.RestaurantsListViewActivity" />
-        <activity android:name="UI.BranchViewActivity" />
-        <activity android:name="UI.BranchesListViewActivity" />
-        <activity android:name="UI.QRCodeActivity" />
+        <activity android:name="UI.CustomersUI.RestaurantsListViewActivity" />
+        <activity android:name="UI.CustomersUI.BranchViewActivity" />
+        <activity android:name="UI.CustomersUI.BranchesListViewActivity" />
+        <activity android:name="UI.CustomersUI.QRCodeActivity" />
     </application>
 
 </manifest>
