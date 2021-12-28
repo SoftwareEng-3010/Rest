@@ -77,15 +77,15 @@ public class QRCodeActivity extends AppCompatActivity {
              */
             public void onClick(View v) {
 
-                qrScanner.stopPreview();
-                qrScanner.releaseResources();
-                FirebaseAuth.getInstance().signOut();
-                Intent moveToLoginActivity = new Intent(QRCodeActivity.this, LoginActivity.class);
-                startActivity(moveToLoginActivity);
-                finish();
-//                Intent moveToRestActivity =
-//                        new Intent(QRCodeActivity.this, RestaurantsListViewActivity.class);
-//                startActivity(moveToRestActivity);
+//                qrScanner.stopPreview();
+//                qrScanner.releaseResources();
+//                FirebaseAuth.getInstance().signOut();
+//                Intent moveToLoginActivity = new Intent(QRCodeActivity.this, LoginActivity.class);
+//                startActivity(moveToLoginActivity);
+//                finish();
+                Intent moveToRestActivity =
+                        new Intent(QRCodeActivity.this, RestaurantsListViewActivity.class);
+                startActivity(moveToRestActivity);
             }
         });
     }
