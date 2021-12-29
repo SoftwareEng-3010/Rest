@@ -203,7 +203,7 @@ public class LoginActivity extends AppCompatActivity implements ILoginView{
 
         moveToManagementActivity.putExtra("manager_uid", user.getUid());
         moveToManagementActivity.putExtra("user_type", user.getType());
-        moveToManagementActivity.putExtra("manager_branch_id", user.getBranchDocId());
+        moveToManagementActivity.putExtra("branch_uid", user.getBranchDocId());
 
         startActivity(moveToManagementActivity);
         finish();

@@ -258,26 +258,26 @@ public class RestDB implements Database {
     public void addRestaurant(Restaurant restaurant, OnDataSentToDB callBack) {
         // Implement
 
-//        CollectionReference test_collection = db.collection("test");
-//
-//        test_collection.document() // A new document reference
-//                        .set(new Restaurant("Olive Garden"))
-//                        .addOnCompleteListener(
-//                                new OnCompleteListener<Void>() {
-//                                    @Override
-//                                    public void onComplete(@NonNull Task<Void> task) {
-//                                        if (task.isSuccessful()) {
-//                                            Log.e(TAG, "Successfully written object to database!");
-//                                            callBack.onObjectWrittenToDB(true);
-//                                        }
-//                                        else {
-//                                            Log.e(TAG, "Something went wrong while writing an object to database");
-//                                            callBack.onObjectWrittenToDB(false);
-//                                        }
-//                                    }
-//                                }
-//                        );
-//        Log.e(TAG, "finished addRestaurant()");
+        CollectionReference test_collection = db.collection("test");
+
+        test_collection.document() // A new document reference
+                        .set(restaurant)
+                        .addOnCompleteListener(
+                                new OnCompleteListener<Void>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<Void> task) {
+                                        if (task.isSuccessful()) {
+                                            Log.e(TAG, "Successfully written object to database!");
+                                            callBack.onObjectWrittenToDB(true);
+                                        }
+                                        else {
+                                            Log.e(TAG, "Something went wrong while writing an object to database");
+                                            callBack.onObjectWrittenToDB(false);
+                                        }
+                                    }
+                                }
+                        );
+        Log.e(TAG, "finished addRestaurant()");
 
     }
 

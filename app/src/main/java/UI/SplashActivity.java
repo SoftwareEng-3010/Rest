@@ -61,21 +61,23 @@ public class SplashActivity extends AppCompatActivity implements DatabaseRequest
         IUser user = (IUser) obj;
 
         if (user.getType() == Constants.USER_TYPE_CUSTOMER) {
-            Intent loginActivity = new Intent(this, QRCodeActivity.class);
-            startActivity(loginActivity);
+            Intent qrActivity = new Intent(this, QRCodeActivity.class);
+            startActivity(qrActivity);
             finish();
         }
 
-        else if (user.getType() >= Constants.USER_TYPE_BRANCH_MANAGER) {
-            Log.e(TAG, "user has type >= 1");
-            moveToManagementNavigationActivity(user.getType());
+        else if (user.getType() == Constants.USER_TYPE_BRANCH_MANAGER) {
+            Log.e(TAG, "user has type == 1");
+            moveToManagementNavigationActivity((IBranchManagerUser) obj);
         }
     }
 
-    private void moveToManagementNavigationActivity(int userType) {
-        Intent managementNavigationActivity = new Intent(this, ManagementMainActivity.class);
-        managementNavigationActivity.putExtra("user_type", userType);
-        startActivity(managementNavigationActivity);
+    private void moveToManagementNavigationActivity(IBranchManagerUser manager) {
+        Intent managementMainActivity = new Intent(this, ManagementMainActivity.class);
+        managementMainActivity.putExtra("user_type", manager.getType());
+        managementMainActivity.putExtra("manager_uid", manager.getUid());
+        managementMainActivity.putExtra("branch_uid", manager.getBranchDocId());
+        startActivity(managementMainActivity);
         finish();
     }
 }
