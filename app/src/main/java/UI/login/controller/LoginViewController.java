@@ -56,7 +56,10 @@ public class LoginViewController implements ILoginViewController {
                             db.getUser(userUid, new DatabaseRequestCallback() {
                                         @Override
                                         public void onObjectReturnedFromDB(@Nullable Object obj) {
-                                            if (null == obj) loginView.onLoginFailed("Object came back null from database");
+                                            if (null == obj) {
+                                                loginView.onLoginFailed("Object came back null from database");
+                                                return;
+                                            }
                                             IUser usr = (IUser) obj;
 
                                             if (usr.getType() == Constants.USER_TYPE_BRANCH_MANAGER) {

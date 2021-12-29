@@ -1,5 +1,6 @@
 package UI.login.view;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -13,6 +14,7 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.exercise_5.R;
@@ -110,7 +112,7 @@ public class LoginActivity extends AppCompatActivity implements ILoginView{
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        userLoginType = getCheckRadioButtonIndex();
+                        userLoginType = getRadioBtnIndexAndSetupUI();
                     }
                 }
         );
@@ -119,7 +121,7 @@ public class LoginActivity extends AppCompatActivity implements ILoginView{
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        userLoginType = getCheckRadioButtonIndex();
+                        userLoginType = getRadioBtnIndexAndSetupUI();
                     }
                 }
         );
@@ -149,14 +151,30 @@ public class LoginActivity extends AppCompatActivity implements ILoginView{
         final int REGULAR_USER = 0,
                 MANAGER_USER = 1;
 
-        if (getCheckRadioButtonIndex() == Constants.USER_TYPE_CUSTOMER) {
+        if (getRadioBtnIndexAndSetupUI() == Constants.USER_TYPE_CUSTOMER) {
             // Regular customer user: Navigate to QRActivity
 
             moveToCustomerUI(user.getType());
         }
 
-        else if(getCheckRadioButtonIndex() == Constants.USER_TYPE_BRANCH_MANAGER) {
+        else if(getRadioBtnIndexAndSetupUI() == Constants.USER_TYPE_BRANCH_MANAGER) {
             // Branch manager user is connected: Navigate to Branch management UI
+            if (user.getType() != Constants.USER_TYPE_BRANCH_MANAGER) {
+                new AlertDialog.Builder(this)
+                        .setMessage("\nאינך מזוהה כמנהל מסעדה. כדי לנהל את המסעדה שלך - ניתן לעשות" +
+                                "\nא." +
+                                "\nב." +
+                                "\nג.")
+                        .setNeutralButton("הבנתי", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                moveToCustomerUI(user.getType()); // type = 0
+                            }
+                        })
+                        .create()
+                        .show();
+                return;
+            }
             moveToBranchManagementUI((IBranchManagerUser) user);
         }
 
@@ -216,7 +234,7 @@ public class LoginActivity extends AppCompatActivity implements ILoginView{
         loginViewController.onLoginClicked(email, password);
     }
 
-    private int getCheckRadioButtonIndex() {
+    private int getRadioBtnIndexAndSetupUI() {
 
         if (radioBtnRegularUser.isChecked()) {
             Log.e(TAG, "Customer checked regular user login button");
