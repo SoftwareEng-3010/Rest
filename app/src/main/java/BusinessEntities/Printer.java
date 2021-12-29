@@ -1,13 +1,13 @@
 package BusinessEntities;
 
+import android.content.Context;
+import android.widget.Toast;
+
 import java.util.Collection;
 
 public class Printer<T> {
 
-    public void print(Collection<T> collection){
-
-        for (T i : collection) {
-            System.out.println(i.toString());
-        }
+    public void print(T object, Context context){
+        Toast.makeText(context, object.toString(), Toast.LENGTH_LONG).show();
     }
 }
