@@ -2,9 +2,7 @@ package UI.login.view;
 
 import androidx.annotation.NonNull;
 
-import com.google.firebase.auth.FirebaseUser;
-
-import API.IUser;
+import API.BusinessEntitiesInterface.Auth.IUser;
 
 public interface ILoginView {
 

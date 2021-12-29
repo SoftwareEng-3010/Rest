@@ -20,7 +20,7 @@ public interface Database {
      * @param callBack - A callback method, returns the required object to the caller after
      *                 the object comes back from the Firestore Database
      */
-    public void getBranches(String restId, OnDataReceivedFromDB callBack);
+    public void getBranches(String restId, DatabaseRequestCallback callBack);
 
     /**
      * Get a `Branch` object from the database.
@@ -30,7 +30,7 @@ public interface Database {
      * @param callBack - A callback method, returns the required object to the caller after
      *                 the object comes back from the Firestore Database
      */
-    public void getBranch(String branchId, OnDataReceivedFromDB callBack);
+    public void getBranch(String branchId, DatabaseRequestCallback callBack);
 
     /**
      * Get a `Menu` object from the database.
@@ -44,7 +44,7 @@ public interface Database {
      * @param callBack - A callback method, returns the required object to the caller after
      *                 the object comes back from the Firestore Database
      */
-    public void getMenu(String restId, String branchId, String menuPath, OnDataReceivedFromDB callBack);
+    public void getMenu(String restId, String branchId, String menuPath, DatabaseRequestCallback callBack);
 
     /**
      * Get a `Menu` object using the restaurant and branch id.
@@ -53,7 +53,7 @@ public interface Database {
      * @param callBack - A callback method, returns the required object to the caller after
      *                   the object comes back from the Firestore Database.
      */
-    public void getMenu(String restId, String branchId, OnDataReceivedFromDB callBack);
+    public void getMenu(String restId, String branchId, DatabaseRequestCallback callBack);
 
     /**
      * Get a `Menu` object using the restaurant and branch id.
@@ -62,7 +62,7 @@ public interface Database {
      * @param callBack - A callback method, returns the required object to the caller after
      *                   the object comes back from the Firestore Database.
      */
-    public void getMenu(String menuPath, OnDataReceivedFromDB callBack);
+    public void getMenu(String menuPath, DatabaseRequestCallback callBack);
 
     /**
      * Get a List<Restaurant> of all restaurants from the database.
@@ -70,10 +70,10 @@ public interface Database {
      * @param callBack - A callback method, returns the required object to the caller after
      *                   the object comes back from the Firestore Database.
      */
-    public void getRestaurants(OnDataReceivedFromDB callBack);
+    public void getRestaurants(DatabaseRequestCallback callBack);
 
 
-    public void getUser(String uid, OnDataReceivedFromDB callback);
+    public void getUser(String uid, DatabaseRequestCallback callback);
 
 
     // Write operations in our database:
@@ -86,5 +86,5 @@ public interface Database {
 
     public void pushOrder(String orderId, OnDataSentToDB callback);
 
-    public void getOrder(String orderId, OnDataReceivedFromDB callback);
+    public void getOrder(String orderId, DatabaseRequestCallback callback);
 }

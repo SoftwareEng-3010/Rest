@@ -4,32 +4,30 @@ import android.util.Log;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-import API.BusinessEntitiesInterface.IOrder;
+import API.BusinessEntitiesInterface.Auth.IBranchManagerUser;
+import API.BusinessEntitiesInterface.Auth.ICustomerUser;
+import API.BusinessEntitiesInterface.IServiceUnit;
 import API.Database.Database;
-import API.Database.OnDataReceivedFromDB;
+import API.Database.DatabaseRequestCallback;
 import API.Database.OnDataSentToDB;
-import API.IUser;
+import API.BusinessEntitiesInterface.Auth.IUser;
 import BusinessEntities.Branch;
+import BusinessEntities.BranchManager;
+import BusinessEntities.Customer;
 import BusinessEntities.Menu;
 import BusinessEntities.Restaurant;
 import BusinessEntities.User;
@@ -78,7 +76,7 @@ public class RestDB implements Database {
     Firestore database Querying methods:
      */
     @Override
-    public void getBranches(String restId, OnDataReceivedFromDB callBack) {
+    public void getBranches(String restId, DatabaseRequestCallback callBack) {
 
         List<Branch> branches = new ArrayList<>();
 
@@ -100,7 +98,7 @@ public class RestDB implements Database {
     }
 
     @Override
-    public void getBranch(String branchId, OnDataReceivedFromDB callBack) {
+    public void getBranch(String branchId, DatabaseRequestCallback callBack) {
 
         restCollection.get().addOnCompleteListener(
                 new OnCompleteListener<QuerySnapshot>() {
@@ -145,7 +143,7 @@ public class RestDB implements Database {
     }
 
     @Override
-    public void getMenu(String restId, String branchId, String menuPath, OnDataReceivedFromDB callBack) {
+    public void getMenu(String restId, String branchId, String menuPath, DatabaseRequestCallback callBack) {
         if (restId != null && branchId != null) {
             // menuPath will be null if the user scans a QRCode
             getMenu(restId, branchId, callBack);
@@ -163,7 +161,7 @@ public class RestDB implements Database {
     }
 
     @Override
-    public void getMenu(String restId, String branchId, OnDataReceivedFromDB callBack) {
+    public void getMenu(String restId, String branchId, DatabaseRequestCallback callBack) {
 
         CollectionReference branchCollection =
                 restCollection.document(restId).collection(BRANCHES_COLLECTION_NAME);
@@ -209,7 +207,7 @@ public class RestDB implements Database {
     }
 
     @Override
-    public void getMenu(String menuPath, OnDataReceivedFromDB callBack) {
+    public void getMenu(String menuPath, DatabaseRequestCallback callBack) {
         db.document(menuPath).get()
                 .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                     @Override
@@ -229,7 +227,7 @@ public class RestDB implements Database {
     }
 
     @Override
-    public void getRestaurants(OnDataReceivedFromDB callBack) {
+    public void getRestaurants(DatabaseRequestCallback callBack) {
 
         List<Restaurant> restaurants = new ArrayList<>();
 
@@ -253,8 +251,8 @@ public class RestDB implements Database {
     }
 
     /*
-    Firestore database Writing methods:
-     */
+        Firestore database Writing methods:
+         */
     @Override
     public void addRestaurant(Restaurant restaurant, OnDataSentToDB callBack) {
         // Implement
@@ -309,11 +307,11 @@ public class RestDB implements Database {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                         if (task.isSuccessful()) {
-                            Log.e(TAG, "User was successfully written to database");
+                            Log.e(TAG, "Customer was successfully written to database");
                             callback.onObjectWrittenToDB(true);
                         }
                         else {
-                            Log.e(TAG, "User was successfully written to database");
+                            Log.e(TAG, "Customer was successfully written to database");
                             callback.onObjectWrittenToDB(false);
                         }
                     }
@@ -322,7 +320,7 @@ public class RestDB implements Database {
     }
 
     @Override
-    public void getUser(String uid, OnDataReceivedFromDB callback) {
+    public void getUser(String uid, DatabaseRequestCallback callback) {
 
         db.collection("users").document(uid)
                 .get()
@@ -330,14 +328,13 @@ public class RestDB implements Database {
                     @Override
                     public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                         if (task.isSuccessful()) {
+                            // If uid is found as:
+                           try {
 
-                            User user = task.getResult().toObject(User.class);
-                            Log.e(TAG, "User: " + user);
-                            callback.onObjectReturnedFromDB(user);
-                        }
-                        else {
-                            callback.onObjectReturnedFromDB(null);
-                            Log.e(TAG, "getUser("+uid+") returned null");
+                           }
+
+                           catch (Exception e) {
+                           }
                         }
                     }
                 });
@@ -350,7 +347,7 @@ public class RestDB implements Database {
     }
 
     @Override
-    public void getOrder(String orderId, OnDataReceivedFromDB callback) {
+    public void getOrder(String orderId, DatabaseRequestCallback callback) {
         Log.e(TAG, "IMPLEMENT pullOrder");
     }
 

@@ -20,7 +20,7 @@ import BusinessEntities.Item;
 import BusinessEntities.Menu;
 import BusinessEntities.QRCode;
 import API.Database.Database;
-import API.Database.OnDataReceivedFromDB;
+import API.Database.DatabaseRequestCallback;
 import DataAccessLayer.RestDB;
 import UIAdapters.MenuRecyclerViewAdapter;
 import ViewModels.MenuViewModel;
@@ -97,13 +97,13 @@ public class BranchViewActivity extends AppCompatActivity {
 
     public void getBranchAndMenu(String restId, String branchId, String menuPath) {
 
-        rdb.getBranch(branchId, new OnDataReceivedFromDB() {
+        rdb.getBranch(branchId, new DatabaseRequestCallback() {
             @Override
             public void onObjectReturnedFromDB(@Nullable Object obj) {
                 branch = (Branch) obj;
                 if (branch != null) {
                     rdb.getMenu(restId, branchId, menuPath,
-                            new OnDataReceivedFromDB() {
+                            new DatabaseRequestCallback() {
                         @Override
                         public void onObjectReturnedFromDB(@Nullable Object obj) {
                             menu = (Menu) obj;

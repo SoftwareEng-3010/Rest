@@ -1,8 +1,6 @@
 package UI.login.controller;
 
 import android.text.TextUtils;
-import android.util.Log;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -12,21 +10,19 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
-import API.Database.OnDataReceivedFromDB;
+import API.BusinessEntitiesInterface.Auth.ICustomerUser;
+import API.Database.DatabaseRequestCallback;
 import API.Database.OnDataSentToDB;
-import API.IUser;
-import BusinessEntities.User;
+import API.BusinessEntitiesInterface.Auth.IBranchManagerUser;
+import API.BusinessEntitiesInterface.Auth.IUser;
 import DataAccessLayer.RestDB;
 import UI.login.view.ILoginView;
-import UI.login.view.LoginActivity;
 
 public class LoginViewController implements ILoginViewController {
 
     private ILoginView loginView;
     private FirebaseAuth mAuth;
     private RestDB db;
-
-    private IUser user;
 
     public LoginViewController(ILoginView loginView) {
         this.loginView = loginView;
@@ -55,15 +51,24 @@ public class LoginViewController implements ILoginViewController {
 
                             String userUid = task.getResult().getUser().getUid();
 
-                            db.getUser(userUid, new OnDataReceivedFromDB() {
+                            db.getUser(userUid, new DatabaseRequestCallback() {
                                         @Override
                                         public void onObjectReturnedFromDB(@Nullable Object obj) {
-                                            user = (IUser) obj;
-                                            if (user == null) {
-                                                loginView.onLoginFailed("user is null for some reason");
+                                            if (null == obj) loginView.onLoginFailed("Object came back null from database");
+                                            if (obj instanceof IBranchManagerUser) {
+                                                IBranchManagerUser user = (IBranchManagerUser)obj;
+                                                loginView.onLoginSuccess(user, "Successfully logged in as a Manager\n" + user.getEmail());
+                                            }
+                                            else if (obj instanceof ICustomerUser){
+                                                ICustomerUser user = (ICustomerUser) obj;
+                                                loginView.onLoginSuccess(user, "Successfully logged in as " + user.getEmail());
+                                            }
+                                            else if (obj instanceof IUser) {
+                                                IUser user = (IUser) obj;
+                                                loginView.onLoginSuccess(user, "Successfully logged in as " + user.getType());
                                             }
                                             else {
-                                                loginView.onLoginSuccess(user, "Successfully logged in as " + user.getEmail());
+                                                loginView.onLoginFailed("Object is not an instance of IUser");
                                             }
                                         }
                                     });
@@ -83,7 +88,7 @@ public class LoginViewController implements ILoginViewController {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            // User is logged in and can move to the next activity
+                            // Customer is logged in and can move to the next activity
                             if (task.getResult().getUser() == null) {
                                 loginView.onCreateAccountFailed("Task result returned a NULL FirebaseUser object");
                             }
