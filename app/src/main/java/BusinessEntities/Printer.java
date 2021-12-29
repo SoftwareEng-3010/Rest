@@ -7,7 +7,7 @@ public class Printer<T> {
     public void print(Collection<T> collection){
 
         for (T i : collection) {
-            i.toString();
+            System.out.println(i.toString());
         }
     }
 }
