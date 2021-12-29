@@ -12,14 +12,17 @@ import android.widget.Toast;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.exercise_5.R;
 import com.google.firebase.auth.FirebaseAuth;
 
-import API.IUser;
+import API.BusinessEntitiesInterface.Auth.IBranchManagerUser;
+import API.BusinessEntitiesInterface.Auth.IUser;
 import DataAccessLayer.RestDB;
 import UI.CustomersUI.QRCodeActivity;
+import UI.RestaurantManagementUI.ManagementMainActivity;
 import UI.login.controller.ILoginViewController;
 import UI.login.controller.LoginViewController;
 
@@ -144,14 +147,14 @@ public class LoginActivity extends AppCompatActivity implements ILoginView{
         final int REGULAR_USER = 0,
                 MANAGER_USER = 1;
 
-        if (user.getType() == REGULAR_USER) {
+        if (getCheckRadioButtonIndex() == REGULAR_USER) {
             // Regular customer user: Navigate to QRActivity
             moveToCustomerUI();
         }
 
-        else if(user.getType() == MANAGER_USER) {
+        else if(getCheckRadioButtonIndex() == MANAGER_USER) {
             // Branch manager user is connected: Navigate to Branch management UI
-            moveToBranchManagementUI();
+            moveToBranchManagementUI((IBranchManagerUser) user);
         }
 
         else {
@@ -184,8 +187,23 @@ public class LoginActivity extends AppCompatActivity implements ILoginView{
         hideProgressBar();
     }
 
-    private void moveToBranchManagementUI() {
-        Toast.makeText(this, "Should now navigate to BranchManagementUI", Toast.LENGTH_SHORT).show();
+    private void moveToBranchManagementUI(@Nullable IBranchManagerUser user) {
+//        Toast.makeText(this, "Should now navigate to BranchManagementUI", Toast.LENGTH_SHORT).show();
+
+        if (user == null)
+            Toast.makeText(this,
+                    "Something went wrong... " +
+                            "IBranchManager is NULL and should not be!",
+                    Toast.LENGTH_LONG).show();
+
+        Intent moveToManagementActivity = new Intent(this, ManagementMainActivity.class);
+
+        moveToManagementActivity.putExtra("manager_uid", user.getUid());
+        moveToManagementActivity.putExtra("user_type", user.getType());
+        moveToManagementActivity.putExtra("manager_branch_id", user.getBranchDocId());
+
+        startActivity(moveToManagementActivity);
+        finish();
     }
 
 
@@ -198,13 +216,13 @@ public class LoginActivity extends AppCompatActivity implements ILoginView{
     private int getCheckRadioButtonIndex() {
 
         if (radioBtnRegularUser.isChecked()) {
-            Log.e(TAG, "User checked regular user login button");
+            Log.e(TAG, "Customer checked regular user login button");
             textPromptLoginType.setVisibility(View.INVISIBLE);
             return 0;
         }
         else if (radioBtnManagerUser.isChecked()) {
             textPromptLoginType.setVisibility(View.VISIBLE);
-            Log.e(TAG, "User checked restaurant manager login button");
+            Log.e(TAG, "Customer checked restaurant manager login button");
             return 1;
         }
         else {
