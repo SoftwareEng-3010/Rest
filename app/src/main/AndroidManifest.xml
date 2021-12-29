@@ -23,17 +23,23 @@
             android:name="UI.RestaurantManagementUI.BranchManagementActivity"
             android:exported="false" />
         <activity
-            android:name="UI.DataActivity.DataActivity"
-            android:exported="false" />
-        <activity
-            android:name="UI.login.view.LoginActivity"
-            android:exported="true" >
+            android:name="UI.SplashActivity"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name="UI.DataActivity.DataActivity"
+            android:exported="false" />
+        <activity
+            android:name="UI.RestaurantManagementUI.ManagementMainActivity"
+            android:exported="false" />
+        <activity
+            android:name="UI.login.view.LoginActivity"
+            android:exported="false" />
         <activity android:name="UI.CustomersUI.RestaurantsListViewActivity" />
         <activity android:name="UI.CustomersUI.BranchViewActivity" />
         <activity android:name="UI.CustomersUI.BranchesListViewActivity" />

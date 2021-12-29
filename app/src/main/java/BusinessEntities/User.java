@@ -1,28 +1,20 @@
 package BusinessEntities;
 
-import com.google.firebase.firestore.DocumentId;
 import com.google.firebase.firestore.PropertyName;
 
-import API.IUser;
+import API.BusinessEntitiesInterface.Auth.IUser;
 
 public class User implements IUser {
 
     @PropertyName("uid")
     private String id;
-
+    private int type;
     private String email;
-
-    @PropertyName("type")
-    private int userType;
-    private String imageURL;
-
-    // More fields will be added on...
 
     public User() {}
 
-    public User(String email, int userType) {
-        this.email = email;
-        this.userType = userType;
+    public User(int userType) {
+        this.type = userType;
     }
 
     @Override
@@ -37,20 +29,6 @@ public class User implements IUser {
 
     @Override
     public int getType() {
-        return userType;
-    }
-
-    public String getImageURL() {
-        return imageURL;
-    }
-
-    @Override
-    public String toString() {
-        return "User{" +
-                "id='" + id + '\'' +
-                ", userType=" + userType +
-                ", email='" + email + '\'' +
-                ", imageURL='" + imageURL + '\'' +
-                '}';
+        return this.type;
     }
 }

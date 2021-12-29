@@ -28,6 +28,8 @@
     <string name="invalid_username">Not a valid username</string>
     <string name="invalid_password">Password must be >5 characters</string>
     <string name="login_failed">"Login failed"</string>
+    <string name="logout_manager">התנתק</string>
+    <string name="move_to_management_mode">מעבר למצב מנהל</string>
     <!-- Menu List Item -->
 
 </resources>

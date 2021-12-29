@@ -7,13 +7,13 @@ import javax.annotation.Nullable;
  * which handles Database queries, to any class which requires
  * information querying from the Firestore database.
  */
-public interface OnDataReceivedFromDB {
+public interface DatabaseRequestCallback {
     /**
      * This method will be triggered from within the database class.
      * Simply perform a casting to the object you expect to be returned.
      *
      * Usage example:
-     * databaseRef.getBranch(branchId, new OnDataReceivedFromDB() {
+     * databaseRef.getBranch(branchId, new DatabaseRequestCallback() {
      *      @Override
      *      public void onObjectReturnedFromDB(@Nullable Object obj) {
      *          menu = (Menu) obj;
