@@ -4,34 +4,34 @@ import android.util.Log;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-import API.BusinessEntitiesInterface.IOrder;
+import API.BusinessEntitiesInterface.Auth.IBranchManagerUser;
+import API.BusinessEntitiesInterface.Auth.ICustomerUser;
+import API.BusinessEntitiesInterface.IServiceUnit;
+import API.Constants.Constants;
 import API.Database.Database;
-import API.Database.OnDataReceivedFromDB;
+import API.Database.DatabaseRequestCallback;
 import API.Database.OnDataSentToDB;
-import API.IUser;
+import API.BusinessEntitiesInterface.Auth.IUser;
 import BusinessEntities.Branch;
+import BusinessEntities.BranchManager;
+import BusinessEntities.Customer;
 import BusinessEntities.Menu;
 import BusinessEntities.Restaurant;
+import BusinessEntities.User;
 
 /**
  * This class implements the Database interface and affectively performs all CRUD operations
@@ -43,7 +43,7 @@ public class RestDB implements Database {
 
     // constant strings for querying database
     private final String BRANCHES_COLLECTION_NAME = "branch";
-    private final String RESTAURANT_COLLECTION_NAME = "test";
+    private final String RESTAURANT_COLLECTION_NAME = "our_restaurants";
     private final String MENU_FIELD_NAME = "menu_path";
 
     private static RestDB instance = null;                    // private single instance
@@ -77,7 +77,7 @@ public class RestDB implements Database {
     Firestore database Querying methods:
      */
     @Override
-    public void getBranches(String restId, OnDataReceivedFromDB callBack) {
+    public void getBranches(String restId, DatabaseRequestCallback callBack) {
 
         List<Branch> branches = new ArrayList<>();
 
@@ -99,7 +99,7 @@ public class RestDB implements Database {
     }
 
     @Override
-    public void getBranch(String branchId, OnDataReceivedFromDB callBack) {
+    public void getBranch(String branchId, DatabaseRequestCallback callBack) {
 
         restCollection.get().addOnCompleteListener(
                 new OnCompleteListener<QuerySnapshot>() {
@@ -144,7 +144,7 @@ public class RestDB implements Database {
     }
 
     @Override
-    public void getMenu(String restId, String branchId, String menuPath, OnDataReceivedFromDB callBack) {
+    public void getMenu(String restId, String branchId, String menuPath, DatabaseRequestCallback callBack) {
         if (restId != null && branchId != null) {
             // menuPath will be null if the user scans a QRCode
             getMenu(restId, branchId, callBack);
@@ -162,7 +162,7 @@ public class RestDB implements Database {
     }
 
     @Override
-    public void getMenu(String restId, String branchId, OnDataReceivedFromDB callBack) {
+    public void getMenu(String restId, String branchId, DatabaseRequestCallback callBack) {
 
         CollectionReference branchCollection =
                 restCollection.document(restId).collection(BRANCHES_COLLECTION_NAME);
@@ -208,7 +208,7 @@ public class RestDB implements Database {
     }
 
     @Override
-    public void getMenu(String menuPath, OnDataReceivedFromDB callBack) {
+    public void getMenu(String menuPath, DatabaseRequestCallback callBack) {
         db.document(menuPath).get()
                 .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                     @Override
@@ -228,7 +228,7 @@ public class RestDB implements Database {
     }
 
     @Override
-    public void getRestaurants(OnDataReceivedFromDB callBack) {
+    public void getRestaurants(DatabaseRequestCallback callBack) {
 
         List<Restaurant> restaurants = new ArrayList<>();
 
@@ -252,8 +252,8 @@ public class RestDB implements Database {
     }
 
     /*
-    Firestore database Writing methods:
-     */
+        Firestore database Writing methods:
+         */
     @Override
     public void addRestaurant(Restaurant restaurant, OnDataSentToDB callBack) {
         // Implement
@@ -301,13 +301,72 @@ public class RestDB implements Database {
             }
         };
 
-        db.collection("users").document().set(newUser).addOnCompleteListener(
-                new OnCompleteListener<Void>() {
+        db.collection("users")
+                .document(user.getUid())
+                .set(newUser)
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
-                        callback.onObjectWrittenToDB(true);
+                        if (task.isSuccessful()) {
+                            Log.e(TAG, "Customer was successfully written to database");
+                            callback.onObjectWrittenToDB(true);
+                        }
+                        else {
+                            Log.e(TAG, "Customer was successfully written to database");
+                            callback.onObjectWrittenToDB(false);
+                        }
                     }
                 }
         );
     }
+
+    @Override
+    public void getUser(String uid, DatabaseRequestCallback callback) {
+
+        db.collection("users")
+                .document(uid)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if (task.isSuccessful()) {
+                            // If uid is found as:
+
+                           User user = task.getResult().toObject(User.class);
+
+                           if (null == user) {callback.onObjectReturnedFromDB(null); return;}
+
+                           if (user.getType() == Constants.USER_TYPE_CUSTOMER) {
+                               callback.onObjectReturnedFromDB(task.getResult().toObject(Customer.class));
+                           }
+
+                           else if (user.getType() == Constants.USER_TYPE_BRANCH_MANAGER) {
+                               callback.onObjectReturnedFromDB(task.getResult().toObject(BranchManager.class));
+                           }
+
+                           else if (user.getType() > Constants.USER_TYPE_BRANCH_MANAGER) {
+                               Log.e(TAG, "Some kind of service unit type of user is signed in with user_type = " + user.getType());
+                               callback.onObjectReturnedFromDB(task.getResult().toObject(User.class));
+                           }
+
+                           else {
+                               Log.e(TAG, "Could not find a class for the user returned from db");
+                               callback.onObjectReturnedFromDB(null);
+                           }
+                        }
+                    }
+                });
+    }
+
+
+    @Override
+    public void pushOrder(String orderId, OnDataSentToDB callback) {
+        Log.e(TAG, "IMPLEMENT pushOrder");
+    }
+
+    @Override
+    public void getOrder(String orderId, DatabaseRequestCallback callback) {
+        Log.e(TAG, "IMPLEMENT pullOrder");
+    }
+
 }

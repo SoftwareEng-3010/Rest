@@ -1,12 +1,9 @@
-package API;
+package API.BusinessEntitiesInterface.Auth;
 
 public interface IUser {
 
     public String getUid();
-
-    public int getType();
-
     public String getEmail();
-
+    public int getType();
     // ...
 }

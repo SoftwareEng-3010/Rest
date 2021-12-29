@@ -12,7 +12,7 @@ public interface OnDataSentToDB {
      * successful.
      *
      * Usage example:
-     * databaseRef.getBranch(branchId, new OnDataReceivedFromDB() {
+     * databaseRef.getBranch(branchId, new DatabaseRequestCallback() {
      *      @Override
      *      public void onObjectWrittenToDB(@NonNull boolean isTaskSuccessful) {
      *          if (isTaskSuccessful) {

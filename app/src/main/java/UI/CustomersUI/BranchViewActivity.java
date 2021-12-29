@@ -1,4 +1,4 @@
-package UI;
+package UI.CustomersUI;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
@@ -7,6 +7,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.exercise_5.R;
@@ -14,10 +16,11 @@ import com.example.exercise_5.R;
 import javax.annotation.Nullable;
 
 import BusinessEntities.Branch;
+import BusinessEntities.Item;
 import BusinessEntities.Menu;
 import BusinessEntities.QRCode;
 import API.Database.Database;
-import API.Database.OnDataReceivedFromDB;
+import API.Database.DatabaseRequestCallback;
 import DataAccessLayer.RestDB;
 import UIAdapters.MenuRecyclerViewAdapter;
 import ViewModels.MenuViewModel;
@@ -56,6 +59,8 @@ public class BranchViewActivity extends AppCompatActivity {
 
         // Get Branch from Database
         getBranchAndMenu(restId, branchId, menuPath);
+
+
     }
 
     private void setupUI() {
@@ -78,17 +83,27 @@ public class BranchViewActivity extends AppCompatActivity {
         menuRecyclerView = (RecyclerView) findViewById(R.id.branch_menu_recycle_view);
         menuRecyclerView.setLayoutManager(new LinearLayoutManager(BranchViewActivity.this));
         menuRecyclerView.setAdapter(menuAdapter);
+
+        Button buttonSubmit = (Button) findViewById(R.id.button_submit_order);
+        buttonSubmit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                for (Item i : menuAdapter.getSelectedItems()) {
+                    Log.d(TAG, i.getName());
+                }
+            }
+        });
     }
 
     public void getBranchAndMenu(String restId, String branchId, String menuPath) {
 
-        rdb.getBranch(branchId, new OnDataReceivedFromDB() {
+        rdb.getBranch(branchId, new DatabaseRequestCallback() {
             @Override
             public void onObjectReturnedFromDB(@Nullable Object obj) {
                 branch = (Branch) obj;
                 if (branch != null) {
                     rdb.getMenu(restId, branchId, menuPath,
-                            new OnDataReceivedFromDB() {
+                            new DatabaseRequestCallback() {
                         @Override
                         public void onObjectReturnedFromDB(@Nullable Object obj) {
                             menu = (Menu) obj;

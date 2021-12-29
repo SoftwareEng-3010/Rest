@@ -1,4 +1,4 @@
-package UI;
+package UI.CustomersUI;
 
 import android.Manifest;
 import android.content.DialogInterface;
@@ -20,12 +20,14 @@ import com.budiyev.android.codescanner.DecodeCallback;
 import com.budiyev.android.codescanner.ErrorCallback;
 import com.budiyev.android.codescanner.ScanMode;
 import com.example.exercise_5.R;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.zxing.Result;
 
 import API.Constants.Constants;
 import BusinessEntities.QRCode;
 import BusinessLogic.QRReadHandler;
 import BusinessLogic.Permissions;
+import UI.login.view.LoginActivity;
 
 public class QRCodeActivity extends AppCompatActivity {
 
@@ -57,8 +59,11 @@ public class QRCodeActivity extends AppCompatActivity {
         setQRCodeCaptureCallbackMethod();
         setQRCodeErrorCallbackMethod();
 
-        // References to button
+        // References to buttons
         showListBtn = (Button)findViewById(R.id.showListButton);
+
+        /* Add an additional button for restaurant managers to move to their Management UI flow*/
+        // managersButton = (Button) findViewById(R.id.someButtonForManagers);
         initListeners();
     }
 
@@ -72,6 +77,12 @@ public class QRCodeActivity extends AppCompatActivity {
              */
             public void onClick(View v) {
 
+//                qrScanner.stopPreview();
+//                qrScanner.releaseResources();
+//                FirebaseAuth.getInstance().signOut();
+//                Intent moveToLoginActivity = new Intent(QRCodeActivity.this, LoginActivity.class);
+//                startActivity(moveToLoginActivity);
+//                finish();
                 Intent moveToRestActivity =
                         new Intent(QRCodeActivity.this, RestaurantsListViewActivity.class);
                 startActivity(moveToRestActivity);

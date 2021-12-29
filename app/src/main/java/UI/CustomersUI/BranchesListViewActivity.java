@@ -1,4 +1,4 @@
-package UI;
+package UI.CustomersUI;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -10,8 +10,8 @@ import com.example.exercise_5.R;
 
 import java.util.List;
 
+import API.Database.DatabaseRequestCallback;
 import BusinessEntities.Branch;
-import API.Database.OnDataReceivedFromDB;
 import DataAccessLayer.RestDB;
 import UIAdapters.BranchArrayAdapter;
 
@@ -46,7 +46,7 @@ public class BranchesListViewActivity extends AppCompatActivity {
 
         // Retrieve data from Database
         rdb.getBranches(restID,
-                new OnDataReceivedFromDB() {
+                new DatabaseRequestCallback() {
                     @Override
                     public void onObjectReturnedFromDB(Object obj) {
 

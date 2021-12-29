@@ -12,4 +12,6 @@ public interface IOrder {
     public List<Item> getOrderItems();
 
     public Table getTable();
+
+    public List<Item> addToOrder(Item item);
 }

@@ -1,4 +1,4 @@
-package UI;
+package UI.CustomersUI;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -10,8 +10,8 @@ import com.example.exercise_5.R;
 
 import java.util.List;
 
+import API.Database.DatabaseRequestCallback;
 import BusinessEntities.Restaurant;
-import API.Database.OnDataReceivedFromDB;
 import DataAccessLayer.RestDB;
 import UIAdapters.RestaurantArrayAdapter;
 
@@ -38,7 +38,7 @@ public class RestaurantsListViewActivity extends AppCompatActivity {
     }
 
     private void setUpAdapter() {
-        rdb.getRestaurants(new OnDataReceivedFromDB() {
+        rdb.getRestaurants(new DatabaseRequestCallback() {
             @Override
             public void onObjectReturnedFromDB(Object obj) {
 
