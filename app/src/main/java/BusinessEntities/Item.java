@@ -57,13 +57,6 @@ public class Item {
 
     @Override
     public String toString() {
-        return "\nItem{" +
-                "description='" + description + '\'' +
-                ", name='" + name + '\'' +
-                ", serviceUnit='" + serviceUnit + '\'' +
-                ", price=" + price +
-                ", imageURL='" + imageURL + '\'' +
-                ", inStock=" + inStock +
-                '}';
+        return name + '\t' + price;
     }
 }

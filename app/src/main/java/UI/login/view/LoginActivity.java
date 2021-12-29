@@ -20,6 +20,7 @@ import com.google.firebase.auth.FirebaseAuth;
 
 import API.BusinessEntitiesInterface.Auth.IBranchManagerUser;
 import API.BusinessEntitiesInterface.Auth.IUser;
+import API.Constants.Constants;
 import DataAccessLayer.RestDB;
 import UI.CustomersUI.QRCodeActivity;
 import UI.RestaurantManagementUI.ManagementMainActivity;
@@ -54,10 +55,10 @@ public class LoginActivity extends AppCompatActivity implements ILoginView{
         mAuth = FirebaseAuth.getInstance(); // getting firebase auth instance
         RestDB.getInstance();
 
-        // If a user is already signed in
-        if (mAuth.getCurrentUser() != null) {
-            moveToCustomerUI();
-        }
+//        // If a user is already signed in
+//        if (mAuth.getCurrentUser() != null) {
+//            moveToCustomerUI();
+//        }
 
         this.loginViewController = new LoginViewController(this);
 
@@ -124,9 +125,10 @@ public class LoginActivity extends AppCompatActivity implements ILoginView{
         );
     }
 
-    private void moveToCustomerUI() {
-        Intent moveToQRActivity = new Intent(this, QRCodeActivity.class);
-        startActivity(moveToQRActivity);
+    private void moveToCustomerUI(int userType) {
+        Intent QRActivity = new Intent(this, QRCodeActivity.class);
+        QRActivity.putExtra("user_type", userType);
+        startActivity(QRActivity);
         finish();   // No need in this activity anymore.
     }
 
@@ -147,12 +149,13 @@ public class LoginActivity extends AppCompatActivity implements ILoginView{
         final int REGULAR_USER = 0,
                 MANAGER_USER = 1;
 
-        if (getCheckRadioButtonIndex() == REGULAR_USER) {
+        if (getCheckRadioButtonIndex() == Constants.USER_TYPE_CUSTOMER) {
             // Regular customer user: Navigate to QRActivity
-            moveToCustomerUI();
+
+            moveToCustomerUI(user.getType());
         }
 
-        else if(getCheckRadioButtonIndex() == MANAGER_USER) {
+        else if(getCheckRadioButtonIndex() == Constants.USER_TYPE_BRANCH_MANAGER) {
             // Branch manager user is connected: Navigate to Branch management UI
             moveToBranchManagementUI((IBranchManagerUser) user);
         }
@@ -200,7 +203,7 @@ public class LoginActivity extends AppCompatActivity implements ILoginView{
 
         moveToManagementActivity.putExtra("manager_uid", user.getUid());
         moveToManagementActivity.putExtra("user_type", user.getType());
-        moveToManagementActivity.putExtra("manager_branch_id", user.getBranchDocId());
+        moveToManagementActivity.putExtra("branch_uid", user.getBranchDocId());
 
         startActivity(moveToManagementActivity);
         finish();
@@ -218,10 +221,12 @@ public class LoginActivity extends AppCompatActivity implements ILoginView{
         if (radioBtnRegularUser.isChecked()) {
             Log.e(TAG, "Customer checked regular user login button");
             textPromptLoginType.setVisibility(View.INVISIBLE);
+            signupBtn.setVisibility(View.VISIBLE);
             return 0;
         }
         else if (radioBtnManagerUser.isChecked()) {
             textPromptLoginType.setVisibility(View.VISIBLE);
+            signupBtn.setVisibility(View.INVISIBLE);
             Log.e(TAG, "Customer checked restaurant manager login button");
             return 1;
         }

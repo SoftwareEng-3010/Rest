@@ -36,6 +36,7 @@ public class LoginViewController implements ILoginViewController {
 
         if (TextUtils.isEmpty(email) || TextUtils.isEmpty(password)) {
             loginView.onLoginFailed("Email or Password are missing");
+            return;
         }
 
         mAuth.signInWithEmailAndPassword(email, password)
@@ -85,6 +86,12 @@ public class LoginViewController implements ILoginViewController {
 
     @Override
     public void onSignUpClicked(String email, String password, int userLoginType) {
+
+        if (TextUtils.isEmpty(email) || TextUtils.isEmpty(password)) {
+            loginView.onLoginFailed("Email or Password are missing");
+            return;
+        }
+
         mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override

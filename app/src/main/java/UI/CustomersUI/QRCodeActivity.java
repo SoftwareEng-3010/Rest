@@ -27,6 +27,7 @@ import API.Constants.Constants;
 import BusinessEntities.QRCode;
 import BusinessLogic.QRReadHandler;
 import BusinessLogic.Permissions;
+import UI.RestaurantManagementUI.ManagementMainActivity;
 import UI.login.view.LoginActivity;
 
 public class QRCodeActivity extends AppCompatActivity {
@@ -40,6 +41,8 @@ public class QRCodeActivity extends AppCompatActivity {
     private CodeScanner qrScanner; // QRScanner object reference
 
     private Button showListBtn;    // Manual selection button
+    private Button logoutBtn;    // Manual selection button
+    private Button managerModeBtn;    // Manual selection button
 
     private final int REQUEST_PERMISSION_CODE = 210; // Any permission code would work
 
@@ -61,6 +64,9 @@ public class QRCodeActivity extends AppCompatActivity {
 
         // References to buttons
         showListBtn = (Button)findViewById(R.id.showListButton);
+        logoutBtn = (Button)findViewById(R.id.button_log_out);
+        logoutBtn.setVisibility(View.VISIBLE);
+        managerModeBtn = (Button)findViewById(R.id.button_move_to_management);
 
         /* Add an additional button for restaurant managers to move to their Management UI flow*/
         // managersButton = (Button) findViewById(R.id.someButtonForManagers);
@@ -77,15 +83,36 @@ public class QRCodeActivity extends AppCompatActivity {
              */
             public void onClick(View v) {
 
-//                qrScanner.stopPreview();
-//                qrScanner.releaseResources();
-//                FirebaseAuth.getInstance().signOut();
-//                Intent moveToLoginActivity = new Intent(QRCodeActivity.this, LoginActivity.class);
-//                startActivity(moveToLoginActivity);
-//                finish();
                 Intent moveToRestActivity =
                         new Intent(QRCodeActivity.this, RestaurantsListViewActivity.class);
                 startActivity(moveToRestActivity);
+            }
+        });
+
+        logoutBtn.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            /**
+             * Move to LoginActivity
+             */
+            public void onClick(View v) {
+                FirebaseAuth.getInstance().signOut();
+                Intent moveToLoginActivity =
+                        new Intent(QRCodeActivity.this, LoginActivity.class);
+                startActivity(moveToLoginActivity);
+            }
+        });
+
+        managerModeBtn.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            /**
+             * Move to ManagementMainActivity
+             */
+            public void onClick(View v) {
+                Intent moveToManagementActivity =
+                        new Intent(QRCodeActivity.this, ManagementMainActivity.class);
+                startActivity(moveToManagementActivity);
             }
         });
     }

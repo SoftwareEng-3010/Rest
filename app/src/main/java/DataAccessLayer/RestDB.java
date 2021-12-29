@@ -253,7 +253,7 @@ public class RestDB implements Database {
 
     /*
         Firestore database Writing methods:
-         */
+    */
     @Override
     public void addRestaurant(Restaurant restaurant, OnDataSentToDB callBack) {
         // Implement
@@ -261,7 +261,7 @@ public class RestDB implements Database {
         CollectionReference test_collection = db.collection("test");
 
         test_collection.document() // A new document reference
-                        .set(new Restaurant("Olive Garden"))
+                        .set(restaurant)
                         .addOnCompleteListener(
                                 new OnCompleteListener<Void>() {
                                     @Override
@@ -293,11 +293,6 @@ public class RestDB implements Database {
             @Override
             public int getType() {
                 return userType;
-            }
-
-            @Override
-            public String getEmail() {
-                return user.getEmail();
             }
         };
 
@@ -357,7 +352,6 @@ public class RestDB implements Database {
                     }
                 });
     }
-
 
     @Override
     public void pushOrder(String orderId, OnDataSentToDB callback) {
