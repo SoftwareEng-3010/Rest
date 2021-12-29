@@ -20,11 +20,6 @@ public class Customer implements ICustomerUser {
 
     public Customer() {}
 
-    public Customer(String email, int userType) {
-        this.email = email;
-        this.userType = userType;
-    }
-
     @Override
     public String getUid() {
         return id;

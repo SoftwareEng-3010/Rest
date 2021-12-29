@@ -253,31 +253,31 @@ public class RestDB implements Database {
 
     /*
         Firestore database Writing methods:
-         */
+    */
     @Override
     public void addRestaurant(Restaurant restaurant, OnDataSentToDB callBack) {
         // Implement
 
-        CollectionReference test_collection = db.collection("test");
-
-        test_collection.document() // A new document reference
-                        .set(new Restaurant("Olive Garden"))
-                        .addOnCompleteListener(
-                                new OnCompleteListener<Void>() {
-                                    @Override
-                                    public void onComplete(@NonNull Task<Void> task) {
-                                        if (task.isSuccessful()) {
-                                            Log.e(TAG, "Successfully written object to database!");
-                                            callBack.onObjectWrittenToDB(true);
-                                        }
-                                        else {
-                                            Log.e(TAG, "Something went wrong while writing an object to database");
-                                            callBack.onObjectWrittenToDB(false);
-                                        }
-                                    }
-                                }
-                        );
-        Log.e(TAG, "finished addRestaurant()");
+//        CollectionReference test_collection = db.collection("test");
+//
+//        test_collection.document() // A new document reference
+//                        .set(new Restaurant("Olive Garden"))
+//                        .addOnCompleteListener(
+//                                new OnCompleteListener<Void>() {
+//                                    @Override
+//                                    public void onComplete(@NonNull Task<Void> task) {
+//                                        if (task.isSuccessful()) {
+//                                            Log.e(TAG, "Successfully written object to database!");
+//                                            callBack.onObjectWrittenToDB(true);
+//                                        }
+//                                        else {
+//                                            Log.e(TAG, "Something went wrong while writing an object to database");
+//                                            callBack.onObjectWrittenToDB(false);
+//                                        }
+//                                    }
+//                                }
+//                        );
+//        Log.e(TAG, "finished addRestaurant()");
 
     }
 
@@ -293,11 +293,6 @@ public class RestDB implements Database {
             @Override
             public int getType() {
                 return userType;
-            }
-
-            @Override
-            public String getEmail() {
-                return user.getEmail();
             }
         };
 
@@ -357,7 +352,6 @@ public class RestDB implements Database {
                     }
                 });
     }
-
 
     @Override
     public void pushOrder(String orderId, OnDataSentToDB callback) {

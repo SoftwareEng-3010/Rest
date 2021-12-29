@@ -13,18 +13,9 @@ public class User implements IUser {
 
     public User() {}
 
-    public User(int userType) {
-        this.type = userType;
-    }
-
     @Override
     public String getUid() {
         return id;
-    }
-
-    @Override
-    public String getEmail() {
-        return email;
     }
 
     @Override
