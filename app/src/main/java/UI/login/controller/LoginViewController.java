@@ -11,6 +11,7 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
 import API.BusinessEntitiesInterface.Auth.ICustomerUser;
+import API.Constants.Constants;
 import API.Database.DatabaseRequestCallback;
 import API.Database.OnDataSentToDB;
 import API.BusinessEntitiesInterface.Auth.IBranchManagerUser;
@@ -55,15 +56,17 @@ public class LoginViewController implements ILoginViewController {
                                         @Override
                                         public void onObjectReturnedFromDB(@Nullable Object obj) {
                                             if (null == obj) loginView.onLoginFailed("Object came back null from database");
-                                            if (obj instanceof IBranchManagerUser) {
-                                                IBranchManagerUser user = (IBranchManagerUser)obj;
-                                                loginView.onLoginSuccess(user, "Successfully logged in as a Manager\n" + user.getEmail());
+                                            IUser usr = (IUser) obj;
+
+                                            if (usr.getType() == Constants.USER_TYPE_BRANCH_MANAGER) {
+                                                IBranchManagerUser manager = (IBranchManagerUser)obj;
+                                                loginView.onLoginSuccess(manager, "Successfully logged in as a Manager\n" + manager.getEmail());
                                             }
-                                            else if (obj instanceof ICustomerUser){
-                                                ICustomerUser user = (ICustomerUser) obj;
-                                                loginView.onLoginSuccess(user, "Successfully logged in as " + user.getEmail());
+                                            else if (usr.getType() == Constants.USER_TYPE_CUSTOMER){
+                                                ICustomerUser customer = (ICustomerUser) obj;
+                                                loginView.onLoginSuccess(customer, "Successfully logged in as " + customer.getEmail());
                                             }
-                                            else if (obj instanceof IUser) {
+                                            else if (usr.getType() >= Constants.USER_TYPE_BRANCH_MANAGER) {
                                                 IUser user = (IUser) obj;
                                                 loginView.onLoginSuccess(user, "Successfully logged in as " + user.getType());
                                             }
@@ -72,7 +75,6 @@ public class LoginViewController implements ILoginViewController {
                                             }
                                         }
                                     });
-
                         }
                         else if (task.getException() != null){
                             loginView.onLoginFailed(task.getException().getMessage());

@@ -3,7 +3,6 @@ package BusinessEntities;
 import android.util.Log;
 
 import com.google.firebase.firestore.DocumentId;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.PropertyName;
 
 import java.util.ArrayList;
@@ -47,10 +46,10 @@ public class Branch {
         switch (serviceUnitType) {
 
             case Constants
-                    .TYPE_SERVICE_STAFF_USER:
+                    .USER_TYPE_SERVICE:
                 this.service_units.add(serviceUnitType);
                 break;
-            case Constants.TYPE_KITCHEN_USER:
+            case Constants.USER_TYPE_KITCHEN:
                 this.service_units.add(serviceUnitType);
                 break;
 

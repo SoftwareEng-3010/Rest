@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.example.exercise_5.R;
@@ -16,6 +17,7 @@ import API.BusinessEntitiesInterface.Auth.IBranchManagerUser;
 import API.BusinessEntitiesInterface.Auth.ICustomerUser;
 import API.BusinessEntitiesInterface.Auth.IUser;
 import API.BusinessEntitiesInterface.IServiceUnit;
+import API.Constants.Constants;
 import API.Database.DatabaseRequestCallback;
 import DataAccessLayer.RestDB;
 import UI.RestaurantManagementUI.ManagementMainActivity;
@@ -23,6 +25,8 @@ import UI.login.view.LoginActivity;
 
 @SuppressLint("CustomSplashScreen")
 public class SplashActivity extends AppCompatActivity implements DatabaseRequestCallback {
+
+    private final String TAG = "SplashActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,21 +57,17 @@ public class SplashActivity extends AppCompatActivity implements DatabaseRequest
             Toast.makeText(this, "IUser object is null", Toast.LENGTH_SHORT).show();
         }
 
-        IBranchManagerUser manager = (IBranchManagerUser) obj;
-        if (obj != null){
-            Toast.makeText(this, "MANAGER", Toast.LENGTH_SHORT).show();
+        IUser user = (IUser) obj;
+
+        if (user.getType() == Constants.USER_TYPE_CUSTOMER) {
+            Intent loginActivity = new Intent(this, LoginActivity.class);
+            startActivity(loginActivity);
+            finish();
         }
-        else if(obj instanceof IBranchManagerUser) {
-            Toast.makeText(this, "CUSTOMER", Toast.LENGTH_SHORT).show();
-        }
-        else if (obj instanceof IServiceUnit) {
-            Toast.makeText(this, "SERVICE_UNIT", Toast.LENGTH_SHORT).show();
-        }
-        else if (obj instanceof IUser) {
-            Toast.makeText(this, "IUSER", Toast.LENGTH_SHORT).show();
-        }
-        else {
-            Toast.makeText(this, "NO INSTANCE OF IUSER", Toast.LENGTH_SHORT).show();
+
+        else if (user.getType() >= Constants.USER_TYPE_BRANCH_MANAGER) {
+            Log.e(TAG, "user has type >= 1");
+            moveToManagementNavigationActivity(user.getType());
         }
     }
 
@@ -76,6 +76,5 @@ public class SplashActivity extends AppCompatActivity implements DatabaseRequest
         managementNavigationActivity.putExtra("user_type", userType);
         startActivity(managementNavigationActivity);
         finish();
-
     }
 }

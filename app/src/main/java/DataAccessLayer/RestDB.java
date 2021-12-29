@@ -21,6 +21,7 @@ import java.util.List;
 import API.BusinessEntitiesInterface.Auth.IBranchManagerUser;
 import API.BusinessEntitiesInterface.Auth.ICustomerUser;
 import API.BusinessEntitiesInterface.IServiceUnit;
+import API.Constants.Constants;
 import API.Database.Database;
 import API.Database.DatabaseRequestCallback;
 import API.Database.OnDataSentToDB;
@@ -322,18 +323,35 @@ public class RestDB implements Database {
     @Override
     public void getUser(String uid, DatabaseRequestCallback callback) {
 
-        db.collection("users").document(uid)
+        db.collection("users")
+                .document(uid)
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                         if (task.isSuccessful()) {
                             // If uid is found as:
-                           try {
 
+                           User user = task.getResult().toObject(User.class);
+
+                           if (null == user) {callback.onObjectReturnedFromDB(null); return;}
+
+                           if (user.getType() == Constants.USER_TYPE_CUSTOMER) {
+                               callback.onObjectReturnedFromDB(task.getResult().toObject(Customer.class));
                            }
 
-                           catch (Exception e) {
+                           else if (user.getType() == Constants.USER_TYPE_BRANCH_MANAGER) {
+                               callback.onObjectReturnedFromDB(task.getResult().toObject(BranchManager.class));
+                           }
+
+                           else if (user.getType() > Constants.USER_TYPE_BRANCH_MANAGER) {
+                               Log.e(TAG, "Some kind of service unit type of user is signed in with user_type = " + user.getType());
+                               callback.onObjectReturnedFromDB(task.getResult().toObject(User.class));
+                           }
+
+                           else {
+                               Log.e(TAG, "Could not find a class for the user returned from db");
+                               callback.onObjectReturnedFromDB(null);
                            }
                         }
                     }

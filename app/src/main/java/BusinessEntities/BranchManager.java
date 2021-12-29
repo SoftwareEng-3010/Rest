@@ -21,7 +21,7 @@ public class BranchManager implements IBranchManagerUser {
 
     @Override
     public String getEmail() {
-        return null;
+        return email;
     }
 
     @Override

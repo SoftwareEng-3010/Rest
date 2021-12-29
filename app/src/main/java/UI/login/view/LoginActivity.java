@@ -199,6 +199,7 @@ public class LoginActivity extends AppCompatActivity implements ILoginView{
         Intent moveToManagementActivity = new Intent(this, ManagementMainActivity.class);
 
         moveToManagementActivity.putExtra("manager_uid", user.getUid());
+        moveToManagementActivity.putExtra("user_type", user.getType());
         moveToManagementActivity.putExtra("manager_branch_id", user.getBranchDocId());
 
         startActivity(moveToManagementActivity);
