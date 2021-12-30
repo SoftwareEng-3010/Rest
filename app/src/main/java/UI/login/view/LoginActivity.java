@@ -158,23 +158,16 @@ public class LoginActivity extends AppCompatActivity implements ILoginView{
         }
 
         else if(getRadioBtnIndexAndSetupUI() == Constants.USER_TYPE_BRANCH_MANAGER) {
-            // Branch manager user is connected: Navigate to Branch management UI
             if (user.getType() != Constants.USER_TYPE_BRANCH_MANAGER) {
-                new AlertDialog.Builder(this)
-                        .setMessage("\nאינך מזוהה כמנהל מסעדה. כדי לנהל את המסעדה שלך - ניתן לעשות" +
-                                "\nא." +
-                                "\nב." +
-                                "\nג.")
-                        .setNeutralButton("הבנתי", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                moveToCustomerUI(user.getType()); // type = 0
-                            }
-                        })
-                        .create()
-                        .show();
+                showAlert(new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        moveToCustomerUI(user.getType()); // type = 0
+                    }
+                });
                 return;
             }
+            // Branch manager user is connected: Navigate to Branch management UI
             moveToBranchManagementUI((IBranchManagerUser) user);
         }
 
@@ -260,5 +253,16 @@ public class LoginActivity extends AppCompatActivity implements ILoginView{
 
     private void hideProgressBar() {
         progressBar.setVisibility(View.INVISIBLE);
+    }
+
+    private void showAlert(DialogInterface.OnClickListener listener) {
+        new AlertDialog.Builder(this)
+                .setMessage("\nאינך מזוהה כמנהל מסעדה. כדי לנהל את המסעדה שלך - ניתן לעשות" +
+                        "\nא." +
+                        "\nב." +
+                        "\nג.")
+                .setNeutralButton("הבנתי", listener)
+                .create()
+                .show();
     }
 }
