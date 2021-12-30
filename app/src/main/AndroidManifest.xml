@@ -10,7 +10,7 @@
     <uses-permission-sdk-23 android:name="android.permission.CAMERA" />
 
     <application
-        android:allowBackup="true"
+        android:allowBackup="false"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
@@ -38,7 +38,7 @@
             android:name="UI.RestaurantManagementUI.ManagementMainActivity"
             android:exported="false" />
         <activity
-            android:name="UI.login.view.LoginActivity"
+            android:name="UI.login.LoginActivity"
             android:exported="false" />
         <activity android:name="UI.CustomersUI.RestaurantsListViewActivity" />
         <activity android:name="UI.CustomersUI.BranchViewActivity" />

@@ -73,7 +73,7 @@ public class BranchViewActivity extends AppCompatActivity {
 
         // Initialize ViewModel
         MenuViewModel menuViewModel = ViewModelProvider.AndroidViewModelFactory
-                .getInstance(getApplication())
+                .getInstance()
                 .create(MenuViewModel.class);
 
         // set up adapter

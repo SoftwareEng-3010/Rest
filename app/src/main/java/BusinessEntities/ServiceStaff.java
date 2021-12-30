@@ -1,14 +1,17 @@
 package BusinessEntities;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
+import com.google.firebase.firestore.FirebaseFirestoreException;
 
 import java.util.List;
 
-import API.BusinessEntitiesInterface.IOrder;
-import API.BusinessEntitiesInterface.IServiceUnit;
+import API.Models.IOrder;
+import API.Models.IServiceUnit;
 import API.Constants.Constants;
 
-public class ServiceStaff implements IServiceUnit{
+public class ServiceStaff implements IServiceUnit {
 
     private List<IOrder> orders;
     private String uid;
@@ -23,6 +26,11 @@ public class ServiceStaff implements IServiceUnit{
     @Override
     public List<IOrder> getOrders() {
         return null;
+    }
+
+    @Override
+    public void update(String message) {
+
     }
 
     @Override

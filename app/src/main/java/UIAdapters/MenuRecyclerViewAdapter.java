@@ -15,7 +15,6 @@ import com.example.exercise_5.R;
 import java.util.ArrayList;
 import java.util.List;
 
-import API.BusinessEntitiesInterface.IOrder;
 import BusinessEntities.Item;
 
 public class MenuRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{

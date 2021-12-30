@@ -2,8 +2,7 @@ package BusinessEntities;
 
 import com.google.firebase.firestore.PropertyName;
 
-import API.BusinessEntitiesInterface.Auth.ICustomerUser;
-import API.BusinessEntitiesInterface.Auth.IUser;
+import API.Models.ICustomerUser;
 
 public class Customer implements ICustomerUser {
 

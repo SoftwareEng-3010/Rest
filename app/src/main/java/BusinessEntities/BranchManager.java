@@ -2,7 +2,7 @@ package BusinessEntities;
 
 import com.google.firebase.firestore.PropertyName;
 
-import API.BusinessEntitiesInterface.Auth.IBranchManagerUser;
+import API.Models.IBranchManagerUser;
 
 public class BranchManager implements IBranchManagerUser {
 

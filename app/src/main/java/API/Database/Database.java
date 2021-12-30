@@ -1,7 +1,9 @@
 package API.Database;
 
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.EventListener;
 
+import API.IOrderListener;
 import BusinessEntities.Restaurant;
 
 /**
@@ -87,4 +89,6 @@ public interface Database {
     public void pushOrder(String orderId, OnDataSentToDB callback);
 
     public void getOrder(String orderId, DatabaseRequestCallback callback);
+
+    public void attachOrderListener(IOrderListener listener);
 }

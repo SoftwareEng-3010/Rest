@@ -24,13 +24,15 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.zxing.Result;
 
 import API.Constants.Constants;
+import API.Views.SwipeGestureListener;
 import BusinessEntities.QRCode;
 import BusinessLogic.QRReadHandler;
 import BusinessLogic.Permissions;
+import UI.OnSwipeTouchListener;
 import UI.RestaurantManagementUI.ManagementMainActivity;
-import UI.login.view.LoginActivity;
+import UI.login.LoginActivity;
 
-public class QRCodeActivity extends AppCompatActivity {
+public class QRCodeActivity extends AppCompatActivity implements SwipeGestureListener {
 
     private final String TAG = "QRCodeActivity";
 
@@ -62,18 +64,32 @@ public class QRCodeActivity extends AppCompatActivity {
         setQRCodeCaptureCallbackMethod();
         setQRCodeErrorCallbackMethod();
 
-        // References to buttons
-        showListBtn = (Button)findViewById(R.id.showListButton);
-        logoutBtn = (Button)findViewById(R.id.button_log_out);
-        logoutBtn.setVisibility(View.VISIBLE);
-        managerModeBtn = (Button)findViewById(R.id.button_move_to_management);
-
         /* Add an additional button for restaurant managers to move to their Management UI flow*/
         // managersButton = (Button) findViewById(R.id.someButtonForManagers);
         initListeners();
+
+        int userType = getIntent().getIntExtra("user_type", -1);
+
+        if (userType == Constants.USER_TYPE_BRANCH_MANAGER) {
+            new OnSwipeTouchListener(this, this);
+        }
     }
 
     private void initListeners(){
+
+        // References to buttons
+        showListBtn = (Button)findViewById(R.id.showListButton);
+        logoutBtn = (Button)findViewById(R.id.button_log_out);
+        managerModeBtn = (Button)findViewById(R.id.button_move_to_management);
+
+        int userType = getIntent().getIntExtra("user_type", -1);
+
+        // TODO: REMOVE for presentation
+        logoutBtn.setVisibility(View.VISIBLE);
+        if (userType == 1) {
+            managerModeBtn.setVisibility(View.VISIBLE);
+            logoutBtn.setVisibility(View.VISIBLE);
+        }
 
         showListBtn.setOnClickListener(new View.OnClickListener() {
 
@@ -110,9 +126,7 @@ public class QRCodeActivity extends AppCompatActivity {
              * Move to ManagementMainActivity
              */
             public void onClick(View v) {
-                Intent moveToManagementActivity =
-                        new Intent(QRCodeActivity.this, ManagementMainActivity.class);
-                startActivity(moveToManagementActivity);
+                finish();
             }
         });
     }
@@ -235,5 +249,26 @@ public class QRCodeActivity extends AppCompatActivity {
         Log.e(TAG, "onStop()");
         qrScanner.stopPreview();
         qrScanner.releaseResources(); // Release the camera connected to the Scanner object.
+    }
+
+    @Override
+    public void onSwipeLeft() {
+
+    }
+
+    @Override
+    public void onSwipeRight() {
+        Intent managementActivity = new Intent(this, ManagementMainActivity.class);
+        startActivity(managementActivity);
+    }
+
+    @Override
+    public void onSwipeTop() {
+
+    }
+
+    @Override
+    public void onSwipeBottom() {
+
     }
 }

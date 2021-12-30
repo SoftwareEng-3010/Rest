@@ -1,16 +1,17 @@
 package DataAccessLayer;
 
 import android.util.Log;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -18,14 +19,12 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.ArrayList;
 import java.util.List;
 
-import API.BusinessEntitiesInterface.Auth.IBranchManagerUser;
-import API.BusinessEntitiesInterface.Auth.ICustomerUser;
-import API.BusinessEntitiesInterface.IServiceUnit;
 import API.Constants.Constants;
 import API.Database.Database;
 import API.Database.DatabaseRequestCallback;
 import API.Database.OnDataSentToDB;
-import API.BusinessEntitiesInterface.Auth.IUser;
+import API.IOrderListener;
+import API.Models.IUser;
 import BusinessEntities.Branch;
 import BusinessEntities.BranchManager;
 import BusinessEntities.Customer;
@@ -361,6 +360,13 @@ public class RestDB implements Database {
     @Override
     public void getOrder(String orderId, DatabaseRequestCallback callback) {
         Log.e(TAG, "IMPLEMENT pullOrder");
+    }
+
+    @Override
+    public void attachOrderListener(IOrderListener listener) {
+        String uid = FirebaseAuth.getInstance().getUid();
+
+//        restCollection.document()
     }
 
 }

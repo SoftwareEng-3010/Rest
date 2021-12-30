@@ -13,21 +13,21 @@ import com.example.exercise_5.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-import API.BusinessEntitiesInterface.Auth.IBranchManagerUser;
-import API.BusinessEntitiesInterface.Auth.ICustomerUser;
-import API.BusinessEntitiesInterface.Auth.IUser;
-import API.BusinessEntitiesInterface.IServiceUnit;
+import API.Models.IBranchManagerUser;
+import API.Models.IUser;
 import API.Constants.Constants;
 import API.Database.DatabaseRequestCallback;
 import DataAccessLayer.RestDB;
 import UI.CustomersUI.QRCodeActivity;
 import UI.RestaurantManagementUI.ManagementMainActivity;
-import UI.login.view.LoginActivity;
+import UI.login.LoginActivity;
 
 @SuppressLint("CustomSplashScreen")
 public class SplashActivity extends AppCompatActivity implements DatabaseRequestCallback {
 
     private final String TAG = "SplashActivity";
+
+    private FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,13 +38,17 @@ public class SplashActivity extends AppCompatActivity implements DatabaseRequest
     @Override
     protected void onStart() {
         super.onStart();
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
+        mAuth = FirebaseAuth.getInstance();
+
+        FirebaseUser user = mAuth.getCurrentUser();
 
         if (user == null) {
             Intent loginActivity = new Intent(this, LoginActivity.class);
             startActivity(loginActivity);
             finish();
         }
+
         else {
 
             RestDB.getInstance()

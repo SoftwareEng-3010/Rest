@@ -27,4 +27,9 @@ public interface Constants {
     public static final int USER_TYPE_SERVICE = 3;
     public static final int USER_TYPE_KITCHEN = 4;
     public static final int USER_TYPE_OTHER_USERS = 5;
+
+    public static final int MANAGEMENT_HOME_SCREEN = 0;
+    public static final int MANAGEMENT_SERVICE_SCREEN = 1;
+    public static final int MANAGEMENT_KITCHEN_SCREEN = 2;
+
 }
