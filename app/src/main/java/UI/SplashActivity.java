@@ -56,6 +56,10 @@ public class SplashActivity extends AppCompatActivity implements DatabaseRequest
     public void onObjectReturnedFromDB(@Nullable Object obj) {
         if (obj == null) {
             Toast.makeText(this, "IUser object is null", Toast.LENGTH_SHORT).show();
+            Intent qrActivity = new Intent(this, LoginActivity.class);
+            startActivity(qrActivity);
+            finish();
+            return;
         }
 
         IUser user = (IUser) obj;
