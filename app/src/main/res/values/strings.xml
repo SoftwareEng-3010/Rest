@@ -30,6 +30,11 @@
     <string name="login_failed">"Login failed"</string>
     <string name="logout_manager">התנתק</string>
     <string name="move_to_management_mode">מעבר למצב מנהל</string>
+    <string name="greeting_he">ברוך הבא, \n</string>
+    <string name="btn_edit_branch_fragment">מסך בית</string>
+    <string name="btn_service_staff_fragment">מסך מלצרים</string>
+    <string name="btn_kitchen_fragment">מסך מטבח</string>
+    <string name="button">Button</string>
     <!-- Menu List Item -->
 
 </resources>
