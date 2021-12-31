@@ -17,12 +17,6 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Exercise_5" >
         <activity
-            android:name="UI.RestaurantManagementUI.RestaurantManagementActivity"
-            android:exported="false" />
-        <activity
-            android:name="UI.RestaurantManagementUI.BranchManagementActivity"
-            android:exported="false" />
-        <activity
             android:name="UI.LoginUI.SplashActivity"
             android:exported="true">
             <intent-filter>
