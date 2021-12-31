@@ -12,6 +12,5 @@
         android:layout_height="match_parent"
         android:text="@string/service_staff_ui_fragment" />
 
-
-
 </ScrollView>
+
