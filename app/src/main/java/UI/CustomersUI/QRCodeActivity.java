@@ -28,9 +28,8 @@ import API.Views.SwipeGestureListener;
 import BusinessEntities.QRCode;
 import BusinessLogic.QRReadHandler;
 import BusinessLogic.Permissions;
-import UI.OnSwipeTouchListener;
 import UI.RestaurantManagementUI.ManagementMainActivity;
-import UI.login.LoginActivity;
+import UI.LoginUI.LoginActivity;
 
 public class QRCodeActivity extends AppCompatActivity implements SwipeGestureListener {
 

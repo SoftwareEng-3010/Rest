@@ -23,7 +23,7 @@
             android:name="UI.RestaurantManagementUI.BranchManagementActivity"
             android:exported="false" />
         <activity
-            android:name="UI.SplashActivity"
+            android:name="UI.LoginUI.SplashActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -38,7 +38,7 @@
             android:name="UI.RestaurantManagementUI.ManagementMainActivity"
             android:exported="false" />
         <activity
-            android:name="UI.login.LoginActivity"
+            android:name="UI.LoginUI.LoginActivity"
             android:exported="false" />
         <activity android:name="UI.CustomersUI.RestaurantsListViewActivity" />
         <activity android:name="UI.CustomersUI.BranchViewActivity" />

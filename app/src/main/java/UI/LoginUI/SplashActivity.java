@@ -1,4 +1,4 @@
-package UI;
+package UI.LoginUI;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -20,7 +20,7 @@ import API.Database.DatabaseRequestCallback;
 import DataAccessLayer.RestDB;
 import UI.CustomersUI.QRCodeActivity;
 import UI.RestaurantManagementUI.ManagementMainActivity;
-import UI.login.LoginActivity;
+import UI.LoginUI.LoginActivity;
 
 @SuppressLint("CustomSplashScreen")
 public class SplashActivity extends AppCompatActivity implements DatabaseRequestCallback {

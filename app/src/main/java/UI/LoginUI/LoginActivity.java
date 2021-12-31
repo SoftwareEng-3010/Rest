@@ -1,4 +1,4 @@
-package UI.login;
+package UI.LoginUI;
 
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -28,7 +28,7 @@ import DataAccessLayer.RestDB;
 import UI.CustomersUI.QRCodeActivity;
 import UI.RestaurantManagementUI.ManagementMainActivity;
 import API.Controllers.ILoginViewController;
-import UI.login.controller.LoginViewController;
+import BusinessLogic.LoginViewController;
 
 public class LoginActivity extends AppCompatActivity implements ILoginView {
 
