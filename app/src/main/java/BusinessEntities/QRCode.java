@@ -3,16 +3,16 @@ package BusinessEntities;
 public class QRCode {
 
     private String restaurantId;
-    private Address branchAddress;
+    private String branchId;
     private int tableNum;
 
     public static final String KEY_RESTAURANT_ID = "restaurant_id";
-    public static final String KEY_BRANCH_ADDRESS = "branch_address";
+    public static final String KEY_BRANCH_ID = "branch_id";
     public static final String KEY_TABLE_NUMBER = "table_num";
 
-    public QRCode(String restaurant_id, Address branch_address, int table_num) {
+    public QRCode(String restaurant_id, String branch_id, int table_num) {
         this.restaurantId = restaurant_id;
-        this.branchAddress = branch_address;
+        this.branchId = branch_id;
         this.tableNum = table_num;
     }
 
@@ -20,8 +20,8 @@ public class QRCode {
         return restaurantId;
     }
 
-    public Address getBranchAddress() {
-        return branchAddress;
+    public String getBranchId() {
+        return branchId;
     }
 
     public int getTableNumber() {

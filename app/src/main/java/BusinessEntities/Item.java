@@ -4,6 +4,7 @@ import com.google.firebase.firestore.PropertyName;
 
 public class Item {
 
+    @PropertyName("description")
     private String description;
     private String name;
     private String serviceUnit;
@@ -15,7 +16,7 @@ public class Item {
         // Empty constructor required by Firebase method .toObject()
     }
 
-    public Item(String description, String imageURL, String name, String serviceUnit,
+    public Item(String name,String description, String imageURL, String serviceUnit,
                 boolean inStock, double price) {
         this.description = description;
         this.imageURL = imageURL;
@@ -25,6 +26,7 @@ public class Item {
         this.price = price;
     }
 
+    @PropertyName("description")
     public String getDescription() {
         return description;
     }
@@ -55,13 +57,6 @@ public class Item {
 
     @Override
     public String toString() {
-        return "\nItem{" +
-                "description='" + description + '\'' +
-                ", name='" + name + '\'' +
-                ", serviceUnit='" + serviceUnit + '\'' +
-                ", price=" + price +
-                ", imageURL='" + imageURL + '\'' +
-                ", inStock=" + inStock +
-                '}';
+        return name + '\t' + price;
     }
 }

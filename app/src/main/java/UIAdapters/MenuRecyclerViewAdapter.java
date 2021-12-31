@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -20,10 +21,12 @@ public class MenuRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
 
     private Context context;
     private List<Item> items;
+    private List<Item> selectedItems;
 
     public MenuRecyclerViewAdapter(Context context, List<Item> menuItems) {
         this.context = context;
         this.items = new ArrayList<>(menuItems);
+        this.selectedItems = new ArrayList<>();
     }
 
     @NonNull
@@ -41,20 +44,41 @@ public class MenuRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         Item item = items.get(position);
-//        holder.myTextView.setText(animal);
         TextView itemNameTV = (TextView) holder.itemView.findViewById(R.id.menu_item_name_TV);
+        TextView itemDescriptionTV = (TextView) holder.itemView.findViewById(R.id.menu_item_description_TV);
         TextView itemPriceTV = (TextView) holder.itemView.findViewById(R.id.menu_item_price_TV);
-        TextView itemIsInStockTV = (TextView) holder.itemView.findViewById(R.id.menu_item_inStock_TV);
 
         itemNameTV.setText(item.getName());
-        itemPriceTV.setText("" + item.getPrice());
-        itemNameTV.setText("" + item.isInStock());
+        itemDescriptionTV.setText(item.getDescription());
+        itemPriceTV.setText(Integer.toString((int)item.getPrice()) + "₪");
 
-        // TODO: add OnClickListener to button
+        Button buttonAddRemove = (Button) holder.itemView.findViewById(R.id.btn_add_to_order);
+        buttonAddRemove.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (selectedItems.contains(item)) {
+                    selectedItems.remove(item);
+                    buttonAddRemove.setText("ADD TO ORDER");
+                }
+                else {
+                    selectedItems.add(item);
+                    buttonAddRemove.setText("REMOVE FROM ORDER");
+                }
+            }
+        });
     }
 
     @Override
     public int getItemCount() {
         return items.size();
+    }
+
+    public void addItem(Item item) {
+        if (item == null) return;
+        this.items.add(item);
+    }
+
+    public List<Item> getSelectedItems() {
+        return selectedItems;
     }
 }

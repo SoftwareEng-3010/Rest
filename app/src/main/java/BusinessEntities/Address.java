@@ -17,12 +17,11 @@ public class Address {
 
     private String city;
     private String street;
-
-    @PropertyName("building_number") // Presented in the database with this name
     private String buildingNumber;
 
+    // Empty constructor is required by Firebase method .toObject()
     public Address() {
-        // Empty constructor is required by Firebase method .toObject()
+
     }
 
     public Address(String city, String street, String buildingNumber) {
@@ -50,18 +49,6 @@ public class Address {
         initFromJSONString(json.toString());
     }
 
-    private void initFromJSONString(String jsonString) {
-        try {
-            JSONObject json = new JSONObject(jsonString);
-            Log.e(TAG, "Initializing Address with JSON: " + jsonString);
-            this.city = json.getString("city");
-            this.street = json.getString("street");
-            this.buildingNumber = json.getString("building_number");
-        }
-        catch (JSONException e) {
-            Log.e(TAG, e.getMessage());
-        }
-    }
 
     public Address(Address other) {
         this.city = other.city;
@@ -78,7 +65,6 @@ public class Address {
         return street;
     }
 
-    @PropertyName("building_number")
     public String getBuildingNumber() {
         return buildingNumber;
     }
@@ -87,7 +73,7 @@ public class Address {
     public String toString() {
         return city +
                 ", " + street +
-                ", " + buildingNumber;
+                " " + buildingNumber;
     }
 
     @Override
@@ -96,5 +82,18 @@ public class Address {
         if (o == null || getClass() != o.getClass()) return false;
         Address address = (Address) o;
         return buildingNumber.equals(address.buildingNumber) && city.equals(address.city) && street.equals(address.street);
+    }
+
+    private void initFromJSONString(String jsonString) {
+        try {
+            JSONObject json = new JSONObject(jsonString);
+            Log.e(TAG, "Initializing Address with JSON: " + jsonString);
+            this.city = json.getString("city");
+            this.street = json.getString("street");
+            this.buildingNumber = json.getString("building_number");
+        }
+        catch (JSONException e) {
+            Log.e(TAG, e.getMessage());
+        }
     }
 }

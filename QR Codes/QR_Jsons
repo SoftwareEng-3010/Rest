@@ -15,7 +15,7 @@
         "street": "Haro'e",
         "building_number": 3
     },
-    "table_num": 2
+        "table_num": 2
 }
 
 {
@@ -39,12 +39,8 @@
 }
 
 {
-    "restaurant_id": "BKxoYnZGNLOghk9qCzvj",
-    "branch_address": {
-        "city": "Tel Aviv",
-        "street": "Ben Yehuda",
-        "building_number": 12
-    },
+    "restaurant_id": "iPTADbkWEoxft8ZlDYfA",
+    "branch_id": "s3nlVyN8qJKSFRgw4q7g",
     "table_num": 1
 }
 
@@ -77,7 +73,3 @@
     },
     "table_num": 2
 }
-
-
-
-
