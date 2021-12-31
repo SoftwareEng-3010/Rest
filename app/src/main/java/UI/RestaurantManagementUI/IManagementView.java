@@ -1,12 +1,12 @@
 package UI.RestaurantManagementUI;
 
+import androidx.fragment.app.Fragment;
+
 import BusinessEntities.Branch;
 
 public interface IManagementView {
 
-    public void beforeMoveToHomeScreen(Branch branch);
-    public void beforeMoveToServiceScreen();
-    public void beforeMoveToKitchen();
+    public void loadFragment(Fragment fragment);
 
     public void onDataFailure(String message);
 }

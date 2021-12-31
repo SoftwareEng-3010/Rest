@@ -1,7 +1,10 @@
 package UI.RestaurantManagementUI.ServiceUnitsUI;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
@@ -11,17 +14,18 @@ import android.widget.Toast;
 
 import com.example.exercise_5.R;
 
+import API.Constants.Constants;
 import API.Views.SwipeGestureListener;
+import UI.CustomersUI.QRCodeActivity;
 import UI.OnSwipeTouchListener;
 
-public class ServiceStaffFragment extends Fragment implements SwipeGestureListener {
+public class ManagementHomeFragment extends Fragment implements SwipeGestureListener {
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        View v = inflater.inflate(R.layout.fragment_service_staff, container, false);
+        View v = inflater.inflate(R.layout.fragment_management_home, container, false);
 
         v.setOnTouchListener(new OnSwipeTouchListener(getContext(), this));
 
@@ -34,13 +38,19 @@ public class ServiceStaffFragment extends Fragment implements SwipeGestureListen
         getActivity().getSupportFragmentManager()
                 .beginTransaction()
                 .setCustomAnimations(R.anim.fade_in, R.anim.fade_out)
-                .replace(R.id.frame_layout_management, new ManagementHomeFragment())
+                .replace(R.id.frame_layout_management, new ServiceStaffFragment())
                 .commit();
+        moveToQRCodeActivity();
     }
 
     @Override
     public void onSwipeRight() {
         Toast.makeText(getContext(), "Swipe right", Toast.LENGTH_SHORT).show();
+        getActivity().getSupportFragmentManager()
+                .beginTransaction()
+                .setCustomAnimations(R.anim.fade_in, R.anim.fade_out)
+                .replace(R.id.frame_layout_management, new ServiceStaffFragment())
+                .commit();
     }
 
     @Override
@@ -51,5 +61,11 @@ public class ServiceStaffFragment extends Fragment implements SwipeGestureListen
     @Override
     public void onSwipeBottom() {
         Toast.makeText(getContext(), "Swipe down", Toast.LENGTH_SHORT).show();
+    }
+
+    private void moveToQRCodeActivity() {
+        Intent qrActivity = new Intent(getContext(), QRCodeActivity.class);
+        qrActivity.putExtra("user_type", Constants.USER_TYPE_BRANCH_MANAGER);
+        startActivity(qrActivity);
     }
 }
