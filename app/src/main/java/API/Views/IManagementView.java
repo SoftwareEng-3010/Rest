@@ -1,4 +1,4 @@
-package UI.RestaurantManagementUI;
+package API.Views;
 
 import androidx.fragment.app.Fragment;
 

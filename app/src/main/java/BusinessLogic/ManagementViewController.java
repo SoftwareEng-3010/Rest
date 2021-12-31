@@ -1,16 +1,18 @@
-package UI.RestaurantManagementUI;
+package BusinessLogic;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import API.Controllers.IManagementViewController;
 import API.Database.DatabaseRequestCallback;
+import API.Views.IManagementView;
 import BusinessEntities.Branch;
 import DataAccessLayer.RestDB;
 import UI.RestaurantManagementUI.ServiceUnitsUI.HomeFragment;
 import UI.RestaurantManagementUI.ServiceUnitsUI.KitchenFragment;
 import UI.RestaurantManagementUI.ServiceUnitsUI.ServiceFragment;
 
-public class ManagementViewController implements IManagementViewController{
+public class ManagementViewController implements IManagementViewController {
 
     private final String TAG = "ManagementViewController";
     private IManagementView managementView;

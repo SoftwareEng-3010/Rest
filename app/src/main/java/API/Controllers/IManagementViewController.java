@@ -1,4 +1,4 @@
-package UI.RestaurantManagementUI;
+package API.Controllers;
 
 public interface IManagementViewController {
 
