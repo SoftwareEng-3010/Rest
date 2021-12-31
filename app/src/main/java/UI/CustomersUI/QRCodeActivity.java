@@ -71,7 +71,7 @@ public class QRCodeActivity extends AppCompatActivity implements SwipeGestureLis
         int userType = getIntent().getIntExtra("user_type", -1);
 
         if (userType == Constants.USER_TYPE_BRANCH_MANAGER) {
-            new OnSwipeTouchListener(this, this);
+
         }
     }
 
@@ -116,6 +116,7 @@ public class QRCodeActivity extends AppCompatActivity implements SwipeGestureLis
                 Intent moveToLoginActivity =
                         new Intent(QRCodeActivity.this, LoginActivity.class);
                 startActivity(moveToLoginActivity);
+                finish();
             }
         });
 
