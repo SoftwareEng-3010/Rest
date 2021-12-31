@@ -1,4 +1,4 @@
-package UI.login.view;
+package UI.LoginUI;
 
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -20,16 +20,17 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.exercise_5.R;
 import com.google.firebase.auth.FirebaseAuth;
 
-import API.BusinessEntitiesInterface.Auth.IBranchManagerUser;
-import API.BusinessEntitiesInterface.Auth.IUser;
+import API.Models.IBranchManagerUser;
+import API.Models.IUser;
 import API.Constants.Constants;
+import API.Views.ILoginView;
 import DataAccessLayer.RestDB;
 import UI.CustomersUI.QRCodeActivity;
 import UI.RestaurantManagementUI.ManagementMainActivity;
-import UI.login.controller.ILoginViewController;
-import UI.login.controller.LoginViewController;
+import API.Controllers.ILoginViewController;
+import BusinessLogic.LoginViewController;
 
-public class LoginActivity extends AppCompatActivity implements ILoginView{
+public class LoginActivity extends AppCompatActivity implements ILoginView {
 
     private static final String TAGCredentials = "EmailPassword";
     private static final String TAG = "LoginActivity";
@@ -154,21 +155,27 @@ public class LoginActivity extends AppCompatActivity implements ILoginView{
         if (getRadioBtnIndexAndSetupUI() == Constants.USER_TYPE_CUSTOMER) {
             // Regular customer user: Navigate to QRActivity
 
+            if (user.getType() != Constants.USER_TYPE_CUSTOMER) {
+                moveToBranchManagementUI((IBranchManagerUser) user, true);
+                return;
+            }
+
             moveToCustomerUI(user.getType());
         }
 
         else if(getRadioBtnIndexAndSetupUI() == Constants.USER_TYPE_BRANCH_MANAGER) {
+            // If is a Regular `Customer` user and tries to login as manager
             if (user.getType() != Constants.USER_TYPE_BRANCH_MANAGER) {
                 showAlert(new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        moveToCustomerUI(user.getType()); // type = 0
+                        moveToCustomerUI(user.getType()); // type = 0 (Customer user logged in as manager)
                     }
                 });
                 return;
             }
             // Branch manager user is connected: Navigate to Branch management UI
-            moveToBranchManagementUI((IBranchManagerUser) user);
+            moveToBranchManagementUI((IBranchManagerUser) user, false);
         }
 
         else {
@@ -186,7 +193,6 @@ public class LoginActivity extends AppCompatActivity implements ILoginView{
 
     @Override
     public void onCreateAccountSuccess(String message) {
-        mAuth.signOut(); // Make sure that login will work again.
         // This is the only .signOut() usage so far
         hideProgressBar();
         // Sign in again immediately:
@@ -201,7 +207,7 @@ public class LoginActivity extends AppCompatActivity implements ILoginView{
         hideProgressBar();
     }
 
-    private void moveToBranchManagementUI(@Nullable IBranchManagerUser user) {
+    private void moveToBranchManagementUI(@Nullable IBranchManagerUser user, boolean isCustomer) {
 //        Toast.makeText(this, "Should now navigate to BranchManagementUI", Toast.LENGTH_SHORT).show();
 
         if (user == null)
@@ -214,7 +220,9 @@ public class LoginActivity extends AppCompatActivity implements ILoginView{
 
         moveToManagementActivity.putExtra("manager_uid", user.getUid());
         moveToManagementActivity.putExtra("user_type", user.getType());
-        moveToManagementActivity.putExtra("branch_uid", user.getBranchDocId());
+        moveToManagementActivity.putExtra("branch_id", user.getBranchDocId());
+        moveToManagementActivity.putExtra("rest_id", user.getRestaurantDocId());
+        moveToManagementActivity.putExtra("is_manager_logged_in_as_customer", isCustomer);
 
         startActivity(moveToManagementActivity);
         finish();

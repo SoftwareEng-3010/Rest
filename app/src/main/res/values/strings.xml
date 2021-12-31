@@ -30,6 +30,16 @@
     <string name="login_failed">"Login failed"</string>
     <string name="logout_manager">התנתק</string>
     <string name="move_to_management_mode">מעבר למצב מנהל</string>
+    <string name="greeting_he">ברוך הבא, \n</string>
+    <string name="btn_edit_branch_fragment">מסך בית</string>
+    <string name="btn_service_staff_fragment">מסך מלצרים</string>
+    <string name="btn_kitchen_fragment">מסך מטבח</string>
+    <string name="button">Button</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="service_staff_ui_fragment">מסך מלצרים</string>
+    <string name="management_home_screen">מסך בית - ניהול המסעדה</string>
+    <string name="managment_kitchen_fragment">מסך ניהול מטבח</string>
     <!-- Menu List Item -->
 
 </resources>

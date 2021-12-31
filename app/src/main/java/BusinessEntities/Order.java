@@ -5,7 +5,7 @@ import com.google.firebase.firestore.DocumentId;
 import java.util.ArrayList;
 import java.util.List;
 
-import API.BusinessEntitiesInterface.IOrder;
+import API.Models.IOrder;
 
 public class Order implements IOrder {
 

@@ -1,4 +1,4 @@
-package API.BusinessEntitiesInterface;
+package API.Models;
 
 import java.util.List;
 

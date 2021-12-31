@@ -1,4 +1,4 @@
-package API.BusinessEntitiesInterface.Auth;
+package API.Models;
 
 public interface ICustomerUser extends IUser {
 

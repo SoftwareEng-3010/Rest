@@ -1,4 +1,4 @@
-package UI;
+package UI.LoginUI;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -13,21 +13,21 @@ import com.example.exercise_5.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-import API.BusinessEntitiesInterface.Auth.IBranchManagerUser;
-import API.BusinessEntitiesInterface.Auth.ICustomerUser;
-import API.BusinessEntitiesInterface.Auth.IUser;
-import API.BusinessEntitiesInterface.IServiceUnit;
+import API.Models.IBranchManagerUser;
+import API.Models.IUser;
 import API.Constants.Constants;
 import API.Database.DatabaseRequestCallback;
 import DataAccessLayer.RestDB;
 import UI.CustomersUI.QRCodeActivity;
 import UI.RestaurantManagementUI.ManagementMainActivity;
-import UI.login.view.LoginActivity;
+import UI.LoginUI.LoginActivity;
 
 @SuppressLint("CustomSplashScreen")
 public class SplashActivity extends AppCompatActivity implements DatabaseRequestCallback {
 
     private final String TAG = "SplashActivity";
+
+    private FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,13 +38,17 @@ public class SplashActivity extends AppCompatActivity implements DatabaseRequest
     @Override
     protected void onStart() {
         super.onStart();
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
+        mAuth = FirebaseAuth.getInstance();
+
+        FirebaseUser user = mAuth.getCurrentUser();
 
         if (user == null) {
             Intent loginActivity = new Intent(this, LoginActivity.class);
             startActivity(loginActivity);
             finish();
         }
+
         else {
 
             RestDB.getInstance()
@@ -56,8 +60,8 @@ public class SplashActivity extends AppCompatActivity implements DatabaseRequest
     public void onObjectReturnedFromDB(@Nullable Object obj) {
         if (obj == null) {
             Toast.makeText(this, "IUser object is null", Toast.LENGTH_SHORT).show();
-            Intent qrActivity = new Intent(this, LoginActivity.class);
-            startActivity(qrActivity);
+            Intent loginActivity = new Intent(this, LoginActivity.class);
+            startActivity(loginActivity);
             finish();
             return;
         }
@@ -80,7 +84,8 @@ public class SplashActivity extends AppCompatActivity implements DatabaseRequest
         Intent managementMainActivity = new Intent(this, ManagementMainActivity.class);
         managementMainActivity.putExtra("user_type", manager.getType());
         managementMainActivity.putExtra("manager_uid", manager.getUid());
-        managementMainActivity.putExtra("branch_uid", manager.getBranchDocId());
+        managementMainActivity.putExtra("branch_id", manager.getBranchDocId());
+        managementMainActivity.putExtra("rest_id", manager.getRestaurantDocId());
         startActivity(managementMainActivity);
         finish();
     }

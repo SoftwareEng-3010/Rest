@@ -2,9 +2,9 @@ package API;
 
 import androidx.annotation.NonNull;
 
-import API.BusinessEntitiesInterface.IOrder;
+import API.Models.IOrder;
 
-public interface OrderListener {
+public interface IOrderHandler {
 
     public void onOrderReceived(@NonNull IOrder order);
 }

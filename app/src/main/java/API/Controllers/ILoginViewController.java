@@ -1,4 +1,4 @@
-package UI.login.controller;
+package API.Controllers;
 
 public interface ILoginViewController {
 

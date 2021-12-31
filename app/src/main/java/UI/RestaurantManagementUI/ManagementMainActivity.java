@@ -1,71 +1,119 @@
 package UI.RestaurantManagementUI;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.widget.TextView;
+import android.view.View;
+import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.Toast;
 
 import com.example.exercise_5.R;
 
 import API.Constants.Constants;
-import DataAccessLayer.RestDB;
+import API.Controllers.IManagementViewController;
+import API.Views.IManagementView;
+import BusinessLogic.ManagementViewController;
+import UI.CustomersUI.QRCodeActivity;
 import UI.DataActivity.DataActivity;
+import UI.RestaurantManagementUI.ServiceUnitsUI.HomeFragment;
+import UI.RestaurantManagementUI.ServiceUnitsUI.ServiceFragment;
 
-public class ManagementMainActivity extends AppCompatActivity {
+public class ManagementMainActivity extends AppCompatActivity implements IManagementView {
 
-    private TextView textView;
+    private FrameLayout frameLayout;
+
+    private IManagementViewController viewController;
+    private Fragment serviceStaffFragment;
+    private Fragment managementHomeFragment;
+    private Button btnHome;
+    private Button btnService;
+    private Button btnKitchen;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_management_main);
 
-        textView = (TextView) findViewById(R.id.textView);
+        // Check if the manager have signed in as a customer:
+        boolean manager_is_logged_in_as_customer = getIntent()
+                .getBooleanExtra("is_manager_logged_in_as_customer", false);
+
+        if (manager_is_logged_in_as_customer) {
+            moveToQRCodeActivity();
+        }
+
+        init();
+    }
+
+
+    private void moveToDataActivity() {
+//        if (branchUid == null) {
+            Intent dataActivity = new Intent(this, DataActivity.class);
+            startActivity(dataActivity);
+//        }
+    }
+
+    @Override
+    public void loadFragment(Fragment fragment) {
+        getSupportFragmentManager()
+                .beginTransaction()
+                .setCustomAnimations(R.anim.fade_in, R.anim.fade_out)
+                .replace(R.id.frame_layout_management, fragment)
+                .commit();
+    }
+
+    @Override
+    public void onDataFailure(String message) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+    }
+
+
+    private void init() {
+
+        managementHomeFragment = new HomeFragment();
+        serviceStaffFragment = new ServiceFragment();
+
 
         String managerUid = getIntent().getStringExtra("manager_uid");
-        String branchUid = getIntent().getStringExtra("branch_uid");
-        int userType = getIntent().getIntExtra("user_type", -1);
+        String branchId = getIntent().getStringExtra("branch_id");
+        String restId = getIntent().getStringExtra("rest_id");
 
 
+        frameLayout = (FrameLayout) findViewById(R.id.frame_layout_management);
 
-        if (userType == -1) {
-            Toast.makeText(this, "userType == -1", Toast.LENGTH_SHORT).show();
-        }
+        viewController = new ManagementViewController(this, restId, branchId);
 
-        setTextOnUI(userType);
+        btnHome = (Button) findViewById(R.id.btn_management_home);
+        btnService = (Button) findViewById(R.id.btn_management_service);
+        btnKitchen = (Button) findViewById(R.id.btn_management_kitchen);
 
-//        if (branchUid == null) {
-//            Intent dataActivity = new Intent(this, DataActivity.class);
-//            startActivity(dataActivity);
-//        }
-
+        btnHome.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                viewController.onHomeButtonClicked();
+            }
+        });
+        btnService.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                viewController.onServiceButtonClicked();
+            }
+        });
+        btnKitchen.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                viewController.onKitchenButtonClicked();
+            }
+        });
     }
 
-
-
-    private void setTextOnUI(int userType) {
-        switch (userType) {
-            case Constants
-                    .USER_TYPE_BRANCH_MANAGER:
-                textView.setText("Hello, Manager!");
-                break;
-
-            case Constants
-                    .USER_TYPE_BRANCH_MANAGER2:
-                textView.setText("Hello, Second Manager!");
-                break;
-
-            case Constants
-                    .USER_TYPE_SERVICE:
-                textView.setText("Hello, Waiter / Waitress!");
-                break;
-
-            case Constants
-                    .USER_TYPE_KITCHEN:
-                textView.setText("Hello, Kitchen!");
-                break;
-        }
+    private void moveToQRCodeActivity() {
+        Intent qrActivity = new Intent(this, QRCodeActivity.class);
+        qrActivity.putExtra("user_type", Constants.USER_TYPE_BRANCH_MANAGER);
+        startActivity(qrActivity);
     }
+
 }

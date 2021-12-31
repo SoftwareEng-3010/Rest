@@ -2,7 +2,7 @@ package BusinessEntities;
 
 import com.google.firebase.firestore.PropertyName;
 
-import API.BusinessEntitiesInterface.Auth.IUser;
+import API.Models.IUser;
 
 public class User implements IUser {
 

@@ -1,7 +1,11 @@
 package API.Database;
 
-import com.google.firebase.auth.FirebaseUser;
+import androidx.annotation.NonNull;
 
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.EventListener;
+
+import API.IOrderListener;
 import BusinessEntities.Restaurant;
 
 /**
@@ -30,7 +34,19 @@ public interface Database {
      * @param callBack - A callback method, returns the required object to the caller after
      *                 the object comes back from the Firestore Database
      */
-    public void getBranch(String branchId, DatabaseRequestCallback callBack);
+//    public void getBranch(@NonNull String branchId, DatabaseRequestCallback callBack);
+
+    /**
+     * Get a `Branch` object from the database.
+     *
+     * @param restId - Restaurant document id.
+     *
+     * @param branchId - Corresponding document id of the required branch
+     *
+     * @param callBack - A callback method, returns the required object to the caller after
+     *                 the object comes back from the Firestore Database
+     */
+    public void getBranch(@NonNull String restId, @NonNull String branchId, DatabaseRequestCallback callBack);
 
     /**
      * Get a `Menu` object from the database.
@@ -87,4 +103,6 @@ public interface Database {
     public void pushOrder(String orderId, OnDataSentToDB callback);
 
     public void getOrder(String orderId, DatabaseRequestCallback callback);
+
+    public void attachOrderListener(IOrderListener listener);
 }
