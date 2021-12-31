@@ -216,7 +216,8 @@ public class LoginActivity extends AppCompatActivity implements ILoginView {
 
         moveToManagementActivity.putExtra("manager_uid", user.getUid());
         moveToManagementActivity.putExtra("user_type", user.getType());
-        moveToManagementActivity.putExtra("branch_uid", user.getBranchDocId());
+        moveToManagementActivity.putExtra("branch_id", user.getBranchDocId());
+        moveToManagementActivity.putExtra("rest_id", user.getRestaurantDocId());
 
         startActivity(moveToManagementActivity);
         finish();

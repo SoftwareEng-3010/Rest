@@ -4,17 +4,14 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
 import android.widget.FrameLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.exercise_5.R;
 
 import API.Constants.Constants;
-import API.Views.IManagementView;
 import API.Views.SwipeGestureListener;
+import BusinessEntities.Branch;
 import UI.CustomersUI.QRCodeActivity;
 import UI.DataActivity.DataActivity;
 import UI.OnSwipeTouchListener;
@@ -23,6 +20,7 @@ public class ManagementMainActivity extends AppCompatActivity implements IManage
 
     private FrameLayout frameLayout;
 
+    private IManagementViewController viewController;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,31 +28,14 @@ public class ManagementMainActivity extends AppCompatActivity implements IManage
         setContentView(R.layout.activity_management_main);
 
         String managerUid = getIntent().getStringExtra("manager_uid");
-        String branchUid = getIntent().getStringExtra("branch_uid");
-        int userType = getIntent().getIntExtra("user_type", -1);
-
-        if (userType == -1) {
-            Toast.makeText(this, "userType == -1", Toast.LENGTH_SHORT).show();
-        }
+        String branchId = getIntent().getStringExtra("branch_id");
+        String restId = getIntent().getStringExtra("rest_id");
 
         frameLayout = (FrameLayout) findViewById(R.id.frame_layout_management);
 
         frameLayout.setOnTouchListener(new OnSwipeTouchListener(this, this));
-    }
 
-    @Override
-    public void navigateToHomeScreen() {
-
-    }
-
-    @Override
-    public void navigateToServiceScreen() {
-
-    }
-
-    @Override
-    public void navigateToKitchenScreen() {
-
+        viewController = new ManagementViewController(this, restId, branchId);
     }
 
     private void moveToDataActivity() {
@@ -85,5 +66,26 @@ public class ManagementMainActivity extends AppCompatActivity implements IManage
     @Override
     public void onSwipeBottom() {
         Toast.makeText(this, "Swipe down", Toast.LENGTH_SHORT).show();
+    }
+
+
+    @Override
+    public void beforeMoveToHomeScreen(Branch branch) {
+        Toast.makeText(this, "Branch address: " + branch.getAddress(), Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void beforeMoveToServiceScreen() {
+
+    }
+
+    @Override
+    public void beforeMoveToKitchen() {
+
+    }
+
+    @Override
+    public void onDataFailure(String message) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
 }

@@ -97,7 +97,7 @@ public class BranchViewActivity extends AppCompatActivity {
 
     public void getBranchAndMenu(String restId, String branchId, String menuPath) {
 
-        rdb.getBranch(branchId, new DatabaseRequestCallback() {
+        rdb.getBranch(restId, branchId, new DatabaseRequestCallback() {
             @Override
             public void onObjectReturnedFromDB(@Nullable Object obj) {
                 branch = (Branch) obj;

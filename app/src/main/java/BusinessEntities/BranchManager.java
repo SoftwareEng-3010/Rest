@@ -10,11 +10,21 @@ public class BranchManager implements IBranchManagerUser {
     private String id;
     private int type;
     private String email;
+    @PropertyName("branch_id")
     private String branchDocIdBeingManaged;
+    @PropertyName("rest_id")
+    private String restDocIdBeingManaged;
 
     public BranchManager() {}
 
     @Override
+    @PropertyName("rest_id")
+    public String getRestaurantDocId() {
+        return this.restDocIdBeingManaged;
+    }
+
+    @Override
+    @PropertyName("branch_id")
     public String getBranchDocId() {
         return branchDocIdBeingManaged;
     }

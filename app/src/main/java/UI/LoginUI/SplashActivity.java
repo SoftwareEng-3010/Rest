@@ -84,7 +84,8 @@ public class SplashActivity extends AppCompatActivity implements DatabaseRequest
         Intent managementMainActivity = new Intent(this, ManagementMainActivity.class);
         managementMainActivity.putExtra("user_type", manager.getType());
         managementMainActivity.putExtra("manager_uid", manager.getUid());
-        managementMainActivity.putExtra("branch_uid", manager.getBranchDocId());
+        managementMainActivity.putExtra("branch_id", manager.getBranchDocId());
+        managementMainActivity.putExtra("rest_id", manager.getRestaurantDocId());
         startActivity(managementMainActivity);
         finish();
     }

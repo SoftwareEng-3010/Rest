@@ -24,6 +24,7 @@ import API.Database.Database;
 import API.Database.DatabaseRequestCallback;
 import API.Database.OnDataSentToDB;
 import API.IOrderListener;
+import API.Models.IBranchManagerUser;
 import API.Models.IUser;
 import BusinessEntities.Branch;
 import BusinessEntities.BranchManager;
@@ -97,49 +98,28 @@ public class RestDB implements Database {
                 });
     }
 
+
     @Override
-    public void getBranch(String branchId, DatabaseRequestCallback callBack) {
+    public void getBranch(@NonNull String restId, @NonNull String branchId, DatabaseRequestCallback callBack) {
 
-        restCollection.get().addOnCompleteListener(
-                new OnCompleteListener<QuerySnapshot>() {
+        restCollection.document(restId)
+                .collection(BRANCHES_COLLECTION_NAME)
+                .document(branchId)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                     @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                         if (task.isSuccessful()) {
-                            List<DocumentSnapshot> restaurantDocs = task.getResult().getDocuments();
-                            for (DocumentSnapshot doc : restaurantDocs) {
-                                restCollection.document(doc.getId())
-                                        .collection(BRANCHES_COLLECTION_NAME).get()
-                                        .addOnCompleteListener(
-                                                new OnCompleteListener<QuerySnapshot>() {
-                                                    @Override
-                                                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
 
-                                                        if (task.isSuccessful()) {
-                                                            List<DocumentSnapshot> branchDocs = task.getResult().getDocuments();
+                            callBack.onObjectReturnedFromDB(task.getResult().toObject(Branch.class));
+                        }
 
-                                                            for (DocumentSnapshot doc : branchDocs) {
-                                                                if (branchId.equals(doc.getId())) {
-                                                                    callBack.onObjectReturnedFromDB(
-                                                                            doc.toObject(Branch.class)
-                                                                    );
-                                                                }
-                                                            }
-                                                            callBack.onObjectReturnedFromDB(null);
-                                                        } else {
-                                                            // Task unsuccessful
-                                                            callBack.onObjectReturnedFromDB(null);
-                                                        }
-                                                    }
-                                                }
-                                        );
-                            }
-                        } else if (null != task.getException()){
+                        else {
+                            // Task is not successful
                             callBack.onObjectReturnedFromDB(null);
-                            Log.e(TAG, task.getException().getMessage());
                         }
                     }
-                }
-        );
+                });
     }
 
     @Override
@@ -335,7 +315,8 @@ public class RestDB implements Database {
                            }
 
                            else if (user.getType() == Constants.USER_TYPE_BRANCH_MANAGER) {
-                               callback.onObjectReturnedFromDB(task.getResult().toObject(BranchManager.class));
+                               IBranchManagerUser manager = task.getResult().toObject(BranchManager.class);
+                               callback.onObjectReturnedFromDB(manager);
                            }
 
                            else if (user.getType() > Constants.USER_TYPE_BRANCH_MANAGER) {

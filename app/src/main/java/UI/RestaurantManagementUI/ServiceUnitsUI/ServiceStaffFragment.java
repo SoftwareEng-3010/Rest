@@ -20,8 +20,6 @@ public class ServiceStaffFragment extends Fragment{
         View v = inflater.inflate(R.layout.fragment_service_staff, container, false);
 
 
-
-
         return v;
     }
 }
