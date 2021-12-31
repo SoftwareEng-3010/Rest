@@ -1,20 +1,14 @@
 package UI.RestaurantManagementUI;
 
-import android.util.Log;
-
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import API.Database.Database;
 import API.Database.DatabaseRequestCallback;
 import BusinessEntities.Branch;
 import DataAccessLayer.RestDB;
-import UI.OnSwipeTouchListener;
-import UI.RestaurantManagementUI.ServiceUnitsUI.ManagementHomeFragment;
-import UI.RestaurantManagementUI.ServiceUnitsUI.ServiceStaffFragment;
+import UI.RestaurantManagementUI.ServiceUnitsUI.HomeFragment;
+import UI.RestaurantManagementUI.ServiceUnitsUI.KitchenFragment;
+import UI.RestaurantManagementUI.ServiceUnitsUI.ServiceFragment;
 
 public class ManagementViewController implements IManagementViewController{
 
@@ -44,7 +38,7 @@ public class ManagementViewController implements IManagementViewController{
 
                 else {
                     branch = (Branch) obj;
-                    homeFragment = new ManagementHomeFragment();
+                    homeFragment = new HomeFragment();
                     view.loadFragment(homeFragment);
                 }
             }
@@ -61,17 +55,16 @@ public class ManagementViewController implements IManagementViewController{
     @Override
     public void onServiceButtonClicked() {
         if (serviceFragment == null) {
-            this.serviceFragment = new ServiceStaffFragment();
+            this.serviceFragment = new ServiceFragment();
         }
         managementView.loadFragment(serviceFragment);
     }
 
     @Override
     public void onKitchenButtonClicked() {
-        Log.e("ManagementController", "awd");
-//        if (kitchenFragment == null) {
-//            this.kitchenFragment = new KitchenFragment();
-//        }
-//        managementView.loadFragment(kitchenFragment);
+        if (kitchenFragment == null) {
+            this.kitchenFragment = new KitchenFragment();
+        }
+        managementView.loadFragment(kitchenFragment);
     }
 }

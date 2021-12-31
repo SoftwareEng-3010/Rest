@@ -13,14 +13,12 @@ import android.widget.Toast;
 import com.example.exercise_5.R;
 
 import API.Constants.Constants;
-import API.Views.SwipeGestureListener;
 import UI.CustomersUI.QRCodeActivity;
 import UI.DataActivity.DataActivity;
-import UI.OnSwipeTouchListener;
-import UI.RestaurantManagementUI.ServiceUnitsUI.ManagementHomeFragment;
-import UI.RestaurantManagementUI.ServiceUnitsUI.ServiceStaffFragment;
+import UI.RestaurantManagementUI.ServiceUnitsUI.HomeFragment;
+import UI.RestaurantManagementUI.ServiceUnitsUI.ServiceFragment;
 
-public class ManagementMainActivity extends AppCompatActivity implements IManagementView, SwipeGestureListener {
+public class ManagementMainActivity extends AppCompatActivity implements IManagementView {
 
     private FrameLayout frameLayout;
 
@@ -56,24 +54,6 @@ public class ManagementMainActivity extends AppCompatActivity implements IManage
     }
 
     @Override
-    public void onSwipeLeft() {Toast.makeText(this, "Swipe right", Toast.LENGTH_SHORT).show();}
-
-    @Override
-    public void onSwipeRight() {
-        Toast.makeText(this, "Swipe right", Toast.LENGTH_SHORT).show();
-    }
-
-    @Override
-    public void onSwipeTop() {
-        Toast.makeText(this, "Swipe up", Toast.LENGTH_SHORT).show();
-    }
-
-    @Override
-    public void onSwipeBottom() {
-        Toast.makeText(this, "Swipe down", Toast.LENGTH_SHORT).show();
-    }
-
-    @Override
     public void loadFragment(Fragment fragment) {
         getSupportFragmentManager()
                 .beginTransaction()
@@ -90,8 +70,8 @@ public class ManagementMainActivity extends AppCompatActivity implements IManage
 
     private void init() {
 
-        managementHomeFragment = new ManagementHomeFragment();
-        serviceStaffFragment = new ServiceStaffFragment();
+        managementHomeFragment = new HomeFragment();
+        serviceStaffFragment = new ServiceFragment();
 
 
         String managerUid = getIntent().getStringExtra("manager_uid");

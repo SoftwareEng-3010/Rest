@@ -39,6 +39,7 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="service_staff_ui_fragment">מסך מלצרים</string>
     <string name="management_home_screen">מסך בית - ניהול המסעדה</string>
+    <string name="managment_kitchen_fragment">מסך ניהול מטבח</string>
     <!-- Menu List Item -->
 
 </resources>

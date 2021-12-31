@@ -14,14 +14,13 @@ import com.example.exercise_5.R;
 import API.Views.SwipeGestureListener;
 import UI.OnSwipeTouchListener;
 
-public class ServiceStaffFragment extends Fragment implements SwipeGestureListener {
-
-
+public class KitchenFragment extends Fragment implements SwipeGestureListener {
+    
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View v = inflater.inflate(R.layout.fragment_service_staff, container, false);
+        View v = inflater.inflate(R.layout.fragment_kitchen, container, false);
 
         v.setOnTouchListener(new OnSwipeTouchListener(getContext(), this));
 
@@ -34,22 +33,22 @@ public class ServiceStaffFragment extends Fragment implements SwipeGestureListen
         getActivity().getSupportFragmentManager()
                 .beginTransaction()
                 .setCustomAnimations(R.anim.fade_in, R.anim.fade_out)
-                .replace(R.id.frame_layout_management, new ManagementHomeFragment())
+                .replace(R.id.frame_layout_management, new ServiceFragment())
                 .commit();
     }
 
     @Override
     public void onSwipeRight() {
-        Toast.makeText(getContext(), "Swipe right", Toast.LENGTH_SHORT).show();
+
     }
 
     @Override
     public void onSwipeTop() {
-        Toast.makeText(getContext(), "Swipe up", Toast.LENGTH_SHORT).show();
+
     }
 
     @Override
     public void onSwipeBottom() {
-        Toast.makeText(getContext(), "Swipe down", Toast.LENGTH_SHORT).show();
+
     }
 }
