@@ -41,7 +41,7 @@ public class BranchesListViewActivity extends AppCompatActivity {
 
     private void setListViewAdapter() {
         // Extract restID from previous activity
-        String restID = getIntent().getStringExtra("restID");
+        String restID = getIntent().getStringExtra("rest_id");
 
 
         // Retrieve data from Database
@@ -55,7 +55,8 @@ public class BranchesListViewActivity extends AppCompatActivity {
                         ArrayAdapter<Branch> adapter = new BranchArrayAdapter(
                                 BranchesListViewActivity.this,
                                 R.layout.layout_branch_item,
-                                branches
+                                branches,
+                                restID
                         );
                         listView.setAdapter(adapter);
                     }

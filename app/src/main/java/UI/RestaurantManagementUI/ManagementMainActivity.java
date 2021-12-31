@@ -31,6 +31,13 @@ public class ManagementMainActivity extends AppCompatActivity implements IManage
         String branchId = getIntent().getStringExtra("branch_id");
         String restId = getIntent().getStringExtra("rest_id");
 
+        boolean manager_is_logged_in_as_customer = getIntent().getBooleanExtra("is_manager_logged_in_as_customer", false);
+
+        if (manager_is_logged_in_as_customer) {
+            moveToQRCodeActivity();
+        }
+
+
         frameLayout = (FrameLayout) findViewById(R.id.frame_layout_management);
 
         frameLayout.setOnTouchListener(new OnSwipeTouchListener(this, this));
@@ -47,10 +54,7 @@ public class ManagementMainActivity extends AppCompatActivity implements IManage
 
     @Override
     public void onSwipeLeft() {
-        Toast.makeText(this, "Swipe left", Toast.LENGTH_SHORT).show();
-        Intent qrActivity = new Intent(this, QRCodeActivity.class);
-        qrActivity.putExtra("user_type", Constants.USER_TYPE_BRANCH_MANAGER);
-        startActivity(qrActivity);
+        moveToQRCodeActivity();
     }
 
     @Override
@@ -87,5 +91,13 @@ public class ManagementMainActivity extends AppCompatActivity implements IManage
     @Override
     public void onDataFailure(String message) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+    }
+
+
+    private void moveToQRCodeActivity() {
+        Toast.makeText(this, "Swipe left", Toast.LENGTH_SHORT).show();
+        Intent qrActivity = new Intent(this, QRCodeActivity.class);
+        qrActivity.putExtra("user_type", Constants.USER_TYPE_BRANCH_MANAGER);
+        startActivity(qrActivity);
     }
 }

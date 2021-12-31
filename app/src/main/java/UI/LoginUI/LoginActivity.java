@@ -155,6 +155,11 @@ public class LoginActivity extends AppCompatActivity implements ILoginView {
         if (getRadioBtnIndexAndSetupUI() == Constants.USER_TYPE_CUSTOMER) {
             // Regular customer user: Navigate to QRActivity
 
+            if (user.getType() != Constants.USER_TYPE_CUSTOMER) {
+                moveToBranchManagementUI((IBranchManagerUser) user, true);
+                return;
+            }
+
             moveToCustomerUI(user.getType());
         }
 
@@ -164,13 +169,13 @@ public class LoginActivity extends AppCompatActivity implements ILoginView {
                 showAlert(new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        moveToCustomerUI(user.getType()); // type = 0
+                        moveToCustomerUI(user.getType()); // type = 0 (Customer user logged in as manager)
                     }
                 });
                 return;
             }
             // Branch manager user is connected: Navigate to Branch management UI
-            moveToBranchManagementUI((IBranchManagerUser) user);
+            moveToBranchManagementUI((IBranchManagerUser) user, false);
         }
 
         else {
@@ -188,7 +193,6 @@ public class LoginActivity extends AppCompatActivity implements ILoginView {
 
     @Override
     public void onCreateAccountSuccess(String message) {
-//        mAuth.signOut(); // Make sure that login will work again.
         // This is the only .signOut() usage so far
         hideProgressBar();
         // Sign in again immediately:
@@ -203,7 +207,7 @@ public class LoginActivity extends AppCompatActivity implements ILoginView {
         hideProgressBar();
     }
 
-    private void moveToBranchManagementUI(@Nullable IBranchManagerUser user) {
+    private void moveToBranchManagementUI(@Nullable IBranchManagerUser user, boolean isCustomer) {
 //        Toast.makeText(this, "Should now navigate to BranchManagementUI", Toast.LENGTH_SHORT).show();
 
         if (user == null)
@@ -218,6 +222,7 @@ public class LoginActivity extends AppCompatActivity implements ILoginView {
         moveToManagementActivity.putExtra("user_type", user.getType());
         moveToManagementActivity.putExtra("branch_id", user.getBranchDocId());
         moveToManagementActivity.putExtra("rest_id", user.getRestaurantDocId());
+        moveToManagementActivity.putExtra("is_manager_logged_in_as_customer", isCustomer);
 
         startActivity(moveToManagementActivity);
         finish();

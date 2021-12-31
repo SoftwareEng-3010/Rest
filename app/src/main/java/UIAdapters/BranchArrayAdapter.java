@@ -27,12 +27,14 @@ public class BranchArrayAdapter extends ArrayAdapter<Branch> {
     private Context context;
     private int resource;
     private List<Branch> branches;
+    private String restId;
 
-    public BranchArrayAdapter(@NonNull Context context, int resource, List<Branch> branches) {
+    public BranchArrayAdapter(@NonNull Context context, int resource, List<Branch> branches, String restId) {
         super(context, resource, branches);
-        this.branches = branches;
         this.context = context;
         this.resource = resource;
+        this.branches = branches;
+        this.restId = restId;
     }
 
     @Override
@@ -64,7 +66,10 @@ public class BranchArrayAdapter extends ArrayAdapter<Branch> {
 
                 String menuPath = branches.get(branchIndex).getMenuPath();
                 String branchId = branch.getDocId();
+                String restId = BranchArrayAdapter.this.restId;
 
+
+                moveToBranchViewActivity.putExtra(Constants.KEY_RESTAURANT_ID, restId);
                 moveToBranchViewActivity.putExtra(Constants.KEY_BRANCH_ID, branchId);
                 moveToBranchViewActivity.putExtra(Constants.KEY_MENU_PATH, menuPath);
                 getContext().startActivity(moveToBranchViewActivity);
