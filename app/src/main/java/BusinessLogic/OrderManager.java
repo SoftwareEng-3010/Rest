@@ -60,11 +60,13 @@ public class OrderManager implements IOrderController {
                 for (IServiceUnit unit : units) {
                     // If Kitchen order
                     if (unit.getServiceType() == Constants.USER_TYPE_KITCHEN)
-                        unit.onOrderReceived(kitchenOrder);
+                        if (!kitchenOrder.getOrderItems().isEmpty())
+                            unit.onOrderReceived(kitchenOrder);
 
                     // If Service order
                     if (unit.getServiceType() == Constants.USER_TYPE_SERVICE)
-                        unit.onOrderReceived(serviceOrder);
+                        if (!serviceOrder.getOrderItems().isEmpty())
+                            unit.onOrderReceived(serviceOrder);
                 }
             }
         }

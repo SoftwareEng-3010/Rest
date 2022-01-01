@@ -26,7 +26,7 @@ import BusinessEntities.Table;
 import DataAccessLayer.RestDB;
 import UIAdapters.BranchArrayAdapter;
 
-public class BranchesListViewActivity extends AppCompatActivity implements ActionListener {
+public class BranchesListViewActivity extends AppCompatActivity{
 
     private RestDB rdb;
     private ListView listView;
@@ -76,43 +76,5 @@ public class BranchesListViewActivity extends AppCompatActivity implements Actio
                         listView.setAdapter(adapter);
                     }
                 });
-    }
-
-    @Override
-    public void onAction(@NonNull Map<String, Object> data) {
-
-//            String restId = (String) data.get(Constants.KEY_RESTAURANT_ID),
-//                    branchId = (String) data.get(Constants.KEY_BRANCH_ID),
-//                    menuPath = (String) data.get(Constants.KEY_MENU_PATH);
-//        if (restId != null && branchId != null && menuPath != null) {
-//
-////            progressBar.setVisibility(View.VISIBLE);
-//            RestDB.getInstance().getBranch(
-//                    restId,
-//                    branchId,
-//                    new DatabaseRequestCallback() {
-//                        @Override
-//                        public void onObjectReturnedFromDB(@Nullable Object obj) {
-//
-////                            progressBar.setVisibility(View.INVISIBLE);
-//                            if (obj == null) {
-//                                Toast.makeText(BranchesListViewActivity.this, "Branch came back null", Toast.LENGTH_SHORT).show();
-//                            }
-//
-//                            else {
-//                                Toast.makeText(BranchesListViewActivity.this, "Ask user for a table number", Toast.LENGTH_SHORT).show();
-//                                Branch branch = (Branch) obj;
-//                                if (branch.getTables() == null) {Log.e(TAG, "No Tables");return;}
-//
-//                                tables = new ArrayList<>(branch.getTables());
-//                            }
-//
-//                            // select table number
-//                        }
-//                    });
-//        }
-//        else {
-//            Log.e(TAG, "Some branch data is missing");
-//        }
     }
 }

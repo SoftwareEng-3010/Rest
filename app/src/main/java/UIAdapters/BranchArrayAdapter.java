@@ -3,8 +3,6 @@ package UIAdapters;
 
 import android.content.Context;
 import android.content.Intent;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +12,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,7 +24,7 @@ import java.util.List;
 
 import API.Constants.Constants;
 import BusinessEntities.Branch;
-import UI.CustomersUI.ActionListener;
+import BusinessEntities.Table;
 import UI.CustomersUI.BranchViewActivity;
 //import UI.SimpleUserUI.BranchViewActivity;
 
@@ -98,79 +97,55 @@ public class BranchArrayAdapter extends ArrayAdapter<Branch>{
     }
 
     public void onFirstClick(View v) {
-        Toast.makeText(getContext(), "Clicked first time!", Toast.LENGTH_SHORT).show();
 
         LinearLayout layout = (LinearLayout)v.getParent();
 
         TextView textView = layout.findViewById(R.id.text_view_select_table_number);
         editTextTableNumber = layout.findViewById(R.id.edit_text_table_number);
 
-        editTextTableNumber.addTextChangedListener(
-                new TextWatcher() {
-                    @Override
-                    public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                        Log.e(TAG, "beforeTextChanged: " + i + ", " + i1 + ", " + i2);
-                    }
-
-                    @Override
-                    public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                        Log.e(TAG, "onTextChanged: " + i + ", " + i1 + ", " + i2);
-                    }
-
-                    @Override
-                    public void afterTextChanged(Editable editable) {
-                        Log.e(TAG, "Editable: " + editable.toString());
-
-                    }
-                }
-        );
-
         textView.setVisibility(View.VISIBLE);
         editTextTableNumber.setVisibility(View.VISIBLE);
 
+        ProgressBar progressBar = new ProgressBar(context);
+        progressBar.setVisibility(View.VISIBLE);
+
         ((Button) v).setText("המשך");
         v.setOnClickListener(this::onSecondClick);
-        ((View)v.getParent()).setOnFocusChangeListener(
-                new View.OnFocusChangeListener() {
-                    @Override
-                    public void onFocusChange(View view, boolean b) {
-                        if (b) {
-                            Toast.makeText(getContext(), "Focus is " + b, Toast.LENGTH_SHORT).show();
-                        }
-                        else {
-                            Toast.makeText(getContext(), "Focus is " + b, Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                }
-        );
     }
 
     public void onSecondClick(View v) {
-        Toast.makeText(getContext(), "Clicked second time!", Toast.LENGTH_SHORT).show();
 
         ListView parentView = (ListView) v.getParent().getParent();
         int branchIndex = parentView.indexOfChild((View) v.getParent());
-        moveToBranchViewActivity(branchIndex);
+
+        int tableNumber = Integer.parseInt(editTextTableNumber.getText().toString());
+        Branch branch = branches.get(branchIndex);
+
+        if (branch.getTables() == null) {
+            Log.e(TAG, "This branch has no tables!!! (" + branch.getDocId() + ")");
+            Toast.makeText(context, "This branch has no tables!!! (" + branch.getDocId() + ")", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        for (Table table : branch.getTables()) {
+            if (table.getTableNumber() == tableNumber) {
+                moveToBranchViewActivity(branch, tableNumber);
+                return;
+            }
+        }
+        Log.e(TAG, "No such table in branch " + branch.getDocId());
+        Toast.makeText(context, "No such table number", Toast.LENGTH_SHORT).show();
     }
 
-    private void moveToBranchViewActivity(int branchIndex) {
+    private void moveToBranchViewActivity(Branch branch, int tableNumber) {
         Intent moveToBranchViewActivity =
                 new Intent(getContext(), BranchViewActivity.class);
 
-//                Map<String, Object> data = new HashMap<>();
-
-        Branch branch = branches.get(branchIndex);
-
-        String menuPath = branches.get(branchIndex).getMenuPath();
         String branchId = branch.getDocId();
         String restId = BranchArrayAdapter.this.restId;
-        int tableNumber = Integer.parseInt(editTextTableNumber.getText().toString());
-
-//                BranchArrayAdapter.this.listener.onAction(data);
 
         moveToBranchViewActivity.putExtra(Constants.KEY_RESTAURANT_ID, restId);
         moveToBranchViewActivity.putExtra(Constants.KEY_BRANCH_ID, branchId);
-        moveToBranchViewActivity.putExtra(Constants.KEY_MENU_PATH, menuPath);
         moveToBranchViewActivity.putExtra(Constants.KEY_TABLE_NUMBER, tableNumber);
         getContext().startActivity(moveToBranchViewActivity);
     }

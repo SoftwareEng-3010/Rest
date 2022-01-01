@@ -53,15 +53,15 @@ public class BranchViewActivity extends AppCompatActivity {
         // Required data to receive a branch from Database
         restId = getIntent().getStringExtra(QRCode.KEY_RESTAURANT_ID);
         branchId = getIntent().getStringExtra(QRCode.KEY_BRANCH_ID);
-
-        // Must come from QRCodeActivity:
         tableNumber = getIntent().getIntExtra(QRCode.KEY_TABLE_NUMBER, -1);
+
         // Must come only from manual restaurant selection:
-        String menuPath = getIntent().getStringExtra("menu_path");
+        // TODO: 1/1/2022 Temporarily unneeded. Consider removing
+//        String menuPath = getIntent().getStringExtra("menu_path");
 
         // Get Branch from Database
-        getBranchAndMenu(restId, branchId, menuPath);
-        
+        getBranchAndMenu(restId, branchId);
+
     }
 
     private void setupUI() {
@@ -89,20 +89,10 @@ public class BranchViewActivity extends AppCompatActivity {
         buttonSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                for (Item i : menuAdapter.getSelectedItems()) {
-                    Log.d(TAG, i.getName());
-                }
-
-                Log.e(TAG, "Branch: " + branch);
-                Log.e(TAG, "Tables: " + branch.getTables());
-                Table table = branch.getTables().get(0);
-                Log.e(TAG, "Table: " + table);
-
-
                 RestDB.getInstance()
                         .sendOrder(
                         restId, branchId,
-                        new Order(menuAdapter.getSelectedItems(), table)
+                        new Order(menuAdapter.getSelectedItems(), branch.getTables().get(tableNumber))
                         , new OnDataSentToDB() {
                             @Override
                             public void onObjectWrittenToDB(boolean isTaskSuccessful) {
@@ -118,14 +108,14 @@ public class BranchViewActivity extends AppCompatActivity {
         });
     }
 
-    public void getBranchAndMenu(String restId, String branchId, String menuPath) {
+    public void getBranchAndMenu(String restId, String branchId) {
 
         rdb.getBranch(restId, branchId, new DatabaseRequestCallback() {
             @Override
             public void onObjectReturnedFromDB(@Nullable Object obj) {
                 branch = (Branch) obj;
                 if (branch != null) {
-                    rdb.getMenu(restId, branchId, menuPath,
+                    rdb.getMenu(restId, branchId, branch.getMenuPath(),
                             new DatabaseRequestCallback() {
                         @Override
                         public void onObjectReturnedFromDB(@Nullable Object obj) {
