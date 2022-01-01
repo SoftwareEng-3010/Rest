@@ -1,24 +1,37 @@
 package UI.RestaurantManagementUI.ServiceUnitsUI;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.Toast;
 
 import com.example.exercise_5.R;
 
 import API.Constants.Constants;
+import API.Controllers.IManagementViewController;
+import API.Views.IManagementView;
 import API.Views.SwipeGestureListener;
 import UI.CustomersUI.QRCodeActivity;
 import UI.OnSwipeTouchListener;
 
 public class HomeFragment extends Fragment implements SwipeGestureListener {
 
+    private Button btnHome;
+
+    private IManagementViewController controller;
+
+    public HomeFragment(IManagementViewController controller) {
+        this.controller = controller;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -27,7 +40,15 @@ public class HomeFragment extends Fragment implements SwipeGestureListener {
 
         v.setOnTouchListener(new OnSwipeTouchListener(getContext(), this));
 
+        btnHome = ((View)container.getParent()).findViewById(R.id.btn_management_home);
+
         return v;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        btnHome.setBackgroundColor(Color.WHITE);
     }
 
     @Override
@@ -39,11 +60,8 @@ public class HomeFragment extends Fragment implements SwipeGestureListener {
     @Override
     public void onSwipeRight() {
         Toast.makeText(getContext(), "Swipe right", Toast.LENGTH_SHORT).show();
-        getActivity().getSupportFragmentManager()
-                .beginTransaction()
-                .setCustomAnimations(R.anim.fade_in, R.anim.fade_out)
-                .replace(R.id.frame_layout_management, new ServiceFragment())
-                .commit();
+        btnHome.setBackgroundColor(Color.TRANSPARENT);
+        controller.onServiceButtonClicked();
     }
 
     @Override

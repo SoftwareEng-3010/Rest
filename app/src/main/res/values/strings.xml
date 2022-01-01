@@ -41,6 +41,9 @@
     <string name="management_home_screen">מסך בית - ניהול המסעדה</string>
     <string name="managment_kitchen_fragment">מסך ניהול מטבח</string>
     <string name="table_number_he">מספר שולחן:</string>
+    <string name="menu_item_edit_branch_he">עריכת הסניף</string>
+    <string name="menu_item_scan_qr_he">סרוק QRCode</string>
+    <string name="menu_item_my_branch_he">הסניף שלי</string>
     <!-- Menu List Item -->
 
 </resources>

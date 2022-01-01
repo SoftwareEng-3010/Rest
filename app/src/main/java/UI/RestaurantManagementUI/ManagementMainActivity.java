@@ -1,10 +1,14 @@
 package UI.RestaurantManagementUI;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
@@ -29,6 +33,8 @@ import UI.RestaurantManagementUI.ServiceUnitsUI.ServiceFragment;
 
 public class ManagementMainActivity extends AppCompatActivity implements IManagementView {
 
+    private final String TAG = "ManagementMain";
+
     private FrameLayout frameLayout;
 
     private IManagementViewController viewController;
@@ -51,24 +57,32 @@ public class ManagementMainActivity extends AppCompatActivity implements IManage
             moveToQRCodeActivity();
         }
 
-
         managerUid = getIntent().getStringExtra("manager_uid");
         branchId = getIntent().getStringExtra("branch_id");
         restId = getIntent().getStringExtra("rest_id");
 
-        if (restId == null) {
-            moveToDataActivity();
+        if (restId == null || branchId == null) {
+
+            if (restId == null) {Log.e(TAG, "restId is NULL!");}
+
+            if (branchId == null) {
+                new AlertDialog.Builder(this)
+                        .setCancelable(false)
+                        .setMessage("נראה שאין סניף שמנוהל על ידך במאגר הנתונים.\nהנך מועבר לעריכת פרטי הסניף שלך")
+                        .setNeutralButton("הבנתי", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                moveToDataActivity();
+                            }
+                        })
+                        .create()
+                        .show();
+            }
         }
 
         else {
             init();
         }
-    }
-
-
-    private void moveToDataActivity() {
-            Intent dataActivity = new Intent(this, DataActivity.class);
-            startActivity(dataActivity);
     }
 
     @Override
@@ -113,18 +127,24 @@ public class ManagementMainActivity extends AppCompatActivity implements IManage
         btnHome.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                btnService.setBackgroundColor(Color.TRANSPARENT);
+                btnKitchen.setBackgroundColor(Color.TRANSPARENT);
                 viewController.onHomeButtonClicked();
             }
         });
         btnService.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                btnHome.setBackgroundColor(Color.TRANSPARENT);
+                btnKitchen.setBackgroundColor(Color.TRANSPARENT);
                 viewController.onServiceButtonClicked();
             }
         });
         btnKitchen.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                btnService.setBackgroundColor(Color.TRANSPARENT);
+                btnHome.setBackgroundColor(Color.TRANSPARENT);
                 viewController.onKitchenButtonClicked();
             }
         });
@@ -136,4 +156,8 @@ public class ManagementMainActivity extends AppCompatActivity implements IManage
         startActivity(qrActivity);
     }
 
+    private void moveToDataActivity() {
+        Intent dataActivity = new Intent(this, DataActivity.class);
+        startActivity(dataActivity);
+    }
 }

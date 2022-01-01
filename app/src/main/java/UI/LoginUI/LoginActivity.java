@@ -269,6 +269,7 @@ public class LoginActivity extends AppCompatActivity implements ILoginView {
                         "\nא." +
                         "\nב." +
                         "\nג.")
+                .setCancelable(false)
                 .setNeutralButton("הבנתי", listener)
                 .create()
                 .show();

@@ -20,12 +20,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 import BusinessEntities.Item;
+import UI.DataActivity.Controller.DataViewController;
 import UIAdapters.MenuRecyclerViewAdapter;
 import ViewModels.MenuViewModel;
 
-public class CreateMenuFragment extends Fragment implements DataEditSubView{
+public class CreateMenuFragment extends Fragment {
 
     private final String TAG = "CreateMenuFragment";
+
+    private DataViewController viewController;
 
     private EditText editTextItemName;
     private EditText editTextItemDescription;
@@ -36,19 +39,16 @@ public class CreateMenuFragment extends Fragment implements DataEditSubView{
 
     private Button btnAddItemToMenu;
 
+
+    public CreateMenuFragment(DataViewController controller) {
+        this.viewController = controller;
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_create_menu, container, false);
-
-        Bundle dataBundle = getArguments();
-        if (dataBundle == null) {
-            Log.e(TAG, "Something went wrong....");
-            return null;
-        }
-
-        Log.e(TAG, "Bundle given from CreateBranchFragment:\n" + dataBundle.toString());
 
         editTextItemName = (EditText) view.findViewById(R.id.editTextItemNameCreateMenuFrag);
         editTextItemDescription = (EditText) view.findViewById(R.id.editTextItemDescriptionCreateMenuFrag);
@@ -79,11 +79,9 @@ public class CreateMenuFragment extends Fragment implements DataEditSubView{
 
                         if (editTextItemName.getText().toString().isEmpty()) {
                             editTextItemName.setBackgroundColor(getResources().getColor(errorColor));
-                        }
-                        else if(editTextItemPrice.getText().toString().isEmpty()) {
+                        } else if (editTextItemPrice.getText().toString().isEmpty()) {
                             editTextItemPrice.setBackgroundColor(getResources().getColor(errorColor));
-                        }
-                        else {
+                        } else {
 
                             String name = editTextItemName.getText().toString();
                             String description = editTextItemDescription.getText().toString();
@@ -105,10 +103,5 @@ public class CreateMenuFragment extends Fragment implements DataEditSubView{
         );
 
         return view;
-    }
-
-    @Override
-    public void nextFragment(Bundle bundle) {
-
     }
 }

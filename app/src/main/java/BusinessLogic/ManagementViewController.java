@@ -5,6 +5,9 @@ import android.util.Log;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import API.Controllers.IManagementViewController;
 import API.Database.DatabaseRequestCallback;
 import API.Views.IManagementView;
@@ -35,13 +38,14 @@ public class ManagementViewController implements IManagementViewController {
         RestDB.getInstance().attachOrderListener(restId, branchId,
                 new OrderManager(view.getServiceUnits()));
 
-        homeFragment = new HomeFragment();
-        serviceFragment = new ServiceFragment();
-        kitchenFragment = new KitchenFragment();
-
+        homeFragment = new HomeFragment(this);
+        serviceFragment = new ServiceFragment(this);
+        kitchenFragment = new KitchenFragment(this);
 
         RestDB.getInstance()
-                .getBranch(restId, branchId, new DatabaseRequestCallback() {
+                .getBranch(
+                        restId, branchId,
+                        new DatabaseRequestCallback() {
             @Override
             public void onObjectReturnedFromDB(@Nullable Object obj) {
                 if (obj == null) {
@@ -56,8 +60,6 @@ public class ManagementViewController implements IManagementViewController {
             }
         });
     }
-
-
 
     @Override
     public void onHomeButtonClicked() {
