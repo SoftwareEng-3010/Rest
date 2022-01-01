@@ -74,6 +74,12 @@ public class ManagementMainActivity extends AppCompatActivity implements IManage
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
 
+    /**
+     * This method returns some HARD-CODED service-unit types.
+     * This should be avoided by setting up different service-unit types
+     * under each branch in database and the make a request to get them.
+     * @return - A hard-coded List<> of IServiceUnit`s.
+     */
     @Override
     public List<IServiceUnit> getServiceUnits() {
         List<IServiceUnit> units = new ArrayList<>();

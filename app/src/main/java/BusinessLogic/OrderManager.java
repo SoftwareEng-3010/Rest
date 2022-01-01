@@ -42,10 +42,11 @@ public class OrderManager implements IOrderController {
                 IOrder order = doc.toObject(Order.class);
                 if (order == null) {Log.e(TAG, "Order is null"); return;}
 
+                // Copy the order (The only way to copy the document id of the order)
                 IOrder kitchenOrder = new Order(order);
-
                 IOrder serviceOrder = new Order(order);
 
+                // Discard any unnecessary item from each order
                 for (Item item : order.getOrderItems()) {
                     if ( ! item.getServiceUnit().equals("kitchen")) {
                         kitchenOrder.removeItem(item);
@@ -55,9 +56,7 @@ public class OrderManager implements IOrderController {
                     }
                 }
 
-                Log.e(TAG, "Kitchen order: \n" + kitchenOrder.toString());
-                Log.e(TAG, "Service order: \n" + serviceOrder.toString());
-
+                // Check the types of service units and let them handle the order:
                 for (IServiceUnit unit : units) {
                     // If Kitchen order
                     if (unit.getServiceType() == Constants.USER_TYPE_KITCHEN)
