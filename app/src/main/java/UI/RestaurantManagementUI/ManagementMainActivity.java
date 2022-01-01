@@ -36,6 +36,8 @@ public class ManagementMainActivity extends AppCompatActivity implements IManage
     private Button btnService;
     private Button btnKitchen;
 
+    private String managerUid, branchId, restId;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,15 +51,24 @@ public class ManagementMainActivity extends AppCompatActivity implements IManage
             moveToQRCodeActivity();
         }
 
-        init();
+
+        managerUid = getIntent().getStringExtra("manager_uid");
+        branchId = getIntent().getStringExtra("branch_id");
+        restId = getIntent().getStringExtra("rest_id");
+
+        if (restId == null) {
+            moveToDataActivity();
+        }
+
+        else {
+            init();
+        }
     }
 
 
     private void moveToDataActivity() {
-//        if (branchUid == null) {
             Intent dataActivity = new Intent(this, DataActivity.class);
             startActivity(dataActivity);
-//        }
     }
 
     @Override
@@ -90,11 +101,6 @@ public class ManagementMainActivity extends AppCompatActivity implements IManage
 
 
     private void init() {
-
-        String managerUid = getIntent().getStringExtra("manager_uid");
-        String branchId = getIntent().getStringExtra("branch_id");
-        String restId = getIntent().getStringExtra("rest_id");
-
 
         frameLayout = (FrameLayout) findViewById(R.id.frame_layout_management);
 

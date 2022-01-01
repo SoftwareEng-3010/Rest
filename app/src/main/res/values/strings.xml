@@ -40,6 +40,7 @@
     <string name="service_staff_ui_fragment">מסך מלצרים</string>
     <string name="management_home_screen">מסך בית - ניהול המסעדה</string>
     <string name="managment_kitchen_fragment">מסך ניהול מטבח</string>
+    <string name="table_number_he">מספר שולחן:</string>
     <!-- Menu List Item -->
 
 </resources>

@@ -4,6 +4,7 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="../../../../layout/custom_preview.xml" value="0.29739583333333336" />
+        <entry key="..\:/AndroidProjects/Rest/app/src/main/res/layout/activity_branch_scrollview.xml" value="0.1" />
         <entry key="..\:/AndroidProjects/Rest/app/src/main/res/layout/activity_branch_view.xml" value="0.25" />
         <entry key="..\:/AndroidProjects/Rest/app/src/main/res/layout/activity_data.xml" value="0.2" />
         <entry key="..\:/AndroidProjects/Rest/app/src/main/res/layout/activity_login.xml" value="0.25" />
@@ -19,6 +20,7 @@
         <entry key="..\:/AndroidProjects/Rest/app/src/main/res/layout/fragment_management_kitchen.xml" value="0.16" />
         <entry key="..\:/AndroidProjects/Rest/app/src/main/res/layout/fragment_service_staff.xml" value="0.25" />
         <entry key="..\:/AndroidProjects/Rest/app/src/main/res/layout/fragment_service_staff_u_i.xml" value="0.12552083333333333" />
+        <entry key="..\:/AndroidProjects/Rest/app/src/main/res/layout/layout_branch_item.xml" value="0.25" />
         <entry key="..\:/AndroidProjects/Rest/app/src/main/res/layout/login_activity.xml" value="0.13272543059777103" />
         <entry key="..\:/AndroidProjects/Rest/app/src/main/res/layout/qrcode_activity.xml" value="0.25" />
         <entry key="..\:/AndroidProjects/Rest/app/src/main/res/layout/rest_selector.xml" value="0.25" />

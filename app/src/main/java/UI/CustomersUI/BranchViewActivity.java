@@ -61,8 +61,7 @@ public class BranchViewActivity extends AppCompatActivity {
 
         // Get Branch from Database
         getBranchAndMenu(restId, branchId, menuPath);
-
-
+        
     }
 
     private void setupUI() {
@@ -94,6 +93,7 @@ public class BranchViewActivity extends AppCompatActivity {
                     Log.d(TAG, i.getName());
                 }
 
+                Log.e(TAG, "Branch: " + branch);
                 Log.e(TAG, "Tables: " + branch.getTables());
                 Table table = branch.getTables().get(0);
                 Log.e(TAG, "Table: " + table);
