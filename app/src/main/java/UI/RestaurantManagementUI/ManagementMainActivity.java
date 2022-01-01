@@ -12,9 +12,15 @@ import android.widget.Toast;
 
 import com.example.exercise_5.R;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import API.Constants.Constants;
 import API.Controllers.IManagementViewController;
+import API.Models.IServiceUnit;
 import API.Views.IManagementView;
+import BusinessEntities.Kitchen;
+import BusinessEntities.ServiceStaff;
 import BusinessLogic.ManagementViewController;
 import UI.CustomersUI.QRCodeActivity;
 import UI.DataActivity.DataActivity;
@@ -26,8 +32,6 @@ public class ManagementMainActivity extends AppCompatActivity implements IManage
     private FrameLayout frameLayout;
 
     private IManagementViewController viewController;
-    private Fragment serviceStaffFragment;
-    private Fragment managementHomeFragment;
     private Button btnHome;
     private Button btnService;
     private Button btnKitchen;
@@ -70,12 +74,16 @@ public class ManagementMainActivity extends AppCompatActivity implements IManage
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
 
+    @Override
+    public List<IServiceUnit> getServiceUnits() {
+        List<IServiceUnit> units = new ArrayList<>();
+        units.add(new ServiceStaff());
+        units.add(new Kitchen());
+        return units;
+    }
+
 
     private void init() {
-
-        managementHomeFragment = new HomeFragment();
-        serviceStaffFragment = new ServiceFragment();
-
 
         String managerUid = getIntent().getStringExtra("manager_uid");
         String branchId = getIntent().getStringExtra("branch_id");

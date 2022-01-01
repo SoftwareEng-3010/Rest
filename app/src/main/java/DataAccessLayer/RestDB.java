@@ -23,6 +23,7 @@ import API.Constants.Constants;
 import API.Database.Database;
 import API.Database.DatabaseRequestCallback;
 import API.Database.OnDataSentToDB;
+import API.IOrderController;
 import API.IOrderListener;
 import API.Models.IBranchManagerUser;
 import API.Models.IOrder;
@@ -367,10 +368,13 @@ public class RestDB implements Database {
     }
 
     @Override
-    public void attachOrderListener(IOrderListener listener) {
-        String uid = FirebaseAuth.getInstance().getUid();
+    public void attachOrderListener(@NonNull String restId, @NonNull String branchId, IOrderController listener) {
 
-//        restCollection.document()
+        restCollection.document(restId)
+                .collection(BRANCHES_COLLECTION_NAME)
+                .document(branchId)
+                .collection("orders")
+                .addSnapshotListener(listener);
     }
 
 }

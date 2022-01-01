@@ -8,9 +8,9 @@ public class Table {
     private int tableNumber;
     private int capacity;
     private double billAmount;
-    @PropertyName("isOccupied")
+    @PropertyName("is_occupied")
     private boolean isOccupied;
-    @PropertyName("isInside")
+    @PropertyName("is_inside")
     private boolean isInside;
 
     public Table() {
@@ -34,6 +34,7 @@ public class Table {
         this.isOccupied = other.isOccupied;
     }
 
+    @PropertyName("table_number")
     public int getTableNumber() {
         return tableNumber;
     }
@@ -46,12 +47,12 @@ public class Table {
         return billAmount;
     }
 
-    @PropertyName("isOccupied")
+    @PropertyName("is_occupied")
     public boolean isOccupied() {
         return isOccupied;
     }
 
-    @PropertyName("isInside")
+    @PropertyName("is_inside")
     public boolean isInside() {
         return isInside;
     }
