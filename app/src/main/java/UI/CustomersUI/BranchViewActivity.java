@@ -10,17 +10,21 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.exercise_5.R;
 
 import javax.annotation.Nullable;
 
+import API.Database.OnDataSentToDB;
 import BusinessEntities.Branch;
 import BusinessEntities.Item;
 import BusinessEntities.Menu;
+import BusinessEntities.Order;
 import BusinessEntities.QRCode;
 import API.Database.Database;
 import API.Database.DatabaseRequestCallback;
+import BusinessEntities.Table;
 import DataAccessLayer.RestDB;
 import UIAdapters.MenuRecyclerViewAdapter;
 import ViewModels.MenuViewModel;
@@ -31,16 +35,14 @@ public class BranchViewActivity extends AppCompatActivity {
 
     private Database rdb;
 
-    private TextView branchNameTV;
-    private TextView branchBusinessHrsTV;
-    private TextView selectedTableTV;
-
     private RecyclerView menuRecyclerView;
 
     private MenuRecyclerViewAdapter menuAdapter;
     
     private Branch branch;
     private Menu menu;
+    private String restId, branchId;
+    private int tableNumber;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,11 +51,11 @@ public class BranchViewActivity extends AppCompatActivity {
         rdb = RestDB.getInstance();
 
         // Required data to receive a branch from Database
-        String restId = getIntent().getStringExtra(QRCode.KEY_RESTAURANT_ID);
-        String branchId = getIntent().getStringExtra(QRCode.KEY_BRANCH_ID);
+        restId = getIntent().getStringExtra(QRCode.KEY_RESTAURANT_ID);
+        branchId = getIntent().getStringExtra(QRCode.KEY_BRANCH_ID);
 
         // Must come from QRCodeActivity:
-        int tableNumber = getIntent().getIntExtra(QRCode.KEY_TABLE_NUMBER, -1);
+        tableNumber = getIntent().getIntExtra(QRCode.KEY_TABLE_NUMBER, -1);
         // Must come only from manual restaurant selection:
         String menuPath = getIntent().getStringExtra("menu_path");
 
@@ -64,9 +66,9 @@ public class BranchViewActivity extends AppCompatActivity {
     }
 
     private void setupUI() {
-        branchNameTV = (TextView) findViewById(R.id.branch_name_TV);
-        branchBusinessHrsTV = (TextView) findViewById(R.id.branch_business_hrs_TV);
-        selectedTableTV = (TextView) findViewById(R.id.user_selected_table_TV);
+//        branchNameTV = (TextView) findViewById(R.id.branch_name_TV);
+//        branchBusinessHrsTV = (TextView) findViewById(R.id.branch_business_hrs_TV);
+//        selectedTableTV = (TextView) findViewById(R.id.user_selected_table_TV);
 
         // Menu Recycler View ref
         menuRecyclerView = (RecyclerView) findViewById(R.id.branch_menu_recycle_view);
@@ -91,6 +93,27 @@ public class BranchViewActivity extends AppCompatActivity {
                 for (Item i : menuAdapter.getSelectedItems()) {
                     Log.d(TAG, i.getName());
                 }
+
+                Log.e(TAG, "Tables: " + branch.getTables());
+                Table table = branch.getTables().get(0);
+                Log.e(TAG, "Table: " + table);
+
+
+                RestDB.getInstance()
+                        .sendOrder(
+                        restId, branchId,
+                        new Order(menuAdapter.getSelectedItems(), table)
+                        , new OnDataSentToDB() {
+                            @Override
+                            public void onObjectWrittenToDB(boolean isTaskSuccessful) {
+                                if (isTaskSuccessful) {
+                                    Toast.makeText(BranchViewActivity.this, "Order was successfully pushed to DB", Toast.LENGTH_SHORT).show();
+                                }
+                                else {
+                                    Toast.makeText(BranchViewActivity.this, "Failed to write order into DB", Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        });
             }
         });
     }
@@ -106,6 +129,10 @@ public class BranchViewActivity extends AppCompatActivity {
                             new DatabaseRequestCallback() {
                         @Override
                         public void onObjectReturnedFromDB(@Nullable Object obj) {
+                            if (obj == null) {
+                                Log.e(TAG, "Branch menu was not found!");
+                                return;
+                            }
                             menu = (Menu) obj;
                             setupUI();
                         }

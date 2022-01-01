@@ -25,6 +25,7 @@ import API.Database.DatabaseRequestCallback;
 import API.Database.OnDataSentToDB;
 import API.IOrderListener;
 import API.Models.IBranchManagerUser;
+import API.Models.IOrder;
 import API.Models.IUser;
 import BusinessEntities.Branch;
 import BusinessEntities.BranchManager;
@@ -334,8 +335,30 @@ public class RestDB implements Database {
     }
 
     @Override
-    public void pushOrder(String orderId, OnDataSentToDB callback) {
+    public void sendOrder(@NonNull String restId,@NonNull String branchId,@NonNull IOrder order, OnDataSentToDB callback) {
         Log.e(TAG, "IMPLEMENT pushOrder");
+
+        restCollection.document(restId)
+                .collection(BRANCHES_COLLECTION_NAME)
+                .document(branchId)
+                .collection("orders")
+                .document()
+                .set(order)
+                .addOnCompleteListener(
+                new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful()) {
+                            callback.onObjectWrittenToDB(true);
+                            Log.e(TAG, "New Order is waiting to be handled by branch: " + branchId);
+                        }
+                        else {
+                            callback.onObjectWrittenToDB(false);
+                        }
+                     }
+                }
+        );
+
     }
 
     @Override

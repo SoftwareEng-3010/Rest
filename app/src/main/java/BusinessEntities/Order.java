@@ -1,6 +1,7 @@
 package BusinessEntities;
 
 import com.google.firebase.firestore.DocumentId;
+import com.google.firebase.firestore.PropertyName;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,30 +12,30 @@ public class Order implements IOrder {
 
     @DocumentId
     private String orderId;
-    private List<Item> order;
+    @PropertyName("order_items")
+    private List<Item> orderItems;
     private Table table;
 
-    public Order() {
-        order = new ArrayList<>();
+    public Order() {}
+
+    public Order(List<Item> items, Table table) {
+        this.orderItems = new ArrayList<>(items);
+        this.table = table;
     }
 
     @Override
-    public String getOrderID() {
+    public String getOrderId() {
         return orderId;
     }
 
+    @PropertyName("order_items")
     @Override
     public List<Item> getOrderItems() {
-        return order;
+        return orderItems;
     }
 
     @Override
     public Table getTable() {
         return table;
-    }
-
-    @Override
-    public List<Item> addToOrder(Item item) {
-        return null;
     }
 }

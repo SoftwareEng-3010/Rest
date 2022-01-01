@@ -4,7 +4,8 @@ import com.google.firebase.firestore.PropertyName;
 
 public class Table {
 
-    private int tableIndex;
+    @PropertyName("table_number")
+    private int tableNumber;
     private int capacity;
     private double billAmount;
     @PropertyName("isOccupied")
@@ -16,9 +17,9 @@ public class Table {
         // Empty constructor required by Firebase method .toObject()
     }
 
-    public Table(int tableIndex, int capacity, double billAmount,
+    public Table(int tableNumber, int capacity, double billAmount,
                  boolean isOccupied, boolean isInside) {
-        this.tableIndex = tableIndex;
+        this.tableNumber = tableNumber;
         this.capacity = capacity;
         this.billAmount = billAmount;
         this.isOccupied = isOccupied;
@@ -27,14 +28,14 @@ public class Table {
 
     public Table(Table other) {
         this.billAmount = other.billAmount;
-        this.tableIndex = other.tableIndex;
+        this.tableNumber = other.tableNumber;
         this.capacity = other.capacity;
         this.isInside = other.isInside;
         this.isOccupied = other.isOccupied;
     }
 
-    public int getTableIndex() {
-        return tableIndex;
+    public int getTableNumber() {
+        return tableNumber;
     }
 
     public int getCapacity() {
@@ -58,7 +59,7 @@ public class Table {
     @Override
     public String toString() {
         return "Table{" +
-                "tableIndex=" + tableIndex +
+                "tableIndex=" + tableNumber +
                 ", capacity=" + capacity +
                 ", billAmount=" + billAmount +
                 ", isOccupied=" + isOccupied +

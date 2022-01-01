@@ -24,7 +24,7 @@ public class Bill {
 
     public void removeOrder(String orderId){
         for (Order order : orders){
-            if(order.getOrderID() == orderId){
+            if(order.getOrderId() == orderId){
                 orders.remove(order);
                 for(Item item : order.getOrderItems()){
                     amount -= item.getPrice();

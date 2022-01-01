@@ -1,5 +1,7 @@
 package BusinessLogic;
 
+import android.util.Log;
+
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
@@ -14,7 +16,7 @@ import UI.RestaurantManagementUI.ServiceUnitsUI.ServiceFragment;
 
 public class ManagementViewController implements IManagementViewController {
 
-    private final String TAG = "ManagementViewController";
+    private final String TAG = "ManagementController";
     private IManagementView managementView;
     private String branchId;
     private String restId;
@@ -30,17 +32,22 @@ public class ManagementViewController implements IManagementViewController {
         this.branchId = branchUid;
         this.restId = restId;
 
+        homeFragment = new HomeFragment();
+        serviceFragment = new ServiceFragment();
+        kitchenFragment = new KitchenFragment();
+
+
         RestDB.getInstance()
                 .getBranch(restId, branchUid, new DatabaseRequestCallback() {
             @Override
             public void onObjectReturnedFromDB(@Nullable Object obj) {
                 if (obj == null) {
+                    Log.e(TAG, "Branch came back null from database");
                     view.onDataFailure("Branch object came back null from database (Branch_UID: " + branchUid + ")");
                 }
 
                 else {
                     branch = (Branch) obj;
-                    homeFragment = new HomeFragment();
                     view.loadFragment(homeFragment);
                 }
             }
@@ -56,17 +63,11 @@ public class ManagementViewController implements IManagementViewController {
 
     @Override
     public void onServiceButtonClicked() {
-        if (serviceFragment == null) {
-            this.serviceFragment = new ServiceFragment();
-        }
         managementView.loadFragment(serviceFragment);
     }
 
     @Override
     public void onKitchenButtonClicked() {
-        if (kitchenFragment == null) {
-            this.kitchenFragment = new KitchenFragment();
-        }
         managementView.loadFragment(kitchenFragment);
     }
 }
