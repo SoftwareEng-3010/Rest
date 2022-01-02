@@ -230,34 +230,75 @@ public class RestDB implements Database {
         });
     }
 
+    @Override
+    public void getRestaurant(@NonNull String restId, DatabaseRequestCallback callBack) {
+        restCollection.document(restId)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if (task.isSuccessful()) {
+                            callBack.onObjectReturnedFromDB(task.getResult().toObject(Restaurant.class));
+                        }
+                        else {
+                            callBack.onObjectReturnedFromDB(null);
+                        }
+                    }
+                });
+    }
+
     /*
         Firestore database Writing methods:
     */
     @Override
-    public void addRestaurant(Restaurant restaurant, OnDataSentToDB callBack) {
+    public void addRestaurant(@NonNull Restaurant restaurant, OnDataSentToDB writeCallback, DatabaseRequestCallback requestCallback) {
         // Implement
 
         CollectionReference test_collection = db.collection("test");
 
-        test_collection.document() // A new document reference
-                        .set(restaurant)
-                        .addOnCompleteListener(
-                                new OnCompleteListener<Void>() {
-                                    @Override
-                                    public void onComplete(@NonNull Task<Void> task) {
-                                        if (task.isSuccessful()) {
-                                            Log.e(TAG, "Successfully written object to database!");
-                                            callBack.onObjectWrittenToDB(true);
-                                        }
-                                        else {
-                                            Log.e(TAG, "Something went wrong while writing an object to database");
-                                            callBack.onObjectWrittenToDB(false);
-                                        }
-                                    }
+        restCollection
+                .add(restaurant)
+                .addOnCompleteListener(
+                        new OnCompleteListener<DocumentReference>() {
+                            @Override
+                            public void onComplete(@NonNull Task<DocumentReference> task) {
+                                if (task.isSuccessful()) {
+                                    Log.e(TAG, "Successfully written object to database!");
+                                    writeCallback.onObjectWrittenToDB(true);
+                                    requestCallback.onObjectReturnedFromDB(task.getResult().getId());
                                 }
-                        );
+                                else {
+                                    Log.e(TAG, "Something went wrong while writing an object to database");
+                                    writeCallback.onObjectWrittenToDB(false);
+                                    requestCallback.onObjectReturnedFromDB(null);
+                                }
+                            }
+                        }
+                );
         Log.e(TAG, "finished addRestaurant()");
+    }
 
+    @Override
+    public void setRestaurant(@NonNull String restId, @NonNull Restaurant restaurant, OnDataSentToDB writeCallback) {
+
+        restCollection
+            .document(restId)
+            .set(restaurant)
+            .addOnCompleteListener(
+                new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful()) {
+                            Log.e(TAG, "Successfully written object to database!");
+                            writeCallback.onObjectWrittenToDB(true);
+                        }
+                        else {
+                            Log.e(TAG, "Something went wrong while writing an object to database");
+                            writeCallback.onObjectWrittenToDB(false);
+                        }
+                    }
+                }
+            );
     }
 
     @Override
@@ -295,22 +336,22 @@ public class RestDB implements Database {
     }
 
     @Override
-    public void addMenu(@NonNull String restId, @NonNull Menu menu, OnDataSentToDB callback) {
+    public void addMenu(@NonNull String restId, @NonNull Menu menu, DatabaseRequestCallback callback) {
 
         restCollection
                 .document(restId)
                 .collection(MENU_COLLECTION_NAME)
-                .add(menu.getMenuItems())
+                .add(menu)
                 .addOnCompleteListener(
                         new OnCompleteListener<DocumentReference>() {
                             @Override
                             public void onComplete(@NonNull Task<DocumentReference> task) {
                                 if (task.isSuccessful()) {
 
-                                    callback.onObjectWrittenToDB(true);
+                                    callback.onObjectReturnedFromDB(task.getResult().getPath());
                                 }
                                 else {
-                                    callback.onObjectWrittenToDB(false);
+                                    callback.onObjectReturnedFromDB(null);
                                 }
                             }
                         }

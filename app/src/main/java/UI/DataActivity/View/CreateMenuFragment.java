@@ -117,7 +117,11 @@ public class CreateMenuFragment extends Fragment {
             // TODO: 12/25/2021 Create another ItemsAdapter for this task maybe.
             // This adapter is not good for presenting the items in this fragment.
             menuAdapter.addItem(new Item(name, description, null, serviceUnit, true, price));
-            itemsRecyclerView.setAdapter(menuAdapter);
+            editTextItemName.setText("");
+            editTextItemDescription.setText("");
+            editTextItemPrice.setText("");
+            radioBtnKitchen.setChecked(true);
+                    itemsRecyclerView.setAdapter(menuAdapter);
         }
     }
 

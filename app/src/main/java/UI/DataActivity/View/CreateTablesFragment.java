@@ -36,8 +36,8 @@ public class CreateTablesFragment extends Fragment {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_create_tables, container, false);
 
-        editTextNumberOfTables = (EditText) v.findViewById(R.id.edit_text_table_number);
-        buttonFinish = (Button) v.findViewById(R.id.button_finish_branch_edit);
+        editTextNumberOfTables = (EditText) v.findViewById(R.id.edit_text_branch_tables);
+        buttonFinish = (Button) v.findViewById(R.id.button_finish_tables_edit);
 
         buttonFinish.setOnClickListener(this::onFinishClicked);
         return v;

@@ -29,7 +29,7 @@
         app:layout_constraintVertical_bias="0.184" />
 
     <Button
-        android:id="@+id/button_finish_branch_edit"
+        android:id="@+id/button_finish_tables_edit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/button_finish_he"

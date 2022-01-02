@@ -94,18 +94,22 @@ public interface Database {
      */
     public void getRestaurants(DatabaseRequestCallback callBack);
 
+    public void getRestaurant(@NonNull String restId, DatabaseRequestCallback callBack);
+
 
     public void getUser(String uid, DatabaseRequestCallback callback);
 
 
     // Write operations in our database:
-    public void addRestaurant(Restaurant restaurant, OnDataSentToDB callBack);
+    public void addRestaurant(@NonNull Restaurant restaurant, OnDataSentToDB writeCallback, DatabaseRequestCallback requestCallback);
+
+    public void setRestaurant(@NonNull String restId, @NonNull Restaurant restaurant, OnDataSentToDB writeCallback);
 
     // More operations will be added later...
 
     public void addUserWithType(FirebaseUser user, int userType, OnDataSentToDB callback);
 
-    public void addMenu(@NonNull String restId, @NonNull Menu menu, OnDataSentToDB callback);
+    public void addMenu(@NonNull String restId, @NonNull Menu menu, DatabaseRequestCallback callback);
 
     public void sendOrder(@NonNull String restId, @NonNull String branchId, @NonNull IOrder order, OnDataSentToDB callback);
 

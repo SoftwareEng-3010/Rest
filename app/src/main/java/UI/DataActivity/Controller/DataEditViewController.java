@@ -1,13 +1,20 @@
 package UI.DataActivity.Controller;
 
 import android.os.Bundle;
+import android.util.Log;
+
+import androidx.annotation.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import API.Database.Database;
+import API.Database.DatabaseRequestCallback;
+import API.Database.OnDataSentToDB;
 import BusinessEntities.Address;
 import BusinessEntities.Branch;
 import BusinessEntities.Item;
+import BusinessEntities.Menu;
 import BusinessEntities.Restaurant;
 import BusinessEntities.Table;
 import DataAccessLayer.RestDB;
@@ -15,9 +22,12 @@ import UI.DataActivity.View.DataEditView;
 
 public class DataEditViewController implements DataViewController{
 
+    private final String TAG = "EditViewController";
+
     private DataEditView view;
 
     private String restaurantName;
+
     private Address branchAddress;
     private boolean isKosher;
     private List<Item> itemList;
@@ -78,12 +88,62 @@ public class DataEditViewController implements DataViewController{
 
     public void onDataEditFinished() {
 
-        Restaurant restaurant = new Restaurant(restaurantName);
+        RestDB db = RestDB.getInstance();
+        db.addRestaurant(new Restaurant(restaurantName), new OnDataSentToDB() {
+                    @Override
+                    public void onObjectWrittenToDB(boolean isTaskSuccessful) {
+                        if (isTaskSuccessful) {
+                            Log.e(TAG, "Restaurant created successfully");
+                        }
+                    }
+                },
+                new DatabaseRequestCallback() {
+                    @Override
+                    public void onObjectReturnedFromDB(@Nullable Object obj) {
+                        if (obj == null) {
+                            Log.e(TAG, "Object came back null from DB!");
+                            return;
+                        }
 
-//        RestDB.getInstance()
+                        String restId = (String) obj;
 
+                        // Create and add the menu under restaurant `restId`.
+                        Menu menu = new Menu(itemList);
 
+                        db.addMenu(restId, menu,
+                                new DatabaseRequestCallback() {
+                                    @Override
+                                    public void onObjectReturnedFromDB(@Nullable Object obj) {
+                                        if (obj == null) {
+                                            Log.e(TAG, "menu_path came back NULL from DB!");
+                                            return;
+                                        }
 
-        Branch branch = new Branch(this.branchAddress, isKosher, null, this.tables);
+                                        String menuPath = (String) obj;
+
+                                        Branch branch = new Branch(
+                                                branchAddress, isKosher, menuPath, tables);
+                                        List<Branch> branches = new ArrayList<>();
+                                        branches.add(branch);
+
+                                        Restaurant restaurant = new Restaurant(restaurantName, branches);
+                                        db.setRestaurant(
+                                                restId, restaurant,
+                                            new OnDataSentToDB() {
+                                                @Override
+                                                public void onObjectWrittenToDB(boolean isTaskSuccessful) {
+                                                    if (isTaskSuccessful) {
+                                                        Log.e(TAG, "Successfully written restaurant into DB!");
+                                                        view.onDataEditFinish(restaurant, branch);
+                                                    }
+                                                    else {
+                                                        Log.e(TAG, "Failed to write restaurant into DB!");
+                                                    }
+                                                }
+                                            });
+                                    }
+                                });
+                    }
+                });
     }
 }
