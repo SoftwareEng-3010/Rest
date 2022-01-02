@@ -159,5 +159,6 @@ public class ManagementMainActivity extends AppCompatActivity implements IManage
     private void moveToDataActivity() {
         Intent dataActivity = new Intent(this, DataActivity.class);
         startActivity(dataActivity);
+        finish();
     }
 }

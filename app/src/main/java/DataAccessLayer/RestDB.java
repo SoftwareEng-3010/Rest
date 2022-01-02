@@ -16,6 +16,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import API.Constants.Constants;
 import API.Database.Database;
@@ -302,6 +303,29 @@ public class RestDB implements Database {
     }
 
     @Override
+    public void addBranch(@NonNull String restId, @NonNull Branch branch, OnDataSentToDB writeCallback, DatabaseRequestCallback requestCallback) {
+        restCollection.
+                document(restId)
+                .collection(BRANCHES_COLLECTION_NAME)
+                .add(branch)
+                .addOnCompleteListener(
+                        new OnCompleteListener<DocumentReference>() {
+                            @Override
+                            public void onComplete(@NonNull Task<DocumentReference> task) {
+                                if (task.isSuccessful()) {
+                                    writeCallback.onObjectWrittenToDB(true);
+                                    requestCallback.onObjectReturnedFromDB(task.getResult().getId());
+                                }
+                                else {
+                                    writeCallback.onObjectWrittenToDB(false);
+                                    requestCallback.onObjectReturnedFromDB(null);
+                                }
+                            }
+                        }
+                );
+    }
+
+    @Override
     public void addUserWithType(FirebaseUser user, int userType, OnDataSentToDB callback) {
 
         IUser newUser = new IUser() {
@@ -333,6 +357,47 @@ public class RestDB implements Database {
                     }
                 }
         );
+    }
+
+    @Override
+    public void setUser(@NonNull Object user, int userType, OnDataSentToDB callback) {
+
+        String uid = null;
+        if (user instanceof Map) {
+            if (((Map<?, ?>) user).containsKey("id")) {
+                uid = (String) ((Map<?, ?>) user).get("id");
+            }
+        }
+
+        if (uid == null) {
+            db.collection("users")
+                    .add(user)
+                    .addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
+                        @Override
+                        public void onComplete(@NonNull Task<DocumentReference> task) {
+                            if (task.isSuccessful())
+                                callback.onObjectWrittenToDB(true);
+                            else
+                                callback.onObjectWrittenToDB(false);
+                        }
+                    });
+        }
+
+        else {
+            // uid != null
+            db.collection("users")
+                    .document(uid)
+                    .set(user)
+                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            if (task.isSuccessful())
+                                callback.onObjectWrittenToDB(true);
+                            else
+                                callback.onObjectWrittenToDB(false);
+                        }
+                    });
+        }
     }
 
     @Override

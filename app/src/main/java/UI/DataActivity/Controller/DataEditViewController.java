@@ -5,14 +5,22 @@ import android.util.Log;
 
 import androidx.annotation.Nullable;
 
-import java.util.ArrayList;
-import java.util.List;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.PropertyName;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import API.Constants.Constants;
 import API.Database.Database;
 import API.Database.DatabaseRequestCallback;
 import API.Database.OnDataSentToDB;
+import API.Models.IBranchManagerUser;
 import BusinessEntities.Address;
 import BusinessEntities.Branch;
+import BusinessEntities.BranchManager;
 import BusinessEntities.Item;
 import BusinessEntities.Menu;
 import BusinessEntities.Restaurant;
@@ -89,7 +97,9 @@ public class DataEditViewController implements DataViewController{
     public void onDataEditFinished() {
 
         RestDB db = RestDB.getInstance();
-        db.addRestaurant(new Restaurant(restaurantName), new OnDataSentToDB() {
+        db.addRestaurant(
+                new Restaurant(restaurantName),
+                new OnDataSentToDB() {
                     @Override
                     public void onObjectWrittenToDB(boolean isTaskSuccessful) {
                         if (isTaskSuccessful) {
@@ -123,24 +133,72 @@ public class DataEditViewController implements DataViewController{
 
                                         Branch branch = new Branch(
                                                 branchAddress, isKosher, menuPath, tables);
-                                        List<Branch> branches = new ArrayList<>();
-                                        branches.add(branch);
 
-                                        Restaurant restaurant = new Restaurant(restaurantName, branches);
-                                        db.setRestaurant(
-                                                restId, restaurant,
-                                            new OnDataSentToDB() {
-                                                @Override
-                                                public void onObjectWrittenToDB(boolean isTaskSuccessful) {
-                                                    if (isTaskSuccessful) {
-                                                        Log.e(TAG, "Successfully written restaurant into DB!");
-                                                        view.onDataEditFinish(restaurant, branch);
+                                        db.addBranch(restId, branch,
+                                                new OnDataSentToDB() {
+                                                    @Override
+                                                    public void onObjectWrittenToDB(boolean isTaskSuccessful) {
+
                                                     }
-                                                    else {
-                                                        Log.e(TAG, "Failed to write restaurant into DB!");
+                                                },
+                                                new DatabaseRequestCallback() {
+                                                    @Override
+                                                    public void onObjectReturnedFromDB(@Nullable Object obj) {
+                                                        if (obj == null) {
+                                                            Log.e(TAG, "Branch came back null for some reason");
+                                                        }
+                                                        String branchId = (String) obj;
+
+                                                        db.getUser(
+                                                                FirebaseAuth.getInstance().getUid(),
+                                                                new DatabaseRequestCallback() {
+                                                                    @Override
+                                                                    public void onObjectReturnedFromDB(@Nullable Object obj) {
+                                                                        BranchManager user = (BranchManager) obj;
+                                                                        Map<String, Object> newUser = new HashMap<>();
+                                                                        newUser.put("id", user.getUid());
+                                                                        newUser.put("type", user.getType());
+                                                                        newUser.put("email", user.getEmail());
+                                                                        newUser.put("branch_id", branchId);
+                                                                        newUser.put("rest_id", restId);
+
+                                                                        db.setUser(
+                                                                                newUser,
+                                                                                Constants.USER_TYPE_BRANCH_MANAGER,
+                                                                                new OnDataSentToDB() {
+                                                                                    @Override
+                                                                                    public void onObjectWrittenToDB(boolean isTaskSuccessful) {
+                                                                                        if (isTaskSuccessful) {
+                                                                                            view.onDataEditFinish(restId, branchId);
+                                                                                        }
+                                                                                    }
+                                                                                });
+                                                                    }
+                                                                }
+                                                        );
                                                     }
-                                                }
-                                            });
+                                                });
+
+//                                        db.addBranch(restId, branch);
+
+//                                        List<Branch> branches = new ArrayList<>();
+//                                        branches.add(branch);
+//
+//                                        Restaurant restaurant = new Restaurant(restaurantName, branches);
+//                                        db.setRestaurant(
+//                                                restId, restaurant,
+//                                            new OnDataSentToDB() {
+//                                                @Override
+//                                                public void onObjectWrittenToDB(boolean isTaskSuccessful) {
+//                                                    if (isTaskSuccessful) {
+//                                                        Log.e(TAG, "Successfully written restaurant into DB!");
+//                                                        view.onDataEditFinish(restaurant, branch);
+//                                                    }
+//                                                    else {
+//                                                        Log.e(TAG, "Failed to write restaurant into DB!");
+//                                                    }
+//                                                }
+//                                            });
                                     }
                                 });
                     }

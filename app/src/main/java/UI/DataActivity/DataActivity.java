@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -12,6 +13,7 @@ import android.widget.FrameLayout;
 import android.widget.ProgressBar;
 
 import com.example.exercise_5.R;
+import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -98,15 +100,17 @@ public class DataActivity extends AppCompatActivity implements DataEditView {
     }
 
     @Override
-    public void onDataEditFinish(Restaurant restaurant, Branch branch) {
+    public void onDataEditFinish(String restId, String branchId) {
         progressBar.setVisibility(View.INVISIBLE);
 
-        if (restaurant == null || branch == null) {
-            Log.e(TAG, "restaurant or branch are NULL!");
-        }
-        // TODO: 1/2/2022 Assign restId and branchId to current user`s document
+        Intent managementMainActivity = new Intent(this, ManagementMainActivity.class);
 
-        // TODO: 1/2/2022 Find a way to navigate back to ManagementMainActivity and reload the data.
+        managementMainActivity.putExtra("manager_uid", FirebaseAuth.getInstance().getUid());
+        managementMainActivity.putExtra("branch_id", branchId);
+        managementMainActivity.putExtra("rest_id", restId);
+
+        startActivity(managementMainActivity);
+        finish();
     }
 
 

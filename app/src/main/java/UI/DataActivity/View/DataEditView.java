@@ -18,5 +18,5 @@ public interface DataEditView {
     public void onMenuEditFinished(boolean isSuccessful, List<Item> menuItems);
     public void onTablesEditFinished(boolean isSuccessful, List<Table> tables);
 
-    public void onDataEditFinish(Restaurant restaurant, Branch branch);
+    public void onDataEditFinish(String restId, String branchId);
 }
