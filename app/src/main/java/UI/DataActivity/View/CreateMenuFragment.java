@@ -13,6 +13,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 
 import com.example.exercise_5.R;
 
@@ -34,6 +36,9 @@ public class CreateMenuFragment extends Fragment {
     private EditText editTextItemDescription;
     private EditText editTextItemPrice;
     private RecyclerView itemsRecyclerView;
+//    private RadioGroup radioGroup;
+    private RadioButton radioBtnKitchen, radioBtnService,
+                        radioBtnOther;
 
     private List<Item> itemList;
 
@@ -53,6 +58,12 @@ public class CreateMenuFragment extends Fragment {
         editTextItemName = (EditText) view.findViewById(R.id.editTextItemNameCreateMenuFrag);
         editTextItemDescription = (EditText) view.findViewById(R.id.editTextItemDescriptionCreateMenuFrag);
         editTextItemPrice = (EditText) view.findViewById(R.id.editTextItemPriceCreateMenuFrag);
+
+//        radioGroup = (RadioGroup) view.findViewById(R.id.radio_group_service_type);
+        radioBtnKitchen = (RadioButton) view.findViewById(R.id.radio_btn_kitchen);
+        radioBtnService = (RadioButton) view.findViewById(R.id.radio_btn_service);
+        radioBtnOther = (RadioButton) view.findViewById(R.id.radio_btn_other);
+
 
         btnAddItemToMenu = (Button) view.findViewById(R.id.buttonAddItemToMenu);
 
@@ -86,16 +97,20 @@ public class CreateMenuFragment extends Fragment {
                             String name = editTextItemName.getText().toString();
                             String description = editTextItemDescription.getText().toString();
                             double price = Double.parseDouble(editTextItemPrice.getText().toString());
-//                            Bundle dataBundle = getArguments(); // Extract restaurant info from bundle
-//                             and write the restaurant into database
-//                            dataBundle.putString("branch_city", city);
-//                            dataBundle.putString("branch_street", street);
-//                            dataBundle.putString("branch_building_number", buildingNumber);
-//                            dataBundle.putBoolean("branch_is_kosher", isKosher);
+                            String serviceUnit;
+                            if (radioBtnKitchen.isChecked()) {
+                                serviceUnit = "kitchen";
+                            }
+                            else if (radioBtnService.isChecked()) {
+                                serviceUnit = "service";
+                            }
+                            else {
+                                serviceUnit = "other";
+                            }
 
                             // TODO: 12/25/2021 Create another ItemsAdapter for this task maybe.
                             // This adapter is not good for presenting the items in this fragment.
-                            menuAdapter.addItem(new Item(name, description, null, null, true, price));
+                            menuAdapter.addItem(new Item(name, description, null, serviceUnit, true, price));
                             itemsRecyclerView.setAdapter(menuAdapter);
                         }
                     }

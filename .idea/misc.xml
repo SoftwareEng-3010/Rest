@@ -16,6 +16,8 @@
         <entry key="..\:/AndroidProjects/Rest/app/src/main/res/layout/activity_restaurant_management.xml" value="0.17760416666666667" />
         <entry key="..\:/AndroidProjects/Rest/app/src/main/res/layout/activity_splash.xml" value="0.27291666666666664" />
         <entry key="..\:/AndroidProjects/Rest/app/src/main/res/layout/content_management_main.xml" value="0.18854166666666666" />
+        <entry key="..\:/AndroidProjects/Rest/app/src/main/res/layout/fragment_create_branch.xml" value="0.33" />
+        <entry key="..\:/AndroidProjects/Rest/app/src/main/res/layout/fragment_create_menu.xml" value="0.25" />
         <entry key="..\:/AndroidProjects/Rest/app/src/main/res/layout/fragment_create_restaurant.xml" value="0.11367753623188406" />
         <entry key="..\:/AndroidProjects/Rest/app/src/main/res/layout/fragment_home.xml" value="0.14895833333333333" />
         <entry key="..\:/AndroidProjects/Rest/app/src/main/res/layout/fragment_management_home.xml" value="0.25" />

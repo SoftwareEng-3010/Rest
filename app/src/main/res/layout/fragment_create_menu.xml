@@ -10,9 +10,9 @@
         android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="20dp"
         android:gravity="center"
-        android:text="Almost Done!\nAdd items to create a menu:"
+        android:text="@string/prompt_edit_menu_he"
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
@@ -25,7 +25,6 @@
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/buttonAddItemToMenu" />
 
@@ -33,12 +32,11 @@
         android:id="@+id/editTextItemNameCreateMenuFrag"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="34dp"
+        android:layout_marginTop="20dp"
         android:ems="10"
-        android:hint="Item name"
+        android:hint="@string/field_item_name_he"
         android:inputType="text"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView2" />
 
@@ -46,9 +44,9 @@
         android:id="@+id/editTextItemDescriptionCreateMenuFrag"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="5dp"
         android:ems="10"
-        android:hint="Description"
+        android:hint="@string/field_item_description_he"
         android:inputType="text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
@@ -59,12 +57,11 @@
         android:id="@+id/editTextItemPriceCreateMenuFrag"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="5dp"
         android:ems="10"
-        android:hint="Price"
+        android:hint="@string/field_item_price_he"
         android:inputType="numberDecimal"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editTextItemDescriptionCreateMenuFrag" />
 
@@ -72,10 +69,47 @@
         android:id="@+id/buttonAddItemToMenu"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Add item"
+        android:text="@string/btn_add_to_menu_he"
         app:layout_constraintBottom_toTopOf="@+id/recyclerViewCreateMenuFrag"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editTextItemPriceCreateMenuFrag" />
+
+    <RadioGroup
+        android:id="@+id/radio_group_service_type"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toStartOf="@id/editTextItemPriceCreateMenuFrag"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/recyclerViewCreateMenuFrag"
+        app:layout_constraintTop_toBottomOf="@id/textView2" >
+
+        <RadioButton
+            android:id="@+id/radio_btn_kitchen"
+            android:text="@string/radio_btn_kitchen_he"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent" />
+
+        <RadioButton
+            android:id="@+id/radio_btn_service"
+            android:text="@string/radio_btn_service_he"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent" />
+
+        <RadioButton
+            android:id="@+id/radio_btn_other"
+            android:text="@string/radio_btn_other_he"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </RadioGroup>
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/button_finish_he"
+        app:layout_constraintStart_toEndOf="@id/buttonAddItemToMenu"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/recyclerViewCreateMenuFrag"
+        app:layout_constraintTop_toBottomOf="@id/editTextItemPriceCreateMenuFrag"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

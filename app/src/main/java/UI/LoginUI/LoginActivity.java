@@ -58,11 +58,6 @@ public class LoginActivity extends AppCompatActivity implements ILoginView {
         mAuth = FirebaseAuth.getInstance(); // getting firebase auth instance
         RestDB.getInstance();
 
-//        // If a user is already signed in
-//        if (mAuth.getCurrentUser() != null) {
-//            moveToCustomerUI();
-//        }
-
         this.loginViewController = new LoginViewController(this);
 
         // References to TextBoxes

@@ -13,7 +13,6 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Switch;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.exercise_5.R;
 
@@ -53,7 +52,7 @@ public class CreateBranchFragment extends Fragment {
         }
 
         editTextBranchCity = (EditText) view.findViewById(R.id.editTextCity);
-        editTextBranchStreet = (EditText) view.findViewById(R.id.edit_text_login_password);
+        editTextBranchStreet = (EditText) view.findViewById(R.id.edit_text_branch_city);
         editTextBranchBuildingNumber = (EditText) view.findViewById(R.id.editTextBuildingNumber);
         switchIsKosher = (Switch) view.findViewById(R.id.switchIsKosher);
         btnCreateBranch = (Button) view.findViewById(R.id.buttonCreateBranch);
