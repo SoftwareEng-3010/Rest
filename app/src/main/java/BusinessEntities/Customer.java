@@ -2,8 +2,7 @@ package BusinessEntities;
 
 import com.google.firebase.firestore.PropertyName;
 
-import API.BusinessEntitiesInterface.Auth.ICustomerUser;
-import API.BusinessEntitiesInterface.Auth.IUser;
+import API.Models.ICustomerUser;
 
 public class Customer implements ICustomerUser {
 
@@ -19,11 +18,6 @@ public class Customer implements ICustomerUser {
     // More fields will be added on...
 
     public Customer() {}
-
-    public Customer(String email, int userType) {
-        this.email = email;
-        this.userType = userType;
-    }
 
     @Override
     public String getUid() {

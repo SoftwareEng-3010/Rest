@@ -2,7 +2,7 @@ package BusinessEntities;
 
 import com.google.firebase.firestore.PropertyName;
 
-import API.BusinessEntitiesInterface.Auth.IUser;
+import API.Models.IUser;
 
 public class User implements IUser {
 
@@ -13,18 +13,9 @@ public class User implements IUser {
 
     public User() {}
 
-    public User(int userType) {
-        this.type = userType;
-    }
-
     @Override
     public String getUid() {
         return id;
-    }
-
-    @Override
-    public String getEmail() {
-        return email;
     }
 
     @Override

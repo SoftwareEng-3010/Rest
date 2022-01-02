@@ -61,11 +61,11 @@ public class RestaurantArrayAdapter extends ArrayAdapter<Restaurant> {
 
                 ListView parentView = (ListView) v.getParent().getParent();
                 int index = parentView.indexOfChild((View) v.getParent());
-                Intent moveToBranchesActivity =
+                Intent branchListViewActivity =
                         new Intent(getContext(), BranchesListViewActivity.class);
                 String restID = restaurants.get(index).getDocId();
-                moveToBranchesActivity.putExtra("restID", restID);
-                getContext().startActivity(moveToBranchesActivity);
+                branchListViewActivity.putExtra("rest_id", restID);
+                getContext().startActivity(branchListViewActivity);
             }
         });
 

@@ -6,6 +6,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.FrameLayout;
 
 import com.example.exercise_5.R;
@@ -16,8 +17,10 @@ import java.util.Map;
 
 import BusinessEntities.Address;
 import BusinessEntities.Branch;
+import BusinessEntities.Item;
 import BusinessEntities.Menu;
 import BusinessEntities.Restaurant;
+import BusinessEntities.Table;
 import UI.DataActivity.Controller.DataEditViewController;
 import UI.DataActivity.Controller.DataViewController;
 import UI.DataActivity.View.CreateBranchFragment;
@@ -32,6 +35,7 @@ public class DataActivity extends AppCompatActivity implements DataEditView {
 //    private Branch branch;
 //    private Menu menu;
 
+    private final String TAG = "DataActivity";
     // A placeholder for activity fragments
     private FrameLayout frameLayout;
 
@@ -43,29 +47,53 @@ public class DataActivity extends AppCompatActivity implements DataEditView {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_data);
 
+        viewController = new DataEditViewController(this);
 
-        List<Fragment> fragments = new ArrayList<>();
-        fragments.add(new CreateRestaurantFragment());
-        fragments.add(new CreateBranchFragment());
-        fragments.add(new CreateMenuFragment());
+        moveToFragment(new CreateRestaurantFragment(viewController), "CreateRestaurantFragment");
+    }
 
-        viewController = new DataEditViewController(this, null);
+    @Override
+    public void onRestaurantEditFinished(boolean isSuccessful, String restaurantName) {
 
-//        moveToNextFragment(new CreateRestaurantFragment());
+        if (isSuccessful) {
+            moveToFragment(new CreateBranchFragment(viewController), "EditRestaurantFragment");
+        }
+    }
+
+    @Override
+    public void onBranchEditFinished(boolean isSuccessful, Address address, boolean isKosher) {
+        if (isSuccessful) {
+            moveToFragment(new CreateMenuFragment(viewController), "EditBranchFragment");
+        }
+    }
+
+    @Override
+    public void onMenuEditFinished(boolean isSuccessful, List<Item> menuItems) {
+        if (isSuccessful) {
+            Log.e(TAG, "Finished creating a restaurant");
+        }
+        else {
+            Log.e(TAG, "Something went wrong....");
+        }
+    }
+
+    @Override
+    public void onTablesEditFinished(boolean isSuccessful, List<Table> menuItems) {
 
     }
 
     @Override
-    public void onDataEditFinished(boolean isSuccessful, String message) {
+    public void onDataEditFinish(Restaurant restaurant, Branch branch) {
 
     }
 
-    public void moveToNextFragment(Fragment fragment) {
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.add(R.id.frameLayoutDataActivity, fragment);
-        fragmentTransaction.commit();
+
+    private void moveToFragment(Fragment fragment, String fragmentTag) {
+        getSupportFragmentManager()
+                .beginTransaction()
+                .setCustomAnimations(R.anim.fade_in, R.anim.fade_out)
+                .addToBackStack(fragmentTag)
+                .replace(R.id.frameLayoutDataActivity, fragment)
+                .commit();
     }
-
-
 }

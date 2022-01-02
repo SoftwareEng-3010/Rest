@@ -1,4 +1,4 @@
-package UI.login.controller;
+package BusinessLogic;
 
 import android.text.TextUtils;
 
@@ -10,14 +10,15 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
-import API.BusinessEntitiesInterface.Auth.ICustomerUser;
+import API.Controllers.ILoginViewController;
+import API.Models.ICustomerUser;
 import API.Constants.Constants;
 import API.Database.DatabaseRequestCallback;
 import API.Database.OnDataSentToDB;
-import API.BusinessEntitiesInterface.Auth.IBranchManagerUser;
-import API.BusinessEntitiesInterface.Auth.IUser;
+import API.Models.IBranchManagerUser;
+import API.Models.IUser;
 import DataAccessLayer.RestDB;
-import UI.login.view.ILoginView;
+import API.Views.ILoginView;
 
 public class LoginViewController implements ILoginViewController {
 
@@ -36,6 +37,7 @@ public class LoginViewController implements ILoginViewController {
 
         if (TextUtils.isEmpty(email) || TextUtils.isEmpty(password)) {
             loginView.onLoginFailed("Email or Password are missing");
+            return;
         }
 
         mAuth.signInWithEmailAndPassword(email, password)
@@ -55,21 +57,27 @@ public class LoginViewController implements ILoginViewController {
                             db.getUser(userUid, new DatabaseRequestCallback() {
                                         @Override
                                         public void onObjectReturnedFromDB(@Nullable Object obj) {
-                                            if (null == obj) loginView.onLoginFailed("Object came back null from database");
+                                            if (null == obj) {
+                                                loginView.onLoginFailed("Object came back null from database");
+                                                return;
+                                            }
                                             IUser usr = (IUser) obj;
 
-                                            if (usr.getType() == Constants.USER_TYPE_BRANCH_MANAGER) {
+                                            int userType = usr.getType();
+                                            String email = FirebaseAuth.getInstance().getCurrentUser().getEmail();
+
+                                            if (userType == Constants.USER_TYPE_BRANCH_MANAGER) {
                                                 IBranchManagerUser manager = (IBranchManagerUser)obj;
-                                                loginView.onLoginSuccess(manager, "Successfully logged in as a Manager\n" + manager.getEmail());
+                                                loginView.onLoginSuccess(manager, "Successfully logged in as a Manager\n" + email);
                                             }
-                                            else if (usr.getType() == Constants.USER_TYPE_CUSTOMER){
+                                            else if (userType == Constants.USER_TYPE_CUSTOMER){
                                                 ICustomerUser customer = (ICustomerUser) obj;
-                                                loginView.onLoginSuccess(customer, "Successfully logged in as " + customer.getEmail());
+                                                loginView.onLoginSuccess(customer, "Successfully logged in as " + email);
                                             }
-                                            else if (usr.getType() >= Constants.USER_TYPE_BRANCH_MANAGER) {
-                                                IUser user = (IUser) obj;
-                                                loginView.onLoginSuccess(user, "Successfully logged in as " + user.getType());
-                                            }
+//                                            else if (usr.getType() >= Constants.USER_TYPE_BRANCH_MANAGER) {
+//                                                IUser user = (IUser) obj;
+//                                                loginView.onLoginSuccess(user, "Successfully logged in as " + user.getType());
+//                                            }
                                             else {
                                                 loginView.onLoginFailed("Object is not an instance of IUser");
                                             }
@@ -85,6 +93,12 @@ public class LoginViewController implements ILoginViewController {
 
     @Override
     public void onSignUpClicked(String email, String password, int userLoginType) {
+
+        if (TextUtils.isEmpty(email) || TextUtils.isEmpty(password)) {
+            loginView.onLoginFailed("Email or Password are missing");
+            return;
+        }
+
         mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override

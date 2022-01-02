@@ -1,8 +1,8 @@
-package UI.login.view;
+package API.Views;
 
 import androidx.annotation.NonNull;
 
-import API.BusinessEntitiesInterface.Auth.IUser;
+import API.Models.IUser;
 
 public interface ILoginView {
 

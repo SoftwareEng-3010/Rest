@@ -1,7 +1,6 @@
 package DataAccessLayer;
 
 import android.util.Log;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
@@ -18,14 +17,14 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.ArrayList;
 import java.util.List;
 
-import API.BusinessEntitiesInterface.Auth.IBranchManagerUser;
-import API.BusinessEntitiesInterface.Auth.ICustomerUser;
-import API.BusinessEntitiesInterface.IServiceUnit;
 import API.Constants.Constants;
 import API.Database.Database;
 import API.Database.DatabaseRequestCallback;
 import API.Database.OnDataSentToDB;
-import API.BusinessEntitiesInterface.Auth.IUser;
+import API.IOrderController;
+import API.Models.IBranchManagerUser;
+import API.Models.IOrder;
+import API.Models.IUser;
 import BusinessEntities.Branch;
 import BusinessEntities.BranchManager;
 import BusinessEntities.Customer;
@@ -45,6 +44,7 @@ public class RestDB implements Database {
     private final String BRANCHES_COLLECTION_NAME = "branch";
     private final String RESTAURANT_COLLECTION_NAME = "our_restaurants";
     private final String MENU_FIELD_NAME = "menu_path";
+    private final String MENU_COLLECTION_NAME = "menu";
 
     private static RestDB instance = null;                    // private single instance
 
@@ -98,49 +98,28 @@ public class RestDB implements Database {
                 });
     }
 
+
     @Override
-    public void getBranch(String branchId, DatabaseRequestCallback callBack) {
+    public void getBranch(@NonNull String restId, @NonNull String branchId, DatabaseRequestCallback callBack) {
 
-        restCollection.get().addOnCompleteListener(
-                new OnCompleteListener<QuerySnapshot>() {
+        restCollection.document(restId)
+                .collection(BRANCHES_COLLECTION_NAME)
+                .document(branchId)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                     @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                         if (task.isSuccessful()) {
-                            List<DocumentSnapshot> restaurantDocs = task.getResult().getDocuments();
-                            for (DocumentSnapshot doc : restaurantDocs) {
-                                restCollection.document(doc.getId())
-                                        .collection(BRANCHES_COLLECTION_NAME).get()
-                                        .addOnCompleteListener(
-                                                new OnCompleteListener<QuerySnapshot>() {
-                                                    @Override
-                                                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
 
-                                                        if (task.isSuccessful()) {
-                                                            List<DocumentSnapshot> branchDocs = task.getResult().getDocuments();
+                            callBack.onObjectReturnedFromDB(task.getResult().toObject(Branch.class));
+                        }
 
-                                                            for (DocumentSnapshot doc : branchDocs) {
-                                                                if (branchId.equals(doc.getId())) {
-                                                                    callBack.onObjectReturnedFromDB(
-                                                                            doc.toObject(Branch.class)
-                                                                    );
-                                                                }
-                                                            }
-                                                            callBack.onObjectReturnedFromDB(null);
-                                                        } else {
-                                                            // Task unsuccessful
-                                                            callBack.onObjectReturnedFromDB(null);
-                                                        }
-                                                    }
-                                                }
-                                        );
-                            }
-                        } else if (null != task.getException()){
+                        else {
+                            // Task is not successful
                             callBack.onObjectReturnedFromDB(null);
-                            Log.e(TAG, task.getException().getMessage());
                         }
                     }
-                }
-        );
+                });
     }
 
     @Override
@@ -253,7 +232,7 @@ public class RestDB implements Database {
 
     /*
         Firestore database Writing methods:
-         */
+    */
     @Override
     public void addRestaurant(Restaurant restaurant, OnDataSentToDB callBack) {
         // Implement
@@ -261,7 +240,7 @@ public class RestDB implements Database {
         CollectionReference test_collection = db.collection("test");
 
         test_collection.document() // A new document reference
-                        .set(new Restaurant("Olive Garden"))
+                        .set(restaurant)
                         .addOnCompleteListener(
                                 new OnCompleteListener<Void>() {
                                     @Override
@@ -294,11 +273,6 @@ public class RestDB implements Database {
             public int getType() {
                 return userType;
             }
-
-            @Override
-            public String getEmail() {
-                return user.getEmail();
-            }
         };
 
         db.collection("users")
@@ -318,6 +292,29 @@ public class RestDB implements Database {
                     }
                 }
         );
+    }
+
+    @Override
+    public void addMenu(@NonNull String restId, @NonNull Menu menu, OnDataSentToDB callback) {
+
+        restCollection
+                .document(restId)
+                .collection(MENU_COLLECTION_NAME)
+                .add(menu.getMenuItems())
+                .addOnCompleteListener(
+                        new OnCompleteListener<DocumentReference>() {
+                            @Override
+                            public void onComplete(@NonNull Task<DocumentReference> task) {
+                                if (task.isSuccessful()) {
+
+                                    callback.onObjectWrittenToDB(true);
+                                }
+                                else {
+                                    callback.onObjectWrittenToDB(false);
+                                }
+                            }
+                        }
+                );
     }
 
     @Override
@@ -341,7 +338,8 @@ public class RestDB implements Database {
                            }
 
                            else if (user.getType() == Constants.USER_TYPE_BRANCH_MANAGER) {
-                               callback.onObjectReturnedFromDB(task.getResult().toObject(BranchManager.class));
+                               IBranchManagerUser manager = task.getResult().toObject(BranchManager.class);
+                               callback.onObjectReturnedFromDB(manager);
                            }
 
                            else if (user.getType() > Constants.USER_TYPE_BRANCH_MANAGER) {
@@ -358,15 +356,46 @@ public class RestDB implements Database {
                 });
     }
 
-
     @Override
-    public void pushOrder(String orderId, OnDataSentToDB callback) {
+    public void sendOrder(@NonNull String restId,@NonNull String branchId,@NonNull IOrder order, OnDataSentToDB callback) {
         Log.e(TAG, "IMPLEMENT pushOrder");
+
+        restCollection.document(restId)
+                .collection(BRANCHES_COLLECTION_NAME)
+                .document(branchId)
+                .collection("orders")
+                .document()
+                .set(order)
+                .addOnCompleteListener(
+                new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful()) {
+                            callback.onObjectWrittenToDB(true);
+                            Log.e(TAG, "New Order is waiting to be handled by branch: " + branchId);
+                        }
+                        else {
+                            callback.onObjectWrittenToDB(false);
+                        }
+                     }
+                }
+        );
+
     }
 
     @Override
     public void getOrder(String orderId, DatabaseRequestCallback callback) {
         Log.e(TAG, "IMPLEMENT pullOrder");
+    }
+
+    @Override
+    public void attachOrderListener(@NonNull String restId, @NonNull String branchId, IOrderController listener) {
+
+        restCollection.document(restId)
+                .collection(BRANCHES_COLLECTION_NAME)
+                .document(branchId)
+                .collection("orders")
+                .addSnapshotListener(listener);
     }
 
 }

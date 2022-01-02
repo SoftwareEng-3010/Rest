@@ -1,5 +1,6 @@
-package UI.login.view;
+package UI.LoginUI;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -13,20 +14,23 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.exercise_5.R;
 import com.google.firebase.auth.FirebaseAuth;
 
-import API.BusinessEntitiesInterface.Auth.IBranchManagerUser;
-import API.BusinessEntitiesInterface.Auth.IUser;
+import API.Models.IBranchManagerUser;
+import API.Models.IUser;
+import API.Constants.Constants;
+import API.Views.ILoginView;
 import DataAccessLayer.RestDB;
 import UI.CustomersUI.QRCodeActivity;
 import UI.RestaurantManagementUI.ManagementMainActivity;
-import UI.login.controller.ILoginViewController;
-import UI.login.controller.LoginViewController;
+import API.Controllers.ILoginViewController;
+import BusinessLogic.LoginViewController;
 
-public class LoginActivity extends AppCompatActivity implements ILoginView{
+public class LoginActivity extends AppCompatActivity implements ILoginView {
 
     private static final String TAGCredentials = "EmailPassword";
     private static final String TAG = "LoginActivity";
@@ -53,11 +57,6 @@ public class LoginActivity extends AppCompatActivity implements ILoginView{
 
         mAuth = FirebaseAuth.getInstance(); // getting firebase auth instance
         RestDB.getInstance();
-
-        // If a user is already signed in
-        if (mAuth.getCurrentUser() != null) {
-            moveToCustomerUI();
-        }
 
         this.loginViewController = new LoginViewController(this);
 
@@ -109,7 +108,7 @@ public class LoginActivity extends AppCompatActivity implements ILoginView{
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        userLoginType = getCheckRadioButtonIndex();
+                        userLoginType = getRadioBtnIndexAndSetupUI();
                     }
                 }
         );
@@ -118,15 +117,16 @@ public class LoginActivity extends AppCompatActivity implements ILoginView{
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        userLoginType = getCheckRadioButtonIndex();
+                        userLoginType = getRadioBtnIndexAndSetupUI();
                     }
                 }
         );
     }
 
-    private void moveToCustomerUI() {
-        Intent moveToQRActivity = new Intent(this, QRCodeActivity.class);
-        startActivity(moveToQRActivity);
+    private void moveToCustomerUI(int userType) {
+        Intent QRActivity = new Intent(this, QRCodeActivity.class);
+        QRActivity.putExtra("user_type", userType);
+        startActivity(QRActivity);
         finish();   // No need in this activity anymore.
     }
 
@@ -147,14 +147,30 @@ public class LoginActivity extends AppCompatActivity implements ILoginView{
         final int REGULAR_USER = 0,
                 MANAGER_USER = 1;
 
-        if (getCheckRadioButtonIndex() == REGULAR_USER) {
+        if (getRadioBtnIndexAndSetupUI() == Constants.USER_TYPE_CUSTOMER) {
             // Regular customer user: Navigate to QRActivity
-            moveToCustomerUI();
+
+            if (user.getType() != Constants.USER_TYPE_CUSTOMER) {
+                moveToBranchManagementUI((IBranchManagerUser) user, true);
+                return;
+            }
+
+            moveToCustomerUI(user.getType());
         }
 
-        else if(getCheckRadioButtonIndex() == MANAGER_USER) {
+        else if(getRadioBtnIndexAndSetupUI() == Constants.USER_TYPE_BRANCH_MANAGER) {
+            // If is a Regular `Customer` user and tries to login as manager
+            if (user.getType() != Constants.USER_TYPE_BRANCH_MANAGER) {
+                showAlert(new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        moveToCustomerUI(user.getType()); // type = 0 (Customer user logged in as manager)
+                    }
+                });
+                return;
+            }
             // Branch manager user is connected: Navigate to Branch management UI
-            moveToBranchManagementUI((IBranchManagerUser) user);
+            moveToBranchManagementUI((IBranchManagerUser) user, false);
         }
 
         else {
@@ -172,7 +188,6 @@ public class LoginActivity extends AppCompatActivity implements ILoginView{
 
     @Override
     public void onCreateAccountSuccess(String message) {
-        mAuth.signOut(); // Make sure that login will work again.
         // This is the only .signOut() usage so far
         hideProgressBar();
         // Sign in again immediately:
@@ -187,7 +202,7 @@ public class LoginActivity extends AppCompatActivity implements ILoginView{
         hideProgressBar();
     }
 
-    private void moveToBranchManagementUI(@Nullable IBranchManagerUser user) {
+    private void moveToBranchManagementUI(@Nullable IBranchManagerUser user, boolean isCustomer) {
 //        Toast.makeText(this, "Should now navigate to BranchManagementUI", Toast.LENGTH_SHORT).show();
 
         if (user == null)
@@ -200,7 +215,9 @@ public class LoginActivity extends AppCompatActivity implements ILoginView{
 
         moveToManagementActivity.putExtra("manager_uid", user.getUid());
         moveToManagementActivity.putExtra("user_type", user.getType());
-        moveToManagementActivity.putExtra("manager_branch_id", user.getBranchDocId());
+        moveToManagementActivity.putExtra("branch_id", user.getBranchDocId());
+        moveToManagementActivity.putExtra("rest_id", user.getRestaurantDocId());
+        moveToManagementActivity.putExtra("is_manager_logged_in_as_customer", isCustomer);
 
         startActivity(moveToManagementActivity);
         finish();
@@ -213,15 +230,17 @@ public class LoginActivity extends AppCompatActivity implements ILoginView{
         loginViewController.onLoginClicked(email, password);
     }
 
-    private int getCheckRadioButtonIndex() {
+    private int getRadioBtnIndexAndSetupUI() {
 
         if (radioBtnRegularUser.isChecked()) {
             Log.e(TAG, "Customer checked regular user login button");
             textPromptLoginType.setVisibility(View.INVISIBLE);
+            signupBtn.setVisibility(View.VISIBLE);
             return 0;
         }
         else if (radioBtnManagerUser.isChecked()) {
             textPromptLoginType.setVisibility(View.VISIBLE);
+            signupBtn.setVisibility(View.INVISIBLE);
             Log.e(TAG, "Customer checked restaurant manager login button");
             return 1;
         }
@@ -237,5 +256,17 @@ public class LoginActivity extends AppCompatActivity implements ILoginView{
 
     private void hideProgressBar() {
         progressBar.setVisibility(View.INVISIBLE);
+    }
+
+    private void showAlert(DialogInterface.OnClickListener listener) {
+        new AlertDialog.Builder(this)
+                .setMessage("\nאינך מזוהה כמנהל מסעדה. כדי לנהל את המסעדה שלך - ניתן לעשות" +
+                        "\nא." +
+                        "\nב." +
+                        "\nג.")
+                .setCancelable(false)
+                .setNeutralButton("הבנתי", listener)
+                .create()
+                .show();
     }
 }
