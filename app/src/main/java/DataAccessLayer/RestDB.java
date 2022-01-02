@@ -6,12 +6,10 @@ import androidx.annotation.NonNull;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -24,7 +22,6 @@ import API.Database.Database;
 import API.Database.DatabaseRequestCallback;
 import API.Database.OnDataSentToDB;
 import API.IOrderController;
-import API.IOrderListener;
 import API.Models.IBranchManagerUser;
 import API.Models.IOrder;
 import API.Models.IUser;
@@ -47,6 +44,7 @@ public class RestDB implements Database {
     private final String BRANCHES_COLLECTION_NAME = "branch";
     private final String RESTAURANT_COLLECTION_NAME = "our_restaurants";
     private final String MENU_FIELD_NAME = "menu_path";
+    private final String MENU_COLLECTION_NAME = "menu";
 
     private static RestDB instance = null;                    // private single instance
 
@@ -294,6 +292,29 @@ public class RestDB implements Database {
                     }
                 }
         );
+    }
+
+    @Override
+    public void addMenu(@NonNull String restId, @NonNull Menu menu, OnDataSentToDB callback) {
+
+        restCollection
+                .document(restId)
+                .collection(MENU_COLLECTION_NAME)
+                .add(menu.getMenuItems())
+                .addOnCompleteListener(
+                        new OnCompleteListener<DocumentReference>() {
+                            @Override
+                            public void onComplete(@NonNull Task<DocumentReference> task) {
+                                if (task.isSuccessful()) {
+
+                                    callback.onObjectWrittenToDB(true);
+                                }
+                                else {
+                                    callback.onObjectWrittenToDB(false);
+                                }
+                            }
+                        }
+                );
     }
 
     @Override

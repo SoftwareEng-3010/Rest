@@ -66,7 +66,7 @@ public class EditMenuRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.V
         this.items.add(item);
     }
 
-    public List<Item> getSelectedItems() {
-        return selectedItems;
+    public List<Item> getItems() {
+        return items;
     }
 }

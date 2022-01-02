@@ -9,7 +9,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.exercise_5.R;
@@ -18,13 +17,11 @@ import javax.annotation.Nullable;
 
 import API.Database.OnDataSentToDB;
 import BusinessEntities.Branch;
-import BusinessEntities.Item;
 import BusinessEntities.Menu;
 import BusinessEntities.Order;
 import BusinessEntities.QRCode;
 import API.Database.Database;
 import API.Database.DatabaseRequestCallback;
-import BusinessEntities.Table;
 import DataAccessLayer.RestDB;
 import UIAdapters.MenuRecyclerViewAdapter;
 import ViewModels.MenuViewModel;
@@ -78,7 +75,7 @@ public class BranchViewActivity extends AppCompatActivity {
                 .create(MenuViewModel.class);
 
         // set up adapter
-        menuAdapter = new MenuRecyclerViewAdapter(BranchViewActivity.this, menu.getMenu());
+        menuAdapter = new MenuRecyclerViewAdapter(BranchViewActivity.this, menu.getMenuItems());
 
         // set up the RecyclerView
         menuRecyclerView = (RecyclerView) findViewById(R.id.branch_menu_recycle_view);

@@ -5,9 +5,13 @@ import androidx.annotation.NonNull;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.EventListener;
 
+import java.util.List;
+
 import API.IOrderController;
 import API.IOrderListener;
 import API.Models.IOrder;
+import BusinessEntities.Item;
+import BusinessEntities.Menu;
 import BusinessEntities.Restaurant;
 
 /**
@@ -101,6 +105,7 @@ public interface Database {
 
     public void addUserWithType(FirebaseUser user, int userType, OnDataSentToDB callback);
 
+    public void addMenu(@NonNull String restId, @NonNull Menu menu, OnDataSentToDB callback);
 
     public void sendOrder(@NonNull String restId, @NonNull String branchId, @NonNull IOrder order, OnDataSentToDB callback);
 

@@ -32,6 +32,8 @@ public class CreateMenuFragment extends Fragment {
     private final String TAG = "CreateMenuFragment";
 
     private DataViewController viewController;
+    private MenuViewModel menuViewModel;
+    private EditMenuRecyclerAdapter menuAdapter;
 
     private EditText editTextItemName;
     private EditText editTextItemDescription;
@@ -44,6 +46,7 @@ public class CreateMenuFragment extends Fragment {
     private List<Item> itemList;
 
     private Button btnAddItemToMenu;
+    private Button btnFinishEdit;
 
 
     public CreateMenuFragment(DataViewController controller) {
@@ -66,56 +69,60 @@ public class CreateMenuFragment extends Fragment {
         radioBtnOther = (RadioButton) view.findViewById(R.id.radio_btn_other);
 
         btnAddItemToMenu = (Button) view.findViewById(R.id.buttonAddItemToMenu);
+        btnFinishEdit = (Button) view.findViewById(R.id.button_finish_menu_edit);
 
         itemsRecyclerView = (RecyclerView) view.findViewById(R.id.recyclerViewCreateMenuFrag);
 
-        MenuViewModel menuViewModel = ViewModelProvider.AndroidViewModelFactory
+        menuViewModel = ViewModelProvider.AndroidViewModelFactory
                 .getInstance(getActivity().getApplication())
                 .create(MenuViewModel.class);
 
         // set up adapter
         itemList = new ArrayList<>();
-        EditMenuRecyclerAdapter menuAdapter = new EditMenuRecyclerAdapter(getContext(), itemList);
+        menuAdapter = new EditMenuRecyclerAdapter(getContext(), itemList);
 
         // set up the RecyclerView
         itemsRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         itemsRecyclerView.setAdapter(menuAdapter);
 
-        btnAddItemToMenu.setOnClickListener(
-                new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        int errorColor = R.color.design_default_color_error;
-
-                        if (editTextItemName.getText().toString().isEmpty()) {
-                            editTextItemName.setBackgroundColor(getResources().getColor(errorColor));
-                        } else if (editTextItemPrice.getText().toString().isEmpty()) {
-                            editTextItemPrice.setBackgroundColor(getResources().getColor(errorColor));
-                        } else {
-
-                            String name = editTextItemName.getText().toString();
-                            String description = editTextItemDescription.getText().toString();
-                            double price = Double.parseDouble(editTextItemPrice.getText().toString());
-                            String serviceUnit;
-                            if (radioBtnKitchen.isChecked()) {
-                                serviceUnit = "kitchen";
-                            }
-                            else if (radioBtnService.isChecked()) {
-                                serviceUnit = "service";
-                            }
-                            else {
-                                serviceUnit = "other";
-                            }
-
-                            // TODO: 12/25/2021 Create another ItemsAdapter for this task maybe.
-                            // This adapter is not good for presenting the items in this fragment.
-                            menuAdapter.addItem(new Item(name, description, null, serviceUnit, true, price));
-                            itemsRecyclerView.setAdapter(menuAdapter);
-                        }
-                    }
-                }
-        );
+        btnAddItemToMenu.setOnClickListener(this::onAddItemClicked);
+        btnFinishEdit.setOnClickListener(this::onFinishBtnClicked);
 
         return view;
+    }
+
+    public void onAddItemClicked(View v) {
+        int errorColor = R.color.design_default_color_error;
+
+        if (editTextItemName.getText().toString().isEmpty()) {
+            editTextItemName.setBackgroundColor(getResources().getColor(errorColor));
+        } else if (editTextItemPrice.getText().toString().isEmpty()) {
+            editTextItemPrice.setBackgroundColor(getResources().getColor(errorColor));
+        } else {
+
+            String name = editTextItemName.getText().toString();
+            String description = editTextItemDescription.getText().toString();
+            double price = Double.parseDouble(editTextItemPrice.getText().toString());
+            String serviceUnit;
+            if (radioBtnKitchen.isChecked()) {
+                serviceUnit = "kitchen";
+            }
+            else if (radioBtnService.isChecked()) {
+                serviceUnit = "service";
+            }
+            else {
+                serviceUnit = "other";
+            }
+
+            // TODO: 12/25/2021 Create another ItemsAdapter for this task maybe.
+            // This adapter is not good for presenting the items in this fragment.
+            menuAdapter.addItem(new Item(name, description, null, serviceUnit, true, price));
+            itemsRecyclerView.setAdapter(menuAdapter);
+        }
+    }
+
+    public void onFinishBtnClicked(View v) {
+
+        viewController.onMenuEditFinished(menuAdapter.getItems());
     }
 }

@@ -83,6 +83,7 @@ public class DataEditViewController implements DataViewController{
 //        RestDB.getInstance()
 
 
+
         Branch branch = new Branch(this.branchAddress, isKosher, null, this.tables);
     }
 }
