@@ -20,6 +20,7 @@ import BusinessEntities.Branch;
 import BusinessEntities.Item;
 import BusinessEntities.Menu;
 import BusinessEntities.Restaurant;
+import BusinessEntities.Table;
 import UI.DataActivity.Controller.DataEditViewController;
 import UI.DataActivity.Controller.DataViewController;
 import UI.DataActivity.View.CreateBranchFragment;
@@ -48,36 +49,21 @@ public class DataActivity extends AppCompatActivity implements DataEditView {
 
         viewController = new DataEditViewController(this);
 
-        getSupportFragmentManager()
-                .beginTransaction()
-                .setCustomAnimations(R.anim.fade_in, R.anim.fade_out)
-                .addToBackStack("CreateRestaurantFragment")
-                .replace(R.id.frameLayoutDataActivity, new CreateRestaurantFragment(viewController))
-                .commit();
+        moveToFragment(new CreateRestaurantFragment(viewController), "CreateRestaurantFragment");
     }
 
     @Override
     public void onRestaurantEditFinished(boolean isSuccessful, String restaurantName) {
 
         if (isSuccessful) {
-            getSupportFragmentManager()
-                    .beginTransaction()
-                    .setCustomAnimations(R.anim.fade_in, R.anim.fade_out)
-                    .addToBackStack("EditRestaurantFragment")
-                    .replace(R.id.frameLayoutDataActivity, new CreateBranchFragment(viewController))
-                    .commit();
+            moveToFragment(new CreateBranchFragment(viewController), "EditRestaurantFragment");
         }
     }
 
     @Override
     public void onBranchEditFinished(boolean isSuccessful, Address address, boolean isKosher) {
         if (isSuccessful) {
-            getSupportFragmentManager()
-                    .beginTransaction()
-                    .setCustomAnimations(R.anim.fade_in, R.anim.fade_out)
-                    .addToBackStack("EditBranchFragment")
-                    .replace(R.id.frameLayoutDataActivity, new CreateMenuFragment(viewController))
-                    .commit();
+            moveToFragment(new CreateMenuFragment(viewController), "EditBranchFragment");
         }
     }
 
@@ -89,5 +75,25 @@ public class DataActivity extends AppCompatActivity implements DataEditView {
         else {
             Log.e(TAG, "Something went wrong....");
         }
+    }
+
+    @Override
+    public void onTablesEditFinished(boolean isSuccessful, List<Table> menuItems) {
+
+    }
+
+    @Override
+    public void onDataEditFinish(Restaurant restaurant, Branch branch) {
+
+    }
+
+
+    private void moveToFragment(Fragment fragment, String fragmentTag) {
+        getSupportFragmentManager()
+                .beginTransaction()
+                .setCustomAnimations(R.anim.fade_in, R.anim.fade_out)
+                .addToBackStack(fragmentTag)
+                .replace(R.id.frameLayoutDataActivity, fragment)
+                .commit();
     }
 }

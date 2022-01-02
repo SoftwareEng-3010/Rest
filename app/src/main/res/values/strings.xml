@@ -60,6 +60,9 @@
     <string name="radio_btn_service_he">שירות</string>
     <string name="radio_btn_other_he">אחר</string>
     <string name="button_finish_he">סיים</string>
+    <string name="prompt_edit_branch_tables">כמה שולחנות נמצאים בסניפך?</string>
+    <string name="number_of_tables_he">מספר השולחנות</string>
+    <string name="button_finish_he">סיים</string>
     <!-- Menu List Item -->
 
 </resources>

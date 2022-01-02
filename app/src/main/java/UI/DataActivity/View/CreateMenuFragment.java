@@ -23,6 +23,7 @@ import java.util.List;
 
 import BusinessEntities.Item;
 import UI.DataActivity.Controller.DataViewController;
+import UIAdapters.EditMenuRecyclerAdapter;
 import UIAdapters.MenuRecyclerViewAdapter;
 import ViewModels.MenuViewModel;
 
@@ -36,7 +37,7 @@ public class CreateMenuFragment extends Fragment {
     private EditText editTextItemDescription;
     private EditText editTextItemPrice;
     private RecyclerView itemsRecyclerView;
-//    private RadioGroup radioGroup;
+
     private RadioButton radioBtnKitchen, radioBtnService,
                         radioBtnOther;
 
@@ -59,16 +60,14 @@ public class CreateMenuFragment extends Fragment {
         editTextItemDescription = (EditText) view.findViewById(R.id.editTextItemDescriptionCreateMenuFrag);
         editTextItemPrice = (EditText) view.findViewById(R.id.editTextItemPriceCreateMenuFrag);
 
-//        radioGroup = (RadioGroup) view.findViewById(R.id.radio_group_service_type);
         radioBtnKitchen = (RadioButton) view.findViewById(R.id.radio_btn_kitchen);
+        radioBtnKitchen.setChecked(true);
         radioBtnService = (RadioButton) view.findViewById(R.id.radio_btn_service);
         radioBtnOther = (RadioButton) view.findViewById(R.id.radio_btn_other);
-
 
         btnAddItemToMenu = (Button) view.findViewById(R.id.buttonAddItemToMenu);
 
         itemsRecyclerView = (RecyclerView) view.findViewById(R.id.recyclerViewCreateMenuFrag);
-
 
         MenuViewModel menuViewModel = ViewModelProvider.AndroidViewModelFactory
                 .getInstance(getActivity().getApplication())
@@ -76,7 +75,7 @@ public class CreateMenuFragment extends Fragment {
 
         // set up adapter
         itemList = new ArrayList<>();
-        MenuRecyclerViewAdapter menuAdapter = new MenuRecyclerViewAdapter(getContext(), itemList);
+        EditMenuRecyclerAdapter menuAdapter = new EditMenuRecyclerAdapter(getContext(), itemList);
 
         // set up the RecyclerView
         itemsRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
