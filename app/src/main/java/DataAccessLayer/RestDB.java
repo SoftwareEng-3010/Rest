@@ -464,8 +464,7 @@ public class RestDB implements Database {
     }
 
     @Override
-    public void sendOrder(@NonNull String restId,@NonNull String branchId,@NonNull IOrder order, OnDataSentToDB callback) {
-        Log.e(TAG, "IMPLEMENT pushOrder");
+    public void sendOrder(@NonNull String restId, @NonNull String branchId, @NonNull IOrder order, OnDataSentToDB callback) {
 
         restCollection.document(restId)
                 .collection(BRANCHES_COLLECTION_NAME)
