@@ -117,7 +117,6 @@ public class BranchArrayAdapter extends ArrayAdapter<Branch>{
                 new Intent(getContext(), BranchViewActivity.class);
 
         String branchId = branch.getDocId();
-        String menuPath = branch.getMenuPath();
         String restId = BranchArrayAdapter.this.restId;
 
         moveToBranchViewActivity.putExtra(Constants.KEY_RESTAURANT_ID, restId);
