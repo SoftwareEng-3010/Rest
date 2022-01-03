@@ -6,6 +6,7 @@ import androidx.annotation.NonNull;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
@@ -42,10 +43,10 @@ public class RestDB implements Database {
     private final String TAG = "RestDB";
 
     // constant strings for querying database
-    private final String BRANCHES_COLLECTION_NAME = "branch";
+    private final String BRANCHES_COLLECTION_NAME = "branches";
     private final String RESTAURANT_COLLECTION_NAME = "our_restaurants";
     private final String MENU_FIELD_NAME = "menu_path";
-    private final String MENU_COLLECTION_NAME = "menu";
+    private final String MENU_COLLECTION_NAME = "menus";
 
     private static RestDB instance = null;                    // private single instance
 
@@ -253,29 +254,46 @@ public class RestDB implements Database {
     */
     @Override
     public void addRestaurant(@NonNull Restaurant restaurant, OnDataSentToDB writeCallback, DatabaseRequestCallback requestCallback) {
-        // Implement
-
-        CollectionReference test_collection = db.collection("test");
-
+        // First, check if there is already a restaurant with the given restaurant's name:
         restCollection
-                .add(restaurant)
-                .addOnCompleteListener(
-                        new OnCompleteListener<DocumentReference>() {
-                            @Override
-                            public void onComplete(@NonNull Task<DocumentReference> task) {
-                                if (task.isSuccessful()) {
-                                    Log.e(TAG, "Successfully written object to database!");
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+
+                            for (DocumentSnapshot doc : task.getResult().getDocuments()) {
+                                // Iterate over restaurant documents to match the names:
+                                if (doc.getString("name").equals(restaurant.getName())) {
+                                    // If found - make a callback to caller and return.
+                                    requestCallback.onObjectReturnedFromDB(doc.getId());
                                     writeCallback.onObjectWrittenToDB(true);
-                                    requestCallback.onObjectReturnedFromDB(task.getResult().getId());
-                                }
-                                else {
-                                    Log.e(TAG, "Something went wrong while writing an object to database");
-                                    writeCallback.onObjectWrittenToDB(false);
-                                    requestCallback.onObjectReturnedFromDB(null);
+                                    return;
                                 }
                             }
+                            // If no restaurant has this name:
+                            restCollection
+                                    .add(restaurant)
+                                    .addOnCompleteListener(
+                                            new OnCompleteListener<DocumentReference>() {
+                                                @Override
+                                                public void onComplete(@NonNull Task<DocumentReference> task) {
+                                                    if (task.isSuccessful()) {
+                                                        Log.e(TAG, "Successfully written object to database!");
+                                                        writeCallback.onObjectWrittenToDB(true);
+                                                        requestCallback.onObjectReturnedFromDB(task.getResult().getId());
+                                                    }
+                                                    else {
+                                                        Log.e(TAG, "Something went wrong while writing an object to database");
+                                                        writeCallback.onObjectWrittenToDB(false);
+                                                        requestCallback.onObjectReturnedFromDB(null);
+                                                    }
+                                                }
+                                            }
+                                    );
                         }
-                );
+                    }
+                });
         Log.e(TAG, "finished addRestaurant()");
     }
 
@@ -362,42 +380,25 @@ public class RestDB implements Database {
     @Override
     public void setUser(@NonNull Object user, int userType, OnDataSentToDB callback) {
 
-        String uid = null;
+        String uid = FirebaseAuth.getInstance().getUid();
         if (user instanceof Map) {
             if (((Map<?, ?>) user).containsKey("id")) {
                 uid = (String) ((Map<?, ?>) user).get("id");
             }
         }
-
-        if (uid == null) {
-            db.collection("users")
-                    .add(user)
-                    .addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
-                        @Override
-                        public void onComplete(@NonNull Task<DocumentReference> task) {
-                            if (task.isSuccessful())
-                                callback.onObjectWrittenToDB(true);
-                            else
-                                callback.onObjectWrittenToDB(false);
-                        }
-                    });
-        }
-
-        else {
-            // uid != null
-            db.collection("users")
-                    .document(uid)
-                    .set(user)
-                    .addOnCompleteListener(new OnCompleteListener<Void>() {
-                        @Override
-                        public void onComplete(@NonNull Task<Void> task) {
-                            if (task.isSuccessful())
-                                callback.onObjectWrittenToDB(true);
-                            else
-                                callback.onObjectWrittenToDB(false);
-                        }
-                    });
-        }
+        // uid != null
+        db.collection("users")
+                .document(uid)
+                .set(user)
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful())
+                            callback.onObjectWrittenToDB(true);
+                        else
+                            callback.onObjectWrittenToDB(false);
+                    }
+                });
     }
 
     @Override

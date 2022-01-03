@@ -148,57 +148,28 @@ public class DataEditViewController implements DataViewController{
                                                             Log.e(TAG, "Branch came back null for some reason");
                                                         }
                                                         String branchId = (String) obj;
+                                                        String uid = FirebaseAuth.getInstance().getUid();
 
-                                                        db.getUser(
-                                                                FirebaseAuth.getInstance().getUid(),
-                                                                new DatabaseRequestCallback() {
+                                                        Map<String, Object> newUser = new HashMap<>();
+                                                        newUser.put("id", FirebaseAuth.getInstance().getUid());
+                                                        newUser.put("type", Constants.USER_TYPE_BRANCH_MANAGER);
+                                                        newUser.put("branch_id", branchId);
+                                                        newUser.put("rest_id", restId);
+
+                                                        db.setUser(
+                                                                newUser,
+                                                                Constants.USER_TYPE_BRANCH_MANAGER,
+                                                                new OnDataSentToDB() {
                                                                     @Override
-                                                                    public void onObjectReturnedFromDB(@Nullable Object obj) {
-                                                                        BranchManager user = (BranchManager) obj;
-                                                                        Map<String, Object> newUser = new HashMap<>();
-                                                                        newUser.put("id", user.getUid());
-                                                                        newUser.put("type", user.getType());
-                                                                        newUser.put("email", user.getEmail());
-                                                                        newUser.put("branch_id", branchId);
-                                                                        newUser.put("rest_id", restId);
-
-                                                                        db.setUser(
-                                                                                newUser,
-                                                                                Constants.USER_TYPE_BRANCH_MANAGER,
-                                                                                new OnDataSentToDB() {
-                                                                                    @Override
-                                                                                    public void onObjectWrittenToDB(boolean isTaskSuccessful) {
-                                                                                        if (isTaskSuccessful) {
-                                                                                            view.onDataEditFinish(restId, branchId);
-                                                                                        }
-                                                                                    }
-                                                                                });
+                                                                    public void onObjectWrittenToDB(boolean isTaskSuccessful) {
+                                                                        if (isTaskSuccessful) {
+                                                                            view.onDataEditFinish(restId, branchId);
+                                                                        }
                                                                     }
-                                                                }
-                                                        );
+                                                                });
                                                     }
                                                 });
 
-//                                        db.addBranch(restId, branch);
-
-//                                        List<Branch> branches = new ArrayList<>();
-//                                        branches.add(branch);
-//
-//                                        Restaurant restaurant = new Restaurant(restaurantName, branches);
-//                                        db.setRestaurant(
-//                                                restId, restaurant,
-//                                            new OnDataSentToDB() {
-//                                                @Override
-//                                                public void onObjectWrittenToDB(boolean isTaskSuccessful) {
-//                                                    if (isTaskSuccessful) {
-//                                                        Log.e(TAG, "Successfully written restaurant into DB!");
-//                                                        view.onDataEditFinish(restaurant, branch);
-//                                                    }
-//                                                    else {
-//                                                        Log.e(TAG, "Failed to write restaurant into DB!");
-//                                                    }
-//                                                }
-//                                            });
                                     }
                                 });
                     }
