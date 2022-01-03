@@ -1,7 +1,12 @@
 package BusinessLogic;
 
+import android.util.Log;
+
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import API.Controllers.IManagementViewController;
 import API.Database.DatabaseRequestCallback;
@@ -14,7 +19,7 @@ import UI.RestaurantManagementUI.ServiceUnitsUI.ServiceFragment;
 
 public class ManagementViewController implements IManagementViewController {
 
-    private final String TAG = "ManagementViewController";
+    private final String TAG = "ManagementController";
     private IManagementView managementView;
     private String branchId;
     private String restId;
@@ -25,29 +30,36 @@ public class ManagementViewController implements IManagementViewController {
     private Fragment serviceFragment;
     private Fragment kitchenFragment;
 
-    public ManagementViewController(IManagementView view, String restId, String branchUid) {
+    public ManagementViewController(IManagementView view, String restId, String branchId) {
         this.managementView = view;
-        this.branchId = branchUid;
+        this.branchId = branchId;
         this.restId = restId;
 
+        RestDB.getInstance().attachOrderListener(restId, branchId,
+                new OrderManager(view.getServiceUnits()));
+
+        homeFragment = new HomeFragment(this);
+        serviceFragment = new ServiceFragment(this);
+        kitchenFragment = new KitchenFragment(this);
+
         RestDB.getInstance()
-                .getBranch(restId, branchUid, new DatabaseRequestCallback() {
+                .getBranch(
+                        restId, branchId,
+                        new DatabaseRequestCallback() {
             @Override
             public void onObjectReturnedFromDB(@Nullable Object obj) {
                 if (obj == null) {
-                    view.onDataFailure("Branch object came back null from database (Branch_UID: " + branchUid + ")");
+                    Log.e(TAG, "Branch came back null from database");
+                    view.onDataFailure("Branch object came back null from database (Branch_UID: " + branchId + ")");
                 }
 
                 else {
                     branch = (Branch) obj;
-                    homeFragment = new HomeFragment();
                     view.loadFragment(homeFragment);
                 }
             }
         });
     }
-
-
 
     @Override
     public void onHomeButtonClicked() {
@@ -56,17 +68,11 @@ public class ManagementViewController implements IManagementViewController {
 
     @Override
     public void onServiceButtonClicked() {
-        if (serviceFragment == null) {
-            this.serviceFragment = new ServiceFragment();
-        }
         managementView.loadFragment(serviceFragment);
     }
 
     @Override
     public void onKitchenButtonClicked() {
-        if (kitchenFragment == null) {
-            this.kitchenFragment = new KitchenFragment();
-        }
         managementView.loadFragment(kitchenFragment);
     }
 }

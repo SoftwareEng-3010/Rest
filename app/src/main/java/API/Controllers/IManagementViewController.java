@@ -1,8 +1,10 @@
 package API.Controllers;
 
+import android.view.View;
+
 public interface IManagementViewController {
 
-    public void onHomeButtonClicked();
-    public void onServiceButtonClicked();
-    public void onKitchenButtonClicked();
+    void onHomeButtonClicked();
+    void onServiceButtonClicked();
+    void onKitchenButtonClicked();
 }

@@ -11,20 +11,21 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import API.Constants.Constants;
 import API.Database.Database;
 import API.Database.DatabaseRequestCallback;
 import API.Database.OnDataSentToDB;
-import API.IOrderListener;
+import API.IOrderController;
 import API.Models.IBranchManagerUser;
+import API.Models.IOrder;
 import API.Models.IUser;
 import BusinessEntities.Branch;
 import BusinessEntities.BranchManager;
@@ -42,9 +43,10 @@ public class RestDB implements Database {
     private final String TAG = "RestDB";
 
     // constant strings for querying database
-    private final String BRANCHES_COLLECTION_NAME = "branch";
+    private final String BRANCHES_COLLECTION_NAME = "branches";
     private final String RESTAURANT_COLLECTION_NAME = "our_restaurants";
     private final String MENU_FIELD_NAME = "menu_path";
+    private final String MENU_COLLECTION_NAME = "menus";
 
     private static RestDB instance = null;                    // private single instance
 
@@ -230,34 +232,115 @@ public class RestDB implements Database {
         });
     }
 
+    @Override
+    public void getRestaurant(@NonNull String restId, DatabaseRequestCallback callBack) {
+        restCollection.document(restId)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if (task.isSuccessful()) {
+                            callBack.onObjectReturnedFromDB(task.getResult().toObject(Restaurant.class));
+                        }
+                        else {
+                            callBack.onObjectReturnedFromDB(null);
+                        }
+                    }
+                });
+    }
+
     /*
         Firestore database Writing methods:
     */
     @Override
-    public void addRestaurant(Restaurant restaurant, OnDataSentToDB callBack) {
-        // Implement
+    public void addRestaurant(@NonNull Restaurant restaurant, OnDataSentToDB writeCallback, DatabaseRequestCallback requestCallback) {
+        // First, check if there is already a restaurant with the given restaurant's name:
+        restCollection
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
 
-        CollectionReference test_collection = db.collection("test");
-
-        test_collection.document() // A new document reference
-                        .set(restaurant)
-                        .addOnCompleteListener(
-                                new OnCompleteListener<Void>() {
-                                    @Override
-                                    public void onComplete(@NonNull Task<Void> task) {
-                                        if (task.isSuccessful()) {
-                                            Log.e(TAG, "Successfully written object to database!");
-                                            callBack.onObjectWrittenToDB(true);
-                                        }
-                                        else {
-                                            Log.e(TAG, "Something went wrong while writing an object to database");
-                                            callBack.onObjectWrittenToDB(false);
-                                        }
-                                    }
+                            for (DocumentSnapshot doc : task.getResult().getDocuments()) {
+                                // Iterate over restaurant documents to match the names:
+                                if (doc.getString("name").equals(restaurant.getName())) {
+                                    // If found - make a callback to caller and return.
+                                    requestCallback.onObjectReturnedFromDB(doc.getId());
+                                    writeCallback.onObjectWrittenToDB(true);
+                                    return;
                                 }
-                        );
+                            }
+                            // If no restaurant has this name:
+                            restCollection
+                                    .add(restaurant)
+                                    .addOnCompleteListener(
+                                            new OnCompleteListener<DocumentReference>() {
+                                                @Override
+                                                public void onComplete(@NonNull Task<DocumentReference> task) {
+                                                    if (task.isSuccessful()) {
+                                                        Log.e(TAG, "Successfully written object to database!");
+                                                        writeCallback.onObjectWrittenToDB(true);
+                                                        requestCallback.onObjectReturnedFromDB(task.getResult().getId());
+                                                    }
+                                                    else {
+                                                        Log.e(TAG, "Something went wrong while writing an object to database");
+                                                        writeCallback.onObjectWrittenToDB(false);
+                                                        requestCallback.onObjectReturnedFromDB(null);
+                                                    }
+                                                }
+                                            }
+                                    );
+                        }
+                    }
+                });
         Log.e(TAG, "finished addRestaurant()");
+    }
 
+    @Override
+    public void setRestaurant(@NonNull String restId, @NonNull Restaurant restaurant, OnDataSentToDB writeCallback) {
+
+        restCollection
+            .document(restId)
+            .set(restaurant)
+            .addOnCompleteListener(
+                new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful()) {
+                            Log.e(TAG, "Successfully written object to database!");
+                            writeCallback.onObjectWrittenToDB(true);
+                        }
+                        else {
+                            Log.e(TAG, "Something went wrong while writing an object to database");
+                            writeCallback.onObjectWrittenToDB(false);
+                        }
+                    }
+                }
+            );
+    }
+
+    @Override
+    public void addBranch(@NonNull String restId, @NonNull Branch branch, OnDataSentToDB writeCallback, DatabaseRequestCallback requestCallback) {
+        restCollection.
+                document(restId)
+                .collection(BRANCHES_COLLECTION_NAME)
+                .add(branch)
+                .addOnCompleteListener(
+                        new OnCompleteListener<DocumentReference>() {
+                            @Override
+                            public void onComplete(@NonNull Task<DocumentReference> task) {
+                                if (task.isSuccessful()) {
+                                    writeCallback.onObjectWrittenToDB(true);
+                                    requestCallback.onObjectReturnedFromDB(task.getResult().getId());
+                                }
+                                else {
+                                    writeCallback.onObjectWrittenToDB(false);
+                                    requestCallback.onObjectReturnedFromDB(null);
+                                }
+                            }
+                        }
+                );
     }
 
     @Override
@@ -292,6 +375,53 @@ public class RestDB implements Database {
                     }
                 }
         );
+    }
+
+    @Override
+    public void setUser(@NonNull Object user, int userType, OnDataSentToDB callback) {
+
+        String uid = FirebaseAuth.getInstance().getUid();
+        if (user instanceof Map) {
+            if (((Map<?, ?>) user).containsKey("id")) {
+                uid = (String) ((Map<?, ?>) user).get("id");
+            }
+        }
+        // uid != null
+        db.collection("users")
+                .document(uid)
+                .set(user)
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful())
+                            callback.onObjectWrittenToDB(true);
+                        else
+                            callback.onObjectWrittenToDB(false);
+                    }
+                });
+    }
+
+    @Override
+    public void addMenu(@NonNull String restId, @NonNull Menu menu, DatabaseRequestCallback callback) {
+
+        restCollection
+                .document(restId)
+                .collection(MENU_COLLECTION_NAME)
+                .add(menu)
+                .addOnCompleteListener(
+                        new OnCompleteListener<DocumentReference>() {
+                            @Override
+                            public void onComplete(@NonNull Task<DocumentReference> task) {
+                                if (task.isSuccessful()) {
+
+                                    callback.onObjectReturnedFromDB(task.getResult().getPath());
+                                }
+                                else {
+                                    callback.onObjectReturnedFromDB(null);
+                                }
+                            }
+                        }
+                );
     }
 
     @Override
@@ -334,8 +464,28 @@ public class RestDB implements Database {
     }
 
     @Override
-    public void pushOrder(String orderId, OnDataSentToDB callback) {
-        Log.e(TAG, "IMPLEMENT pushOrder");
+    public void sendOrder(@NonNull String restId, @NonNull String branchId, @NonNull IOrder order, OnDataSentToDB callback) {
+
+        restCollection.document(restId)
+                .collection(BRANCHES_COLLECTION_NAME)
+                .document(branchId)
+                .collection("orders")
+                .document()
+                .set(order)
+                .addOnCompleteListener(
+                new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful()) {
+                            callback.onObjectWrittenToDB(true);
+                            Log.e(TAG, "New Order is waiting to be handled by branch: " + branchId);
+                        }
+                        else {
+                            callback.onObjectWrittenToDB(false);
+                        }
+                     }
+                }
+        );
     }
 
     @Override
@@ -344,10 +494,13 @@ public class RestDB implements Database {
     }
 
     @Override
-    public void attachOrderListener(IOrderListener listener) {
-        String uid = FirebaseAuth.getInstance().getUid();
+    public void attachOrderListener(@NonNull String restId, @NonNull String branchId, IOrderController listener) {
 
-//        restCollection.document()
+        restCollection.document(restId)
+                .collection(BRANCHES_COLLECTION_NAME)
+                .document(branchId)
+                .collection("orders")
+                .addSnapshotListener(listener);
     }
 
 }

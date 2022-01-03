@@ -8,15 +8,31 @@
     >
 
     <Button
-        android:id="@+id/branchMenuButton"
-        android:layout_width="match_parent"
+        android:id="@+id/button_select_branch"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight="33.3"
+        android:layout_weight="80"
         android:gravity="center"
         android:layout_marginRight="40dp"
         android:layout_marginLeft="40dp"
-        android:text="Go to menu"
         android:textColor="@android:color/black" />
 
+    <TextView
+        android:id="@+id/text_view_select_table_number"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="5"
+        android:visibility="gone"
+        android:hint="@string/table_number_he" />
+
+    <EditText
+        android:id="@+id/edit_text_table_number"
+        android:hint="#"
+        android:layout_weight="5"
+        android:inputType="number"
+        android:visibility="gone"
+        android:maxLength="2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
 
 </LinearLayout>

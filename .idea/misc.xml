@@ -4,6 +4,8 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="../../../../layout/custom_preview.xml" value="0.29739583333333336" />
+        <entry key="..\:/AndroidProjects/Rest/app/src/main/res/drawable/ic_search_black_24dp.xml" value="0.16510416666666666" />
+        <entry key="..\:/AndroidProjects/Rest/app/src/main/res/layout/activity_branch_scrollview.xml" value="0.1" />
         <entry key="..\:/AndroidProjects/Rest/app/src/main/res/layout/activity_branch_view.xml" value="0.25" />
         <entry key="..\:/AndroidProjects/Rest/app/src/main/res/layout/activity_data.xml" value="0.2" />
         <entry key="..\:/AndroidProjects/Rest/app/src/main/res/layout/activity_login.xml" value="0.25" />
@@ -14,14 +16,22 @@
         <entry key="..\:/AndroidProjects/Rest/app/src/main/res/layout/activity_restaurant_management.xml" value="0.17760416666666667" />
         <entry key="..\:/AndroidProjects/Rest/app/src/main/res/layout/activity_splash.xml" value="0.27291666666666664" />
         <entry key="..\:/AndroidProjects/Rest/app/src/main/res/layout/content_management_main.xml" value="0.18854166666666666" />
+        <entry key="..\:/AndroidProjects/Rest/app/src/main/res/layout/fragment_create_branch.xml" value="0.33" />
+        <entry key="..\:/AndroidProjects/Rest/app/src/main/res/layout/fragment_create_menu.xml" value="0.25" />
         <entry key="..\:/AndroidProjects/Rest/app/src/main/res/layout/fragment_create_restaurant.xml" value="0.11367753623188406" />
+        <entry key="..\:/AndroidProjects/Rest/app/src/main/res/layout/fragment_create_tables.xml" value="0.2203125" />
+        <entry key="..\:/AndroidProjects/Rest/app/src/main/res/layout/fragment_home.xml" value="0.14895833333333333" />
         <entry key="..\:/AndroidProjects/Rest/app/src/main/res/layout/fragment_management_home.xml" value="0.25" />
         <entry key="..\:/AndroidProjects/Rest/app/src/main/res/layout/fragment_management_kitchen.xml" value="0.16" />
         <entry key="..\:/AndroidProjects/Rest/app/src/main/res/layout/fragment_service_staff.xml" value="0.25" />
         <entry key="..\:/AndroidProjects/Rest/app/src/main/res/layout/fragment_service_staff_u_i.xml" value="0.12552083333333333" />
+        <entry key="..\:/AndroidProjects/Rest/app/src/main/res/layout/layout_branch_item.xml" value="0.25" />
+        <entry key="..\:/AndroidProjects/Rest/app/src/main/res/layout/layout_management_navigation_menu.xml" value="0.14895833333333333" />
+        <entry key="..\:/AndroidProjects/Rest/app/src/main/res/layout/layout_menu_list_item.xml" value="0.10714285714285714" />
         <entry key="..\:/AndroidProjects/Rest/app/src/main/res/layout/login_activity.xml" value="0.13272543059777103" />
         <entry key="..\:/AndroidProjects/Rest/app/src/main/res/layout/qrcode_activity.xml" value="0.25" />
         <entry key="..\:/AndroidProjects/Rest/app/src/main/res/layout/rest_selector.xml" value="0.25" />
+        <entry key="..\:/AndroidProjects/Rest/app/src/main/res/menu/menu_management_navigation.xml" value="0.14895833333333333" />
         <entry key="..\:/Users/97250/Desktop/Rest/app/src/main/res/layout/activity_branch_display.xml" value="0.1796875" />
         <entry key="..\:/Users/97250/Desktop/Rest/app/src/main/res/layout/activity_branch_scrollview.xml" value="0.17300724637681159" />
         <entry key="..\:/Users/97250/Desktop/Rest/app/src/main/res/layout/activity_rest_scrollview.xml" value="0.1693840579710145" />

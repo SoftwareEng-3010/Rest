@@ -6,6 +6,7 @@
     tools:context="UI.RestaurantManagementUI.ServiceUnitsUI.HomeFragment">
 
     <TextView
+        android:id="@+id/text_management_home"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center"

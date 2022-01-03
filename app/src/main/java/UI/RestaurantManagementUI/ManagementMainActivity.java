@@ -1,10 +1,14 @@
 package UI.RestaurantManagementUI;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
@@ -12,9 +16,15 @@ import android.widget.Toast;
 
 import com.example.exercise_5.R;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import API.Constants.Constants;
 import API.Controllers.IManagementViewController;
+import API.Models.IServiceUnit;
 import API.Views.IManagementView;
+import BusinessEntities.Kitchen;
+import BusinessEntities.ServiceStaff;
 import BusinessLogic.ManagementViewController;
 import UI.CustomersUI.QRCodeActivity;
 import UI.DataActivity.DataActivity;
@@ -23,14 +33,16 @@ import UI.RestaurantManagementUI.ServiceUnitsUI.ServiceFragment;
 
 public class ManagementMainActivity extends AppCompatActivity implements IManagementView {
 
+    private final String TAG = "ManagementMain";
+
     private FrameLayout frameLayout;
 
     private IManagementViewController viewController;
-    private Fragment serviceStaffFragment;
-    private Fragment managementHomeFragment;
     private Button btnHome;
     private Button btnService;
     private Button btnKitchen;
+
+    private String managerUid, branchId, restId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,15 +57,32 @@ public class ManagementMainActivity extends AppCompatActivity implements IManage
             moveToQRCodeActivity();
         }
 
-        init();
-    }
+        managerUid = getIntent().getStringExtra("manager_uid");
+        branchId = getIntent().getStringExtra("branch_id");
+        restId = getIntent().getStringExtra("rest_id");
 
+        if (restId == null || branchId == null) {
 
-    private void moveToDataActivity() {
-//        if (branchUid == null) {
-            Intent dataActivity = new Intent(this, DataActivity.class);
-            startActivity(dataActivity);
-//        }
+            if (restId == null) {Log.e(TAG, "restId is NULL!");}
+
+            if (branchId == null) {
+                new AlertDialog.Builder(this)
+                        .setCancelable(false)
+                        .setMessage("נראה שאין סניף שמנוהל על ידך במאגר הנתונים.\nהנך מועבר לעריכת פרטי הסניף שלך")
+                        .setNeutralButton("הבנתי", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                moveToDataActivity();
+                            }
+                        })
+                        .create()
+                        .show();
+            }
+        }
+
+        else {
+            init();
+        }
     }
 
     @Override
@@ -70,17 +99,22 @@ public class ManagementMainActivity extends AppCompatActivity implements IManage
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
 
+    /**
+     * This method returns some HARD-CODED service-unit types.
+     * This should be avoided by setting up different service-unit types
+     * under each branch in database and the make a request to get them.
+     * @return - A hard-coded List<> of IServiceUnit`s.
+     */
+    @Override
+    public List<IServiceUnit> getServiceUnits() {
+        List<IServiceUnit> units = new ArrayList<>();
+        units.add(new ServiceStaff());
+        units.add(new Kitchen());
+        return units;
+    }
+
 
     private void init() {
-
-        managementHomeFragment = new HomeFragment();
-        serviceStaffFragment = new ServiceFragment();
-
-
-        String managerUid = getIntent().getStringExtra("manager_uid");
-        String branchId = getIntent().getStringExtra("branch_id");
-        String restId = getIntent().getStringExtra("rest_id");
-
 
         frameLayout = (FrameLayout) findViewById(R.id.frame_layout_management);
 
@@ -93,18 +127,24 @@ public class ManagementMainActivity extends AppCompatActivity implements IManage
         btnHome.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                btnService.setBackgroundColor(Color.TRANSPARENT);
+                btnKitchen.setBackgroundColor(Color.TRANSPARENT);
                 viewController.onHomeButtonClicked();
             }
         });
         btnService.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                btnHome.setBackgroundColor(Color.TRANSPARENT);
+                btnKitchen.setBackgroundColor(Color.TRANSPARENT);
                 viewController.onServiceButtonClicked();
             }
         });
         btnKitchen.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                btnService.setBackgroundColor(Color.TRANSPARENT);
+                btnHome.setBackgroundColor(Color.TRANSPARENT);
                 viewController.onKitchenButtonClicked();
             }
         });
@@ -116,4 +156,9 @@ public class ManagementMainActivity extends AppCompatActivity implements IManage
         startActivity(qrActivity);
     }
 
+    private void moveToDataActivity() {
+        Intent dataActivity = new Intent(this, DataActivity.class);
+        startActivity(dataActivity);
+        finish();
+    }
 }

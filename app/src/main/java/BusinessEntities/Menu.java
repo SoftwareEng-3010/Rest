@@ -1,33 +1,36 @@
 package BusinessEntities;
 
+import com.google.firebase.firestore.PropertyName;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class Menu {
 
-
-    private List<Item> menu;
+    @PropertyName("menu")
+    private List<Item> menuItems;
 
     public Menu(){
         // Empty constructor required by Firebase method .toObject()
     }
 
     public Menu(List<Item> items) {
-        this.menu = new ArrayList<>(items);
+        this.menuItems = new ArrayList<>(items);
     }
 
     public Menu(Menu other) {
-        this.menu = new ArrayList<>(menu);
+        this.menuItems = new ArrayList<>(menuItems);
     }
 
-    public List<Item> getMenu() {
-        return menu;
+    @PropertyName("menu")
+    public List<Item> getMenuItems() {
+        return menuItems;
     }
 
     @Override
     public String toString() {
         return "Menu{--------------------------------------------------" +
-                "items=" + menu +
+                "items=" + menuItems +
                 "------------------------------------------------------}";
     }
 }

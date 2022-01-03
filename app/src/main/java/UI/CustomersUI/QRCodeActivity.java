@@ -91,11 +91,7 @@ public class QRCodeActivity extends AppCompatActivity implements SwipeGestureLis
         }
 
         showListBtn.setOnClickListener(new View.OnClickListener() {
-
             @Override
-            /**
-             * Move to RestaurantListViewActivity
-             */
             public void onClick(View v) {
 
                 Intent moveToRestActivity =
@@ -105,11 +101,7 @@ public class QRCodeActivity extends AppCompatActivity implements SwipeGestureLis
         });
 
         logoutBtn.setOnClickListener(new View.OnClickListener() {
-
             @Override
-            /**
-             * Move to LoginActivity
-             */
             public void onClick(View v) {
                 FirebaseAuth.getInstance().signOut();
                 Intent moveToLoginActivity =
@@ -120,11 +112,7 @@ public class QRCodeActivity extends AppCompatActivity implements SwipeGestureLis
         });
 
         managerModeBtn.setOnClickListener(new View.OnClickListener() {
-
             @Override
-            /**
-             * Move to ManagementMainActivity
-             */
             public void onClick(View v) {
                 // Only finish the activity because when logged in as a manager,
                 // this activity is above ManagementMainActivity in UI Stack.
@@ -132,7 +120,6 @@ public class QRCodeActivity extends AppCompatActivity implements SwipeGestureLis
             }
         });
     }
-
 
     @Override
     protected void onStart() {
