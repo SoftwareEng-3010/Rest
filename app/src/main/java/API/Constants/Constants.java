@@ -20,4 +20,16 @@ public interface Constants {
     public static final int ADDRESS_FIELD_CITY = Address.FIELD_CITY;
     public static final int ADDRESS_FIELD_STREET = Address.FIELD_STREET;
     public static final int ADDRESS_FIELD_BUILDING_NUMBER = Address.FIELD_BUILDING_NUMBER;
+
+    public static final int USER_TYPE_CUSTOMER = 0;
+    public static final int USER_TYPE_BRANCH_MANAGER = 1;
+    public static final int USER_TYPE_BRANCH_MANAGER2 = 2;
+    public static final int USER_TYPE_SERVICE = 3;
+    public static final int USER_TYPE_KITCHEN = 4;
+    public static final int USER_TYPE_OTHER_USERS = 5;
+
+    public static final int MANAGEMENT_HOME_SCREEN = 0;
+    public static final int MANAGEMENT_SERVICE_SCREEN = 1;
+    public static final int MANAGEMENT_KITCHEN_SCREEN = 2;
+
 }

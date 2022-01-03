@@ -13,17 +13,17 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Switch;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.exercise_5.R;
 
-import java.util.Map;
-
+import BusinessEntities.Address;
 import UI.DataActivity.Controller.DataViewController;
 
-public class CreateBranchFragment extends Fragment implements DataEditView{
+public class CreateBranchFragment extends Fragment {
 
     private final String TAG = "CreateBranchFragment";
+
+    private DataViewController controller;
 
     private EditText editTextBranchCity;
     private EditText editTextBranchStreet;
@@ -31,6 +31,10 @@ public class CreateBranchFragment extends Fragment implements DataEditView{
     private Switch switchIsKosher;
     private Button btnCreateBranch;
     private ProgressBar progressBar;
+
+    public CreateBranchFragment(DataViewController controller) {
+        this.controller = controller;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -41,7 +45,6 @@ public class CreateBranchFragment extends Fragment implements DataEditView{
         Bundle dataBundle = getArguments();
 
         TextView tvRestName = (TextView) view.findViewById(R.id.tvRestaurantNameCreateBranchFrag);
-        Log.e(TAG, "Fragment created");
         if (dataBundle != null) {
             Log.e(TAG, "Bundle given from CreateRestaurantFragment:\n" + dataBundle.toString());
             String restName = dataBundle.getString("rest_name");
@@ -49,7 +52,7 @@ public class CreateBranchFragment extends Fragment implements DataEditView{
         }
 
         editTextBranchCity = (EditText) view.findViewById(R.id.editTextCity);
-        editTextBranchStreet = (EditText) view.findViewById(R.id.editTextStreet);
+        editTextBranchStreet = (EditText) view.findViewById(R.id.edit_text_branch_city);
         editTextBranchBuildingNumber = (EditText) view.findViewById(R.id.editTextBuildingNumber);
         switchIsKosher = (Switch) view.findViewById(R.id.switchIsKosher);
         btnCreateBranch = (Button) view.findViewById(R.id.buttonCreateBranch);
@@ -72,7 +75,11 @@ public class CreateBranchFragment extends Fragment implements DataEditView{
                             editTextBranchBuildingNumber.setBackgroundColor(getResources().getColor(errorColor));
                         }
                         else {
-                            moveToNextFragment();
+                            String city = editTextBranchCity.getText().toString();
+                            String street = editTextBranchStreet.getText().toString();
+                            String buildingNumber = editTextBranchBuildingNumber.getText().toString();
+                            boolean isKosher = switchIsKosher.getShowText();
+                            controller.onBranchEditFinished(new Address(city, street, buildingNumber), isKosher);
                         }
                     }
                 }
@@ -81,40 +88,5 @@ public class CreateBranchFragment extends Fragment implements DataEditView{
 
 
         return view;
-    }
-
-    @Override
-    public void onDataEditFinished(boolean isSuccessful, String message) {
-        if (isSuccessful)
-            moveToNextFragment();
-        else
-            Toast.makeText(getContext(), message, Toast.LENGTH_LONG).show();
-    }
-
-    public void moveToNextFragment() {
-
-        String city = editTextBranchCity.getText().toString();
-        String street = editTextBranchStreet.getText().toString();
-        String buildingNumber = editTextBranchBuildingNumber.getText().toString();
-        boolean isKosher = switchIsKosher.getShowText();
-
-        Bundle dataBundle = getArguments();
-        if (dataBundle == null) { Log.e(TAG, "Something went wrong!, remove `return` statement!!!!!!");return;}
-        dataBundle.putString("branch_city", city);
-        dataBundle.putString("branch_street", street);
-        dataBundle.putString("branch_building_number", buildingNumber);
-        dataBundle.putBoolean("branch_is_kosher", isKosher);
-
-
-        // Create and move to last fragment to add menu items to this branch.
-        Fragment createMenuFragment = new CreateMenuFragment();
-        createMenuFragment.setArguments(dataBundle);
-
-        getParentFragmentManager()
-                .beginTransaction()
-                .setCustomAnimations(R.anim.fade_in, R.anim.fade_out)
-                .addToBackStack("CreateRestaurantFragment")
-                .replace(R.id.frameLayoutDataActivity, createMenuFragment)
-                .commit();
     }
 }

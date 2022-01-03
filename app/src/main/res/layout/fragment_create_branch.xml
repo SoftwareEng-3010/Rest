@@ -14,14 +14,12 @@
         android:id="@+id/editTextCity"
         android:layout_width="331dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="36dp"
-        android:hint="Address::City"
-        android:inputType="textEmailAddress"
+        android:hint="@string/field_branch_city_he"
+        android:inputType="text"
         android:minHeight="48dp"
         android:selectAllOnFocus="true"
-        app:layout_constraintBottom_toTopOf="@+id/editTextStreet"
+        app:layout_constraintBottom_toTopOf="@+id/edit_text_branch_city"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvRestaurantNameCreateBranchFrag" />
 
@@ -31,7 +29,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="start"
         android:enabled="true"
-        android:text="Create Branch"
+        android:text="@string/btn_create_branch_he"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
@@ -43,42 +41,37 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:minHeight="48dp"
-        android:text="Branch is Kosher"
+        android:text="@string/switch_is_branch_kosher_he"
         app:layout_constraintBottom_toTopOf="@+id/buttonCreateBranch"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextBuildingNumber" />
+        app:layout_constraintTop_toBottomOf="@+id/editTextBuildingNumber"
+        tools:ignore="UseSwitchCompatOrMaterialXml" />
 
     <EditText
         android:id="@+id/editTextBuildingNumber"
         android:layout_width="331dp"
         android:layout_height="wrap_content"
-        android:hint="Address::Building number"
-        android:imeOptions="actionDone"
+        android:hint="@string/field_branch_building_number_he"
         android:inputType="text"
         android:minHeight="48dp"
         android:selectAllOnFocus="true"
         app:layout_constraintBottom_toTopOf="@+id/switchIsKosher"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextStreet"
-        app:layout_constraintVertical_bias="0.1" />
+        app:layout_constraintTop_toBottomOf="@+id/edit_text_branch_city" />
 
     <EditText
-        android:id="@+id/editTextStreet"
+        android:id="@+id/edit_text_branch_city"
         android:layout_width="331dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:hint="Address::Street"
-        android:imeOptions="actionDone"
+        android:hint="@string/field_branch_street_he"
         android:inputType="text"
         android:minHeight="48dp"
-        android:selectAllOnFocus="true"
         app:layout_constraintBottom_toTopOf="@+id/editTextBuildingNumber"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editTextCity" />
 

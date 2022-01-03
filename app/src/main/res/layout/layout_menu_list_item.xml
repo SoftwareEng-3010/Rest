@@ -56,7 +56,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:fontFamily="sans-serif-condensed"
-                android:text="Add to order"
+                android:text="@string/add_to_order"
                 android:textSize="12dp" />
 
         </LinearLayout>

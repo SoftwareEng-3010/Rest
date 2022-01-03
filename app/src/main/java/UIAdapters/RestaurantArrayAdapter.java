@@ -9,7 +9,6 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 
@@ -18,7 +17,7 @@ import com.example.exercise_5.R;
 import java.util.List;
 
 import BusinessEntities.Restaurant;
-import UI.BranchesListViewActivity;
+import UI.CustomersUI.BranchesListViewActivity;
 
 public class RestaurantArrayAdapter extends ArrayAdapter<Restaurant> {
 
@@ -62,11 +61,11 @@ public class RestaurantArrayAdapter extends ArrayAdapter<Restaurant> {
 
                 ListView parentView = (ListView) v.getParent().getParent();
                 int index = parentView.indexOfChild((View) v.getParent());
-                Intent moveToBranchesActivity =
+                Intent branchListViewActivity =
                         new Intent(getContext(), BranchesListViewActivity.class);
                 String restID = restaurants.get(index).getDocId();
-                moveToBranchesActivity.putExtra("restID", restID);
-                getContext().startActivity(moveToBranchesActivity);
+                branchListViewActivity.putExtra("rest_id", restID);
+                getContext().startActivity(branchListViewActivity);
             }
         });
 

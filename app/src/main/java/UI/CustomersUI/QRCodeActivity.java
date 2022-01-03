@@ -1,4 +1,4 @@
-package UI;
+package UI.CustomersUI;
 
 import android.Manifest;
 import android.content.DialogInterface;
@@ -20,14 +20,18 @@ import com.budiyev.android.codescanner.DecodeCallback;
 import com.budiyev.android.codescanner.ErrorCallback;
 import com.budiyev.android.codescanner.ScanMode;
 import com.example.exercise_5.R;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.zxing.Result;
 
 import API.Constants.Constants;
+import API.Views.SwipeGestureListener;
 import BusinessEntities.QRCode;
 import BusinessLogic.QRReadHandler;
 import BusinessLogic.Permissions;
+import UI.RestaurantManagementUI.ManagementMainActivity;
+import UI.LoginUI.LoginActivity;
 
-public class QRCodeActivity extends AppCompatActivity {
+public class QRCodeActivity extends AppCompatActivity implements SwipeGestureListener {
 
     private final String TAG = "QRCodeActivity";
 
@@ -38,6 +42,8 @@ public class QRCodeActivity extends AppCompatActivity {
     private CodeScanner qrScanner; // QRScanner object reference
 
     private Button showListBtn;    // Manual selection button
+    private Button logoutBtn;    // Manual selection button
+    private Button managerModeBtn;    // Manual selection button
 
     private final int REQUEST_PERMISSION_CODE = 210; // Any permission code would work
 
@@ -57,19 +63,35 @@ public class QRCodeActivity extends AppCompatActivity {
         setQRCodeCaptureCallbackMethod();
         setQRCodeErrorCallbackMethod();
 
-        // References to button
-        showListBtn = (Button)findViewById(R.id.showListButton);
+        /* Add an additional button for restaurant managers to move to their Management UI flow*/
+        // managersButton = (Button) findViewById(R.id.someButtonForManagers);
         initListeners();
+
+        int userType = getIntent().getIntExtra("user_type", -1);
+
+        if (userType == Constants.USER_TYPE_BRANCH_MANAGER) {
+
+        }
     }
 
     private void initListeners(){
 
-        showListBtn.setOnClickListener(new View.OnClickListener() {
+        // References to buttons
+        showListBtn = (Button)findViewById(R.id.showListButton);
+        logoutBtn = (Button)findViewById(R.id.button_log_out);
+        managerModeBtn = (Button)findViewById(R.id.button_move_to_management);
 
+        int userType = getIntent().getIntExtra("user_type", -1);
+
+        // TODO: REMOVE for presentation
+        logoutBtn.setVisibility(View.VISIBLE);
+        if (userType == 1) {
+            managerModeBtn.setVisibility(View.VISIBLE);
+            logoutBtn.setVisibility(View.VISIBLE);
+        }
+
+        showListBtn.setOnClickListener(new View.OnClickListener() {
             @Override
-            /**
-             * Move to RestaurantListViewActivity
-             */
             public void onClick(View v) {
 
                 Intent moveToRestActivity =
@@ -77,8 +99,27 @@ public class QRCodeActivity extends AppCompatActivity {
                 startActivity(moveToRestActivity);
             }
         });
-    }
 
+        logoutBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FirebaseAuth.getInstance().signOut();
+                Intent moveToLoginActivity =
+                        new Intent(QRCodeActivity.this, LoginActivity.class);
+                startActivity(moveToLoginActivity);
+                finish();
+            }
+        });
+
+        managerModeBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Only finish the activity because when logged in as a manager,
+                // this activity is above ManagementMainActivity in UI Stack.
+                finish();
+            }
+        });
+    }
 
     @Override
     protected void onStart() {
@@ -197,5 +238,26 @@ public class QRCodeActivity extends AppCompatActivity {
         Log.e(TAG, "onStop()");
         qrScanner.stopPreview();
         qrScanner.releaseResources(); // Release the camera connected to the Scanner object.
+    }
+
+    @Override
+    public void onSwipeLeft() {
+
+    }
+
+    @Override
+    public void onSwipeRight() {
+        Intent managementActivity = new Intent(this, ManagementMainActivity.class);
+        startActivity(managementActivity);
+    }
+
+    @Override
+    public void onSwipeTop() {
+
+    }
+
+    @Override
+    public void onSwipeBottom() {
+
     }
 }

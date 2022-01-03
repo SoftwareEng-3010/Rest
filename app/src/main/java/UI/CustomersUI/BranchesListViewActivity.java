@@ -1,25 +1,38 @@
-package UI;
+package UI.CustomersUI;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.example.exercise_5.R;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
+import API.Constants.Constants;
+import API.Database.DatabaseRequestCallback;
 import BusinessEntities.Branch;
-import API.Database.OnDataReceivedFromDB;
+import BusinessEntities.QRCode;
+import BusinessEntities.Table;
 import DataAccessLayer.RestDB;
 import UIAdapters.BranchArrayAdapter;
 
-public class BranchesListViewActivity extends AppCompatActivity {
+public class BranchesListViewActivity extends AppCompatActivity{
 
     private RestDB rdb;
     private ListView listView;
     private List<Branch> branches;
+
+    private final String TAG = "BranchListViewActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,12 +54,12 @@ public class BranchesListViewActivity extends AppCompatActivity {
 
     private void setListViewAdapter() {
         // Extract restID from previous activity
-        String restID = getIntent().getStringExtra("restID");
+        String restID = getIntent().getStringExtra("rest_id");
 
 
         // Retrieve data from Database
         rdb.getBranches(restID,
-                new OnDataReceivedFromDB() {
+                new DatabaseRequestCallback() {
                     @Override
                     public void onObjectReturnedFromDB(Object obj) {
 
@@ -55,11 +68,11 @@ public class BranchesListViewActivity extends AppCompatActivity {
                         ArrayAdapter<Branch> adapter = new BranchArrayAdapter(
                                 BranchesListViewActivity.this,
                                 R.layout.layout_branch_item,
-                                branches
+                                branches,
+                                restID
                         );
                         listView.setAdapter(adapter);
                     }
                 });
     }
-
 }

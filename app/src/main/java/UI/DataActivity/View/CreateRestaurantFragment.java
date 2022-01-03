@@ -19,13 +19,17 @@ import BusinessEntities.Restaurant;
 import UI.DataActivity.Controller.DataViewController;
 import UI.DataActivity.DataActivity;
 
-public class CreateRestaurantFragment extends Fragment implements DataEditSubView {
+public class CreateRestaurantFragment extends Fragment {
 
     private DataViewController viewController;
 
     private Button createRestaurant;
     private ProgressBar progressBar;
     private EditText editTextRestaurantName;
+
+    public CreateRestaurantFragment(DataViewController controller) {
+        this.viewController = controller;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -45,25 +49,11 @@ public class CreateRestaurantFragment extends Fragment implements DataEditSubVie
                             Toast.makeText(getContext(), "Please fill in Restaurant name field",
                                     Toast.LENGTH_LONG).show();
                         else {
-
+                            viewController.onRestaurantEditFinished(editTextRestaurantName.getText().toString());
                         }
                     }
                 }
         );
         return view;
-    }
-
-    @Override
-    public void nextFragment(Bundle dataBundle) {
-
-        Fragment createBranchFragment = new CreateBranchFragment();
-        createBranchFragment.setArguments(dataBundle);
-
-        getParentFragmentManager()
-                .beginTransaction()
-                .setCustomAnimations(R.anim.fade_in, R.anim.fade_out)
-                .addToBackStack("CreateRestaurantFragment")
-                .replace(R.id.frameLayoutDataActivity, createBranchFragment)
-                .commit();
     }
 }
