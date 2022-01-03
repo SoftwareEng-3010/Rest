@@ -125,14 +125,4 @@ public class BranchArrayAdapter extends ArrayAdapter<Branch>{
         moveToBranchViewActivity.putExtra(Constants.KEY_TABLE_NUMBER, tableNumber);
         getContext().startActivity(moveToBranchViewActivity);
     }
-
-    @Override
-    public boolean areAllItemsEnabled() {
-        return false;
-    }
-
-    @Override
-    public boolean isEnabled(int position) {
-        return true;
-    }
 }
