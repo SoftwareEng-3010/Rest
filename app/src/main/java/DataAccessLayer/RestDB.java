@@ -486,7 +486,6 @@ public class RestDB implements Database {
                      }
                 }
         );
-
     }
 
     @Override
