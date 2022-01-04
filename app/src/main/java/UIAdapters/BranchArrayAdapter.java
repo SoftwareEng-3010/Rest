@@ -57,42 +57,15 @@ public class BranchArrayAdapter extends ArrayAdapter<Branch>{
         }
 
         // Lookup view for data population
-        Button moveToBranchView = convertView.findViewById(R.id.button_select_branch);
+        Button btnMoveToBranch = convertView.findViewById(R.id.button_select_branch);
 
-        boolean isClicked = (moveToBranchView.getText().toString().equals("המשך"));
+        boolean isClicked = (btnMoveToBranch.getText().toString().equals("המשך"));
         if (! isClicked) {
-            moveToBranchView.setText(branchAddress);
-            moveToBranchView.setOnClickListener(this::onFirstClick);
+            btnMoveToBranch.setText(branchAddress);
+            btnMoveToBranch.setOnClickListener(this::onFirstClick);
         }
 
-        convertView.setOnFocusChangeListener(
-                new View.OnFocusChangeListener() {
-                    @Override
-                    public void onFocusChange(View view, boolean b) {
-                        Toast.makeText(context, "Focus: " + b, Toast.LENGTH_SHORT).show();
-                    }
-                }
-        );
-//        moveToBranchView.setOnClickListener(new View.OnClickListener() {
-//
-//            @Override
-//            /**
-//             * move to BranchViewActivity
-//             */
-//            public void onClick(View v) {
-//
-////                ListView parentView = (ListView) v.getParent().getParent();
-////                int branchIndex = parentView.indexOfChild((View) v.getParent());
-//
-//                Branch branch = branches.get(position);
-//
-//
-//
-////                moveToBranchViewActivity(branchIndex);
-//            }
-//        });
-
-        // Return the completed view to render on screen
+        // Return the complete view to render on screen
         return convertView;
     }
 
@@ -106,14 +79,16 @@ public class BranchArrayAdapter extends ArrayAdapter<Branch>{
         textView.setVisibility(View.VISIBLE);
         editTextTableNumber.setVisibility(View.VISIBLE);
 
-        ProgressBar progressBar = new ProgressBar(context);
-        progressBar.setVisibility(View.VISIBLE);
-
         ((Button) v).setText("המשך");
         v.setOnClickListener(this::onSecondClick);
     }
 
     public void onSecondClick(View v) {
+
+        if (editTextTableNumber.getText().toString().isEmpty()) {
+            Toast.makeText(context, "נא הכנס את מספר השולחן בו תרצה לשבת", Toast.LENGTH_SHORT).show();
+            return;
+        }
 
         ListView parentView = (ListView) v.getParent().getParent();
         int branchIndex = parentView.indexOfChild((View) v.getParent());

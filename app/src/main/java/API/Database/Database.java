@@ -10,6 +10,7 @@ import java.util.List;
 import API.IOrderController;
 import API.IOrderListener;
 import API.Models.IOrder;
+import BusinessEntities.Branch;
 import BusinessEntities.Item;
 import BusinessEntities.Menu;
 import BusinessEntities.Restaurant;
@@ -94,18 +95,24 @@ public interface Database {
      */
     public void getRestaurants(DatabaseRequestCallback callBack);
 
+    public void getRestaurant(@NonNull String restId, DatabaseRequestCallback callBack);
 
     public void getUser(String uid, DatabaseRequestCallback callback);
 
-
     // Write operations in our database:
-    public void addRestaurant(Restaurant restaurant, OnDataSentToDB callBack);
+    public void addRestaurant(@NonNull Restaurant restaurant, OnDataSentToDB writeCallback, DatabaseRequestCallback requestCallback);
+
+    public void setRestaurant(@NonNull String restId, @NonNull Restaurant restaurant, OnDataSentToDB writeCallback);
+
+    public void addBranch(@NonNull String restId, @NonNull Branch branch, OnDataSentToDB writeCallback, DatabaseRequestCallback requestCallback);
 
     // More operations will be added later...
 
     public void addUserWithType(FirebaseUser user, int userType, OnDataSentToDB callback);
 
-    public void addMenu(@NonNull String restId, @NonNull Menu menu, OnDataSentToDB callback);
+    public void setUser(@NonNull Object user, int userType, OnDataSentToDB callback);
+
+    public void addMenu(@NonNull String restId, @NonNull Menu menu, DatabaseRequestCallback callback);
 
     public void sendOrder(@NonNull String restId, @NonNull String branchId, @NonNull IOrder order, OnDataSentToDB callback);
 

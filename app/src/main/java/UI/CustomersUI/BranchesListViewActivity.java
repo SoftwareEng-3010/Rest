@@ -31,8 +31,6 @@ public class BranchesListViewActivity extends AppCompatActivity{
     private RestDB rdb;
     private ListView listView;
     private List<Branch> branches;
-    private List<Table> tables;
-    private ProgressBar progressBar;
 
     private final String TAG = "BranchListViewActivity";
 
