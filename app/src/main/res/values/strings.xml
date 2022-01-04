@@ -21,6 +21,7 @@
 
     <!-- Menu List Item -->
     <string name="add_to_order">הוסף להזמנה</string>
+    <string name="submit_order">שלח הזמנה</string>
     <string name="title_activity_login_test">LoginActivityTest</string>
     <string name="action_sign_in">Sign in or register</string>
     <string name="action_sign_in_short">Sign in</string>
