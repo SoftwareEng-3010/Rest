@@ -15,7 +15,6 @@ public class Kitchen implements IServiceUnit {
 
     private String TAG = "Kitchen";
 
-    private Printer printer;
     private IOrderController orderController;
 
     @Override
