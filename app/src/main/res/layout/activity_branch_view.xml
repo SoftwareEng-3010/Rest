@@ -36,10 +36,10 @@
     </LinearLayout>
 
     <Button
+        android:id="@+id/button_submit_order"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:id="@+id/button_submit_order"
-        android:text="SUBMIT"/>
+        android:text="@string/submit_order" />
 
 </RelativeLayout>

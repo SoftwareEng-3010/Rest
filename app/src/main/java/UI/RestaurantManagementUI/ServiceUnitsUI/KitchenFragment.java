@@ -15,13 +15,14 @@ import com.example.exercise_5.R;
 
 import API.Controllers.IManagementViewController;
 import API.Views.SwipeGestureListener;
+import BusinessEntities.Printer;
 import UI.OnSwipeTouchListener;
 
 public class KitchenFragment extends Fragment implements SwipeGestureListener {
 
     private Button btnKitchen;
-
     private IManagementViewController controller;
+    private Printer printer;
 
     public KitchenFragment(IManagementViewController controller) {
         this.controller = controller;
