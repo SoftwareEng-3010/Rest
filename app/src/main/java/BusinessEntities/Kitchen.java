@@ -20,7 +20,7 @@ public class Kitchen implements IServiceUnit {
 
     @Override
     public void onOrderReceived(@NonNull IOrder order) {
-
+        return;
     }
 
     @Override
