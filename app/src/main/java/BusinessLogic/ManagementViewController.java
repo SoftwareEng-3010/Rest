@@ -31,8 +31,10 @@ public class ManagementViewController implements IManagementViewController {
         this.branchId = branchId;
         this.restId = restId;
 
-        RestDB.getInstance().attachOrderListener(restId, branchId,
-                new OrderManager(view.getServiceUnits()));
+        RestDB.getInstance()
+                .attachOrderListener(restId, branchId,
+                new OrderManager(view.getServiceUnits())
+                );
 
         RestDB.getInstance()
                 .getBranch(

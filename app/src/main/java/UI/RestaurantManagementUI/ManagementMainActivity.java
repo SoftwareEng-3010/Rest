@@ -21,11 +21,14 @@ import java.util.List;
 
 import API.Constants.Constants;
 import API.Controllers.IManagementViewController;
+import API.IOrderListener;
 import API.Models.IServiceUnit;
 import API.Views.IManagementView;
 import BusinessEntities.Kitchen;
+import BusinessEntities.Printer;
 import BusinessEntities.ServiceStaff;
 import BusinessLogic.ManagementViewController;
+import BusinessLogic.OrderManager;
 import UI.CustomersUI.QRCodeActivity;
 import UI.DataActivity.DataActivity;
 import UI.RestaurantManagementUI.ServiceUnitsUI.HomeFragment;
@@ -129,8 +132,10 @@ public class ManagementMainActivity extends AppCompatActivity implements IManage
     @Override
     public List<IServiceUnit> getServiceUnits() {
         List<IServiceUnit> units = new ArrayList<>();
-        units.add(new ServiceStaff());
-        units.add(new Kitchen());
+//        units.add(new ServiceStaff());
+//        units.add(new Kitchen());
+        IServiceUnit kitchenPrinter = new Printer(this);
+        units.add(kitchenPrinter);
         return units;
     }
 
@@ -145,6 +150,8 @@ public class ManagementMainActivity extends AppCompatActivity implements IManage
         homeFragment = new HomeFragment(viewController);
         serviceFragment = new ServiceFragment(viewController);
         kitchenFragment = new KitchenFragment(viewController);
+
+        new OrderManager(getServiceUnits());
 
         btnHome = (Button) findViewById(R.id.btn_management_home);
         btnService = (Button) findViewById(R.id.btn_management_service);
