@@ -26,10 +26,6 @@ public class ManagementViewController implements IManagementViewController {
 
     private Branch branch;
 
-    private Fragment homeFragment;
-    private Fragment serviceFragment;
-    private Fragment kitchenFragment;
-
     public ManagementViewController(IManagementView view, String restId, String branchId) {
         this.managementView = view;
         this.branchId = branchId;
@@ -37,10 +33,6 @@ public class ManagementViewController implements IManagementViewController {
 
         RestDB.getInstance().attachOrderListener(restId, branchId,
                 new OrderManager(view.getServiceUnits()));
-
-        homeFragment = new HomeFragment(this);
-        serviceFragment = new ServiceFragment(this);
-        kitchenFragment = new KitchenFragment(this);
 
         RestDB.getInstance()
                 .getBranch(
@@ -55,7 +47,7 @@ public class ManagementViewController implements IManagementViewController {
 
                 else {
                     branch = (Branch) obj;
-                    view.loadFragment(homeFragment);
+                    view.loadHomeFragment();
                 }
             }
         });
@@ -63,16 +55,16 @@ public class ManagementViewController implements IManagementViewController {
 
     @Override
     public void onHomeButtonClicked() {
-        managementView.loadFragment(homeFragment);
+        managementView.loadHomeFragment();
     }
 
     @Override
     public void onServiceButtonClicked() {
-        managementView.loadFragment(serviceFragment);
+        managementView.loadServiceFragment();
     }
 
     @Override
     public void onKitchenButtonClicked() {
-        managementView.loadFragment(kitchenFragment);
+        managementView.loadKitchenFragment();
     }
 }

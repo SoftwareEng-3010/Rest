@@ -5,16 +5,14 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
-import java.util.Collection;
 import java.util.LinkedList;
-import java.util.List;
 import java.util.Queue;
 
-import API.IOrderController;
 import API.IOrderListener;
 import API.Models.IOrder;
+import API.Models.IPrinter;
 
-public class Printer implements IOrderListener {
+public class Printer implements IPrinter, IOrderListener {
 
     private Queue<Object> orders;
     private Context context;
