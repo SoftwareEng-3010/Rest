@@ -15,12 +15,11 @@ public class Kitchen implements IServiceUnit {
 
     private String TAG = "Kitchen";
 
-    private Printer<Order> printer;
     private IOrderController orderController;
 
     @Override
     public void onOrderReceived(@NonNull IOrder order) {
-
+        return;
     }
 
     @Override
