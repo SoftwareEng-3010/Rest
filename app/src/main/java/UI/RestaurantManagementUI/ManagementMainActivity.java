@@ -1,5 +1,6 @@
 package UI.RestaurantManagementUI;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
@@ -28,6 +29,7 @@ import BusinessEntities.Kitchen;
 import BusinessEntities.Printer;
 import BusinessEntities.ServiceStaff;
 
+import BusinessEntities.Table;
 import BusinessLogic.ManagementViewController;
 import BusinessLogic.OrderManager;
 import UI.CustomersUI.QRCodeActivity;
@@ -35,6 +37,7 @@ import UI.DataActivity.DataActivity;
 import UI.RestaurantManagementUI.ServiceUnitsUI.HomeFragment;
 import UI.RestaurantManagementUI.ServiceUnitsUI.KitchenFragment;
 import UI.RestaurantManagementUI.ServiceUnitsUI.ServiceFragment;
+import UI.RestaurantManagementUI.ServiceUnitsUI.TableDetailsFragment;
 
 public class ManagementMainActivity extends AppCompatActivity implements IManagementView {
 
@@ -50,6 +53,7 @@ public class ManagementMainActivity extends AppCompatActivity implements IManage
 
     private KitchenFragment kitchenFragment;
     private ServiceFragment serviceFragment;
+    private TableDetailsFragment tableDetailsFragment;
     private HomeFragment homeFragment;
 
     private String managerUid, branchId, restId;
@@ -114,6 +118,16 @@ public class ManagementMainActivity extends AppCompatActivity implements IManage
     @Override
     public void loadServiceFragment() {
         loadFragment(serviceFragment);
+    }
+
+    @Override
+    public void loadTableDetailsFragment(@NonNull Table table) {
+        getSupportFragmentManager()
+                .beginTransaction()
+                .setCustomAnimations(R.anim.fade_in, R.anim.fade_out)
+                .addToBackStack("ServiceFragment")
+                .replace(R.id.frame_layout_management, new TableDetailsFragment(table))
+                .commit();
     }
 
     @Override

@@ -1,10 +1,11 @@
 package API.Controllers;
 
-import android.view.View;
+import BusinessEntities.Table;
 
 public interface IManagementViewController {
 
     void onHomeButtonClicked();
     void onServiceButtonClicked();
+    void onTableItemClicked(Table table);
     void onKitchenButtonClicked();
 }

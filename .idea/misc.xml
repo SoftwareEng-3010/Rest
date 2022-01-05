@@ -32,6 +32,7 @@
         <entry key="..\:/AndroidProjects/Rest/app/src/main/res/layout/qrcode_activity.xml" value="0.25" />
         <entry key="..\:/AndroidProjects/Rest/app/src/main/res/layout/rest_selector.xml" value="0.25" />
         <entry key="..\:/AndroidProjects/Rest/app/src/main/res/menu/menu_management_navigation.xml" value="0.14895833333333333" />
+        <entry key="..\:/Users/97250/Desktop/Rest/app/src/main/res/drawable/customborder.xml" value="0.38333333333333336" />
         <entry key="..\:/Users/97250/Desktop/Rest/app/src/main/res/layout/activity_branch_display.xml" value="0.1796875" />
         <entry key="..\:/Users/97250/Desktop/Rest/app/src/main/res/layout/activity_branch_scrollview.xml" value="0.17300724637681159" />
         <entry key="..\:/Users/97250/Desktop/Rest/app/src/main/res/layout/activity_branch_view.xml" value="0.19166666666666668" />
@@ -43,12 +44,16 @@
         <entry key="..\:/Users/97250/Desktop/Rest/app/src/main/res/layout/branch_view_activity.xml" value="0.1796875" />
         <entry key="..\:/Users/97250/Desktop/Rest/app/src/main/res/layout/fragment_kitchen.xml" value="0.2807971014492754" />
         <entry key="..\:/Users/97250/Desktop/Rest/app/src/main/res/layout/fragment_service.xml" value="0.27943840579710144" />
+        <entry key="..\:/Users/97250/Desktop/Rest/app/src/main/res/layout/fragment_table_details.xml" value="0.3150684931506849" />
+        <entry key="..\:/Users/97250/Desktop/Rest/app/src/main/res/layout/fragment_table_details2.xml" value="0.3671875" />
         <entry key="..\:/Users/97250/Desktop/Rest/app/src/main/res/layout/item_branch.xml" value="0.1796875" />
         <entry key="..\:/Users/97250/Desktop/Rest/app/src/main/res/layout/item_menu.xml" value="0.17300724637681159" />
         <entry key="..\:/Users/97250/Desktop/Rest/app/src/main/res/layout/item_restaurant.xml" value="0.5" />
         <entry key="..\:/Users/97250/Desktop/Rest/app/src/main/res/layout/layout_branch_item.xml" value="0.2807971014492754" />
         <entry key="..\:/Users/97250/Desktop/Rest/app/src/main/res/layout/layout_menu_list_item.xml" value="0.19166666666666668" />
+        <entry key="..\:/Users/97250/Desktop/Rest/app/src/main/res/layout/layout_table_details.xml" value="0.3671875" />
         <entry key="..\:/Users/97250/Desktop/Rest/app/src/main/res/layout/layout_table_item.xml" value="0.3671875" />
+        <entry key="..\:/Users/97250/Desktop/Rest/app/src/main/res/layout/layout_table_order_list.xml" value="0.3671875" />
         <entry key="..\:/Users/97250/Desktop/Rest/app/src/main/res/layout/login_activity.xml" value="0.17074275362318841" />
         <entry key="..\:/Users/97250/Desktop/Rest/app/src/main/res/layout/rest_view_activity.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.25" />
