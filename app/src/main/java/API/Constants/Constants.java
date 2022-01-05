@@ -32,4 +32,6 @@ public interface Constants {
     public static final int MANAGEMENT_SERVICE_SCREEN = 1;
     public static final int MANAGEMENT_KITCHEN_SCREEN = 2;
 
+    public static final int USER_TYPE_KITCHEN_PRINTER = 10;
+    public static final int USER_TYPE_SERVICE_PRINTER = 11;
 }

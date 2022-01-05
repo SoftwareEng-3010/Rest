@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -23,6 +24,7 @@ import BusinessEntities.QRCode;
 import API.Database.Database;
 import API.Database.DatabaseRequestCallback;
 import DataAccessLayer.RestDB;
+import UI.LoginUI.LoginActivity;
 import UIAdapters.MenuRecyclerViewAdapter;
 import ViewModels.MenuViewModel;
 
@@ -101,6 +103,9 @@ public class BranchViewActivity extends AppCompatActivity {
                                 }
                             }
                         });
+                Intent moveToQRCodeActivity =
+                        new Intent(BranchViewActivity.this, QRCodeActivity.class);
+                startActivity(moveToQRCodeActivity);
             }
         });
     }

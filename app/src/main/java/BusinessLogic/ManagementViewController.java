@@ -3,19 +3,12 @@ package BusinessLogic;
 import android.util.Log;
 
 import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import API.Controllers.IManagementViewController;
 import API.Database.DatabaseRequestCallback;
 import API.Views.IManagementView;
 import BusinessEntities.Branch;
 import DataAccessLayer.RestDB;
-import UI.RestaurantManagementUI.ServiceUnitsUI.HomeFragment;
-import UI.RestaurantManagementUI.ServiceUnitsUI.KitchenFragment;
-import UI.RestaurantManagementUI.ServiceUnitsUI.ServiceFragment;
 
 public class ManagementViewController implements IManagementViewController {
 
@@ -26,26 +19,21 @@ public class ManagementViewController implements IManagementViewController {
 
     private Branch branch;
 
-    private Fragment homeFragment;
-    private Fragment serviceFragment;
-    private Fragment kitchenFragment;
-
     public ManagementViewController(IManagementView view, String restId, String branchId) {
         this.managementView = view;
         this.branchId = branchId;
         this.restId = restId;
 
-        RestDB.getInstance().attachOrderListener(restId, branchId,
-                new OrderManager(view.getServiceUnits()));
-
-        homeFragment = new HomeFragment(this);
-        serviceFragment = new ServiceFragment(this);
-        kitchenFragment = new KitchenFragment(this);
+        RestDB.getInstance()
+                .attachOrderListener(restId, branchId,
+                new OrderManager(view.getServiceUnits())
+                );
 
         RestDB.getInstance()
                 .getBranch(
                         restId, branchId,
                         new DatabaseRequestCallback() {
+
             @Override
             public void onObjectReturnedFromDB(@Nullable Object obj) {
                 if (obj == null) {
@@ -55,24 +43,25 @@ public class ManagementViewController implements IManagementViewController {
 
                 else {
                     branch = (Branch) obj;
-                    view.loadFragment(homeFragment);
+                    view.loadHomeFragment();
                 }
             }
         });
+
     }
 
     @Override
     public void onHomeButtonClicked() {
-        managementView.loadFragment(homeFragment);
+        managementView.loadHomeFragment();
     }
 
     @Override
     public void onServiceButtonClicked() {
-        managementView.loadFragment(serviceFragment);
+        managementView.loadServiceFragment();
     }
 
     @Override
     public void onKitchenButtonClicked() {
-        managementView.loadFragment(kitchenFragment);
+        managementView.loadKitchenFragment();
     }
 }

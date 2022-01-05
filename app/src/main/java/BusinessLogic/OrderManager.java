@@ -6,7 +6,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QuerySnapshot;
 
@@ -16,12 +15,10 @@ import java.util.List;
 import API.Constants.Constants;
 import API.IOrderController;
 import API.IOrderListener;
-import API.Models.IBranchManagerUser;
 import API.Models.IOrder;
 import API.Models.IServiceUnit;
 import BusinessEntities.Item;
 import BusinessEntities.Order;
-import DataAccessLayer.RestDB;
 
 public class OrderManager implements IOrderController {
 
@@ -57,6 +54,7 @@ public class OrderManager implements IOrderController {
                 }
 
                 // Check the types of service units and let them handle the order:
+                // TODO: 1/4/2022 Implement next kislember
                 for (IServiceUnit unit : units) {
                     // If Kitchen order
                     if (unit.getServiceType() == Constants.USER_TYPE_KITCHEN)
@@ -67,7 +65,18 @@ public class OrderManager implements IOrderController {
                     if (unit.getServiceType() == Constants.USER_TYPE_SERVICE)
                         if (!serviceOrder.getOrderItems().isEmpty())
                             unit.onOrderReceived(serviceOrder);
+
+                    if (unit.getServiceType() == Constants.USER_TYPE_KITCHEN_PRINTER) {
+                        if (!serviceOrder.getOrderItems().isEmpty())
+                            unit.onOrderReceived(kitchenOrder);
+                    }
+
+                    if (unit.getServiceType() == Constants.USER_TYPE_SERVICE_PRINTER) {
+                        if (!serviceOrder.getOrderItems().isEmpty())
+                            unit.onOrderReceived(serviceOrder);
+                    }
                 }
+
             }
         }
     }
