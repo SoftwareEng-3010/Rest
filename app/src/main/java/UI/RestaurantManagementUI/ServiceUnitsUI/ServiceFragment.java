@@ -59,8 +59,7 @@ public class ServiceFragment extends Fragment implements SwipeGestureListener {
 
                         // When data arrives from DB - init the ListView adapter
                         branch = (Branch) obj;
-                        tables = new ArrayList<>();
-                        tables.addAll(branch.getTables());
+                        tables = new ArrayList<>(branch.getTables());
 
                         TableGridAdapter adapter = new TableGridAdapter(getContext(), tables);
                         tableGrid.setAdapter(adapter);
