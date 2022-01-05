@@ -18,8 +18,13 @@ public class Bill {
     }
 
     public Bill(Bill other){
+<<<<<<< HEAD
          this.orders = new ArrayList<>(other.getOrders());
          this.total = other.getTotal();
+=======
+        this.orders = new ArrayList<>(other.getOrders());
+        this.total = other.getTotal();
+>>>>>>> 050d7555a5e4146497b9a2c00479eaa87ed717d6
     }
 
     public void addOrder(IOrder order){

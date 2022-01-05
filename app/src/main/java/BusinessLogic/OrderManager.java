@@ -5,6 +5,7 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -36,6 +37,7 @@ public class OrderManager implements IOrderController {
         Log.e(TAG, "onEvent()");
 
         if (value != null) {
+<<<<<<< HEAD
             for (DocumentSnapshot doc : value.getDocuments()) {
                 IOrder order = doc.toObject(Order.class);
                 if (order == null) {Log.e(TAG, "Order is null"); return;}
@@ -57,33 +59,58 @@ public class OrderManager implements IOrderController {
                     }
                     else if ( ! item.getServiceUnit().equals("service")){
                         serviceOrder.removeItem(item);
+=======
+            for (DocumentChange docChange : value.getDocumentChanges()) {
+
+                // TODO: 1/6/2022 Maybe use a boolean flag to indicate first time connecting to db
+                if (docChange.getType() == DocumentChange.Type.ADDED) {
+
+//                    DocumentSnapshot doc =
+                    IOrder order = docChange.getDocument().toObject(IOrder.class);
+                    if (order == null) {
+                        Log.e(TAG, "Order is null");
+                        return;
+>>>>>>> 050d7555a5e4146497b9a2c00479eaa87ed717d6
+                    }
+
+                    // Copy the order (The only way to copy the document id of the order)
+                    IOrder kitchenOrder = new Order(order);
+                    IOrder serviceOrder = new Order(order);
+//                    order.getTable();
+
+                    // Discard any unnecessary item from each order
+                    for (Item item : order.getOrderItems()) {
+                        if (!item.getServiceUnit().equals("kitchen")) {
+                            kitchenOrder.removeItem(item);
+                        } else if (!item.getServiceUnit().equals("service")) {
+                            serviceOrder.removeItem(item);
+                        }
+                    }
+
+                    // Check the types of service units and let them handle the order:
+                    // TODO: 1/4/2022 Implement next kislember
+                    for (IServiceUnit unit : units) {
+                        // If Kitchen order
+                        if (unit.getServiceType() == Constants.USER_TYPE_KITCHEN)
+                            if (!kitchenOrder.getOrderItems().isEmpty())
+                                unit.onOrderReceived(kitchenOrder);
+
+                        // If Service order
+                        if (unit.getServiceType() == Constants.USER_TYPE_SERVICE)
+                            if (!serviceOrder.getOrderItems().isEmpty())
+                                unit.onOrderReceived(serviceOrder);
+
+                        if (unit.getServiceType() == Constants.USER_TYPE_KITCHEN_PRINTER) {
+                            if (!serviceOrder.getOrderItems().isEmpty())
+                                unit.onOrderReceived(kitchenOrder);
+                        }
+
+                        if (unit.getServiceType() == Constants.USER_TYPE_SERVICE_PRINTER) {
+                            if (!serviceOrder.getOrderItems().isEmpty())
+                                unit.onOrderReceived(serviceOrder);
+                        }
                     }
                 }
-
-                // Check the types of service units and let them handle the order:
-                // TODO: 1/4/2022 Implement next kislember
-                for (IServiceUnit unit : units) {
-                    // If Kitchen order
-                    if (unit.getServiceType() == Constants.USER_TYPE_KITCHEN)
-                        if (!kitchenOrder.getOrderItems().isEmpty())
-                            unit.onOrderReceived(kitchenOrder);
-
-                    // If Service order
-                    if (unit.getServiceType() == Constants.USER_TYPE_SERVICE)
-                        if (!serviceOrder.getOrderItems().isEmpty())
-                            unit.onOrderReceived(serviceOrder);
-
-                    if (unit.getServiceType() == Constants.USER_TYPE_KITCHEN_PRINTER) {
-                        if (!serviceOrder.getOrderItems().isEmpty())
-                            unit.onOrderReceived(kitchenOrder);
-                    }
-
-                    if (unit.getServiceType() == Constants.USER_TYPE_SERVICE_PRINTER) {
-                        if (!serviceOrder.getOrderItems().isEmpty())
-                            unit.onOrderReceived(serviceOrder);
-                    }
-                }
-
             }
         }
     }
