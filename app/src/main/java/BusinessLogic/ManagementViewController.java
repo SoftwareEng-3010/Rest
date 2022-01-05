@@ -26,26 +26,28 @@ public class ManagementViewController implements IManagementViewController {
 
         RestDB.getInstance()
                 .attachOrderListener(restId, branchId,
-                        new OrderManager(view.getServiceUnits())
+                new OrderManager(view.getServiceUnits())
                 );
 
         RestDB.getInstance()
                 .getBranch(
                         restId, branchId,
                         new DatabaseRequestCallback() {
-                            @Override
-                            public void onObjectReturnedFromDB(@Nullable Object obj) {
-                                if (obj == null) {
-                                    Log.e(TAG, "Branch came back null from database");
-                                    view.onDataFailure("Branch object came back null from database (Branch_UID: " + branchId + ")");
-                                }
 
-                                else {
-                                    branch = (Branch) obj;
-                                    view.loadHomeFragment();
-                                }
-                            }
-                        });
+            @Override
+            public void onObjectReturnedFromDB(@Nullable Object obj) {
+                if (obj == null) {
+                    Log.e(TAG, "Branch came back null from database");
+                    view.onDataFailure("Branch object came back null from database (Branch_UID: " + branchId + ")");
+                }
+
+                else {
+                    branch = (Branch) obj;
+                    view.loadHomeFragment();
+                }
+            }
+        });
+
     }
 
     @Override

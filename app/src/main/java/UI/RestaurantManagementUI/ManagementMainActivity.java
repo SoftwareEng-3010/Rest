@@ -21,8 +21,13 @@ import java.util.List;
 
 import API.Constants.Constants;
 import API.Controllers.IManagementViewController;
+import API.IOrderListener;
 import API.Models.IServiceUnit;
 import API.Views.IManagementView;
+import BusinessEntities.Kitchen;
+import BusinessEntities.Printer;
+import BusinessEntities.ServiceStaff;
+
 import BusinessLogic.ManagementViewController;
 import BusinessLogic.OrderManager;
 import UI.CustomersUI.QRCodeActivity;
@@ -91,7 +96,9 @@ public class ManagementMainActivity extends AppCompatActivity implements IManage
         }
     }
 
-    public void loadFragment(Fragment fragment) {
+
+    private void loadFragment(Fragment fragment) {
+
         getSupportFragmentManager()
                 .beginTransaction()
                 .setCustomAnimations(R.anim.fade_in, R.anim.fade_out)
@@ -130,8 +137,10 @@ public class ManagementMainActivity extends AppCompatActivity implements IManage
         List<IServiceUnit> units = new ArrayList<>();
 //        units.add(new ServiceStaff());
 //        units.add(new Kitchen());
-//        IServiceUnit kitchenPrinter = new Printer(this);
-//        units.add(kitchenPrinter);
+
+        IServiceUnit kitchenPrinter = new Printer(this);
+        units.add(kitchenPrinter);
+
         return units;
     }
 
@@ -144,6 +153,7 @@ public class ManagementMainActivity extends AppCompatActivity implements IManage
 
         // ManagementMainActivity's UI Fragments
         homeFragment = new HomeFragment(viewController);
+
         serviceFragment = new ServiceFragment(viewController, branchId, restId);
         kitchenFragment = new KitchenFragment(viewController);
 
