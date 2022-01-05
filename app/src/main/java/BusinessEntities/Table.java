@@ -7,7 +7,6 @@ public class Table {
     @PropertyName("table_number")
     private int tableNumber;
     private int capacity;
-    private double billAmount;
     @PropertyName("is_occupied")
     private boolean isOccupied;
     @PropertyName("is_inside")
@@ -60,12 +59,16 @@ public class Table {
 
     public Bill getBill(){ return bill; }
 
+    public void setBill(Bill bill){
+        this.bill = bill;
+    }
+
     @Override
     public String toString() {
         return "Table{" +
                 "tableIndex=" + tableNumber +
                 ", capacity=" + capacity +
-                ", billAmount=" + billAmount +
+                ", billAmount=" + bill.getTotal() +
                 ", isOccupied=" + isOccupied +
                 ", isInside=" + isInside +
                 '}';
