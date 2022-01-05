@@ -12,22 +12,23 @@ public class Table {
     private boolean isOccupied;
     @PropertyName("is_inside")
     private boolean isInside;
+    private Bill bill;
 
     public Table() {
         // Empty constructor required by Firebase method .toObject()
     }
 
-    public Table(int tableNumber, int capacity, double billAmount,
+    public Table(int tableNumber, int capacity, Bill bill,
                  boolean isOccupied, boolean isInside) {
         this.tableNumber = tableNumber;
         this.capacity = capacity;
-        this.billAmount = billAmount;
+        this.bill = bill;
         this.isOccupied = isOccupied;
         this.isInside = isInside;
     }
 
     public Table(Table other) {
-        this.billAmount = other.billAmount;
+        this.bill = new Bill(other.bill);
         this.tableNumber = other.tableNumber;
         this.capacity = other.capacity;
         this.isInside = other.isInside;
@@ -43,8 +44,8 @@ public class Table {
         return capacity;
     }
 
-    public double getBillAmount() {
-        return billAmount;
+    public double getBillTotal() {
+        return this.bill.getTotal();
     }
 
     @PropertyName("is_occupied")
@@ -56,6 +57,8 @@ public class Table {
     public boolean isInside() {
         return isInside;
     }
+
+    public Bill getBill(){ return bill; }
 
     @Override
     public String toString() {
