@@ -53,6 +53,7 @@ public class Printer implements IPrinter, IServiceUnit {
         print();
     }
 
+
     @Override
     public int getServiceType() {
         return Constants.USER_TYPE_KITCHEN_PRINTER;

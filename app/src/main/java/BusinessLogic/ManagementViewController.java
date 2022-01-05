@@ -3,19 +3,12 @@ package BusinessLogic;
 import android.util.Log;
 
 import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import API.Controllers.IManagementViewController;
 import API.Database.DatabaseRequestCallback;
 import API.Views.IManagementView;
 import BusinessEntities.Branch;
 import DataAccessLayer.RestDB;
-import UI.RestaurantManagementUI.ServiceUnitsUI.HomeFragment;
-import UI.RestaurantManagementUI.ServiceUnitsUI.KitchenFragment;
-import UI.RestaurantManagementUI.ServiceUnitsUI.ServiceFragment;
 
 public class ManagementViewController implements IManagementViewController {
 
@@ -40,6 +33,7 @@ public class ManagementViewController implements IManagementViewController {
                 .getBranch(
                         restId, branchId,
                         new DatabaseRequestCallback() {
+
             @Override
             public void onObjectReturnedFromDB(@Nullable Object obj) {
                 if (obj == null) {
@@ -53,6 +47,7 @@ public class ManagementViewController implements IManagementViewController {
                 }
             }
         });
+
     }
 
     @Override
