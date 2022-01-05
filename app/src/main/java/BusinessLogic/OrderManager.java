@@ -39,6 +39,9 @@ public class OrderManager implements IOrderController {
                 IOrder order = doc.toObject(Order.class);
                 if (order == null) {Log.e(TAG, "Order is null"); return;}
 
+                // Add order to table's bill
+                order.getTable().getBill().addOrder(order);
+
                 // Copy the order (The only way to copy the document id of the order)
                 IOrder kitchenOrder = new Order(order);
                 IOrder serviceOrder = new Order(order);
