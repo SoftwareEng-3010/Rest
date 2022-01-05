@@ -23,12 +23,12 @@ import API.Constants.Constants;
 import API.Controllers.IManagementViewController;
 import API.Models.IServiceUnit;
 import API.Views.IManagementView;
-import BusinessEntities.Kitchen;
-import BusinessEntities.ServiceStaff;
 import BusinessLogic.ManagementViewController;
+import BusinessLogic.OrderManager;
 import UI.CustomersUI.QRCodeActivity;
 import UI.DataActivity.DataActivity;
 import UI.RestaurantManagementUI.ServiceUnitsUI.HomeFragment;
+import UI.RestaurantManagementUI.ServiceUnitsUI.KitchenFragment;
 import UI.RestaurantManagementUI.ServiceUnitsUI.ServiceFragment;
 
 public class ManagementMainActivity extends AppCompatActivity implements IManagementView {
@@ -38,12 +38,18 @@ public class ManagementMainActivity extends AppCompatActivity implements IManage
     private FrameLayout frameLayout;
 
     private IManagementViewController viewController;
+
     private Button btnHome;
     private Button btnService;
     private Button btnKitchen;
 
+    private KitchenFragment kitchenFragment;
+    private ServiceFragment serviceFragment;
+    private HomeFragment homeFragment;
+
     private String managerUid, branchId, restId;
 
+    // TODO: 1/4/2022 Add Textviews for brand details
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -85,13 +91,27 @@ public class ManagementMainActivity extends AppCompatActivity implements IManage
         }
     }
 
-    @Override
     public void loadFragment(Fragment fragment) {
         getSupportFragmentManager()
                 .beginTransaction()
                 .setCustomAnimations(R.anim.fade_in, R.anim.fade_out)
                 .replace(R.id.frame_layout_management, fragment)
                 .commit();
+    }
+
+    @Override
+    public void loadKitchenFragment() {
+        loadFragment(kitchenFragment);
+    }
+
+    @Override
+    public void loadServiceFragment() {
+        loadFragment(serviceFragment);
+    }
+
+    @Override
+    public void loadHomeFragment() {
+        loadFragment(homeFragment);
     }
 
     @Override
@@ -108,8 +128,10 @@ public class ManagementMainActivity extends AppCompatActivity implements IManage
     @Override
     public List<IServiceUnit> getServiceUnits() {
         List<IServiceUnit> units = new ArrayList<>();
-        units.add(new ServiceStaff());
-        units.add(new Kitchen());
+//        units.add(new ServiceStaff());
+//        units.add(new Kitchen());
+//        IServiceUnit kitchenPrinter = new Printer(this);
+//        units.add(kitchenPrinter);
         return units;
     }
 
@@ -119,6 +141,13 @@ public class ManagementMainActivity extends AppCompatActivity implements IManage
         frameLayout = (FrameLayout) findViewById(R.id.frame_layout_management);
 
         viewController = new ManagementViewController(this, restId, branchId);
+
+        // ManagementMainActivity's UI Fragments
+        homeFragment = new HomeFragment(viewController);
+        serviceFragment = new ServiceFragment(viewController, branchId, restId);
+        kitchenFragment = new KitchenFragment(viewController);
+
+        new OrderManager(getServiceUnits());
 
         btnHome = (Button) findViewById(R.id.btn_management_home);
         btnService = (Button) findViewById(R.id.btn_management_service);

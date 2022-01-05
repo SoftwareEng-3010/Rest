@@ -301,23 +301,23 @@ public class RestDB implements Database {
     public void setRestaurant(@NonNull String restId, @NonNull Restaurant restaurant, OnDataSentToDB writeCallback) {
 
         restCollection
-            .document(restId)
-            .set(restaurant)
-            .addOnCompleteListener(
-                new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        if (task.isSuccessful()) {
-                            Log.e(TAG, "Successfully written object to database!");
-                            writeCallback.onObjectWrittenToDB(true);
+                .document(restId)
+                .set(restaurant)
+                .addOnCompleteListener(
+                        new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+                                if (task.isSuccessful()) {
+                                    Log.e(TAG, "Successfully written object to database!");
+                                    writeCallback.onObjectWrittenToDB(true);
+                                }
+                                else {
+                                    Log.e(TAG, "Something went wrong while writing an object to database");
+                                    writeCallback.onObjectWrittenToDB(false);
+                                }
+                            }
                         }
-                        else {
-                            Log.e(TAG, "Something went wrong while writing an object to database");
-                            writeCallback.onObjectWrittenToDB(false);
-                        }
-                    }
-                }
-            );
+                );
     }
 
     @Override
@@ -362,19 +362,19 @@ public class RestDB implements Database {
                 .document(user.getUid())
                 .set(newUser)
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        if (task.isSuccessful()) {
-                            Log.e(TAG, "Customer was successfully written to database");
-                            callback.onObjectWrittenToDB(true);
-                        }
-                        else {
-                            Log.e(TAG, "Customer was successfully written to database");
-                            callback.onObjectWrittenToDB(false);
-                        }
-                    }
-                }
-        );
+                                           @Override
+                                           public void onComplete(@NonNull Task<Void> task) {
+                                               if (task.isSuccessful()) {
+                                                   Log.e(TAG, "Customer was successfully written to database");
+                                                   callback.onObjectWrittenToDB(true);
+                                               }
+                                               else {
+                                                   Log.e(TAG, "Customer was successfully written to database");
+                                                   callback.onObjectWrittenToDB(false);
+                                               }
+                                           }
+                                       }
+                );
     }
 
     @Override
@@ -436,28 +436,28 @@ public class RestDB implements Database {
                         if (task.isSuccessful()) {
                             // If uid is found as:
 
-                           User user = task.getResult().toObject(User.class);
+                            User user = task.getResult().toObject(User.class);
 
-                           if (null == user) {callback.onObjectReturnedFromDB(null); return;}
+                            if (null == user) {callback.onObjectReturnedFromDB(null); return;}
 
-                           if (user.getType() == Constants.USER_TYPE_CUSTOMER) {
-                               callback.onObjectReturnedFromDB(task.getResult().toObject(Customer.class));
-                           }
+                            if (user.getType() == Constants.USER_TYPE_CUSTOMER) {
+                                callback.onObjectReturnedFromDB(task.getResult().toObject(Customer.class));
+                            }
 
-                           else if (user.getType() == Constants.USER_TYPE_BRANCH_MANAGER) {
-                               IBranchManagerUser manager = task.getResult().toObject(BranchManager.class);
-                               callback.onObjectReturnedFromDB(manager);
-                           }
+                            else if (user.getType() == Constants.USER_TYPE_BRANCH_MANAGER) {
+                                IBranchManagerUser manager = task.getResult().toObject(BranchManager.class);
+                                callback.onObjectReturnedFromDB(manager);
+                            }
 
-                           else if (user.getType() > Constants.USER_TYPE_BRANCH_MANAGER) {
-                               Log.e(TAG, "Some kind of service unit type of user is signed in with user_type = " + user.getType());
-                               callback.onObjectReturnedFromDB(task.getResult().toObject(User.class));
-                           }
+                            else if (user.getType() > Constants.USER_TYPE_BRANCH_MANAGER) {
+                                Log.e(TAG, "Some kind of service unit type of user is signed in with user_type = " + user.getType());
+                                callback.onObjectReturnedFromDB(task.getResult().toObject(User.class));
+                            }
 
-                           else {
-                               Log.e(TAG, "Could not find a class for the user returned from db");
-                               callback.onObjectReturnedFromDB(null);
-                           }
+                            else {
+                                Log.e(TAG, "Could not find a class for the user returned from db");
+                                callback.onObjectReturnedFromDB(null);
+                            }
                         }
                     }
                 });
@@ -473,19 +473,19 @@ public class RestDB implements Database {
                 .document()
                 .set(order)
                 .addOnCompleteListener(
-                new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        if (task.isSuccessful()) {
-                            callback.onObjectWrittenToDB(true);
-                            Log.e(TAG, "New Order is waiting to be handled by branch: " + branchId);
+                        new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+                                if (task.isSuccessful()) {
+                                    callback.onObjectWrittenToDB(true);
+                                    Log.e(TAG, "New Order is waiting to be handled by branch: " + branchId);
+                                }
+                                else {
+                                    callback.onObjectWrittenToDB(false);
+                                }
+                            }
                         }
-                        else {
-                            callback.onObjectWrittenToDB(false);
-                        }
-                     }
-                }
-        );
+                );
     }
 
     @Override
