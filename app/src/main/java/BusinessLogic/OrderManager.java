@@ -17,6 +17,7 @@ import API.IOrderController;
 import API.IOrderListener;
 import API.Models.IOrder;
 import API.Models.IServiceUnit;
+import BusinessEntities.Bill;
 import BusinessEntities.Item;
 import BusinessEntities.Order;
 
@@ -38,6 +39,12 @@ public class OrderManager implements IOrderController {
             for (DocumentSnapshot doc : value.getDocuments()) {
                 IOrder order = doc.toObject(Order.class);
                 if (order == null) {Log.e(TAG, "Order is null"); return;}
+
+                // Add order to table's bill
+                if(order.getTable().getBill() == null) {
+                    Log.w(TAG, "Bill is null");
+                    order.getTable().setBill(new Bill());
+                }
 
                 // Copy the order (The only way to copy the document id of the order)
                 IOrder kitchenOrder = new Order(order);
