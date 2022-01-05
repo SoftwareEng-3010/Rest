@@ -5,23 +5,26 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.exercise_5.R;
 
 import javax.annotation.Nullable;
 
+import API.Database.OnDataSentToDB;
 import BusinessEntities.Branch;
-import BusinessEntities.Item;
 import BusinessEntities.Menu;
+import BusinessEntities.Order;
 import BusinessEntities.QRCode;
 import API.Database.Database;
 import API.Database.DatabaseRequestCallback;
 import DataAccessLayer.RestDB;
+import UI.LoginUI.LoginActivity;
 import UIAdapters.MenuRecyclerViewAdapter;
 import ViewModels.MenuViewModel;
 
@@ -31,16 +34,14 @@ public class BranchViewActivity extends AppCompatActivity {
 
     private Database rdb;
 
-    private TextView branchNameTV;
-    private TextView branchBusinessHrsTV;
-    private TextView selectedTableTV;
-
     private RecyclerView menuRecyclerView;
 
     private MenuRecyclerViewAdapter menuAdapter;
     
     private Branch branch;
     private Menu menu;
+    private String restId, branchId;
+    private int tableNumber;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,24 +50,23 @@ public class BranchViewActivity extends AppCompatActivity {
         rdb = RestDB.getInstance();
 
         // Required data to receive a branch from Database
-        String restId = getIntent().getStringExtra(QRCode.KEY_RESTAURANT_ID);
-        String branchId = getIntent().getStringExtra(QRCode.KEY_BRANCH_ID);
+        restId = getIntent().getStringExtra(QRCode.KEY_RESTAURANT_ID);
+        branchId = getIntent().getStringExtra(QRCode.KEY_BRANCH_ID);
+        tableNumber = getIntent().getIntExtra(QRCode.KEY_TABLE_NUMBER, -1);
 
-        // Must come from QRCodeActivity:
-        int tableNumber = getIntent().getIntExtra(QRCode.KEY_TABLE_NUMBER, -1);
         // Must come only from manual restaurant selection:
-        String menuPath = getIntent().getStringExtra("menu_path");
+        // TODO: 1/1/2022 Temporarily unneeded. Consider removing
+//        String menuPath = getIntent().getStringExtra("menu_path");
 
         // Get Branch from Database
-        getBranchAndMenu(restId, branchId, menuPath);
-
+        getBranchAndMenu(restId, branchId);
 
     }
 
     private void setupUI() {
-        branchNameTV = (TextView) findViewById(R.id.branch_name_TV);
-        branchBusinessHrsTV = (TextView) findViewById(R.id.branch_business_hrs_TV);
-        selectedTableTV = (TextView) findViewById(R.id.user_selected_table_TV);
+//        branchNameTV = (TextView) findViewById(R.id.branch_name_TV);
+//        branchBusinessHrsTV = (TextView) findViewById(R.id.branch_business_hrs_TV);
+//        selectedTableTV = (TextView) findViewById(R.id.user_selected_table_TV);
 
         // Menu Recycler View ref
         menuRecyclerView = (RecyclerView) findViewById(R.id.branch_menu_recycle_view);
@@ -77,7 +77,7 @@ public class BranchViewActivity extends AppCompatActivity {
                 .create(MenuViewModel.class);
 
         // set up adapter
-        menuAdapter = new MenuRecyclerViewAdapter(BranchViewActivity.this, menu.getMenu());
+        menuAdapter = new MenuRecyclerViewAdapter(BranchViewActivity.this, menu.getMenuItems());
 
         // set up the RecyclerView
         menuRecyclerView = (RecyclerView) findViewById(R.id.branch_menu_recycle_view);
@@ -88,24 +88,45 @@ public class BranchViewActivity extends AppCompatActivity {
         buttonSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                for (Item i : menuAdapter.getSelectedItems()) {
-                    Log.d(TAG, i.getName());
-                }
+                RestDB.getInstance()
+                        .sendOrder(
+                        restId, branchId,
+                        new Order(menuAdapter.getSelectedItems(), branch.getTables().get(tableNumber))
+                        , new OnDataSentToDB() {
+                            @Override
+                            public void onObjectWrittenToDB(boolean isTaskSuccessful) {
+                                if (isTaskSuccessful) {
+                                    Toast.makeText(BranchViewActivity.this, "Order was successfully pushed to DB", Toast.LENGTH_SHORT).show();
+                                }
+                                else {
+                                    Toast.makeText(BranchViewActivity.this, "Failed to write order into DB", Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        });
+                Intent moveToQRCodeActivity =
+                        new Intent(BranchViewActivity.this, QRCodeActivity.class);
+                startActivity(moveToQRCodeActivity);
             }
         });
     }
 
-    public void getBranchAndMenu(String restId, String branchId, String menuPath) {
+    public void getBranchAndMenu(String restId, String branchId) {
 
-        rdb.getBranch(branchId, new DatabaseRequestCallback() {
+        rdb.getBranch(
+                restId, branchId,
+                new DatabaseRequestCallback() {
             @Override
             public void onObjectReturnedFromDB(@Nullable Object obj) {
                 branch = (Branch) obj;
                 if (branch != null) {
-                    rdb.getMenu(restId, branchId, menuPath,
+                    rdb.getMenu(restId, branchId, branch.getMenuPath(),
                             new DatabaseRequestCallback() {
                         @Override
                         public void onObjectReturnedFromDB(@Nullable Object obj) {
+                            if (obj == null) {
+                                Log.e(TAG, "Branch menu was not found!");
+                                return;
+                            }
                             menu = (Menu) obj;
                             setupUI();
                         }

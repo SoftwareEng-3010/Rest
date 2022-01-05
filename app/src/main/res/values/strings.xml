@@ -21,6 +21,7 @@
 
     <!-- Menu List Item -->
     <string name="add_to_order">הוסף להזמנה</string>
+    <string name="submit_order">שלח הזמנה</string>
     <string name="title_activity_login_test">LoginActivityTest</string>
     <string name="action_sign_in">Sign in or register</string>
     <string name="action_sign_in_short">Sign in</string>
@@ -38,6 +39,30 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="service_staff_ui_fragment">מסך מלצרים</string>
+    <string name="management_home_screen">מסך בית - ניהול המסעדה</string>
+    <string name="managment_kitchen_fragment">מסך ניהול מטבח</string>
+    <string name="table_number_he">מספר שולחן:</string>
+    <string name="menu_item_edit_branch_he">עריכת הסניף</string>
+    <string name="menu_item_scan_qr_he">סרוק QRCode</string>
+    <string name="menu_item_my_branch_he">הסניף שלי</string>
+    <string name="field_branch_city_he">עיר</string>
+    <string name="btn_create_branch_he">צור סניף</string>
+    <string name="switch_is_branch_kosher_he">כשרות הסניף</string>
+    <string name="field_branch_building_number_he">מספר בניין/כניסה</string>
+    <string name="field_branch_street_he">רחוב</string>
+    <string name="field_restaurant_name_he">שם המסעדה</string>
+    <string name="btn_create_restaurant_he">צור מסעדה</string>
+    <string name="prompt_edit_menu_he">כמעט סיימנו, הוסף פריטים לתפריט:</string>
+    <string name="field_item_name_he">שם פריט</string>
+    <string name="field_item_description_he">תיאור</string>
+    <string name="field_item_price_he">מחיר</string>
+    <string name="btn_add_to_menu_he">הוסף לתפריט</string>
+    <string name="radio_btn_kitchen_he">מטבח</string>
+    <string name="radio_btn_service_he">שירות</string>
+    <string name="radio_btn_other_he">אחר</string>
+    <string name="prompt_edit_branch_tables">כמה שולחנות נמצאים בסניפך?</string>
+    <string name="number_of_tables_he">מספר השולחנות</string>
+    <string name="button_finish_he">סיים</string>
     <!-- Menu List Item -->
 
 </resources>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <GridView
+        android:id="@+id/table_GridView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:footerDividersEnabled="false"
+        android:padding="1dp"
+        android:numColumns="3"
+        android:horizontalSpacing="50dp"
+        android:verticalSpacing="50dp"
+        android:columnWidth="80dp"
+        android:listSelector="#0f0"/>
+
+</LinearLayout>
+
+
+<!--    <TextView-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent"-->
+<!--        android:text="@string/service_staff_ui_fragment" />-->

@@ -31,7 +31,7 @@ public class Branch {
     public Branch(Address address, boolean isKosher, String menuPath, List<Table> tables) {
         this.address = address;
         this.isKosher = isKosher;
-        this.tables = tables;
+        this.tables = new ArrayList<>(tables);
         this.menuPath = menuPath;
         this.service_units = new ArrayList<>();
     }
@@ -62,7 +62,7 @@ public class Branch {
 
     public String getDocId() {
         if (docId == null)
-            return "Branch with address: " + this.address + ", does not have its docId field initialized";
+            return "(ERROR IN CLASS BRANCH) Branch with address: " + this.address + ", does not have its docId field initialized";
         return docId;
     }
 

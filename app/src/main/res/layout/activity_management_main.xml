@@ -29,7 +29,7 @@
         app:layout_constraintStart_toStartOf="parent">
 
         <Button
-            android:id="@+id/btn_edit_branch_fragment"
+            android:id="@+id/btn_management_home"
             style="?android:attr/buttonBarButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
@@ -37,7 +37,7 @@
             android:text="@string/btn_edit_branch_fragment" />
 
         <Button
-            android:id="@+id/button2"
+            android:id="@+id/btn_management_service"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="30"
@@ -45,7 +45,7 @@
             android:text="@string/btn_service_staff_fragment" />
 
         <Button
-            android:id="@+id/button"
+            android:id="@+id/btn_management_kitchen"
             style="?android:attr/buttonBarButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"

@@ -1,45 +1,48 @@
 package UI.DataActivity.Controller;
 
 import android.os.Bundle;
+import android.util.Log;
 
-import androidx.fragment.app.Fragment;
+import androidx.annotation.Nullable;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.PropertyName;
+
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import API.Constants.Constants;
+import API.Database.Database;
+import API.Database.DatabaseRequestCallback;
+import API.Database.OnDataSentToDB;
+import API.Models.IBranchManagerUser;
 import BusinessEntities.Address;
 import BusinessEntities.Branch;
+import BusinessEntities.BranchManager;
 import BusinessEntities.Item;
 import BusinessEntities.Menu;
 import BusinessEntities.Restaurant;
-import UI.DataActivity.View.DataEditSubView;
+import BusinessEntities.Table;
+import DataAccessLayer.RestDB;
 import UI.DataActivity.View.DataEditView;
 
 public class DataEditViewController implements DataViewController{
 
+    private final String TAG = "EditViewController";
+
     private DataEditView view;
 
-    private Restaurant restaurantToBuild;
-    private Branch branchToBuild;
-    private List<Item> menuItems;
+    private String restaurantName;
 
-    private List<DataEditSubView> fragments;
-    private int fragmentIndex;
+    private Address branchAddress;
+    private boolean isKosher;
+    private List<Item> itemList;
+    private List<Table> tables;
 
-    private Bundle dataBundle;
-
-    public DataEditViewController(DataEditView dataEditView, List<DataEditSubView> fragments) {
+    public DataEditViewController(DataEditView dataEditView) {
         this.view = dataEditView;
-        this.fragments = fragments;
-        dataBundle = new Bundle();
-        fragmentIndex = 0;
-    }
-
-    private void move(){
-        if (fragmentIndex < fragments.size())
-            this.fragments.get(fragmentIndex++).nextFragment(dataBundle);
-        else
-            this.view.onDataEditFinished(true, "Data was successfully written to DB");
     }
 
     @Override
@@ -47,9 +50,15 @@ public class DataEditViewController implements DataViewController{
 
         // if (database already contains a restaurant named `restaurantName`...) {}
 
+        if (restaurantName != null) {
+            this.restaurantName = restaurantName;
+            view.onRestaurantEditFinished(true, restaurantName);
+        }
+        else {
+            view.onRestaurantEditFinished(false, null);
+        }
         // Should change `rest_name` with some constant
-        dataBundle.putString("rest_name", restaurantName);
-        move();
+//        dataBundle.putString("rest_name", restaurantName);
     }
 
     @Override
@@ -57,46 +66,113 @@ public class DataEditViewController implements DataViewController{
         if (address == null)
             return;
 
-        dataBundle.putString("branch_city", address.getCity());
-        dataBundle.putString("branch_street", address.getStreet());
-        dataBundle.putString("branch_building_number", address.getBuildingNumber());
-        dataBundle.putBoolean("branch_is_kosher", isKosher);
-        move();
+        this.branchAddress = address;
+        this.isKosher = isKosher;
+        view.onBranchEditFinished(true, address, isKosher);
     }
 
     @Override
     public void onMenuEditFinished(List<Item> menuItems) {
-        move();
+        if (menuItems.size() > 0) {
+            this.itemList = new ArrayList<>(menuItems);
+            view.onMenuEditFinished(true, menuItems);
+        }
+        else {
+            view.onMenuEditFinished(false, menuItems);
+        }
     }
-//
-//    @Override
-//    public void onRestaurantEditFinished(String restaurantName) {
-//
-//        if (restaurantName == null || restaurantName.isEmpty())
-//            view.onDataEditFinished(false, "Restaurant name is invalid!");
-//
-//        restaurantToBuild = new Restaurant(restaurantName, null);
-//
-//        view.onDataEditFinished(true, "Restaurant name is valid");
-//    }
-//
-//    @Override
-//    public void onBranchEditFinished(Address address, boolean isKosher) {
-//        if (address == null)
-//            view.onDataEditFinished(false, "Branch info is invalid");
-//        branchToBuild = new Branch(address, isKosher, null, null);
-//        restaurantToBuild.addBranch(branchToBuild);
-//
-//        view.onDataEditFinished(true, "Branch info is valid");
-//    }
-//
-//    @Override
-//    public void onMenuEditFinished(List<Item> menuItems) {
-//
-//        if (menuItems == null || menuItems.size() == 0)
-//            view.onDataEditFinished(false, "Failed to write restaurant to database");
-//
-//        view.onDataEditFinished(true, "Menu info is valid!");
-//    }
 
+    @Override
+    public void onTablesEditFinished(List<Table> tables) {
+        if (tables.size() > 0) {
+            this.tables = tables;
+            view.onTablesEditFinished(true, tables);
+            onDataEditFinished();
+        }
+        else {
+            view.onTablesEditFinished(false, tables);
+        }
+    }
+
+    public void onDataEditFinished() {
+
+        RestDB db = RestDB.getInstance();
+        db.addRestaurant(
+                new Restaurant(restaurantName),
+                new OnDataSentToDB() {
+                    @Override
+                    public void onObjectWrittenToDB(boolean isTaskSuccessful) {
+                        if (isTaskSuccessful) {
+                            Log.e(TAG, "Restaurant created successfully");
+                        }
+                    }
+                },
+                new DatabaseRequestCallback() {
+                    @Override
+                    public void onObjectReturnedFromDB(@Nullable Object obj) {
+                        if (obj == null) {
+                            Log.e(TAG, "Object came back null from DB!");
+                            return;
+                        }
+
+                        String restId = (String) obj;
+
+                        // Create and add the menu under restaurant `restId`.
+                        Menu menu = new Menu(itemList);
+
+                        db.addMenu(restId, menu,
+                                new DatabaseRequestCallback() {
+                                    @Override
+                                    public void onObjectReturnedFromDB(@Nullable Object obj) {
+                                        if (obj == null) {
+                                            Log.e(TAG, "menu_path came back NULL from DB!");
+                                            return;
+                                        }
+
+                                        String menuPath = (String) obj;
+
+                                        Branch branch = new Branch(
+                                                branchAddress, isKosher, menuPath, tables);
+
+                                        db.addBranch(restId, branch,
+                                                new OnDataSentToDB() {
+                                                    @Override
+                                                    public void onObjectWrittenToDB(boolean isTaskSuccessful) {
+
+                                                    }
+                                                },
+                                                new DatabaseRequestCallback() {
+                                                    @Override
+                                                    public void onObjectReturnedFromDB(@Nullable Object obj) {
+                                                        if (obj == null) {
+                                                            Log.e(TAG, "Branch came back null for some reason");
+                                                        }
+                                                        String branchId = (String) obj;
+                                                        String uid = FirebaseAuth.getInstance().getUid();
+
+                                                        Map<String, Object> newUser = new HashMap<>();
+                                                        newUser.put("id", FirebaseAuth.getInstance().getUid());
+                                                        newUser.put("type", Constants.USER_TYPE_BRANCH_MANAGER);
+                                                        newUser.put("branch_id", branchId);
+                                                        newUser.put("rest_id", restId);
+
+                                                        db.setUser(
+                                                                newUser,
+                                                                Constants.USER_TYPE_BRANCH_MANAGER,
+                                                                new OnDataSentToDB() {
+                                                                    @Override
+                                                                    public void onObjectWrittenToDB(boolean isTaskSuccessful) {
+                                                                        if (isTaskSuccessful) {
+                                                                            view.onDataEditFinish(restId, branchId);
+                                                                        }
+                                                                    }
+                                                                });
+                                                    }
+                                                });
+
+                                    }
+                                });
+                    }
+                });
+    }
 }
