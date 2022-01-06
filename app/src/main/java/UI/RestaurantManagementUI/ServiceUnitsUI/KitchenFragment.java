@@ -9,10 +9,12 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.example.exercise_5.R;
 
@@ -35,6 +37,7 @@ public class KitchenFragment extends Fragment implements IKitchenView, IOrderLis
     private IManagementView managementView;
     private IKitchenFragmentController controller;
     private OrdersViewModel viewModel;
+    private final String TAG = "KitchenView";
 
     private RecyclerView ordersRecyclerView;
     private OrdersRecyclerViewAdapter ordersRecyclerViewAdapter;
@@ -101,11 +104,21 @@ public class KitchenFragment extends Fragment implements IKitchenView, IOrderLis
     }
 
     @Override
+    public void onDetach() {
+        super.onDetach();
+        Log.e(TAG, "onDetach");
+        ordersRecyclerViewAdapter.clearOrders();
+    }
+
+    @Override
     public void onOrderReceived(@NonNull IOrder order) {
         if(ordersRecyclerView != null && ordersRecyclerViewAdapter != null){
 
             ordersRecyclerViewAdapter.addOrder(order);
             ordersRecyclerView.setAdapter(ordersRecyclerViewAdapter);
+        }
+        if (isAdded()) {
+            Toast.makeText(getContext(), "(מטבח)הזמנה התקבלה!", Toast.LENGTH_SHORT).show();
         }
     }
 }
