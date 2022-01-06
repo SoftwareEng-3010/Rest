@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -48,9 +49,12 @@ public class OrdersRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
 
         IOrder order = orders.get(position);
 
-        TextView tableNum = (TextView) holder.itemView.findViewById(R.id.table_number);
+        TextView tableNum = (TextView) holder.itemView.findViewById(R.id.text_view_table_number);
 
-        tableNum.setText(order.getTable().getTableNumber());
+        int tableNumber = order.getTable().getTableNumber();
+        tableNum.setText("שולחן: " + tableNumber);
+
+//        Toast.makeText(context, "(מטבח)הזמנה התקבלה!", Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -60,5 +64,8 @@ public class OrdersRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
 
     public void addOrder(IOrder order){
         orders.add(order);
+    }
+    public void clearOrders() {
+        this.orders.clear();
     }
 }
