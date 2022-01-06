@@ -7,6 +7,7 @@ import androidx.annotation.Nullable;
 
 import java.util.List;
 
+import API.Controllers.IManagementViewController;
 import API.Controllers.IServiceViewController;
 import API.Database.DatabaseRequestCallback;
 import API.Views.IServiceView;
@@ -20,16 +21,18 @@ public class ServiceFragmentController implements IServiceViewController {
 
     private String TAG = "ServiceFragmentController";
 
+    // View
     private IServiceView serviceView;
-
+    // Model
     private Branch branch;
     private Service service;
     private List<Table> tables;
     private RestDB db = RestDB.getInstance();
 
-    public ServiceFragmentController(@NonNull IServiceView serviceView, String restId, String branchId) {
+    public ServiceFragmentController(@NonNull IManagementViewController managementViewController, @NonNull IServiceView serviceView, String restId, String branchId) {
         this.serviceView = serviceView;
 //        this.branch = branch;
+        service = new Service();
         db.getBranch(restId, branchId,
                 new DatabaseRequestCallback() {
                     @Override
@@ -40,6 +43,7 @@ public class ServiceFragmentController implements IServiceViewController {
                         else {
                             branch = (Branch)obj;
                             if (null != branch.getTables()) {
+                                tables = branch.getTables();
                                 serviceView.setupTableGridView(branch.getTables());
                             }
                             else {
@@ -59,6 +63,8 @@ public class ServiceFragmentController implements IServiceViewController {
     public void onTableItemClicked(Table table/*, int tableNumber*/) {
         // Maybe an integer (tableNumber) will suffice.
         Log.e(TAG, "onTableItemClicked()" + table.getTableNumber());
+
+        serviceView.setupTableGridView(tables);
     }
 
     @Override

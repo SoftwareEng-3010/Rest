@@ -16,8 +16,6 @@ public interface IManagementView {
     public void loadHomeFragment();
     public void loadServiceFragment();
     public void loadKitchenFragment();
-//    public void loadTableDetailsFragment();
-    public void init();
 
     public void onDataFailure(String message);
 

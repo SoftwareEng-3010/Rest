@@ -5,6 +5,7 @@ import android.util.Log;
 import androidx.annotation.Nullable;
 
 import API.Constants.Constants;
+import API.Controllers.IHomeViewController;
 import API.Controllers.IManagementViewController;
 import API.Controllers.IServiceViewController;
 import API.Database.DatabaseRequestCallback;
@@ -20,15 +21,17 @@ public class ManagementViewController implements IManagementViewController, Swip
     }
     private final String TAG = "ManagementController";
     private IManagementView managementView;
-    private String branchId;
-    private String restId;
+    private String restId, branchId;
     private int currentFragment = Constants.MANAGEMENT_HOME_SCREEN;
 
+    private IHomeViewController homeViewController;
     private IServiceViewController serviceViewController;
+//    private IKitchenViewController kitchenViewController;
 
     private Branch branch;
 
-    public ManagementViewController(IManagementView view, String restId, String branchId) { this.managementView = view;
+    public ManagementViewController(IManagementView view, String restId, String branchId) {
+        this.managementView = view;
         this.branchId = branchId;
         this.restId = restId;
 
@@ -51,11 +54,6 @@ public class ManagementViewController implements IManagementViewController, Swip
 
                 else {
                     branch = (Branch) obj;
-
-//                    homeViewController = new ServiceFragmentController(branch);
-//                    serviceViewController = new ServiceFragmentController(branch);
-//                    kitchenViewController = new ServiceFragmentController(branch);
-                    view.init();
                 }
             }
         });

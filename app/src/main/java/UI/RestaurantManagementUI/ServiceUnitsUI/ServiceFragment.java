@@ -42,6 +42,11 @@ public class ServiceFragment extends Fragment implements IServiceView, SwipeGest
     private String branchId, restId;
 
     private IServiceViewController controller;
+    private IManagementViewController mainController;
+
+    public ServiceFragment(@NonNull IManagementViewController mainController) {
+        this.mainController = mainController;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -53,9 +58,10 @@ public class ServiceFragment extends Fragment implements IServiceView, SwipeGest
         branchId = b.getString(Constants.KEY_BRANCH_ID);
         restId = b.getString(Constants.KEY_RESTAURANT_ID);
 
-        controller = new ServiceFragmentController(this, restId, branchId);
+        controller = new ServiceFragmentController(mainController, this, restId, branchId);
 
-        fragView.setOnTouchListener(new OnSwipeTouchListener(getContext(), this));
+        fragView.setOnTouchListener(
+                new OnSwipeTouchListener(getContext(), this));
 
         btnService = ((View)container.getParent()).findViewById(R.id.btn_management_service);
 
