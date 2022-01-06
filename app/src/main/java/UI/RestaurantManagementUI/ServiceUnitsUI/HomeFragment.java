@@ -58,10 +58,11 @@ public class HomeFragment extends Fragment implements IHomeView {
     }
 
     private void moveToQRCodeActivity() {
-        Intent qrActivity = new Intent(getContext(), QRCodeActivity.class);
-        qrActivity.putExtra("user_type", Constants.USER_TYPE_BRANCH_MANAGER);
-        startActivity(qrActivity);
-        getActivity().finish();
+//        Intent qrActivity = new Intent(getContext(), QRCodeActivity.class);
+//        qrActivity.putExtra("user_type", Constants.USER_TYPE_BRANCH_MANAGER);
+//        startActivity(qrActivity);
+////        getActivity().finish();
+        managementView.loadQRActivity();
     }
 
     @Override

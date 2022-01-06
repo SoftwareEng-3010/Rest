@@ -17,6 +17,7 @@ public interface IManagementView {
     public void loadHomeFragment();
     public void loadServiceFragment();
     public void loadKitchenFragment();
+    public void loadQRActivity();
 
     public void onDataFailure(String message);
 
