@@ -60,7 +60,6 @@ public class BranchView extends AppCompatActivity {
 
         // Get Branch from Database
         getBranchAndMenu(restId, branchId);
-
     }
 
     private void setupUI() {
@@ -97,10 +96,10 @@ public class BranchView extends AppCompatActivity {
                             public void onObjectWrittenToDB(boolean isTaskSuccessful) {
                                 if (isTaskSuccessful) {
                                     Toast.makeText(BranchView.this, "Order was successfully pushed to DB", Toast.LENGTH_SHORT).show();
-                                    Intent moveToQRCodeActivity =
-                                            new Intent(BranchView.this, QRCodeActivity.class);
-                                    moveToQRCodeActivity.putExtra("user_type", Constants.USER_TYPE_BRANCH_MANAGER);
-                                    startActivity(moveToQRCodeActivity);
+//                                    Intent moveToQRCodeActivity =
+//                                            new Intent(BranchView.this, QRCodeActivity.class);
+//                                    moveToQRCodeActivity.putExtra("user_type", Constants.USER_TYPE_BRANCH_MANAGER);
+//                                    startActivity(moveToQRCodeActivity);
                                     finish();
                                 }
                                 else {
