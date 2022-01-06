@@ -24,6 +24,7 @@ import BusinessEntities.Item;
 import BusinessEntities.Order;
 import BusinessEntities.Printer;
 import DataAccessLayer.RestDB;
+import UI.RestaurantManagementUI.ServiceUnitsUI.KitchenFragment;
 
 public class OrderManager implements IOrderController {
 
@@ -113,7 +114,12 @@ public class OrderManager implements IOrderController {
                     }
 
                     for(IOrderListener orderListener : orderListeners){
-                        orderListener.onOrderReceived(order);
+                        if(orderListener instanceof KitchenFragment){
+                            orderListener.onOrderReceived(kitchenOrder);
+                        }
+                        else{
+                            orderListener.onOrderReceived(serviceOrder);
+                        }
                     }
                 }
             }
