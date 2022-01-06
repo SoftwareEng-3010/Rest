@@ -1,16 +1,10 @@
 package BusinessLogic;
 
 import android.util.Log;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.GridView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.example.exercise_5.R;
-
-import java.util.ArrayList;
 import java.util.List;
 
 import API.Controllers.IServiceViewController;
@@ -18,10 +12,9 @@ import API.Database.DatabaseRequestCallback;
 import API.Views.IServiceView;
 import BusinessEntities.Bill;
 import BusinessEntities.Branch;
+import BusinessEntities.Service;
 import BusinessEntities.Table;
 import DataAccessLayer.RestDB;
-import UI.OnSwipeTouchListener;
-import UIAdapters.TableGridAdapter;
 
 public class ServiceFragmentController implements IServiceViewController {
 
@@ -30,6 +23,7 @@ public class ServiceFragmentController implements IServiceViewController {
     private IServiceView serviceView;
 
     private Branch branch;
+    private Service service;
     private List<Table> tables;
     private RestDB db = RestDB.getInstance();
 

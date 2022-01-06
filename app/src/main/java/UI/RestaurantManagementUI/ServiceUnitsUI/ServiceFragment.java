@@ -34,7 +34,7 @@ import DataAccessLayer.RestDB;
 import UI.OnSwipeTouchListener;
 import UIAdapters.TableGridAdapter;
 
-public class ServiceFragment extends Fragment implements IServiceView {
+public class ServiceFragment extends Fragment implements IServiceView, SwipeGestureListener {
 
     private View fragView;
     private GridView tableGrid;
@@ -55,7 +55,7 @@ public class ServiceFragment extends Fragment implements IServiceView {
 
         controller = new ServiceFragmentController(this, restId, branchId);
 
-//        v.setOnTouchListener(new OnSwipeTouchListener(getContext(), this));
+        fragView.setOnTouchListener(new OnSwipeTouchListener(getContext(), this));
 
         btnService = ((View)container.getParent()).findViewById(R.id.btn_management_service);
 
@@ -93,6 +93,16 @@ public class ServiceFragment extends Fragment implements IServiceView {
                 controller.onTableItemClicked(tables.get(position));
             }
         });
+    }
+
+    @Override
+    public void onSwipeLeft() {
+
+    }
+
+    @Override
+    public void onSwipeRight() {
+
     }
 
 //    @Override

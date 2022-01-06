@@ -191,7 +191,7 @@ public class ManagementActivity extends AppCompatActivity implements IManagement
     @Override
     public List<IServiceUnit> getServiceUnits() {
         List<IServiceUnit> units = new ArrayList<>();
-//        units.add(new ServiceStaff());
+//        units.add(new Service());
 //        units.add(new Kitchen());
 
 //        IServiceUnit kitchenPrinter = new Printer(this);
