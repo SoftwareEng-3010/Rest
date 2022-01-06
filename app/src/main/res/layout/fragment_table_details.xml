@@ -19,7 +19,9 @@
         android:fontFamily="sans-serif-medium"
         android:layout_centerInParent="true"
         android:gravity="center"
-        android:textColor="@color/black" />
+        android:textColor="@color/black"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/button_create_order"

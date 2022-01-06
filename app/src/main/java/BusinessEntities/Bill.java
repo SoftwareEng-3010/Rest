@@ -17,14 +17,14 @@ public class Bill {
         total = EMPTY_BILL;
     }
 
+    public Bill(List<IOrder> orders) {
+        this.orders = new ArrayList<>(orders);
+        total = EMPTY_BILL;
+    }
+
     public Bill(Bill other){
-<<<<<<< HEAD
          this.orders = new ArrayList<>(other.getOrders());
          this.total = other.getTotal();
-=======
-        this.orders = new ArrayList<>(other.getOrders());
-        this.total = other.getTotal();
->>>>>>> 050d7555a5e4146497b9a2c00479eaa87ed717d6
     }
 
     public void addOrder(IOrder order){
@@ -36,7 +36,7 @@ public class Bill {
 
     public void removeOrder(String orderId){
         for (IOrder order : orders){
-            if(order.getDocId() == orderId){
+            if(order.getDocId().equals(orderId)){
                 orders.remove(order);
                 for(Item item : order.getOrderItems()){
                     total -= item.getPrice();

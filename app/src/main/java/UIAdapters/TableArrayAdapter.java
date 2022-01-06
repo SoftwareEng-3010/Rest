@@ -40,7 +40,7 @@ public class TableArrayAdapter extends ArrayAdapter<Table> {
     public View getView(int position, View convertView, ViewGroup parent) {
         // Get the data item for this position
         Table table = tables.get(position);
-        String tableIndex = String.valueOf(table.getTableIndex());
+        String tableIndex = String.valueOf(table.getTableNumber());
 
         // Check if an existing view is being reused, otherwise inflate the view
         if (convertView == null) {

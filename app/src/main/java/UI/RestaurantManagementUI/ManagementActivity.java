@@ -127,7 +127,7 @@ public class ManagementActivity extends AppCompatActivity implements IManagement
     }
 
     @Override
-    public void init(IServiceViewController serviceVC) {
+    public void init() {
 
         frameLayout = (FrameLayout) findViewById(R.id.frame_layout_management);
 
@@ -194,8 +194,8 @@ public class ManagementActivity extends AppCompatActivity implements IManagement
 //        units.add(new ServiceStaff());
 //        units.add(new Kitchen());
 
-        IServiceUnit kitchenPrinter = new Printer(this);
-        units.add(kitchenPrinter);
+//        IServiceUnit kitchenPrinter = new Printer(this);
+//        units.add(kitchenPrinter);
 
         return units;
     }

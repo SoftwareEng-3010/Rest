@@ -38,7 +38,7 @@ public class KitchenFragment extends Fragment implements SwipeGestureListener {
 
         // Set "Context" to the kitchenPrinter to let it
         // know where it should print
-        kitchenPrinter = new Printer(getContext());
+        kitchenPrinter = new Printer();
 
         return v;
     }

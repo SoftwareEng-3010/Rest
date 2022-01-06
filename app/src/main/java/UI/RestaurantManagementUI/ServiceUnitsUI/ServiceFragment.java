@@ -3,6 +3,7 @@ package UI.RestaurantManagementUI.ServiceUnitsUI;
 import android.graphics.Color;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
@@ -35,58 +36,30 @@ import UIAdapters.TableGridAdapter;
 
 public class ServiceFragment extends Fragment implements IServiceView {
 
-    private Button btnService;
-    private RestDB rdb;
-    private Branch branch;
+    private View fragView;
     private GridView tableGrid;
+    private Button btnService;
     private String branchId, restId;
-    private List<Table> tables;
 
     private IServiceViewController controller;
-
-    public ServiceFragment() {
-        rdb = RestDB.getInstance();
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View v = inflater.inflate(R.layout.fragment_service, container, false);
+        fragView = inflater.inflate(R.layout.fragment_service, container, false);
+
         Bundle b = getArguments();
         branchId = b.getString(Constants.KEY_BRANCH_ID);
         restId = b.getString(Constants.KEY_RESTAURANT_ID);
-        rdb.getBranch(restId, branchId, new DatabaseRequestCallback() {
-            @Override
-            public void onObjectReturnedFromDB(@Nullable Object obj) {
-                if(obj != null){
-                    branch = (Branch) obj;
-                }
-            }
-        });
-        controller = new ServiceFragmentController(this, branch);
 
-        tableGrid = (GridView)v.findViewById(R.id.table_GridView); // init GridView
-        tableGrid.setOnTouchListener(new OnSwipeTouchListener(getContext(), controller));
-
-        TableGridAdapter adapter = new TableGridAdapter(getContext(), tables);
-        tableGrid.setAdapter(adapter);
-
-        // implement setOnItemClickListener event on GridView
-        tableGrid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-                controller.onTableItemClicked(tables.get(position));
-            }
-        });
-
+        controller = new ServiceFragmentController(this, restId, branchId);
 
 //        v.setOnTouchListener(new OnSwipeTouchListener(getContext(), this));
 
         btnService = ((View)container.getParent()).findViewById(R.id.btn_management_service);
 
-        return v;
+        return fragView;
     }
 
     @Override
@@ -103,6 +76,23 @@ public class ServiceFragment extends Fragment implements IServiceView {
                 .addToBackStack("ServiceFragment")
                 .replace(R.id.frame_layout_management, new TableDetailsFragment(controller))
                 .commit();
+    }
+
+    @Override
+    public void setupTableGridView(@NonNull List<Table> tables) {
+        tableGrid = (GridView) fragView.findViewById(R.id.table_GridView); // init GridView
+        tableGrid.setOnTouchListener(new OnSwipeTouchListener(getContext(), controller));
+
+        TableGridAdapter adapter = new TableGridAdapter(getContext(), tables);
+        tableGrid.setAdapter(adapter);
+
+        // implement setOnItemClickListener event on GridView
+        tableGrid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                controller.onTableItemClicked(tables.get(position));
+            }
+        });
     }
 
 //    @Override

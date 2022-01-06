@@ -13,6 +13,8 @@ public interface IOrderController extends EventListener<QuerySnapshot> {
 
     public List<IServiceUnit> getSubscribedServiceUnits();
 
+    public void detachSnapshotListener();
+
     public boolean registerUnit(@NonNull IServiceUnit unit);
 
     public boolean updateServiceUnit(@NonNull IServiceUnit unit);
