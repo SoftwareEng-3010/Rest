@@ -94,33 +94,4 @@ public class ServiceFragment extends Fragment implements IServiceView {
             }
         });
     }
-
-//    @Override
-//    public void onResume() {
-//        super.onResume();
-//        btnService.setBackgroundColor(Color.WHITE);
-//    }
-//
-//    @Override
-//    public void onSwipeLeft() {
-//        Toast.makeText(getContext(), "Swipe left", Toast.LENGTH_SHORT).show();
-//        btnService.setBackgroundColor(Color.TRANSPARENT);
-////        controller.onHomeButtonClicked();
-//    }
-//
-//    @Override
-//    public void onSwipeRight() {
-//        Toast.makeText(getContext(), "Swipe right", Toast.LENGTH_SHORT).show();
-//        btnService.setBackgroundColor(Color.TRANSPARENT);
-//    }
-//
-//    @Override
-//    public void onSwipeTop() {
-//        Toast.makeText(getContext(), "Swipe up", Toast.LENGTH_SHORT).show();
-//    }
-//
-//    @Override
-//    public void onSwipeBottom() {
-//        Toast.makeText(getContext(), "Swipe down", Toast.LENGTH_SHORT).show();
-//    }
 }

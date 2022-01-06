@@ -4,7 +4,7 @@
     android:layout_height="wrap_content">
 
     <LinearLayout
-        android:id="@+id/layout_order_item_details"
+        android:id="@+id/layout_order_items"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="horizontal"
@@ -12,7 +12,7 @@
         android:weightSum="100">
 
         <LinearLayout
-            android:id="@+id/idk"
+            android:id="@+id/layout_order_item_details"
             android:layout_width="411dp"
             android:layout_height="wrap_content"
             android:layout_gravity="left"
@@ -21,47 +21,17 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/menu_item_name_TV"
+                android:id="@+id/table_number"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:fontFamily="sans-serif-condensed"
                 android:layout_gravity="right"
                 android:textDirection="rtl"
-                android:text="item name: "
+                android:text="Table Number"
                 android:textSize="22dp"
                 android:textStyle="bold" />
 
-            <TextView
-                android:id="@+id/menu_item_description_TV"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:fontFamily="sans-serif-condensed"
-                android:layout_gravity="right"
-                android:textDirection="rtl"
-                android:text="item description"
-                android:textSize="18dp" />
-
-            <TextView
-                android:id="@+id/menu_item_price_TV"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:fontFamily="sans-serif-condensed"
-                android:layout_gravity="right"
-                android:textDirection="rtl"
-                android:text="item price: "
-                android:textSize="18dp" />
-
-            <Button
-                android:id="@+id/btn_add_to_order"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:fontFamily="sans-serif-condensed"
-                android:text="@string/add_to_order"
-                android:textSize="12dp" />
 
         </LinearLayout>
 
