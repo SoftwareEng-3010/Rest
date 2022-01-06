@@ -18,23 +18,23 @@ import BusinessEntities.Service;
 import BusinessEntities.Table;
 import DataAccessLayer.RestDB;
 
-public class ServiceFragmentController implements IServiceViewController {
+public class ServiceViewController implements IServiceViewController {
 
-    private String TAG = "ServiceFragmentController";
+    private String TAG = "ServiceViewController";
 
     // View
     private IManagementView managementView;
     private IServiceView serviceView;
     // Model
     private Branch branch;
-    private Service service;
+//    private Service service;
     private List<Table> tables;
     private RestDB db = RestDB.getInstance();
 
-    public ServiceFragmentController(@NonNull IManagementView managementView, @NonNull IServiceView serviceView, String restId, String branchId) {
+    public ServiceViewController(@NonNull IManagementView managementView, @NonNull IServiceView serviceView, String restId, String branchId) {
         this.serviceView = serviceView;
         this.managementView = managementView;
-        service = new Service();
+//        service = new Service();
 
         db.getBranch(restId, branchId,
                 new DatabaseRequestCallback() {
