@@ -26,10 +26,6 @@ public class KitchenFragment extends Fragment implements SwipeGestureListener {
 
     private Printer kitchenPrinter;
 
-    public KitchenFragment(IManagementViewController controller) {
-        this.controller = controller;
-    }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -62,16 +58,6 @@ public class KitchenFragment extends Fragment implements SwipeGestureListener {
 
     @Override
     public void onSwipeRight() {
-
-    }
-
-    @Override
-    public void onSwipeTop() {
-
-    }
-
-    @Override
-    public void onSwipeBottom() {
 
     }
 }
