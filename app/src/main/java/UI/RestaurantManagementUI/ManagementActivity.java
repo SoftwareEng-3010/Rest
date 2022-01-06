@@ -207,6 +207,7 @@ public class ManagementActivity extends AppCompatActivity implements IManagement
         Intent qrActivity = new Intent(this, QRCodeActivity.class);
         qrActivity.putExtra("user_type", Constants.USER_TYPE_BRANCH_MANAGER);
         startActivity(qrActivity);
+//        finish();
     }
 
     private void moveToDataActivity() {
