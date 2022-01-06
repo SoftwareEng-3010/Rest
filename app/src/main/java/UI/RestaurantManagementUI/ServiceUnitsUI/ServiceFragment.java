@@ -8,8 +8,10 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.GridView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.exercise_5.R;
@@ -67,9 +69,13 @@ public class ServiceFragment extends Fragment implements SwipeGestureListener {
                 });
 
         // implement setOnItemClickListener event on GridView
-//        tableGrid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//
-//        });
+        tableGrid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                controller.onTableItemClicked(tables.get(position));
+            }
+        });
 
 
         v.setOnTouchListener(new OnSwipeTouchListener(getContext(), this));

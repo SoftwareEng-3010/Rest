@@ -2,12 +2,16 @@ package BusinessLogic;
 
 import android.util.Log;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+
+import javax.annotation.Nonnull;
 
 import API.Controllers.IManagementViewController;
 import API.Database.DatabaseRequestCallback;
 import API.Views.IManagementView;
 import BusinessEntities.Branch;
+import BusinessEntities.Table;
 import DataAccessLayer.RestDB;
 
 public class ManagementViewController implements IManagementViewController {
@@ -58,6 +62,16 @@ public class ManagementViewController implements IManagementViewController {
     @Override
     public void onServiceButtonClicked() {
         managementView.loadServiceFragment();
+    }
+
+    @Override
+    public void onTableItemClicked(Table table) {
+        if (table != null) {
+            managementView.loadTableDetailsFragment(table);
+        }
+        else {
+            managementView.onDataFailure("table is null, can't load details");
+        }
     }
 
     @Override

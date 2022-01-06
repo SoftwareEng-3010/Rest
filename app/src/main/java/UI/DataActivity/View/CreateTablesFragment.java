@@ -16,6 +16,7 @@ import com.example.exercise_5.R;
 import java.util.ArrayList;
 import java.util.List;
 
+import BusinessEntities.Bill;
 import BusinessEntities.Table;
 import UI.DataActivity.Controller.DataViewController;
 
@@ -54,7 +55,7 @@ public class CreateTablesFragment extends Fragment {
             if (numTables > 0 && numTables < 1000) {
                 List<Table> tables = new ArrayList<>();
                 for (int i = 0; i < numTables; i++) {
-                    tables.add(new Table(i, 4, 0, false, true));
+                    tables.add(new Table(i, 4, new Bill(), false, true));
                 }
                 viewController.onTablesEditFinished(tables);
             }
