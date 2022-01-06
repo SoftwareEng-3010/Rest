@@ -46,6 +46,7 @@ public class OrderManager implements IOrderController {
                     order.getTable().setBill(new Bill());
                 }
 
+                order.getTable().getBill().addOrder(order);
                 // Copy the order (The only way to copy the document id of the order)
                 IOrder kitchenOrder = new Order(order);
                 IOrder serviceOrder = new Order(order);
