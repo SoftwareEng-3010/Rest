@@ -121,7 +121,9 @@ public class CreateMenuFragment extends Fragment {
             editTextItemDescription.setText("");
             editTextItemPrice.setText("");
             radioBtnKitchen.setChecked(true);
-                    itemsRecyclerView.setAdapter(menuAdapter);
+
+            // Reset adapter
+            itemsRecyclerView.setAdapter(menuAdapter);
         }
     }
 

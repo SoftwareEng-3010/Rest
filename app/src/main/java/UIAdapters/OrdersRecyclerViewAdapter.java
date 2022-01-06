@@ -1,5 +1,6 @@
 package UIAdapters;
 
+import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,7 +18,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import API.Models.IOrder;
-import io.grpc.Context;
 
 public class OrdersRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
 
@@ -25,9 +25,9 @@ public class OrdersRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
     private Context context;
     private List<IOrder> orders;
 
-    public OrdersRecyclerViewAdapter(Context context, List<IOrder> orders){
+    public OrdersRecyclerViewAdapter(Context context){
         this.context = context;
-        this.orders = new ArrayList<>(orders);
+        this.orders = new ArrayList<>();
     }
 
     @NonNull
@@ -56,5 +56,9 @@ public class OrdersRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
     @Override
     public int getItemCount() {
         return orders.size();
+    }
+
+    public void addOrder(IOrder order){
+        orders.add(order);
     }
 }

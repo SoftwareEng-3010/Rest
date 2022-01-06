@@ -6,6 +6,7 @@ import androidx.annotation.Nullable;
 
 import API.Controllers.IKitchenFragmentController;
 import API.Database.DatabaseRequestCallback;
+import API.Models.IOrder;
 import API.Views.IKitchenView;
 import API.Views.IManagementView;
 import BusinessEntities.Branch;
@@ -48,4 +49,5 @@ public class KitchenViewController implements IKitchenFragmentController {
 
     @Override
     public void onSwipeRight() {}
+
 }
