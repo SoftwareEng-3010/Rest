@@ -31,10 +31,11 @@ public class Printer implements IPrinter {
         setLocation(location);
     }
 
-    public void print(){
+    public Object print(){
         while(!orders.isEmpty()){
-            Toast.makeText(context, orders.poll().toString(), Toast.LENGTH_LONG).show();
+            return orders.poll();
         }
+        return null;
     }
 
     @Override

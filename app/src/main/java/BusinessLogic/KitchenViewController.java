@@ -1,17 +1,15 @@
 package BusinessLogic;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
-import java.util.List;
 
 import API.Controllers.IKitchenFragmentController;
+import API.Database.DatabaseRequestCallback;
 import API.Views.IKitchenView;
 import API.Views.IManagementView;
-import API.Views.IServiceView;
 import BusinessEntities.Branch;
 import BusinessEntities.Kitchen;
-import BusinessEntities.Service;
-import BusinessEntities.Table;
 import DataAccessLayer.RestDB;
 
 public class KitchenViewController implements IKitchenFragmentController {
@@ -27,6 +25,20 @@ public class KitchenViewController implements IKitchenFragmentController {
     public KitchenViewController(@NonNull IManagementView managementView, @NonNull IKitchenView kitchenView, String restId, String branchId) {
         this.managementView = managementView;
         this.kitchenView = kitchenView;
+
+        if (restId != null && branchId != null) {
+
+            db.getBranch(
+                    restId, branchId, new DatabaseRequestCallback() {
+                @Override
+                public void onObjectReturnedFromDB(@Nullable Object obj) {
+                    if (obj != null) {
+                        branch = (Branch) obj;
+                        kitchenView.setupUI();
+                    }
+                }
+            });
+        }
     }
 
     @Override

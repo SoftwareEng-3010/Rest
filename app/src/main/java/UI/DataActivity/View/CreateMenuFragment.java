@@ -74,7 +74,7 @@ public class CreateMenuFragment extends Fragment {
         itemsRecyclerView = (RecyclerView) view.findViewById(R.id.recyclerViewCreateMenuFrag);
 
         menuViewModel = ViewModelProvider.AndroidViewModelFactory
-                .getInstance(getActivity().getApplication())
+                .getInstance()
                 .create(MenuViewModel.class);
 
         // set up adapter

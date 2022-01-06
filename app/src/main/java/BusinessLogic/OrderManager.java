@@ -98,17 +98,17 @@ public class OrderManager implements IOrderController {
                                 unit.onOrderReceived(serviceOrder);
                             }
                         }
-                        if (unit.getServiceType() == Constants.USER_TYPE_KITCHEN_PRINTER) {
-                            if (!serviceOrder.getOrderItems().isEmpty()) {
-                                unit.onOrderReceived(kitchenOrder);
-                            }
-                        }
-
-                        if (unit.getServiceType() == Constants.USER_TYPE_SERVICE_PRINTER) {
-                            if (!serviceOrder.getOrderItems().isEmpty()) {
-                                unit.onOrderReceived(serviceOrder);
-                            }
-                        }
+//                        if (unit.getServiceType() == Constants.USER_TYPE_KITCHEN_PRINTER) {
+//                            if (!serviceOrder.getOrderItems().isEmpty()) {
+//                                unit.onOrderReceived(kitchenOrder);
+//                            }
+//                        }
+//
+//                        if (unit.getServiceType() == Constants.USER_TYPE_SERVICE_PRINTER) {
+//                            if (!serviceOrder.getOrderItems().isEmpty()) {
+//                                unit.onOrderReceived(serviceOrder);
+//                            }
+//                        }
                     }
                 }
             }

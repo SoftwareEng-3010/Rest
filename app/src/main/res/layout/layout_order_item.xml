@@ -7,11 +7,12 @@
         android:id="@+id/order_item_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="right"
         android:layout_marginLeft="10dp"
         android:fontFamily="sans-serif-condensed"
-        android:layout_gravity="right"
-        android:textDirection="rtl"
         android:text="item description"
+        android:textDirection="rtl"
         android:textSize="18dp" />
+
 
 </RelativeLayout>
