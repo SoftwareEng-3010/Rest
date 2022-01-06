@@ -1,5 +1,6 @@
 package UI.RestaurantManagementUI;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
@@ -21,13 +22,12 @@ import java.util.List;
 
 import API.Constants.Constants;
 import API.Controllers.IManagementViewController;
-import API.IOrderListener;
+import API.Controllers.IServiceViewController;
 import API.Models.IServiceUnit;
 import API.Views.IManagementView;
-import BusinessEntities.Kitchen;
 import BusinessEntities.Printer;
-import BusinessEntities.ServiceStaff;
 
+import BusinessEntities.Table;
 import BusinessLogic.ManagementViewController;
 import BusinessLogic.OrderManager;
 import UI.CustomersUI.QRCodeActivity;
@@ -35,22 +35,25 @@ import UI.DataActivity.DataActivity;
 import UI.RestaurantManagementUI.ServiceUnitsUI.HomeFragment;
 import UI.RestaurantManagementUI.ServiceUnitsUI.KitchenFragment;
 import UI.RestaurantManagementUI.ServiceUnitsUI.ServiceFragment;
+import UI.RestaurantManagementUI.ServiceUnitsUI.TableDetailsFragment;
 
-public class ManagementMainActivity extends AppCompatActivity implements IManagementView {
+public class ManagementActivity extends AppCompatActivity implements IManagementView {
 
     private final String TAG = "ManagementMain";
 
     private FrameLayout frameLayout;
 
-    private IManagementViewController viewController;
+    private IManagementViewController mainController;
+    private IServiceViewController serviceViewController;
 
     private Button btnHome;
     private Button btnService;
     private Button btnKitchen;
 
+    private HomeFragment homeFragment;
     private KitchenFragment kitchenFragment;
     private ServiceFragment serviceFragment;
-    private HomeFragment homeFragment;
+//    private TableDetailsFragment tableDetailsFragment;
 
     private String managerUid, branchId, restId;
 
@@ -90,10 +93,12 @@ public class ManagementMainActivity extends AppCompatActivity implements IManage
                         .show();
             }
         }
-
-        else {
-            init();
-        }
+        // TODO: 1/6/2022 This else statement was removed
+        //  because I've called init() from the controller.
+//        else {
+//            init();
+//        }
+        mainController = new ManagementViewController(this, restId, branchId);
     }
 
 
@@ -122,6 +127,57 @@ public class ManagementMainActivity extends AppCompatActivity implements IManage
     }
 
     @Override
+    public void init() {
+
+        frameLayout = (FrameLayout) findViewById(R.id.frame_layout_management);
+
+        // init view controllers:
+
+        // ManagementActivity's UI Fragments
+        serviceFragment = new ServiceFragment();
+        Bundle b = new Bundle();
+        b.putString(Constants.KEY_BRANCH_ID, branchId);
+        b.putString(Constants.KEY_RESTAURANT_ID, restId);
+        serviceFragment.setArguments(b);
+
+        homeFragment = new HomeFragment();
+        kitchenFragment = new KitchenFragment();
+
+        loadFragment(homeFragment);
+
+        new OrderManager(getServiceUnits());
+
+        btnHome = (Button) findViewById(R.id.btn_management_home);
+        btnService = (Button) findViewById(R.id.btn_management_service);
+        btnKitchen = (Button) findViewById(R.id.btn_management_kitchen);
+
+        btnHome.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                btnService.setBackgroundColor(Color.TRANSPARENT);
+                btnKitchen.setBackgroundColor(Color.TRANSPARENT);
+                mainController.onHomeButtonClicked();
+            }
+        });
+        btnService.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                btnHome.setBackgroundColor(Color.TRANSPARENT);
+                btnKitchen.setBackgroundColor(Color.TRANSPARENT);
+                mainController.onServiceButtonClicked();
+            }
+        });
+        btnKitchen.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                btnService.setBackgroundColor(Color.TRANSPARENT);
+                btnHome.setBackgroundColor(Color.TRANSPARENT);
+                mainController.onKitchenButtonClicked();
+            }
+        });
+    }
+
+    @Override
     public void onDataFailure(String message) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
@@ -138,55 +194,10 @@ public class ManagementMainActivity extends AppCompatActivity implements IManage
 //        units.add(new ServiceStaff());
 //        units.add(new Kitchen());
 
-        IServiceUnit kitchenPrinter = new Printer(this);
-        units.add(kitchenPrinter);
+//        IServiceUnit kitchenPrinter = new Printer(this);
+//        units.add(kitchenPrinter);
 
         return units;
-    }
-
-
-    private void init() {
-
-        frameLayout = (FrameLayout) findViewById(R.id.frame_layout_management);
-
-        viewController = new ManagementViewController(this, restId, branchId);
-
-        // ManagementMainActivity's UI Fragments
-        homeFragment = new HomeFragment(viewController);
-
-        serviceFragment = new ServiceFragment(viewController, branchId, restId);
-        kitchenFragment = new KitchenFragment(viewController);
-
-        new OrderManager(getServiceUnits());
-
-        btnHome = (Button) findViewById(R.id.btn_management_home);
-        btnService = (Button) findViewById(R.id.btn_management_service);
-        btnKitchen = (Button) findViewById(R.id.btn_management_kitchen);
-
-        btnHome.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                btnService.setBackgroundColor(Color.TRANSPARENT);
-                btnKitchen.setBackgroundColor(Color.TRANSPARENT);
-                viewController.onHomeButtonClicked();
-            }
-        });
-        btnService.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                btnHome.setBackgroundColor(Color.TRANSPARENT);
-                btnKitchen.setBackgroundColor(Color.TRANSPARENT);
-                viewController.onServiceButtonClicked();
-            }
-        });
-        btnKitchen.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                btnService.setBackgroundColor(Color.TRANSPARENT);
-                btnHome.setBackgroundColor(Color.TRANSPARENT);
-                viewController.onKitchenButtonClicked();
-            }
-        });
     }
 
     private void moveToQRCodeActivity() {

@@ -28,7 +28,7 @@ import API.Views.SwipeGestureListener;
 import BusinessEntities.QRCode;
 import BusinessLogic.QRReadHandler;
 import BusinessLogic.Permissions;
-import UI.RestaurantManagementUI.ManagementMainActivity;
+import UI.RestaurantManagementUI.ManagementActivity;
 import UI.LoginUI.LoginActivity;
 
 public class QRCodeActivity extends AppCompatActivity implements SwipeGestureListener {
@@ -115,7 +115,7 @@ public class QRCodeActivity extends AppCompatActivity implements SwipeGestureLis
             @Override
             public void onClick(View v) {
                 // Only finish the activity because when logged in as a manager,
-                // this activity is above ManagementMainActivity in UI Stack.
+                // this activity is above ManagementActivity in UI Stack.
                 finish();
             }
         });
@@ -247,17 +247,7 @@ public class QRCodeActivity extends AppCompatActivity implements SwipeGestureLis
 
     @Override
     public void onSwipeRight() {
-        Intent managementActivity = new Intent(this, ManagementMainActivity.class);
+        Intent managementActivity = new Intent(this, ManagementActivity.class);
         startActivity(managementActivity);
-    }
-
-    @Override
-    public void onSwipeTop() {
-
-    }
-
-    @Override
-    public void onSwipeBottom() {
-
     }
 }

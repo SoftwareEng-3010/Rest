@@ -1,6 +1,7 @@
 package API.Controllers;
 
-import android.view.View;
+import API.Views.SwipeGestureListener;
+import BusinessEntities.Table;
 
 public interface IManagementViewController {
 
