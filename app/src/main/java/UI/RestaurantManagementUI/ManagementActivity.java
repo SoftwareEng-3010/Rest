@@ -63,9 +63,7 @@ public class ManagementActivity extends AppCompatActivity implements IManagement
 
         checkArguments();
 
-
         frameLayout = (FrameLayout) findViewById(R.id.frame_layout_management);
-
 
         // Prepare data for Fragments
         Bundle args = new Bundle();
@@ -96,6 +94,11 @@ public class ManagementActivity extends AppCompatActivity implements IManagement
     @Override
     public void loadKitchenFragment() {
         loadFragment(kitchenFragment);
+    }
+
+    @Override
+    public void loadQRActivity() {
+        moveToQRCodeActivity();
     }
 
     @Override
@@ -207,6 +210,7 @@ public class ManagementActivity extends AppCompatActivity implements IManagement
         Intent qrActivity = new Intent(this, QRCodeActivity.class);
         qrActivity.putExtra("user_type", Constants.USER_TYPE_BRANCH_MANAGER);
         startActivity(qrActivity);
+//        finish();
     }
 
     private void moveToDataActivity() {
