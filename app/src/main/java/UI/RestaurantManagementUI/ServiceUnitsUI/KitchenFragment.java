@@ -41,7 +41,7 @@ public class KitchenFragment extends Fragment implements IKitchenView {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_kitchen, container, false);
 
-        v.setOnTouchListener(new OnSwipeTouchListener(getContext(), this));
+//        v.setOnTouchListener(new OnSwipeTouchListener(getContext(), this));
 
         btnKitchen = ((View)container.getParent()).findViewById(R.id.btn_management_kitchen);
 

@@ -34,7 +34,7 @@ import DataAccessLayer.RestDB;
 import UI.OnSwipeTouchListener;
 import UIAdapters.TableGridAdapter;
 
-public class ServiceFragment extends Fragment implements IServiceView, SwipeGestureListener {
+public class ServiceFragment extends Fragment implements IServiceView{
 
     private View fragView;
     private GridView tableGrid;
@@ -61,7 +61,7 @@ public class ServiceFragment extends Fragment implements IServiceView, SwipeGest
         controller = new ServiceFragmentController(mainController, this, restId, branchId);
 
         fragView.setOnTouchListener(
-                new OnSwipeTouchListener(getContext(), this));
+                new OnSwipeTouchListener(getContext(), controller));
 
         btnService = ((View)container.getParent()).findViewById(R.id.btn_management_service);
 
@@ -100,43 +100,4 @@ public class ServiceFragment extends Fragment implements IServiceView, SwipeGest
             }
         });
     }
-
-    @Override
-    public void onSwipeLeft() {
-
-    }
-
-    @Override
-    public void onSwipeRight() {
-
-    }
-
-//    @Override
-//    public void onResume() {
-//        super.onResume();
-//        btnService.setBackgroundColor(Color.WHITE);
-//    }
-//
-//    @Override
-//    public void onSwipeLeft() {
-//        Toast.makeText(getContext(), "Swipe left", Toast.LENGTH_SHORT).show();
-//        btnService.setBackgroundColor(Color.TRANSPARENT);
-////        controller.onHomeButtonClicked();
-//    }
-//
-//    @Override
-//    public void onSwipeRight() {
-//        Toast.makeText(getContext(), "Swipe right", Toast.LENGTH_SHORT).show();
-//        btnService.setBackgroundColor(Color.TRANSPARENT);
-//    }
-//
-//    @Override
-//    public void onSwipeTop() {
-//        Toast.makeText(getContext(), "Swipe up", Toast.LENGTH_SHORT).show();
-//    }
-//
-//    @Override
-//    public void onSwipeBottom() {
-//        Toast.makeText(getContext(), "Swipe down", Toast.LENGTH_SHORT).show();
-//    }
 }
