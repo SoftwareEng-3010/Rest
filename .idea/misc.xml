@@ -52,6 +52,8 @@
         <entry key="..\:/Users/97250/Desktop/Rest/app/src/main/res/layout/rest_view_activity.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_branch_view.xml" value="0.13541666666666666" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/fragment_home.xml" value="0.28229166666666666" />
+        <entry key="app/src/main/res/layout/fragment_kitchen.xml" value="0.14895833333333333" />
         <entry key="app/src/main/res/layout/fragment_kitchen_printer.xml" value="0.21458333333333332" />
         <entry key="app/src/main/res/layout/fragment_service_printer.xml" value="0.19157608695652173" />
         <entry key="app/src/main/res/layout/layout_menu_list_item.xml" value="0.46488477097866976" />
