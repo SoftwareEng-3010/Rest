@@ -10,6 +10,7 @@ import java.util.List;
 import API.Controllers.IManagementViewController;
 import API.Controllers.IServiceViewController;
 import API.Database.DatabaseRequestCallback;
+import API.Views.IManagementView;
 import API.Views.IServiceView;
 import BusinessEntities.Bill;
 import BusinessEntities.Branch;
@@ -22,6 +23,7 @@ public class ServiceFragmentController implements IServiceViewController {
     private String TAG = "ServiceFragmentController";
 
     // View
+    private IManagementView managementView;
     private IServiceView serviceView;
     // Model
     private Branch branch;
@@ -29,10 +31,11 @@ public class ServiceFragmentController implements IServiceViewController {
     private List<Table> tables;
     private RestDB db = RestDB.getInstance();
 
-    public ServiceFragmentController(@NonNull IManagementViewController managementViewController, @NonNull IServiceView serviceView, String restId, String branchId) {
+    public ServiceFragmentController(@NonNull IManagementView managementView, @NonNull IServiceView serviceView, String restId, String branchId) {
         this.serviceView = serviceView;
-//        this.branch = branch;
+        this.managementView = managementView;
         service = new Service();
+
         db.getBranch(restId, branchId,
                 new DatabaseRequestCallback() {
                     @Override
@@ -74,11 +77,11 @@ public class ServiceFragmentController implements IServiceViewController {
 
     @Override
     public void onSwipeLeft() {
-
+        managementView.loadHomeFragment();
     }
 
     @Override
     public void onSwipeRight() {
-
+        managementView.loadKitchenFragment();
     }
 }

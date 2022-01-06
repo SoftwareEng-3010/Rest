@@ -67,7 +67,7 @@ public class ManagementActivity extends AppCompatActivity implements IManagement
 
         // ManagementActivity's UI Fragments
         homeFragment = new HomeFragment(mainController);
-        serviceFragment = new ServiceFragment(mainController);
+        serviceFragment = new ServiceFragment(this);
         kitchenFragment = new KitchenFragment(mainController);
 
         // Prepare data for Fragments

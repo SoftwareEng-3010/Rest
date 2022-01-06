@@ -25,6 +25,7 @@ import API.Constants.Constants;
 import API.Controllers.IManagementViewController;
 import API.Controllers.IServiceViewController;
 import API.Database.DatabaseRequestCallback;
+import API.Views.IManagementView;
 import API.Views.IServiceView;
 import API.Views.SwipeGestureListener;
 import BusinessEntities.Branch;
@@ -41,11 +42,13 @@ public class ServiceFragment extends Fragment implements IServiceView{
     private Button btnService;
     private String branchId, restId;
 
+    // MainView
+    private IManagementView mainView;
+    // Controller
     private IServiceViewController controller;
-    private IManagementViewController mainController;
 
-    public ServiceFragment(@NonNull IManagementViewController mainController) {
-        this.mainController = mainController;
+    public ServiceFragment(@NonNull IManagementView mainView) {
+        this.mainView = mainView;
     }
 
     @Override
@@ -58,7 +61,7 @@ public class ServiceFragment extends Fragment implements IServiceView{
         branchId = b.getString(Constants.KEY_BRANCH_ID);
         restId = b.getString(Constants.KEY_RESTAURANT_ID);
 
-        controller = new ServiceFragmentController(mainController, this, restId, branchId);
+        controller = new ServiceFragmentController(mainView, this, restId, branchId);
 
         fragView.setOnTouchListener(
                 new OnSwipeTouchListener(getContext(), controller));

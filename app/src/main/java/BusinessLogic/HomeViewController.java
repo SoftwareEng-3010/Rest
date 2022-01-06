@@ -26,11 +26,7 @@ public class HomeViewController implements IHomeViewController {
 
     @Override
     public void onSwipeRight() {
-
-    }
-
-    @Override
-    public void onServiceButtonClicked() {
+        homeView.startQRActivity();
     }
 
 }
