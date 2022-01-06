@@ -54,7 +54,7 @@ public class CreateTablesFragment extends Fragment {
 
             if (numTables > 0 && numTables < 1000) {
                 List<Table> tables = new ArrayList<>();
-                for (int i = 0; i < numTables; i++) {
+                for (int i = 1; i <= numTables; i++) {
                     tables.add(new Table(i, 4, new Bill(), false, true));
                 }
                 viewController.onTablesEditFinished(tables);

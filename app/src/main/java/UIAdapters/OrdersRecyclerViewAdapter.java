@@ -48,9 +48,10 @@ public class OrdersRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
 
         IOrder order = orders.get(position);
 
-        TextView tableNum = (TextView) holder.itemView.findViewById(R.id.table_number);
+        TextView tableNum = (TextView) holder.itemView.findViewById(R.id.text_view_table_number);
 
-        tableNum.setText(order.getTable().getTableNumber());
+        int tableNumber = order.getTable().getTableNumber();
+        tableNum.setText("שולחן: " + tableNumber);
     }
 
     @Override
