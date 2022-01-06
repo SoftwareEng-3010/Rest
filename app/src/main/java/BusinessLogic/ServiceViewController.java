@@ -67,7 +67,7 @@ public class ServiceViewController implements IServiceViewController {
         // Maybe an integer (tableNumber) will suffice.
         Log.e(TAG, "onTableItemClicked()" + table.getTableNumber());
 
-        serviceView.setupTableGridView(tables);
+        serviceView.loadTableDetailsFragment();
     }
 
     @Override

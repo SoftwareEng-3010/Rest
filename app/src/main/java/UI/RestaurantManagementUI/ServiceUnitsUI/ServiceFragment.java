@@ -74,7 +74,7 @@ public class ServiceFragment extends Fragment implements IServiceView{
                 .beginTransaction()
                 .setCustomAnimations(R.anim.fade_in, R.anim.fade_out)
                 .addToBackStack("ServiceFragment")
-                .replace(R.id.frame_layout_management, new TableDetailsFragment(controller))
+                .replace(R.id.frame_layout_management, new TableDetailsFragment(managementView))
                 .commit();
     }
 
