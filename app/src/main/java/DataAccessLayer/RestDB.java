@@ -27,6 +27,7 @@ import API.IOrderController;
 import API.Models.IBranchManagerUser;
 import API.Models.IOrder;
 import API.Models.IUser;
+import BusinessEntities.Bill;
 import BusinessEntities.Branch;
 import BusinessEntities.BranchManager;
 import BusinessEntities.Customer;
@@ -466,6 +467,9 @@ public class RestDB implements Database {
     @Override
     public void sendOrder(@NonNull String restId, @NonNull String branchId, @NonNull IOrder order, OnDataSentToDB callback) {
 
+        if (order.getTable().getBill() == null) {
+            order.getTable().setBill(new Bill());
+        }
         restCollection.document(restId)
                 .collection(BRANCHES_COLLECTION_NAME)
                 .document(branchId)

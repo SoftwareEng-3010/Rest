@@ -1,36 +1,28 @@
 package UI.CustomersUI;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.ProgressBar;
-import android.widget.Toast;
 
 import com.example.exercise_5.R;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import API.Constants.Constants;
 import API.Database.DatabaseRequestCallback;
 import BusinessEntities.Branch;
-import BusinessEntities.QRCode;
-import BusinessEntities.Table;
 import DataAccessLayer.RestDB;
 import UIAdapters.BranchArrayAdapter;
 
-public class BranchesListViewActivity extends AppCompatActivity{
+public class BranchesListViewActivity extends AppCompatActivity implements IActionListenerBranch {
 
     private RestDB rdb;
     private ListView listView;
     private List<Branch> branches;
+    private String restID;
 
     private final String TAG = "BranchListViewActivity";
 
@@ -54,7 +46,7 @@ public class BranchesListViewActivity extends AppCompatActivity{
 
     private void setListViewAdapter() {
         // Extract restID from previous activity
-        String restID = getIntent().getStringExtra("rest_id");
+        restID = getIntent().getStringExtra("rest_id");
 
 
         // Retrieve data from Database
@@ -67,6 +59,7 @@ public class BranchesListViewActivity extends AppCompatActivity{
                         branches = (List<Branch>) obj;
                         ArrayAdapter<Branch> adapter = new BranchArrayAdapter(
                                 BranchesListViewActivity.this,
+                                BranchesListViewActivity.this,
                                 R.layout.layout_branch_item,
                                 branches,
                                 restID
@@ -74,5 +67,20 @@ public class BranchesListViewActivity extends AppCompatActivity{
                         listView.setAdapter(adapter);
                     }
                 });
+    }
+
+    @Override
+    public void onSpecialAction(Branch branch, int tableNumber) {
+
+        Intent moveToBranchViewActivity =
+                new Intent(this, BranchView.class);
+
+        String branchId = branch.getDocId();
+
+        moveToBranchViewActivity.putExtra(Constants.KEY_RESTAURANT_ID, restID);
+        moveToBranchViewActivity.putExtra(Constants.KEY_BRANCH_ID, branchId);
+        moveToBranchViewActivity.putExtra(Constants.KEY_TABLE_NUMBER, tableNumber);
+        startActivity(moveToBranchViewActivity);
+        finish();
     }
 }
