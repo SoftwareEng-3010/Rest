@@ -16,6 +16,7 @@ import com.example.exercise_5.R;
 
 import javax.annotation.Nullable;
 
+import API.Constants.Constants;
 import API.Database.OnDataSentToDB;
 import BusinessEntities.Branch;
 import BusinessEntities.Menu;
@@ -97,15 +98,17 @@ public class BranchViewActivity extends AppCompatActivity {
                             public void onObjectWrittenToDB(boolean isTaskSuccessful) {
                                 if (isTaskSuccessful) {
                                     Toast.makeText(BranchViewActivity.this, "Order was successfully pushed to DB", Toast.LENGTH_SHORT).show();
+                                    Intent moveToQRCodeActivity =
+                                            new Intent(BranchViewActivity.this, QRCodeActivity.class);
+                                    moveToQRCodeActivity.putExtra("user_type", Constants.USER_TYPE_BRANCH_MANAGER);
+                                    startActivity(moveToQRCodeActivity);
+                                    finish();
                                 }
                                 else {
                                     Toast.makeText(BranchViewActivity.this, "Failed to write order into DB", Toast.LENGTH_SHORT).show();
                                 }
                             }
                         });
-                Intent moveToQRCodeActivity =
-                        new Intent(BranchViewActivity.this, QRCodeActivity.class);
-                startActivity(moveToQRCodeActivity);
             }
         });
     }

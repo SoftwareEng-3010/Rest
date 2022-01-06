@@ -25,6 +25,7 @@ import API.Constants.Constants;
 import API.Controllers.IManagementViewController;
 import API.Controllers.IServiceViewController;
 import API.Database.DatabaseRequestCallback;
+import API.Views.IManagementView;
 import API.Views.IServiceView;
 import API.Views.SwipeGestureListener;
 import BusinessEntities.Branch;
@@ -34,14 +35,21 @@ import DataAccessLayer.RestDB;
 import UI.OnSwipeTouchListener;
 import UIAdapters.TableGridAdapter;
 
-public class ServiceFragment extends Fragment implements IServiceView {
+public class ServiceFragment extends Fragment implements IServiceView{
 
     private View fragView;
     private GridView tableGrid;
     private Button btnService;
     private String branchId, restId;
 
+    // MainView
+    private IManagementView mainView;
+    // Controller
     private IServiceViewController controller;
+
+    public ServiceFragment(@NonNull IManagementView mainView) {
+        this.mainView = mainView;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -53,9 +61,10 @@ public class ServiceFragment extends Fragment implements IServiceView {
         branchId = b.getString(Constants.KEY_BRANCH_ID);
         restId = b.getString(Constants.KEY_RESTAURANT_ID);
 
-        controller = new ServiceFragmentController(this, restId, branchId);
+        controller = new ServiceFragmentController(mainView, this, restId, branchId);
 
-//        v.setOnTouchListener(new OnSwipeTouchListener(getContext(), this));
+        fragView.setOnTouchListener(
+                new OnSwipeTouchListener(getContext(), controller));
 
         btnService = ((View)container.getParent()).findViewById(R.id.btn_management_service);
 

@@ -74,7 +74,7 @@ public class CreateMenuFragment extends Fragment {
         itemsRecyclerView = (RecyclerView) view.findViewById(R.id.recyclerViewCreateMenuFrag);
 
         menuViewModel = ViewModelProvider.AndroidViewModelFactory
-                .getInstance(getActivity().getApplication())
+                .getInstance()
                 .create(MenuViewModel.class);
 
         // set up adapter
@@ -121,7 +121,9 @@ public class CreateMenuFragment extends Fragment {
             editTextItemDescription.setText("");
             editTextItemPrice.setText("");
             radioBtnKitchen.setChecked(true);
-                    itemsRecyclerView.setAdapter(menuAdapter);
+
+            // Reset adapter
+            itemsRecyclerView.setAdapter(menuAdapter);
         }
     }
 
