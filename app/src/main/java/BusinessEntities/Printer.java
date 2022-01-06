@@ -16,14 +16,19 @@ import API.Models.IOrder;
 import API.Models.IPrinter;
 import API.Models.IServiceUnit;
 
-public class Printer implements IPrinter, IServiceUnit {
+public class Printer implements IPrinter {
 
     private Queue<Object> orders;
     private Context context;
+    private int location;
 
-    public Printer(Context context){
+    public Printer(){
         orders = new LinkedList<>();
         this.context = context;
+    }
+
+    public Printer(int location){
+        setLocation(location);
     }
 
     public void print(){
@@ -33,29 +38,18 @@ public class Printer implements IPrinter, IServiceUnit {
     }
 
     @Override
-    public List<IOrder> getOrders() {
-        return null;
+    public void setLocation(int location) {
+        this.location = location;
     }
 
     @Override
-    public IOrderController getController() {
-        return null;
-    }
-
-    @Override
-    public void update(@NonNull String message) {
-
+    public int getLocation(){
+        return this.location;
     }
 
     @Override
     public void onOrderReceived(@NonNull IOrder order) {
         orders.add(order);
         print();
-    }
-
-
-    @Override
-    public int getServiceType() {
-        return Constants.USER_TYPE_KITCHEN_PRINTER;
     }
 }

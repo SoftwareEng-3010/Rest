@@ -29,7 +29,7 @@
             android:name="UI.DataActivity.DataActivity"
             android:exported="false" />
         <activity
-            android:name="UI.RestaurantManagementUI.ManagementMainActivity"
+            android:name="UI.RestaurantManagementUI.ManagementActivity"
             android:exported="false" />
         <activity
             android:name="UI.LoginUI.LoginActivity"

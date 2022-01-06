@@ -21,7 +21,7 @@ import UI.CustomersUI.BranchesListViewActivity;
 
 public class RestaurantArrayAdapter extends ArrayAdapter<Restaurant> {
 
-    private static final String TAG = "RestaurantArrayAdapter";
+    private final String TAG = "RestaurantArrayAdapter";
     private Context context;
     private int resource;
     private List<Restaurant> restaurants;
