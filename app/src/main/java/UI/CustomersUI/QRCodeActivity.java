@@ -28,7 +28,6 @@ import API.Views.SwipeGestureListener;
 import BusinessEntities.QRCode;
 import BusinessLogic.QRReadHandler;
 import BusinessLogic.Permissions;
-import UI.RestaurantManagementUI.ManagementActivity;
 import UI.LoginUI.LoginActivity;
 
 public class QRCodeActivity extends AppCompatActivity implements SwipeGestureListener {
@@ -188,7 +187,7 @@ public class QRCodeActivity extends AppCompatActivity implements SwipeGestureLis
 
                         try {
 
-                            // Validating QRCode and move to BranchViewActivity
+                            // Validating QRCode and move to BranchView
 
                             QRCode scannedQR = QRReadHandler.readFromResult(result);
 
@@ -209,7 +208,7 @@ public class QRCodeActivity extends AppCompatActivity implements SwipeGestureLis
     }
 
     private void moveToBranchViewActivity(QRCode qr) {
-        Intent moveToBranchView = new Intent(this, BranchViewActivity.class);
+        Intent moveToBranchView = new Intent(this, BranchView.class);
 
         // Add extra data to next activity:
         moveToBranchView.putExtra(Constants.KEY_RESTAURANT_ID, qr.getRestaurantId());

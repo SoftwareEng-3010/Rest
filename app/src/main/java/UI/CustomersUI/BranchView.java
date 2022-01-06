@@ -25,13 +25,12 @@ import BusinessEntities.QRCode;
 import API.Database.Database;
 import API.Database.DatabaseRequestCallback;
 import DataAccessLayer.RestDB;
-import UI.LoginUI.LoginActivity;
 import UIAdapters.MenuRecyclerViewAdapter;
 import ViewModels.MenuViewModel;
 
-public class BranchViewActivity extends AppCompatActivity {
+public class BranchView extends AppCompatActivity {
 
-    private final String TAG = "BranchViewActivity";
+    private final String TAG = "BranchView";
 
     private Database rdb;
 
@@ -78,11 +77,11 @@ public class BranchViewActivity extends AppCompatActivity {
                 .create(MenuViewModel.class);
 
         // set up adapter
-        menuAdapter = new MenuRecyclerViewAdapter(BranchViewActivity.this, menu.getMenuItems());
+        menuAdapter = new MenuRecyclerViewAdapter(BranchView.this, menu.getMenuItems());
 
         // set up the RecyclerView
         menuRecyclerView = (RecyclerView) findViewById(R.id.branch_menu_recycle_view);
-        menuRecyclerView.setLayoutManager(new LinearLayoutManager(BranchViewActivity.this));
+        menuRecyclerView.setLayoutManager(new LinearLayoutManager(BranchView.this));
         menuRecyclerView.setAdapter(menuAdapter);
 
         Button buttonSubmit = (Button) findViewById(R.id.button_submit_order);
@@ -97,15 +96,15 @@ public class BranchViewActivity extends AppCompatActivity {
                             @Override
                             public void onObjectWrittenToDB(boolean isTaskSuccessful) {
                                 if (isTaskSuccessful) {
-                                    Toast.makeText(BranchViewActivity.this, "Order was successfully pushed to DB", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(BranchView.this, "Order was successfully pushed to DB", Toast.LENGTH_SHORT).show();
                                     Intent moveToQRCodeActivity =
-                                            new Intent(BranchViewActivity.this, QRCodeActivity.class);
+                                            new Intent(BranchView.this, QRCodeActivity.class);
                                     moveToQRCodeActivity.putExtra("user_type", Constants.USER_TYPE_BRANCH_MANAGER);
                                     startActivity(moveToQRCodeActivity);
                                     finish();
                                 }
                                 else {
-                                    Toast.makeText(BranchViewActivity.this, "Failed to write order into DB", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(BranchView.this, "Failed to write order into DB", Toast.LENGTH_SHORT).show();
                                 }
                             }
                         });

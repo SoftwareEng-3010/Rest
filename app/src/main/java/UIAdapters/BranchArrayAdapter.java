@@ -2,7 +2,6 @@ package UIAdapters;
 
 
 import android.content.Context;
-import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,7 +11,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -22,11 +20,10 @@ import com.example.exercise_5.R;
 
 import java.util.List;
 
-import API.Constants.Constants;
 import BusinessEntities.Branch;
 import BusinessEntities.Table;
-import UI.CustomersUI.BranchViewActivity;
-//import UI.SimpleUserUI.BranchViewActivity;
+import UI.CustomersUI.IActionListenerBranch;
+//import UI.SimpleUserUI.BranchView;
 
 public class BranchArrayAdapter extends ArrayAdapter<Branch>{
 
@@ -36,13 +33,15 @@ public class BranchArrayAdapter extends ArrayAdapter<Branch>{
     private List<Branch> branches;
     private String restId;
     private EditText editTextTableNumber;
+    private IActionListenerBranch listener;
 
-    public BranchArrayAdapter(@NonNull Context context, int resource, List<Branch> branches, String restId) {
+    public BranchArrayAdapter(IActionListenerBranch listener, @NonNull Context context, int resource, List<Branch> branches, String restId) {
         super(context, resource, branches);
         this.context = context;
         this.resource = resource;
         this.branches = branches;
         this.restId = restId;
+        this.listener = listener;
     }
 
     @Override
@@ -104,7 +103,8 @@ public class BranchArrayAdapter extends ArrayAdapter<Branch>{
 
         for (Table table : branch.getTables()) {
             if (table.getTableNumber() == tableNumber) {
-                moveToBranchViewActivity(branch, tableNumber);
+                listener.onSpecialAction(branch, tableNumber);
+//                moveToBranchViewActivity(branch, tableNumber);
                 return;
             }
         }
@@ -112,16 +112,16 @@ public class BranchArrayAdapter extends ArrayAdapter<Branch>{
         Toast.makeText(context, "No such table number", Toast.LENGTH_SHORT).show();
     }
 
-    private void moveToBranchViewActivity(Branch branch, int tableNumber) {
-        Intent moveToBranchViewActivity =
-                new Intent(getContext(), BranchViewActivity.class);
-
-        String branchId = branch.getDocId();
-        String restId = BranchArrayAdapter.this.restId;
-
-        moveToBranchViewActivity.putExtra(Constants.KEY_RESTAURANT_ID, restId);
-        moveToBranchViewActivity.putExtra(Constants.KEY_BRANCH_ID, branchId);
-        moveToBranchViewActivity.putExtra(Constants.KEY_TABLE_NUMBER, tableNumber);
-        getContext().startActivity(moveToBranchViewActivity);
-    }
+//    private void moveToBranchViewActivity(Branch branch, int tableNumber) {
+//        Intent moveToBranchViewActivity =
+//                new Intent(getContext(), BranchView.class);
+//
+//        String branchId = branch.getDocId();
+//        String restId = BranchArrayAdapter.this.restId;
+//
+//        moveToBranchViewActivity.putExtra(Constants.KEY_RESTAURANT_ID, restId);
+//        moveToBranchViewActivity.putExtra(Constants.KEY_BRANCH_ID, branchId);
+//        moveToBranchViewActivity.putExtra(Constants.KEY_TABLE_NUMBER, tableNumber);
+//        getContext().startActivity(moveToBranchViewActivity);
+//    }
 }
