@@ -19,19 +19,20 @@ import API.Constants.Constants;
 import API.Controllers.IHomeViewController;
 import API.Controllers.IManagementViewController;
 import API.Views.IHomeView;
+import API.Views.IManagementView;
 import BusinessLogic.HomeViewController;
 import UI.CustomersUI.QRCodeActivity;
 import UI.OnSwipeTouchListener;
 
 public class HomeFragment extends Fragment implements IHomeView {
 
+    private IManagementView managementView;
+    private IHomeViewController controller;
+
     private Button btnHome;
 
-    private IHomeViewController controller;
-    private IManagementViewController mainController;
-
-    public HomeFragment(@NonNull IManagementViewController mainController) {
-        this.mainController = mainController;
+    public HomeFragment(@NonNull IManagementView managementView) {
+        this.managementView = managementView;
     }
 
     @Override
@@ -43,7 +44,7 @@ public class HomeFragment extends Fragment implements IHomeView {
         String restId = getArguments().getString(Constants.KEY_RESTAURANT_ID);
         String branchId = getArguments().getString(Constants.KEY_BRANCH_ID);
 //        controller = new HomeViewController(this, restId, branchId);
-        controller = new HomeViewController(this, restId, branchId);
+        controller = new HomeViewController(managementView, this, restId, branchId);
         v.setOnTouchListener(new OnSwipeTouchListener(getContext(), controller));
         btnHome = ((View)container.getParent()).findViewById(R.id.btn_management_home);
 
@@ -72,6 +73,6 @@ public class HomeFragment extends Fragment implements IHomeView {
     public void loadServiceUI() {
         Toast.makeText(getContext(), "Swipe right", Toast.LENGTH_SHORT).show();
         btnHome.setBackgroundColor(Color.TRANSPARENT);
-        mainController.onServiceButtonClicked();
+        managementView.loadServiceFragment();
     }
 }

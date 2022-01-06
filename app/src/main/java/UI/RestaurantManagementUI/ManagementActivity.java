@@ -66,9 +66,9 @@ public class ManagementActivity extends AppCompatActivity implements IManagement
         frameLayout = (FrameLayout) findViewById(R.id.frame_layout_management);
 
         // ManagementActivity's UI Fragments
-        homeFragment = new HomeFragment(mainController);
+        homeFragment = new HomeFragment(this);
         serviceFragment = new ServiceFragment(this);
-        kitchenFragment = new KitchenFragment(mainController);
+        kitchenFragment = new KitchenFragment(this);
 
         // Prepare data for Fragments
         Bundle args = new Bundle();

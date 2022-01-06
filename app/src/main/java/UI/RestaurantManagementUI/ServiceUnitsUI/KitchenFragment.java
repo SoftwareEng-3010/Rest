@@ -17,22 +17,25 @@ import com.example.exercise_5.R;
 import API.Controllers.IKitchenFragmentController;
 import API.Controllers.IManagementViewController;
 import API.Views.IKitchenView;
+import API.Views.IManagementView;
 import API.Views.SwipeGestureListener;
 import BusinessEntities.Kitchen;
 import BusinessEntities.Printer;
+import BusinessLogic.KitchenViewController;
 import UI.OnSwipeTouchListener;
 
 public class KitchenFragment extends Fragment implements IKitchenView {
 
-    private Button btnKitchen;
-
+    private IManagementView managementView;
     private IKitchenFragmentController controller;
-    private IManagementViewController mainController;
+
+    private Button btnKitchen;
 
     private Printer kitchenPrinter;
 
-    public KitchenFragment(@NonNull IManagementViewController mainController) {
-        this.mainController = mainController;
+    public KitchenFragment(@NonNull IManagementView managementView) {
+        this.managementView = managementView;
+        this.controller = new KitchenViewController(managementView, this, null, null);
     }
 
     @Override
@@ -41,11 +44,11 @@ public class KitchenFragment extends Fragment implements IKitchenView {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_kitchen, container, false);
 
-//        v.setOnTouchListener(new OnSwipeTouchListener(getContext(), this));
 
+        v.setOnTouchListener(new OnSwipeTouchListener(getContext(), controller));
         btnKitchen = ((View)container.getParent()).findViewById(R.id.btn_management_kitchen);
 
-//        IKitchenFragmentController controller = new KitchenFragmentController(mainController);
+//        IKitchenFragmentController controller = new KitchenFragmentController();
         // Set "Context" to the kitchenPrinter to let it
         // know where it should print
         kitchenPrinter = new Printer();
@@ -66,6 +69,6 @@ public class KitchenFragment extends Fragment implements IKitchenView {
 
     @Override
     public void setupServiceUI() {
-        mainController.onServiceButtonClicked();
+
     }
 }
