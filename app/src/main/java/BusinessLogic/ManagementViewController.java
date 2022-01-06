@@ -35,10 +35,7 @@ public class ManagementViewController implements IManagementViewController, Swip
         this.branchId = branchId;
         this.restId = restId;
 
-        RestDB.getInstance()
-                .attachOrderListener(restId, branchId,
-                new OrderManager(view.getServiceUnits())
-                );
+
 
         RestDB.getInstance()
                 .getBranch(
@@ -54,6 +51,11 @@ public class ManagementViewController implements IManagementViewController, Swip
 
                 else {
                     branch = (Branch) obj;
+                    view.loadHomeFragment();
+                    RestDB.getInstance()
+                            .attachOrderListener(restId, branchId,
+                                    new OrderManager(view.getServiceUnits(), view.getOrderListeners())
+                            );
                 }
             }
         });

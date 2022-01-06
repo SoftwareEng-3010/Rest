@@ -18,6 +18,6 @@ public class OrdersViewModel extends ViewModel {
 
         IPrinter printer = new Printer(Constants.USER_TYPE_KITCHEN);
 
-        return printer;
+        return null;
     }
 }

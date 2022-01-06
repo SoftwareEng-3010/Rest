@@ -22,6 +22,8 @@ import java.util.List;
 import API.Constants.Constants;
 import API.Controllers.IManagementViewController;
 import API.Controllers.IServiceViewController;
+import API.IOrderListener;
+import API.Models.IOrder;
 import API.Models.IServiceUnit;
 import API.Views.IManagementView;
 
@@ -61,7 +63,6 @@ public class ManagementActivity extends AppCompatActivity implements IManagement
 
         checkArguments();
 
-        mainController = new ManagementViewController(this, restId, branchId);
 
         frameLayout = (FrameLayout) findViewById(R.id.frame_layout_management);
 
@@ -78,11 +79,8 @@ public class ManagementActivity extends AppCompatActivity implements IManagement
         serviceFragment.setArguments(args);
         kitchenFragment.setArguments(args);
 
-        loadFragment(homeFragment);
-
-        new OrderManager(getServiceUnits());
-
         initButtonListeners();
+        mainController = new ManagementViewController(this, restId, branchId);
     }
 
 
@@ -196,6 +194,13 @@ public class ManagementActivity extends AppCompatActivity implements IManagement
 //        units.add(kitchenPrinter);
 
         return units;
+    }
+
+    @Override
+    public List<IOrderListener> getOrderListeners(){
+        List<IOrderListener> orderListeners = new ArrayList<>();
+        orderListeners.add(kitchenFragment);
+        return orderListeners;
     }
 
     private void moveToQRCodeActivity() {

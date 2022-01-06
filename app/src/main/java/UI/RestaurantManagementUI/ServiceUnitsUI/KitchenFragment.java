@@ -44,6 +44,7 @@ public class KitchenFragment extends Fragment implements IKitchenView, IOrderLis
 
     public KitchenFragment(@NonNull IManagementView managementView) {
         this.managementView = managementView;
+        ordersRecyclerViewAdapter = new OrdersRecyclerViewAdapter(getContext());
     }
 
     @Override
@@ -61,7 +62,6 @@ public class KitchenFragment extends Fragment implements IKitchenView, IOrderLis
                 .getInstance()
                 .create(OrdersViewModel.class);
 
-        ordersRecyclerViewAdapter = new OrdersRecyclerViewAdapter(getContext());
 
 
         v.setOnTouchListener(new OnSwipeTouchListener(getContext(), controller));
@@ -102,7 +102,10 @@ public class KitchenFragment extends Fragment implements IKitchenView, IOrderLis
 
     @Override
     public void onOrderReceived(@NonNull IOrder order) {
-        ordersRecyclerViewAdapter.addOrder(order);
-        ordersRecyclerView.setAdapter(ordersRecyclerViewAdapter);
+        if(ordersRecyclerView != null && ordersRecyclerViewAdapter != null){
+
+            ordersRecyclerViewAdapter.addOrder(order);
+            ordersRecyclerView.setAdapter(ordersRecyclerViewAdapter);
+        }
     }
 }
