@@ -61,25 +61,6 @@ public class RestaurantArrayAdapter extends ArrayAdapter<Restaurant> {
                 listener.onAction(view);
             }
         });
-//        moveToBranchesBtn.setOnClickListener();
-//        moveToBranchesBtn.setOnClickListener(new View.OnClickListener() {
-//
-//            @Override
-//            /**
-//             * move to BranchesActivity
-//             */
-//            public void onClick(View v) {
-//
-////                ListView parentView = (ListView) v.getParent().getParent();
-////                int index = parentView.indexOfChild((View) v.getParent());
-////                Intent branchListViewActivity =
-////                        new Intent(getContext(), BranchesListViewActivity.class);
-////                String restID = restaurants.get(index).getDocId();
-////                branchListViewActivity.putExtra("rest_id", restID);
-////                getContext().startActivity(branchListViewActivity);
-//
-//            }
-//        });
 
 
         // Return the completed view to render on screen

@@ -1,6 +1,7 @@
 package UIAdapters;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,43 +17,36 @@ import java.util.ArrayList;
 import java.util.List;
 
 import API.Models.IOrder;
+import BusinessEntities.Item;
 import BusinessEntities.Order;
 import BusinessEntities.Table;
 
-public class OrderArrayAdapter extends ArrayAdapter<Table> {
+public class OrderArrayAdapter extends ArrayAdapter<Item> {
 
-    private List<IOrder> orders;
+    private final String TAG = "OrderArrayAdapter";
+
+    private List<Item> orderItems;
     private Context context;
     private int resource;
 
-    public OrderArrayAdapter(@NonNull Context context, int resource, List<IOrder> orders) {
-        super(context, resource);
-        if (orders != null) {
-            this.orders = orders;
-        }
-        else {
-            this.orders = new ArrayList<>();
-            this.orders.add(new Order());
-            this.orders.add(new Order());
-            this.orders.add(new Order());
-        }
+    public OrderArrayAdapter(@NonNull Context context, int resource, List<Item> items){
+        super(context, resource, items);
+        this.orderItems = new ArrayList<>(items);
+        this.context = context;
+        this.resource = resource;
     }
 
 
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-        // Check if an existing view is being reused, otherwise inflate the view
-        if (convertView == null) {
+
+        Item item = orderItems.get(position);
+        String itemName = item.getName();
+
+        if(convertView == null){
             convertView = LayoutInflater.from(context).inflate(resource, parent, false);
         }
-
-        TextView textViewOrderNumber = (TextView) convertView.findViewById(R.id.text_view_order_number);
-        IOrder order = orders.get(position);
-
-        // Set order data:
-
-        textViewOrderNumber.setText("כאן יוצג פריט מספר " + (position + 1));
 
         return convertView;
     }

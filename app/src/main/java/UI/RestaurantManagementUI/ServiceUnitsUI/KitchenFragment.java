@@ -53,6 +53,7 @@ public class KitchenFragment extends Fragment implements IKitchenView, IOrderLis
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_kitchen, container, false);
 
@@ -68,7 +69,6 @@ public class KitchenFragment extends Fragment implements IKitchenView, IOrderLis
 
 
         v.setOnTouchListener(new OnSwipeTouchListener(getContext(), controller));
-//        ordersRecyclerView.setOnTouchListener(new OnSwipeTouchListener(getContext(), controller));
 
         String restId = getArguments().getString(Constants.KEY_RESTAURANT_ID);
         String branchId = getArguments().getString(Constants.KEY_BRANCH_ID);
@@ -90,12 +90,6 @@ public class KitchenFragment extends Fragment implements IKitchenView, IOrderLis
     @Override
     public void setupUI() {
 
-
-//        ordersRecyclerView.setAdapter(
-//                new OrdersRecyclerViewAdapter(
-//                        getContext(),
-//
-//                        ));
     }
 
     @Override

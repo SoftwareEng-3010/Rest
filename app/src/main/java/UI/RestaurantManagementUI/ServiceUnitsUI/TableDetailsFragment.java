@@ -51,12 +51,12 @@ public class TableDetailsFragment extends Fragment implements SwipeGestureListen
                     amountText
                             + ": " +
                             amountSum);
-
-            orderList.setAdapter(new OrderArrayAdapter(
-                    v.getContext(),
-                    R.layout.layout_table_order_list,
-                    table.getBill().getOrders()
-            ));
+//
+//            orderList.setAdapter(new OrderArrayAdapter(
+//                    v.getContext(),
+//                    R.layout.layout_table_order_list,
+//                    table.getBill().getOrders()
+//            ));
         }
         else {
             Log.e(TAG, "Table " + table.getTableNumber() + " is null");
