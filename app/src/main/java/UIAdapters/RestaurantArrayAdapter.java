@@ -18,6 +18,7 @@ import java.util.List;
 
 import BusinessEntities.Restaurant;
 import UI.CustomersUI.BranchesListViewActivity;
+import UI.CustomersUI.IActionListener;
 
 public class RestaurantArrayAdapter extends ArrayAdapter<Restaurant> {
 
@@ -25,10 +26,12 @@ public class RestaurantArrayAdapter extends ArrayAdapter<Restaurant> {
     private Context context;
     private int resource;
     private List<Restaurant> restaurants;
+    private IActionListener listener;
 
-    public RestaurantArrayAdapter(@NonNull Context context, int resource, List<Restaurant> restaurants) {
+    public RestaurantArrayAdapter(IActionListener listener, @NonNull Context context, int resource, List<Restaurant> restaurants) {
         super(context, resource, restaurants);
         this.restaurants = restaurants;
+        this.listener = listener;
         this.context = context;
         this.resource = resource;
     }
@@ -51,21 +54,11 @@ public class RestaurantArrayAdapter extends ArrayAdapter<Restaurant> {
 
         Button moveToBranchesBtn = convertView.findViewById(R.id.restaurantBranchesButton);
         moveToBranchesBtn.setText(restaurantName);
+
         moveToBranchesBtn.setOnClickListener(new View.OnClickListener() {
-
             @Override
-            /**
-             * move to BranchesActivity
-             */
-            public void onClick(View v) {
-
-                ListView parentView = (ListView) v.getParent().getParent();
-                int index = parentView.indexOfChild((View) v.getParent());
-                Intent branchListViewActivity =
-                        new Intent(getContext(), BranchesListViewActivity.class);
-                String restID = restaurants.get(index).getDocId();
-                branchListViewActivity.putExtra("rest_id", restID);
-                getContext().startActivity(branchListViewActivity);
+            public void onClick(View view) {
+                listener.onAction(view);
             }
         });
 

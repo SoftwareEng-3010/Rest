@@ -29,13 +29,13 @@
             android:name="UI.DataActivity.DataActivity"
             android:exported="false" />
         <activity
-            android:name="UI.RestaurantManagementUI.ManagementActivity"
+            android:name="UI.RestaurantManagementUI.ManagementView"
             android:exported="false" />
         <activity
             android:name="UI.LoginUI.LoginActivity"
             android:exported="false" />
         <activity android:name="UI.CustomersUI.RestaurantsListViewActivity" />
-        <activity android:name="UI.CustomersUI.BranchViewActivity" />
+        <activity android:name="UI.CustomersUI.BranchView" />
         <activity android:name="UI.CustomersUI.BranchesListViewActivity" />
         <activity android:name="UI.CustomersUI.QRCodeActivity" />
     </application>

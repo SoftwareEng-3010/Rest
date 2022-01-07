@@ -1,6 +1,5 @@
 package UI.RestaurantManagementUI;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
@@ -23,21 +22,18 @@ import java.util.List;
 import API.Constants.Constants;
 import API.Controllers.IManagementViewController;
 import API.Controllers.IServiceViewController;
+import API.IOrderListener;
 import API.Models.IServiceUnit;
 import API.Views.IManagementView;
-import BusinessEntities.Printer;
 
-import BusinessEntities.Table;
 import BusinessLogic.ManagementViewController;
-import BusinessLogic.OrderManager;
 import UI.CustomersUI.QRCodeActivity;
 import UI.DataActivity.DataActivity;
 import UI.RestaurantManagementUI.ServiceUnitsUI.HomeFragment;
-import UI.RestaurantManagementUI.ServiceUnitsUI.KitchenFragment;
+import UI.RestaurantManagementUI.ServiceUnitsUI.KitchenView;
 import UI.RestaurantManagementUI.ServiceUnitsUI.ServiceFragment;
-import UI.RestaurantManagementUI.ServiceUnitsUI.TableDetailsFragment;
 
-public class ManagementActivity extends AppCompatActivity implements IManagementView {
+public class ManagementView extends AppCompatActivity implements IManagementView {
 
     private final String TAG = "ManagementMain";
 
@@ -51,8 +47,8 @@ public class ManagementActivity extends AppCompatActivity implements IManagement
     private Button btnKitchen;
 
     private HomeFragment homeFragment;
-    private KitchenFragment kitchenFragment;
     private ServiceFragment serviceFragment;
+    private KitchenView kitchenView;
 //    private TableDetailsFragment tableDetailsFragment;
 
     private String managerUid, branchId, restId;
@@ -62,6 +58,62 @@ public class ManagementActivity extends AppCompatActivity implements IManagement
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_management_main);
+
+        checkArguments();
+
+        frameLayout = (FrameLayout) findViewById(R.id.frame_layout_management);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        // Prepare data for Fragments
+        Bundle args = new Bundle();
+        args.putString(Constants.KEY_BRANCH_ID, branchId);
+        args.putString(Constants.KEY_RESTAURANT_ID, restId);
+        // ManagementView's UI Fragments
+        serviceFragment = new ServiceFragment(this);
+        homeFragment = new HomeFragment(this);
+        kitchenView = new KitchenView(this);
+
+        homeFragment.setArguments(args);
+        serviceFragment.setArguments(args);
+        kitchenView.setArguments(args);
+
+        initButtonListeners();
+        mainController = new ManagementViewController(this, restId, branchId);
+    }
+
+    private void loadFragment(Fragment fragment) {
+
+        getSupportFragmentManager()
+                .beginTransaction()
+                .setCustomAnimations(R.anim.fade_in, R.anim.fade_out)
+                .replace(R.id.frame_layout_management, fragment)
+                .commit();
+    }
+
+    @Override
+    public void loadKitchenFragment() {
+        loadFragment(kitchenView);
+    }
+
+    @Override
+    public void loadQRActivity() {
+        moveToQRCodeActivity();
+    }
+
+    @Override
+    public void loadServiceFragment() {
+        loadFragment(serviceFragment);
+    }
+
+    @Override
+    public void loadHomeFragment() {
+        loadFragment(homeFragment);
+    }
+
+    public void checkArguments() {
 
         // Check if the manager have signed in as a customer:
         boolean manager_is_logged_in_as_customer = getIntent()
@@ -93,60 +145,9 @@ public class ManagementActivity extends AppCompatActivity implements IManagement
                         .show();
             }
         }
-        // TODO: 1/6/2022 This else statement was removed
-        //  because I've called init() from the controller.
-//        else {
-//            init();
-//        }
-        mainController = new ManagementViewController(this, restId, branchId);
     }
 
-
-    private void loadFragment(Fragment fragment) {
-
-        getSupportFragmentManager()
-                .beginTransaction()
-                .setCustomAnimations(R.anim.fade_in, R.anim.fade_out)
-                .replace(R.id.frame_layout_management, fragment)
-                .commit();
-    }
-
-    @Override
-    public void loadKitchenFragment() {
-        loadFragment(kitchenFragment);
-    }
-
-    @Override
-    public void loadServiceFragment() {
-        loadFragment(serviceFragment);
-    }
-
-    @Override
-    public void loadHomeFragment() {
-        loadFragment(homeFragment);
-    }
-
-    @Override
-    public void init() {
-
-        frameLayout = (FrameLayout) findViewById(R.id.frame_layout_management);
-
-        // init view controllers:
-
-        // ManagementActivity's UI Fragments
-        serviceFragment = new ServiceFragment();
-        Bundle b = new Bundle();
-        b.putString(Constants.KEY_BRANCH_ID, branchId);
-        b.putString(Constants.KEY_RESTAURANT_ID, restId);
-        serviceFragment.setArguments(b);
-
-        homeFragment = new HomeFragment();
-        kitchenFragment = new KitchenFragment();
-
-        loadFragment(homeFragment);
-
-        new OrderManager(getServiceUnits());
-
+    private void initButtonListeners() {
         btnHome = (Button) findViewById(R.id.btn_management_home);
         btnService = (Button) findViewById(R.id.btn_management_service);
         btnKitchen = (Button) findViewById(R.id.btn_management_kitchen);
@@ -191,7 +192,7 @@ public class ManagementActivity extends AppCompatActivity implements IManagement
     @Override
     public List<IServiceUnit> getServiceUnits() {
         List<IServiceUnit> units = new ArrayList<>();
-//        units.add(new ServiceStaff());
+//        units.add(new Service());
 //        units.add(new Kitchen());
 
 //        IServiceUnit kitchenPrinter = new Printer(this);
@@ -200,10 +201,18 @@ public class ManagementActivity extends AppCompatActivity implements IManagement
         return units;
     }
 
+    @Override
+    public List<IOrderListener> getOrderListeners(){
+        List<IOrderListener> orderListeners = new ArrayList<>();
+        orderListeners.add(kitchenView);
+        return orderListeners;
+    }
+
     private void moveToQRCodeActivity() {
         Intent qrActivity = new Intent(this, QRCodeActivity.class);
         qrActivity.putExtra("user_type", Constants.USER_TYPE_BRANCH_MANAGER);
         startActivity(qrActivity);
+//        finish();
     }
 
     private void moveToDataActivity() {

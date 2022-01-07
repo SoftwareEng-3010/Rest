@@ -28,7 +28,6 @@ import API.Views.SwipeGestureListener;
 import BusinessEntities.QRCode;
 import BusinessLogic.QRReadHandler;
 import BusinessLogic.Permissions;
-import UI.RestaurantManagementUI.ManagementActivity;
 import UI.LoginUI.LoginActivity;
 
 public class QRCodeActivity extends AppCompatActivity implements SwipeGestureListener {
@@ -44,6 +43,8 @@ public class QRCodeActivity extends AppCompatActivity implements SwipeGestureLis
     private Button showListBtn;    // Manual selection button
     private Button logoutBtn;    // Manual selection button
     private Button managerModeBtn;    // Manual selection button
+
+    private int userType;
 
     private final int REQUEST_PERMISSION_CODE = 210; // Any permission code would work
 
@@ -67,11 +68,9 @@ public class QRCodeActivity extends AppCompatActivity implements SwipeGestureLis
         // managersButton = (Button) findViewById(R.id.someButtonForManagers);
         initListeners();
 
-        int userType = getIntent().getIntExtra("user_type", -1);
-
-        if (userType == Constants.USER_TYPE_BRANCH_MANAGER) {
-
-        }
+//        if (userType == Constants.USER_TYPE_BRANCH_MANAGER) {
+//
+//        }
     }
 
     private void initListeners(){
@@ -81,7 +80,7 @@ public class QRCodeActivity extends AppCompatActivity implements SwipeGestureLis
         logoutBtn = (Button)findViewById(R.id.button_log_out);
         managerModeBtn = (Button)findViewById(R.id.button_move_to_management);
 
-        int userType = getIntent().getIntExtra("user_type", -1);
+        userType = getIntent().getIntExtra("user_type", -1);
 
         // TODO: REMOVE for presentation
         logoutBtn.setVisibility(View.VISIBLE);
@@ -115,8 +114,8 @@ public class QRCodeActivity extends AppCompatActivity implements SwipeGestureLis
             @Override
             public void onClick(View v) {
                 // Only finish the activity because when logged in as a manager,
-                // this activity is above ManagementActivity in UI Stack.
-                finish();
+                // this activity is above ManagementView in UI Stack.
+                moveToManagementUI();
             }
         });
     }
@@ -188,7 +187,7 @@ public class QRCodeActivity extends AppCompatActivity implements SwipeGestureLis
 
                         try {
 
-                            // Validating QRCode and move to BranchViewActivity
+                            // Validating QRCode and move to BranchView
 
                             QRCode scannedQR = QRReadHandler.readFromResult(result);
 
@@ -209,7 +208,7 @@ public class QRCodeActivity extends AppCompatActivity implements SwipeGestureLis
     }
 
     private void moveToBranchViewActivity(QRCode qr) {
-        Intent moveToBranchView = new Intent(this, BranchViewActivity.class);
+        Intent moveToBranchView = new Intent(this, BranchView.class);
 
         // Add extra data to next activity:
         moveToBranchView.putExtra(Constants.KEY_RESTAURANT_ID, qr.getRestaurantId());
@@ -247,7 +246,13 @@ public class QRCodeActivity extends AppCompatActivity implements SwipeGestureLis
 
     @Override
     public void onSwipeRight() {
-        Intent managementActivity = new Intent(this, ManagementActivity.class);
-        startActivity(managementActivity);
+        moveToManagementUI();
+    }
+
+    public void moveToManagementUI() {
+//        Intent managementActivity = new Intent(this, ManagementView.class);
+//        managementActivity.putExtra("user_type", userType);
+//        startActivity(managementActivity);
+        finish();
     }
 }

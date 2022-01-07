@@ -5,6 +5,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
@@ -18,7 +19,7 @@ import API.Models.IServiceUnit;
 
 public class Printer implements IPrinter {
 
-    private Queue<Object> orders;
+    private List<Object> orders;
     private Context context;
     private int location;
 
@@ -31,10 +32,10 @@ public class Printer implements IPrinter {
         setLocation(location);
     }
 
-    public void print(){
-        while(!orders.isEmpty()){
-            Toast.makeText(context, orders.poll().toString(), Toast.LENGTH_LONG).show();
-        }
+    public List<Object> print(){
+        List<Object> temp = new ArrayList<>(orders);
+        orders.clear();
+        return temp;
     }
 
     @Override

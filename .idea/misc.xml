@@ -17,18 +17,22 @@
         <entry key="..\:/AndroidProjects/Rest/app/src/main/res/layout/activity_splash.xml" value="0.27291666666666664" />
         <entry key="..\:/AndroidProjects/Rest/app/src/main/res/layout/content_management_main.xml" value="0.18854166666666666" />
         <entry key="..\:/AndroidProjects/Rest/app/src/main/res/layout/fragment_create_branch.xml" value="0.33" />
-        <entry key="..\:/AndroidProjects/Rest/app/src/main/res/layout/fragment_create_menu.xml" value="0.25" />
+        <entry key="..\:/AndroidProjects/Rest/app/src/main/res/layout/fragment_create_menu.xml" value="0.11481481481481481" />
         <entry key="..\:/AndroidProjects/Rest/app/src/main/res/layout/fragment_create_restaurant.xml" value="0.11367753623188406" />
         <entry key="..\:/AndroidProjects/Rest/app/src/main/res/layout/fragment_create_tables.xml" value="0.2203125" />
         <entry key="..\:/AndroidProjects/Rest/app/src/main/res/layout/fragment_home.xml" value="0.14895833333333333" />
+        <entry key="..\:/AndroidProjects/Rest/app/src/main/res/layout/fragment_kitchen.xml" value="0.1" />
         <entry key="..\:/AndroidProjects/Rest/app/src/main/res/layout/fragment_management_home.xml" value="0.25" />
         <entry key="..\:/AndroidProjects/Rest/app/src/main/res/layout/fragment_management_kitchen.xml" value="0.16" />
+        <entry key="..\:/AndroidProjects/Rest/app/src/main/res/layout/fragment_service.xml" value="0.16145833333333334" />
         <entry key="..\:/AndroidProjects/Rest/app/src/main/res/layout/fragment_service_staff.xml" value="0.25" />
         <entry key="..\:/AndroidProjects/Rest/app/src/main/res/layout/fragment_service_staff_u_i.xml" value="0.12552083333333333" />
         <entry key="..\:/AndroidProjects/Rest/app/src/main/res/layout/fragment_table_details.xml" value="0.1" />
         <entry key="..\:/AndroidProjects/Rest/app/src/main/res/layout/layout_branch_item.xml" value="0.25" />
         <entry key="..\:/AndroidProjects/Rest/app/src/main/res/layout/layout_management_navigation_menu.xml" value="0.14895833333333333" />
         <entry key="..\:/AndroidProjects/Rest/app/src/main/res/layout/layout_menu_list_item.xml" value="0.10714285714285714" />
+        <entry key="..\:/AndroidProjects/Rest/app/src/main/res/layout/layout_order.xml" value="0.16" />
+        <entry key="..\:/AndroidProjects/Rest/app/src/main/res/layout/layout_order_item.xml" value="0.18697916666666667" />
         <entry key="..\:/AndroidProjects/Rest/app/src/main/res/layout/login_activity.xml" value="0.13272543059777103" />
         <entry key="..\:/AndroidProjects/Rest/app/src/main/res/layout/qrcode_activity.xml" value="0.25" />
         <entry key="..\:/AndroidProjects/Rest/app/src/main/res/layout/rest_selector.xml" value="0.25" />
@@ -51,7 +55,6 @@
         <entry key="..\:/Users/97250/Desktop/Rest/app/src/main/res/layout/login_activity.xml" value="0.17074275362318841" />
         <entry key="..\:/Users/97250/Desktop/Rest/app/src/main/res/layout/rest_view_activity.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.25" />
-        <entry key="app/src/main/res/layout/fragment_service_printer.xml" value="0.19157608695652173" />
         <entry key="app/src/main/res/layout/login_activity.xml" value="0.375" />
         <entry key="app/src/main/res/layout/qrcode_activity.xml" value="0.17708333333333334" />
         <entry key="app/src/main/res/layout/rest_selector.xml" value="0.19655797101449277" />

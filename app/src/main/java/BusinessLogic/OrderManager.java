@@ -6,7 +6,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.google.firebase.firestore.DocumentChange;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QuerySnapshot;
 
@@ -23,17 +22,18 @@ import BusinessEntities.Bill;
 import BusinessEntities.Item;
 import BusinessEntities.Order;
 import BusinessEntities.Printer;
-import DataAccessLayer.RestDB;
+import UI.RestaurantManagementUI.ServiceUnitsUI.KitchenView;
 
 public class OrderManager implements IOrderController {
 
     private List<IServiceUnit> units;
     private List<IPrinter> printers;
 
+    private List<IOrderListener> orderListeners;
     private final String TAG = "OrderManager";
 
-    public OrderManager(@NonNull List<IServiceUnit> units) {
-
+    public OrderManager(@NonNull List<IServiceUnit> units, List<IOrderListener> orderListeners) {
+        this.orderListeners = new ArrayList<>(orderListeners);
         this.units = new ArrayList<>(units);
         this.printers = new ArrayList<>();
         for (IServiceUnit unit : units){
@@ -98,15 +98,18 @@ public class OrderManager implements IOrderController {
                                 unit.onOrderReceived(serviceOrder);
                             }
                         }
-                        if (unit.getServiceType() == Constants.USER_TYPE_KITCHEN_PRINTER) {
-                            if (!serviceOrder.getOrderItems().isEmpty()) {
-                                unit.onOrderReceived(kitchenOrder);
-                            }
-                        }
+                    }
 
-                        if (unit.getServiceType() == Constants.USER_TYPE_SERVICE_PRINTER) {
-                            if (!serviceOrder.getOrderItems().isEmpty()) {
-                                unit.onOrderReceived(serviceOrder);
+                    for(IOrderListener orderListener : orderListeners){
+                        if(orderListener instanceof KitchenView){
+                            if(!kitchenOrder.getOrderItems().isEmpty()){
+                                orderListener.onOrderReceived(kitchenOrder);
+                            }
+
+                        }
+                        else{
+                            if(!serviceOrder.getOrderItems().isEmpty()){
+                                orderListener.onOrderReceived(serviceOrder);
                             }
                         }
                     }

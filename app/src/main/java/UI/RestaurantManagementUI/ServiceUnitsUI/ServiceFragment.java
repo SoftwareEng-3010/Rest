@@ -4,7 +4,6 @@ import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
@@ -13,35 +12,35 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.GridView;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.exercise_5.R;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import API.Constants.Constants;
-import API.Controllers.IManagementViewController;
 import API.Controllers.IServiceViewController;
-import API.Database.DatabaseRequestCallback;
+import API.Views.IManagementView;
 import API.Views.IServiceView;
-import API.Views.SwipeGestureListener;
-import BusinessEntities.Branch;
 import BusinessEntities.Table;
-import BusinessLogic.ServiceFragmentController;
-import DataAccessLayer.RestDB;
+import BusinessLogic.ServiceViewController;
 import UI.OnSwipeTouchListener;
 import UIAdapters.TableGridAdapter;
 
-public class ServiceFragment extends Fragment implements IServiceView {
+public class ServiceFragment extends Fragment implements IServiceView{
 
     private View fragView;
     private GridView tableGrid;
     private Button btnService;
     private String branchId, restId;
 
+    // MainView
+    private IManagementView managementView;
+    // Controller
     private IServiceViewController controller;
+
+    public ServiceFragment(@NonNull IManagementView managementView) {
+        this.managementView = managementView;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -49,13 +48,14 @@ public class ServiceFragment extends Fragment implements IServiceView {
         // Inflate the layout for this fragment
         fragView = inflater.inflate(R.layout.fragment_service, container, false);
 
-        Bundle b = getArguments();
-        branchId = b.getString(Constants.KEY_BRANCH_ID);
-        restId = b.getString(Constants.KEY_RESTAURANT_ID);
+        Bundle data = getArguments();
+        branchId = data.getString(Constants.KEY_BRANCH_ID);
+        restId = data.getString(Constants.KEY_RESTAURANT_ID);
 
-        controller = new ServiceFragmentController(this, restId, branchId);
+        controller = new ServiceViewController(managementView, this, restId, branchId);
 
-//        v.setOnTouchListener(new OnSwipeTouchListener(getContext(), this));
+        fragView.setOnTouchListener(
+                new OnSwipeTouchListener(getContext(), controller));
 
         btnService = ((View)container.getParent()).findViewById(R.id.btn_management_service);
 
@@ -74,7 +74,7 @@ public class ServiceFragment extends Fragment implements IServiceView {
                 .beginTransaction()
                 .setCustomAnimations(R.anim.fade_in, R.anim.fade_out)
                 .addToBackStack("ServiceFragment")
-                .replace(R.id.frame_layout_management, new TableDetailsFragment(controller))
+                .replace(R.id.frame_layout_management, new TableDetailsFragment(managementView))
                 .commit();
     }
 
@@ -94,33 +94,4 @@ public class ServiceFragment extends Fragment implements IServiceView {
             }
         });
     }
-
-//    @Override
-//    public void onResume() {
-//        super.onResume();
-//        btnService.setBackgroundColor(Color.WHITE);
-//    }
-//
-//    @Override
-//    public void onSwipeLeft() {
-//        Toast.makeText(getContext(), "Swipe left", Toast.LENGTH_SHORT).show();
-//        btnService.setBackgroundColor(Color.TRANSPARENT);
-////        controller.onHomeButtonClicked();
-//    }
-//
-//    @Override
-//    public void onSwipeRight() {
-//        Toast.makeText(getContext(), "Swipe right", Toast.LENGTH_SHORT).show();
-//        btnService.setBackgroundColor(Color.TRANSPARENT);
-//    }
-//
-//    @Override
-//    public void onSwipeTop() {
-//        Toast.makeText(getContext(), "Swipe up", Toast.LENGTH_SHORT).show();
-//    }
-//
-//    @Override
-//    public void onSwipeBottom() {
-//        Toast.makeText(getContext(), "Swipe down", Toast.LENGTH_SHORT).show();
-//    }
 }
