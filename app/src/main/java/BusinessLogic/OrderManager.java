@@ -100,25 +100,19 @@ public class OrderManager implements IOrderController {
                                 unit.onOrderReceived(serviceOrder);
                             }
                         }
-//                        if (unit.getServiceType() == Constants.USER_TYPE_KITCHEN_PRINTER) {
-//                            if (!serviceOrder.getOrderItems().isEmpty()) {
-//                                unit.onOrderReceived(kitchenOrder);
-//                            }
-//                        }
-//
-//                        if (unit.getServiceType() == Constants.USER_TYPE_SERVICE_PRINTER) {
-//                            if (!serviceOrder.getOrderItems().isEmpty()) {
-//                                unit.onOrderReceived(serviceOrder);
-//                            }
-//                        }
                     }
 
                     for(IOrderListener orderListener : orderListeners){
                         if(orderListener instanceof KitchenFragment){
-                            orderListener.onOrderReceived(kitchenOrder);
+                            if(!kitchenOrder.getOrderItems().isEmpty()){
+                                orderListener.onOrderReceived(kitchenOrder);
+                            }
+
                         }
                         else{
-                            orderListener.onOrderReceived(serviceOrder);
+                            if(!serviceOrder.getOrderItems().isEmpty()){
+                                orderListener.onOrderReceived(serviceOrder);
+                            }
                         }
                     }
                 }
