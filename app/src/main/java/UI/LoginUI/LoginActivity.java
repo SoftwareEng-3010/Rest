@@ -26,7 +26,7 @@ import API.Constants.Constants;
 import API.Views.ILoginView;
 import DataAccessLayer.RestDB;
 import UI.CustomersUI.QRCodeActivity;
-import UI.RestaurantManagementUI.ManagementActivity;
+import UI.RestaurantManagementUI.ManagementView;
 import API.Controllers.ILoginViewController;
 import BusinessLogic.LoginViewController;
 
@@ -210,7 +210,7 @@ public class LoginActivity extends AppCompatActivity implements ILoginView {
                             "IBranchManager is NULL and should not be!",
                     Toast.LENGTH_LONG).show();
 
-        Intent moveToManagementActivity = new Intent(this, ManagementActivity.class);
+        Intent moveToManagementActivity = new Intent(this, ManagementView.class);
 
         moveToManagementActivity.putExtra("manager_uid", user.getUid());
         moveToManagementActivity.putExtra("user_type", user.getType());

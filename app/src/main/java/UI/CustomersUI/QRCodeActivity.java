@@ -114,7 +114,7 @@ public class QRCodeActivity extends AppCompatActivity implements SwipeGestureLis
             @Override
             public void onClick(View v) {
                 // Only finish the activity because when logged in as a manager,
-                // this activity is above ManagementActivity in UI Stack.
+                // this activity is above ManagementView in UI Stack.
                 moveToManagementUI();
             }
         });
@@ -250,7 +250,7 @@ public class QRCodeActivity extends AppCompatActivity implements SwipeGestureLis
     }
 
     public void moveToManagementUI() {
-//        Intent managementActivity = new Intent(this, ManagementActivity.class);
+//        Intent managementActivity = new Intent(this, ManagementView.class);
 //        managementActivity.putExtra("user_type", userType);
 //        startActivity(managementActivity);
         finish();

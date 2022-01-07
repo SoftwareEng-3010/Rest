@@ -25,7 +25,7 @@ import UI.DataActivity.View.CreateMenuFragment;
 import UI.DataActivity.View.CreateRestaurantFragment;
 import UI.DataActivity.View.CreateTablesFragment;
 import UI.DataActivity.View.DataEditView;
-import UI.RestaurantManagementUI.ManagementActivity;
+import UI.RestaurantManagementUI.ManagementView;
 
 public class DataActivity extends AppCompatActivity implements DataEditView {
 
@@ -96,7 +96,7 @@ public class DataActivity extends AppCompatActivity implements DataEditView {
     public void onDataEditFinish(String restId, String branchId) {
         progressBar.setVisibility(View.INVISIBLE);
 
-        Intent managementMainActivity = new Intent(this, ManagementActivity.class);
+        Intent managementMainActivity = new Intent(this, ManagementView.class);
 
         managementMainActivity.putExtra("manager_uid", FirebaseAuth.getInstance().getUid());
         managementMainActivity.putExtra("branch_id", branchId);

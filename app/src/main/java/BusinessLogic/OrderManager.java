@@ -6,7 +6,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.google.firebase.firestore.DocumentChange;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QuerySnapshot;
 
@@ -23,8 +22,7 @@ import BusinessEntities.Bill;
 import BusinessEntities.Item;
 import BusinessEntities.Order;
 import BusinessEntities.Printer;
-import DataAccessLayer.RestDB;
-import UI.RestaurantManagementUI.ServiceUnitsUI.KitchenFragment;
+import UI.RestaurantManagementUI.ServiceUnitsUI.KitchenView;
 
 public class OrderManager implements IOrderController {
 
@@ -103,7 +101,7 @@ public class OrderManager implements IOrderController {
                     }
 
                     for(IOrderListener orderListener : orderListeners){
-                        if(orderListener instanceof KitchenFragment){
+                        if(orderListener instanceof KitchenView){
                             if(!kitchenOrder.getOrderItems().isEmpty()){
                                 orderListener.onOrderReceived(kitchenOrder);
                             }

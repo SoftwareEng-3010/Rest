@@ -1,5 +1,6 @@
 package UI.RestaurantManagementUI.ServiceUnitsUI;
 
+import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
 
@@ -32,7 +33,7 @@ import UI.OnSwipeTouchListener;
 import UIAdapters.OrdersRecyclerViewAdapter;
 import ViewModels.OrdersViewModel;
 
-public class KitchenFragment extends Fragment implements IKitchenView, IOrderListener {
+public class KitchenView extends Fragment implements IKitchenView, IOrderListener {
 
     private IManagementView managementView;
     private IKitchenFragmentController controller;
@@ -45,9 +46,14 @@ public class KitchenFragment extends Fragment implements IKitchenView, IOrderLis
 
 //    private Printer kitchenPrinter;
 
-    public KitchenFragment(@NonNull IManagementView managementView) {
+    public KitchenView(@NonNull IManagementView managementView) {
         this.managementView = managementView;
-        ordersRecyclerViewAdapter = new OrdersRecyclerViewAdapter(getContext());
+    }
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        ordersRecyclerViewAdapter = new OrdersRecyclerViewAdapter(context);
     }
 
     @Override
@@ -60,7 +66,6 @@ public class KitchenFragment extends Fragment implements IKitchenView, IOrderLis
         ordersRecyclerView = (RecyclerView) v.findViewById(R.id.kitchen_recycler_view);
 
         btnKitchen = ((View)container.getParent()).findViewById(R.id.btn_management_kitchen);
-
 
         viewModel = ViewModelProvider.AndroidViewModelFactory
                 .getInstance()
