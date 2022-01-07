@@ -48,6 +48,8 @@ public class OrderArrayAdapter extends ArrayAdapter<Item> {
             convertView = LayoutInflater.from(context).inflate(resource, parent, false);
         }
 
+        TextView itemNameTV = (TextView) convertView.findViewById(R.id.order_item_name);
+        itemNameTV.setText(itemName);
         return convertView;
     }
 }
