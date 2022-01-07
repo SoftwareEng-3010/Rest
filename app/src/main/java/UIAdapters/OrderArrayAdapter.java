@@ -49,7 +49,6 @@ public class OrderArrayAdapter extends ArrayAdapter<Item> {
             view = convertView.getRootView();
         }
 
-//        LinearLayout layout = (LinearLayout) view.findViewById(R.id.fucking_shit_linear_layout);
         TextView itemNameTV = (TextView) view.findViewById(R.id.order_item_name);
         itemNameTV.setText(itemName);
         return convertView;
