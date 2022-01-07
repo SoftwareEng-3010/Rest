@@ -24,14 +24,14 @@ import BusinessLogic.HomeViewController;
 import UI.CustomersUI.QRCodeActivity;
 import UI.OnSwipeTouchListener;
 
-public class HomeFragment extends Fragment implements IHomeView {
+public class HomeView extends Fragment implements IHomeView {
 
     private IManagementView managementView;
     private IHomeViewController controller;
 
     private Button btnHome;
 
-    public HomeFragment(@NonNull IManagementView managementView) {
+    public HomeView(@NonNull IManagementView managementView) {
         this.managementView = managementView;
     }
 

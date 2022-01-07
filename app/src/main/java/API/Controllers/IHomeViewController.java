@@ -1,6 +1,6 @@
 package API.Controllers;
 
-import API.Views.SwipeGestureListener;
+import API.SwipeGestureListener;
 
 public interface IHomeViewController extends SwipeGestureListener {
 //    public void onServiceButtonClicked();

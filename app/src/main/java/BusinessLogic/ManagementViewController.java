@@ -10,7 +10,7 @@ import API.Controllers.IManagementViewController;
 import API.Controllers.IServiceViewController;
 import API.Database.DatabaseRequestCallback;
 import API.Views.IManagementView;
-import API.Views.SwipeGestureListener;
+import API.SwipeGestureListener;
 import BusinessEntities.Branch;
 import DataAccessLayer.RestDB;
 

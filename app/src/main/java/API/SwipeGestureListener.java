@@ -1,4 +1,4 @@
-package API.Views;
+package API;
 
 public interface SwipeGestureListener {
 

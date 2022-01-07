@@ -15,22 +15,20 @@ import android.widget.Toast;
 
 import com.example.exercise_5.R;
 
-import API.Controllers.IServiceViewController;
 import API.Views.IManagementView;
 import API.Views.ITableDetailsView;
-import API.Views.SwipeGestureListener;
+import API.SwipeGestureListener;
 import BusinessEntities.Table;
 import UI.OnSwipeTouchListener;
-import UIAdapters.OrderArrayAdapter;
 
-public class TableDetailsFragment extends Fragment implements ITableDetailsView, SwipeGestureListener {
+public class TableDetailsView extends Fragment implements ITableDetailsView, SwipeGestureListener {
 
-    private final String TAG = "TableDetailsFragment";
+    private final String TAG = "TableDetailsView";
     private TextView TVSelectedTable;
     private View view;
     private IManagementView managementView;
 
-    public TableDetailsFragment(IManagementView managementView) {
+    public TableDetailsView(IManagementView managementView) {
         this.managementView = managementView;
     }
 

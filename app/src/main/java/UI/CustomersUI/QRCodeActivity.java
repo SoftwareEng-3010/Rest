@@ -24,7 +24,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.zxing.Result;
 
 import API.Constants.Constants;
-import API.Views.SwipeGestureListener;
+import API.SwipeGestureListener;
 import BusinessEntities.QRCode;
 import BusinessLogic.QRReadHandler;
 import BusinessLogic.Permissions;

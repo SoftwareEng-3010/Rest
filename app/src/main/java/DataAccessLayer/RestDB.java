@@ -23,7 +23,7 @@ import API.Constants.Constants;
 import API.Database.Database;
 import API.Database.DatabaseRequestCallback;
 import API.Database.OnDataSentToDB;
-import API.IOrderController;
+import API.Controllers.IOrderManager;
 import API.Models.IBranchManagerUser;
 import API.Models.IOrder;
 import API.Models.IUser;
@@ -498,7 +498,7 @@ public class RestDB implements Database {
     }
 
     @Override
-    public void attachOrderListener(@NonNull String restId, @NonNull String branchId, IOrderController listener) {
+    public void attachOrderListener(@NonNull String restId, @NonNull String branchId, IOrderManager listener) {
 
         restCollection.document(restId)
                 .collection(BRANCHES_COLLECTION_NAME)

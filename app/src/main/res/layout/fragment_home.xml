@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="UI.RestaurantManagementUI.ServiceUnitsUI.HomeFragment">
+    tools:context="UI.RestaurantManagementUI.ServiceUnitsUI.HomeView">
 
     <TextView
         android:id="@+id/text_management_home"

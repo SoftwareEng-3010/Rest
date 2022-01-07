@@ -9,7 +9,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="UI.RestaurantManagementUI.ServiceUnitsUI.TableDetailsFragment">
+    tools:context="UI.RestaurantManagementUI.ServiceUnitsUI.TableDetailsView">
 
     <TextView
         android:id="@+id/text_view_table_bill_amount"

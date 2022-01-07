@@ -1,4 +1,4 @@
-package API;
+package API.Models;
 
 import androidx.annotation.NonNull;
 
