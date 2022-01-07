@@ -1,11 +1,11 @@
 package UIAdapters;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -13,13 +13,12 @@ import androidx.annotation.Nullable;
 
 import com.example.exercise_5.R;
 
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
 import java.util.List;
 
-import API.Models.IOrder;
 import BusinessEntities.Item;
-import BusinessEntities.Order;
-import BusinessEntities.Table;
 
 public class OrderArrayAdapter extends ArrayAdapter<Item> {
 
@@ -28,6 +27,7 @@ public class OrderArrayAdapter extends ArrayAdapter<Item> {
     private List<Item> orderItems;
     private Context context;
     private int resource;
+    private View view;
 
     public OrderArrayAdapter(@NonNull Context context, int resource, List<Item> items){
         super(context, resource, items);
@@ -46,9 +46,11 @@ public class OrderArrayAdapter extends ArrayAdapter<Item> {
 
         if(convertView == null){
             convertView = LayoutInflater.from(context).inflate(resource, parent, false);
+            view = convertView.getRootView();
         }
 
-        TextView itemNameTV = (TextView) convertView.findViewById(R.id.order_item_name);
+//        LinearLayout layout = (LinearLayout) view.findViewById(R.id.fucking_shit_linear_layout);
+        TextView itemNameTV = (TextView) view.findViewById(R.id.order_item_name);
         itemNameTV.setText(itemName);
         return convertView;
     }

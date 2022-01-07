@@ -57,11 +57,13 @@ public class OrdersRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
 
         // TODO: 1/7/2022 Inflate Order_Layout
 //        ListView orderListView = (ListView)LayoutInflater.from(context).inflate(R.layout.layout_order, viewGroup, false);
-        ListView orderListView = (ListView) holder.itemView.findViewById(R.id.list_view_order_items);
-
-        orderListView.setAdapter(new OrderArrayAdapter(context, R.layout.layout_order_item, order.getOrderItems()));
         int tableNumber = order.getTable().getTableNumber();
         tableNum.setText("שולחן: " + tableNumber);
+
+        ListView orderListView = (ListView) holder.itemView.findViewById(R.id.list_view_order_items);
+        orderListView.setAdapter(new OrderArrayAdapter(context, R.layout.layout_order_item, order.getOrderItems()));
+
+
 //        Toast.makeText(context, "(מטבח)הזמנה התקבלה!", Toast.LENGTH_SHORT).show();
     }
 
