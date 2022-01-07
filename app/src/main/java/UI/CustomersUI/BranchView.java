@@ -87,6 +87,7 @@ public class BranchView extends AppCompatActivity {
         buttonSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (menuAdapter.getSelectedItems().isEmpty()) {Log.e(TAG, "No item was selected");return;}
                 RestDB.getInstance()
                         .sendOrder(
                         restId, branchId,
