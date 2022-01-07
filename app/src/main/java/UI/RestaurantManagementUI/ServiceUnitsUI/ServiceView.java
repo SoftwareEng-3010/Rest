@@ -26,7 +26,7 @@ import BusinessLogic.ServiceViewController;
 import UI.OnSwipeTouchListener;
 import UIAdapters.TableGridAdapter;
 
-public class ServiceFragment extends Fragment implements IServiceView{
+public class ServiceView extends Fragment implements IServiceView{
 
     private View fragView;
     private GridView tableGrid;
@@ -38,7 +38,7 @@ public class ServiceFragment extends Fragment implements IServiceView{
     // Controller
     private IServiceViewController controller;
 
-    public ServiceFragment(@NonNull IManagementView managementView) {
+    public ServiceView(@NonNull IManagementView managementView) {
         this.managementView = managementView;
     }
 
@@ -73,8 +73,8 @@ public class ServiceFragment extends Fragment implements IServiceView{
         getParentFragmentManager()
                 .beginTransaction()
                 .setCustomAnimations(R.anim.fade_in, R.anim.fade_out)
-                .addToBackStack("ServiceFragment")
-                .replace(R.id.frame_layout_management, new TableDetailsFragment(managementView))
+                .addToBackStack("ServiceView")
+                .replace(R.id.frame_layout_management, new TableDetailsView(managementView))
                 .commit();
     }
 

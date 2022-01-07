@@ -1,21 +1,15 @@
 package BusinessEntities;
 
 import android.content.Context;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Queue;
 
-import API.Constants.Constants;
-import API.IOrderController;
-import API.IOrderListener;
 import API.Models.IOrder;
 import API.Models.IPrinter;
-import API.Models.IServiceUnit;
 
 public class Printer implements IPrinter {
 

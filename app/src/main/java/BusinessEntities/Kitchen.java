@@ -7,7 +7,7 @@ import androidx.annotation.NonNull;
 import java.util.List;
 
 import API.Constants.Constants;
-import API.IOrderController;
+import API.Controllers.IOrderManager;
 import API.Models.IOrder;
 import API.Models.IServiceUnit;
 
@@ -15,7 +15,7 @@ public class Kitchen implements IServiceUnit {
 
     private String TAG = "Kitchen";
 
-    private IOrderController orderController;
+    private IOrderManager orderController;
 
     @Override
     public void onOrderReceived(@NonNull IOrder order) {
@@ -33,7 +33,7 @@ public class Kitchen implements IServiceUnit {
     }
 
 //    @Override
-    public IOrderController getController() {
+    public IOrderManager getController() {
         return this.orderController;
     }
 

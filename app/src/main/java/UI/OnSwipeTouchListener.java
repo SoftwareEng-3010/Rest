@@ -8,7 +8,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
 
-import API.Views.SwipeGestureListener;
+import API.SwipeGestureListener;
 
 /**
  * @author Mirek Rusin - https://stackoverflow.com/a/12938787

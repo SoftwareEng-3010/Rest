@@ -22,16 +22,16 @@ import java.util.List;
 import API.Constants.Constants;
 import API.Controllers.IManagementViewController;
 import API.Controllers.IServiceViewController;
-import API.IOrderListener;
+import API.Models.IOrderListener;
 import API.Models.IServiceUnit;
 import API.Views.IManagementView;
 
 import BusinessLogic.ManagementViewController;
 import UI.CustomersUI.QRCodeActivity;
 import UI.DataActivity.DataActivity;
-import UI.RestaurantManagementUI.ServiceUnitsUI.HomeFragment;
+import UI.RestaurantManagementUI.ServiceUnitsUI.HomeView;
 import UI.RestaurantManagementUI.ServiceUnitsUI.KitchenView;
-import UI.RestaurantManagementUI.ServiceUnitsUI.ServiceFragment;
+import UI.RestaurantManagementUI.ServiceUnitsUI.ServiceView;
 
 public class ManagementView extends AppCompatActivity implements IManagementView {
 
@@ -46,10 +46,10 @@ public class ManagementView extends AppCompatActivity implements IManagementView
     private Button btnService;
     private Button btnKitchen;
 
-    private HomeFragment homeFragment;
-    private ServiceFragment serviceFragment;
+    private HomeView homeView;
+    private ServiceView serviceView;
     private KitchenView kitchenView;
-//    private TableDetailsFragment tableDetailsFragment;
+//    private TableDetailsView tableDetailsFragment;
 
     private String managerUid, branchId, restId;
 
@@ -72,12 +72,12 @@ public class ManagementView extends AppCompatActivity implements IManagementView
         args.putString(Constants.KEY_BRANCH_ID, branchId);
         args.putString(Constants.KEY_RESTAURANT_ID, restId);
         // ManagementView's UI Fragments
-        serviceFragment = new ServiceFragment(this);
-        homeFragment = new HomeFragment(this);
+        serviceView = new ServiceView(this);
+        homeView = new HomeView(this);
         kitchenView = new KitchenView(this);
 
-        homeFragment.setArguments(args);
-        serviceFragment.setArguments(args);
+        homeView.setArguments(args);
+        serviceView.setArguments(args);
         kitchenView.setArguments(args);
 
         initButtonListeners();
@@ -105,12 +105,12 @@ public class ManagementView extends AppCompatActivity implements IManagementView
 
     @Override
     public void loadServiceFragment() {
-        loadFragment(serviceFragment);
+        loadFragment(serviceView);
     }
 
     @Override
     public void loadHomeFragment() {
-        loadFragment(homeFragment);
+        loadFragment(homeView);
     }
 
     public void checkArguments() {

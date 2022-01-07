@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 
 import com.example.exercise_5.R;
 
-public class ServicePrinterFragment extends Fragment {
+public class ServicePrinterView extends Fragment {
 
 
     @Override

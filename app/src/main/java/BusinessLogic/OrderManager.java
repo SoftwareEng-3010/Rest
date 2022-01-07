@@ -13,8 +13,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import API.Constants.Constants;
-import API.IOrderController;
-import API.IOrderListener;
+import API.Controllers.IOrderManager;
+import API.Models.IOrderListener;
 import API.Models.IOrder;
 import API.Models.IPrinter;
 import API.Models.IServiceUnit;
@@ -24,7 +24,7 @@ import BusinessEntities.Order;
 import BusinessEntities.Printer;
 import UI.RestaurantManagementUI.ServiceUnitsUI.KitchenView;
 
-public class OrderManager implements IOrderController {
+public class OrderManager implements IOrderManager {
 
     private List<IServiceUnit> units;
     private List<IPrinter> printers;

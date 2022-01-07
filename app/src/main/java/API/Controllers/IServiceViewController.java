@@ -4,7 +4,7 @@ import androidx.annotation.Nullable;
 
 import java.util.List;
 
-import API.Views.SwipeGestureListener;
+import API.SwipeGestureListener;
 import BusinessEntities.Bill;
 import BusinessEntities.Table;
 

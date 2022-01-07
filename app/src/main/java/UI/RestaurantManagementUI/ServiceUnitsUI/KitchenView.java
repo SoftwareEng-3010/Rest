@@ -19,15 +19,12 @@ import android.widget.Toast;
 
 import com.example.exercise_5.R;
 
-import java.util.ArrayList;
-
 import API.Constants.Constants;
-import API.Controllers.IKitchenFragmentController;
-import API.IOrderListener;
+import API.Controllers.IKitchenViewController;
+import API.Models.IOrderListener;
 import API.Models.IOrder;
 import API.Views.IKitchenView;
 import API.Views.IManagementView;
-import BusinessEntities.Printer;
 import BusinessLogic.KitchenViewController;
 import UI.OnSwipeTouchListener;
 import UIAdapters.OrdersRecyclerViewAdapter;
@@ -36,7 +33,7 @@ import ViewModels.OrdersViewModel;
 public class KitchenView extends Fragment implements IKitchenView, IOrderListener {
 
     private IManagementView managementView;
-    private IKitchenFragmentController controller;
+    private IKitchenViewController controller;
     private OrdersViewModel viewModel;
     private final String TAG = "KitchenView";
 

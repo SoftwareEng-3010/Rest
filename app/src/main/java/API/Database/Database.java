@@ -3,15 +3,10 @@ package API.Database;
 import androidx.annotation.NonNull;
 
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.EventListener;
 
-import java.util.List;
-
-import API.IOrderController;
-import API.IOrderListener;
+import API.Controllers.IOrderManager;
 import API.Models.IOrder;
 import BusinessEntities.Branch;
-import BusinessEntities.Item;
 import BusinessEntities.Menu;
 import BusinessEntities.Restaurant;
 
@@ -118,5 +113,5 @@ public interface Database {
 
     public void getOrder(String orderId, DatabaseRequestCallback callback);
 
-    public void attachOrderListener(@NonNull String restId, @NonNull String branchId, IOrderController listener);
+    public void attachOrderListener(@NonNull String restId, @NonNull String branchId, IOrderManager listener);
 }
