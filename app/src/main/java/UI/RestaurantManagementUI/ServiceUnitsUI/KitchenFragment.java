@@ -61,7 +61,6 @@ public class KitchenFragment extends Fragment implements IKitchenView, IOrderLis
 
         btnKitchen = ((View)container.getParent()).findViewById(R.id.btn_management_kitchen);
 
-
         viewModel = ViewModelProvider.AndroidViewModelFactory
                 .getInstance()
                 .create(OrdersViewModel.class);

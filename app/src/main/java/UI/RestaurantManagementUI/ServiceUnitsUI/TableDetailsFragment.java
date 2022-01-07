@@ -42,7 +42,6 @@ public class TableDetailsFragment extends Fragment implements ITableDetailsView,
 
         view.setOnTouchListener(new OnSwipeTouchListener(view.getContext(), this));
 
-
         return view;
     }
 
