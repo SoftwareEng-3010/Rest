@@ -5,6 +5,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,6 +26,8 @@ public class OrdersRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
     private final String TAG = "OrdersViewAdapter";
     private Context context;
     private List<IOrder> orders;
+    private ViewGroup viewGroup;
+    private View v;
 
     public OrdersRecyclerViewAdapter(Context context){
         this.context = context;
@@ -34,7 +37,7 @@ public class OrdersRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_order, parent, false);
+        v = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_order, parent, false);
         Log.e(TAG, "layout_order ??");
         return new RecyclerView.ViewHolder(v) {
             @Override
@@ -49,11 +52,16 @@ public class OrdersRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
 
         IOrder order = orders.get(position);
 
+
         TextView tableNum = (TextView) holder.itemView.findViewById(R.id.text_view_table_number);
 
+        // TODO: 1/7/2022 Inflate Order_Layout
+//        ListView orderListView = (ListView)LayoutInflater.from(context).inflate(R.layout.layout_order, viewGroup, false);
+        ListView orderListView = (ListView) holder.itemView.findViewById(R.id.list_view_order_items);
+
+        orderListView.setAdapter(new OrderArrayAdapter(context, R.layout.layout_order_item, order.getOrderItems()));
         int tableNumber = order.getTable().getTableNumber();
         tableNum.setText("שולחן: " + tableNumber);
-
 //        Toast.makeText(context, "(מטבח)הזמנה התקבלה!", Toast.LENGTH_SHORT).show();
     }
 

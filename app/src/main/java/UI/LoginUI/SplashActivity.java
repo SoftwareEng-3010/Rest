@@ -19,7 +19,7 @@ import API.Constants.Constants;
 import API.Database.DatabaseRequestCallback;
 import DataAccessLayer.RestDB;
 import UI.CustomersUI.QRCodeActivity;
-import UI.RestaurantManagementUI.ManagementActivity;
+import UI.RestaurantManagementUI.ManagementView;
 
 @SuppressLint("CustomSplashScreen")
 public class SplashActivity extends AppCompatActivity implements DatabaseRequestCallback {
@@ -80,7 +80,7 @@ public class SplashActivity extends AppCompatActivity implements DatabaseRequest
     }
 
     private void moveToManagementNavigationActivity(IBranchManagerUser manager) {
-        Intent managementMainActivity = new Intent(this, ManagementActivity.class);
+        Intent managementMainActivity = new Intent(this, ManagementView.class);
         managementMainActivity.putExtra("user_type", manager.getType());
         managementMainActivity.putExtra("manager_uid", manager.getUid());
         managementMainActivity.putExtra("branch_id", manager.getBranchDocId());

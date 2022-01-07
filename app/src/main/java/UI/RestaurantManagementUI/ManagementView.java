@@ -23,19 +23,17 @@ import API.Constants.Constants;
 import API.Controllers.IManagementViewController;
 import API.Controllers.IServiceViewController;
 import API.IOrderListener;
-import API.Models.IOrder;
 import API.Models.IServiceUnit;
 import API.Views.IManagementView;
 
 import BusinessLogic.ManagementViewController;
-import BusinessLogic.OrderManager;
 import UI.CustomersUI.QRCodeActivity;
 import UI.DataActivity.DataActivity;
 import UI.RestaurantManagementUI.ServiceUnitsUI.HomeFragment;
-import UI.RestaurantManagementUI.ServiceUnitsUI.KitchenFragment;
+import UI.RestaurantManagementUI.ServiceUnitsUI.KitchenView;
 import UI.RestaurantManagementUI.ServiceUnitsUI.ServiceFragment;
 
-public class ManagementActivity extends AppCompatActivity implements IManagementView {
+public class ManagementView extends AppCompatActivity implements IManagementView {
 
     private final String TAG = "ManagementMain";
 
@@ -50,7 +48,7 @@ public class ManagementActivity extends AppCompatActivity implements IManagement
 
     private HomeFragment homeFragment;
     private ServiceFragment serviceFragment;
-    private KitchenFragment kitchenFragment;
+    private KitchenView kitchenView;
 //    private TableDetailsFragment tableDetailsFragment;
 
     private String managerUid, branchId, restId;
@@ -64,23 +62,27 @@ public class ManagementActivity extends AppCompatActivity implements IManagement
         checkArguments();
 
         frameLayout = (FrameLayout) findViewById(R.id.frame_layout_management);
+    }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
         // Prepare data for Fragments
         Bundle args = new Bundle();
         args.putString(Constants.KEY_BRANCH_ID, branchId);
         args.putString(Constants.KEY_RESTAURANT_ID, restId);
-        // ManagementActivity's UI Fragments
+        // ManagementView's UI Fragments
         serviceFragment = new ServiceFragment(this);
         homeFragment = new HomeFragment(this);
-        kitchenFragment = new KitchenFragment(this);
+        kitchenView = new KitchenView(this);
+
         homeFragment.setArguments(args);
         serviceFragment.setArguments(args);
-        kitchenFragment.setArguments(args);
+        kitchenView.setArguments(args);
 
         initButtonListeners();
         mainController = new ManagementViewController(this, restId, branchId);
     }
-
 
     private void loadFragment(Fragment fragment) {
 
@@ -93,7 +95,7 @@ public class ManagementActivity extends AppCompatActivity implements IManagement
 
     @Override
     public void loadKitchenFragment() {
-        loadFragment(kitchenFragment);
+        loadFragment(kitchenView);
     }
 
     @Override
@@ -202,7 +204,7 @@ public class ManagementActivity extends AppCompatActivity implements IManagement
     @Override
     public List<IOrderListener> getOrderListeners(){
         List<IOrderListener> orderListeners = new ArrayList<>();
-        orderListeners.add(kitchenFragment);
+        orderListeners.add(kitchenView);
         return orderListeners;
     }
 
