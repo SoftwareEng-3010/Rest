@@ -23,10 +23,11 @@ import API.Constants.Constants;
 import API.Database.Database;
 import API.Database.DatabaseRequestCallback;
 import API.Database.OnDataSentToDB;
-import API.IOrderController;
+import API.Controllers.IOrderManager;
 import API.Models.IBranchManagerUser;
 import API.Models.IOrder;
 import API.Models.IUser;
+import BusinessEntities.Bill;
 import BusinessEntities.Branch;
 import BusinessEntities.BranchManager;
 import BusinessEntities.Customer;
@@ -466,6 +467,9 @@ public class RestDB implements Database {
     @Override
     public void sendOrder(@NonNull String restId, @NonNull String branchId, @NonNull IOrder order, OnDataSentToDB callback) {
 
+        if (order.getTable().getBill() == null) {
+            order.getTable().setBill(new Bill());
+        }
         restCollection.document(restId)
                 .collection(BRANCHES_COLLECTION_NAME)
                 .document(branchId)
@@ -494,7 +498,7 @@ public class RestDB implements Database {
     }
 
     @Override
-    public void attachOrderListener(@NonNull String restId, @NonNull String branchId, IOrderController listener) {
+    public void attachOrderListener(@NonNull String restId, @NonNull String branchId, IOrderManager listener) {
 
         restCollection.document(restId)
                 .collection(BRANCHES_COLLECTION_NAME)

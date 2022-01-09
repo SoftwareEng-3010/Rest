@@ -26,13 +26,12 @@ import API.Constants.Constants;
 import API.Views.ILoginView;
 import DataAccessLayer.RestDB;
 import UI.CustomersUI.QRCodeActivity;
-import UI.RestaurantManagementUI.ManagementMainActivity;
+import UI.RestaurantManagementUI.ManagementView;
 import API.Controllers.ILoginViewController;
 import BusinessLogic.LoginViewController;
 
 public class LoginActivity extends AppCompatActivity implements ILoginView {
 
-    private static final String TAGCredentials = "EmailPassword";
     private static final String TAG = "LoginActivity";
 
     private FirebaseAuth mAuth;
@@ -211,7 +210,7 @@ public class LoginActivity extends AppCompatActivity implements ILoginView {
                             "IBranchManager is NULL and should not be!",
                     Toast.LENGTH_LONG).show();
 
-        Intent moveToManagementActivity = new Intent(this, ManagementMainActivity.class);
+        Intent moveToManagementActivity = new Intent(this, ManagementView.class);
 
         moveToManagementActivity.putExtra("manager_uid", user.getUid());
         moveToManagementActivity.putExtra("user_type", user.getType());

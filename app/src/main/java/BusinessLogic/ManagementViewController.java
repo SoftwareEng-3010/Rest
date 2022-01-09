@@ -4,18 +4,29 @@ import android.util.Log;
 
 import androidx.annotation.Nullable;
 
+import API.Constants.Constants;
+import API.Controllers.IHomeViewController;
 import API.Controllers.IManagementViewController;
+import API.Controllers.IServiceViewController;
 import API.Database.DatabaseRequestCallback;
 import API.Views.IManagementView;
+import API.SwipeGestureListener;
 import BusinessEntities.Branch;
 import DataAccessLayer.RestDB;
 
-public class ManagementViewController implements IManagementViewController {
+public class ManagementViewController implements IManagementViewController, SwipeGestureListener {
 
+    private enum Direction {
+        UP, DOWN, LEFT, RIGHT
+    }
     private final String TAG = "ManagementController";
     private IManagementView managementView;
-    private String branchId;
-    private String restId;
+    private String restId, branchId;
+    private int currentFragment = Constants.MANAGEMENT_HOME_SCREEN;
+
+    private IHomeViewController homeViewController;
+    private IServiceViewController serviceViewController;
+//    private IKitchenViewController kitchenViewController;
 
     private Branch branch;
 
@@ -24,10 +35,7 @@ public class ManagementViewController implements IManagementViewController {
         this.branchId = branchId;
         this.restId = restId;
 
-        RestDB.getInstance()
-                .attachOrderListener(restId, branchId,
-                new OrderManager(view.getServiceUnits())
-                );
+
 
         RestDB.getInstance()
                 .getBranch(
@@ -44,6 +52,10 @@ public class ManagementViewController implements IManagementViewController {
                 else {
                     branch = (Branch) obj;
                     view.loadHomeFragment();
+                    RestDB.getInstance()
+                            .attachOrderListener(restId, branchId,
+                                    new OrderManager(view.getServiceUnits(), view.getOrderListeners())
+                            );
                 }
             }
         });
@@ -60,8 +72,28 @@ public class ManagementViewController implements IManagementViewController {
         managementView.loadServiceFragment();
     }
 
+//    @Override
+//    public void onTableItemClicked(Table table) {
+//        if (table != null) {
+//            managementView.loadTableDetailsFragment(table);
+//        }
+//        else {
+//            managementView.onDataFailure("table is null, can't load details");
+//        }
+//    }
+
     @Override
     public void onKitchenButtonClicked() {
         managementView.loadKitchenFragment();
+    }
+
+    @Override
+    public void onSwipeLeft() {
+//        managementView.
+    }
+
+    @Override
+    public void onSwipeRight() {
+
     }
 }

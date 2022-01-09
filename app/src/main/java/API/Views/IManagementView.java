@@ -1,20 +1,19 @@
 package API.Views;
 
-import androidx.fragment.app.Fragment;
-
 import java.util.List;
 
-import API.IOrderListener;
+import API.Models.IOrderListener;
 import API.Models.IServiceUnit;
-import BusinessEntities.Branch;
 
 public interface IManagementView {
 
-    public void loadKitchenFragment();
-    public void loadServiceFragment();
     public void loadHomeFragment();
+    public void loadServiceFragment();
+    public void loadKitchenFragment();
+    public void loadQRActivity();
 
     public void onDataFailure(String message);
 
     public List<IServiceUnit> getServiceUnits();
+    public List<IOrderListener> getOrderListeners();
 }

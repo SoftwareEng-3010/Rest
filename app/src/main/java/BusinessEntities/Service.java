@@ -3,40 +3,29 @@ package BusinessEntities;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 
-import com.google.firebase.firestore.FirebaseFirestoreException;
-
+import java.util.ArrayList;
 import java.util.List;
 
-import API.IOrderController;
 import API.Models.IOrder;
 import API.Models.IServiceUnit;
 import API.Constants.Constants;
 
-public class ServiceStaff implements IServiceUnit {
+public class Service implements IServiceUnit {
 
-    private final String TAG = "ServiceStaff";
+    private final String TAG = "Service";
 
-    private IOrderController orderController;
     private List<IOrder> orders;
-    private String uid;
-    private String email = null;
     private final int type = Constants.USER_TYPE_SERVICE;
 
 
-    public ServiceStaff() {
-//        type = Constants.TYPE_SERVICE_STAFF_USER;
+    public Service() {
+        this.orders = new ArrayList<>();
     }
 
     @Override
     public List<IOrder> getOrders() {
         return this.orders;
-    }
-
-    @Override
-    public IOrderController getController() {
-        return this.orderController;
     }
 
     @Override
@@ -51,6 +40,6 @@ public class ServiceStaff implements IServiceUnit {
 
     @Override
     public int getServiceType() {
-        return Constants.USER_TYPE_SERVICE;
+        return type;
     }
 }

@@ -8,7 +8,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
 
-import API.Views.SwipeGestureListener;
+import API.SwipeGestureListener;
 
 /**
  * @author Mirek Rusin - https://stackoverflow.com/a/12938787
@@ -80,12 +80,12 @@ public class OnSwipeTouchListener implements OnTouchListener {
     }
 
     public void onSwipeTop() {
-        listener.onSwipeTop();
+//        listener.onSwipeTop();
         Log.e("Gesture", "Swipe top");
     }
 
     public void onSwipeBottom() {
-        listener.onSwipeBottom();
+//        listener.onSwipeBottom();
         Log.e("Gesture", "Swipe down");
     }
 }

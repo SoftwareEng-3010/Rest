@@ -1,4 +1,4 @@
-package API;
+package API.Controllers;
 
 import androidx.annotation.NonNull;
 
@@ -9,9 +9,11 @@ import java.util.List;
 
 import API.Models.IServiceUnit;
 
-public interface IOrderController extends EventListener<QuerySnapshot> {
+public interface IOrderManager extends EventListener<QuerySnapshot> {
 
     public List<IServiceUnit> getSubscribedServiceUnits();
+
+    public void detachSnapshotListener();
 
     public boolean registerUnit(@NonNull IServiceUnit unit);
 

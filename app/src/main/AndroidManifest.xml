@@ -31,7 +31,7 @@
             android:exported="false"
             android:theme="@style/Theme.AppCompat.NoActionBar"/>
         <activity
-            android:name="UI.RestaurantManagementUI.ManagementMainActivity"
+            android:name="UI.RestaurantManagementUI.ManagementView"
             android:exported="false"
             android:theme="@style/Theme.AppCompat.NoActionBar"/>
         <activity
@@ -40,7 +40,7 @@
             android:theme="@style/Theme.AppCompat.NoActionBar"/>
         <activity android:name="UI.CustomersUI.RestaurantsListViewActivity"
             android:theme="@style/Theme.AppCompat.NoActionBar"/>
-        <activity android:name="UI.CustomersUI.BranchViewActivity"
+        <activity android:name="UI.CustomersUI.BranchView"
             android:theme="@style/Theme.AppCompat.NoActionBar"/>
         <activity android:name="UI.CustomersUI.BranchesListViewActivity"
             android:theme="@style/Theme.AppCompat.NoActionBar" />

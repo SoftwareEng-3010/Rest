@@ -63,6 +63,10 @@
     <string name="prompt_edit_branch_tables">כמה שולחנות נמצאים בסניפך?</string>
     <string name="number_of_tables_he">מספר השולחנות</string>
     <string name="button_finish_he">סיים</string>
+    <string name="button_create_order_he">צור הזמנה</string>
+    <string name="button_close_bill_he">סגור חשבון</string>
+    <string name="text_total_bill_amount_he">\סכום חשבון נוכחי: \</string>
+    <string name="nis">₪</string>
     <!-- Menu List Item -->
 
 </resources>
