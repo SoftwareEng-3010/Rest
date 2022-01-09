@@ -18,7 +18,8 @@
         android:theme="@style/Theme.Exercise_5" >
         <activity
             android:name="UI.LoginUI.SplashActivity"
-            android:exported="true">
+            android:exported="true"
+            android:theme="@style/Theme.AppCompat.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -27,17 +28,24 @@
         </activity>
         <activity
             android:name="UI.DataActivity.DataActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:theme="@style/Theme.AppCompat.NoActionBar"/>
         <activity
             android:name="UI.RestaurantManagementUI.ManagementMainActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:theme="@style/Theme.AppCompat.NoActionBar"/>
         <activity
             android:name="UI.LoginUI.LoginActivity"
-            android:exported="false" />
-        <activity android:name="UI.CustomersUI.RestaurantsListViewActivity" />
-        <activity android:name="UI.CustomersUI.BranchViewActivity" />
-        <activity android:name="UI.CustomersUI.BranchesListViewActivity" />
-        <activity android:name="UI.CustomersUI.QRCodeActivity" />
+            android:exported="false"
+            android:theme="@style/Theme.AppCompat.NoActionBar"/>
+        <activity android:name="UI.CustomersUI.RestaurantsListViewActivity"
+            android:theme="@style/Theme.AppCompat.NoActionBar"/>
+        <activity android:name="UI.CustomersUI.BranchViewActivity"
+            android:theme="@style/Theme.AppCompat.NoActionBar"/>
+        <activity android:name="UI.CustomersUI.BranchesListViewActivity"
+            android:theme="@style/Theme.AppCompat.NoActionBar" />
+        <activity android:name="UI.CustomersUI.QRCodeActivity"
+            android:theme="@style/Theme.AppCompat.NoActionBar"/>
     </application>
 
 </manifest>

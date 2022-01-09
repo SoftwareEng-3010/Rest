@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="UI.LoginUI.SplashActivity"
-    android:background="@drawable/background">
+    android:background="@drawable/final_logo_with_caption">
 
     <ProgressBar
         android:id="@+id/progress_bar_splash"
